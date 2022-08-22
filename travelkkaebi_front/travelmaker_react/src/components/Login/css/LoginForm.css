@@ -1,0 +1,28 @@
+.loginform label {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  font-size: 18px;
+  color: #999;
+  transition: all 0.5s ease;
+}
+
+.InputField:focus + label,
+.InputField:valid + label {
+  top: 0;
+  font-size: 13px;
+  color: #03d85e;
+}
+
+.Formbtn:focus {
+  outline: 0;
+}
+.Formbtn:active {
+  transform: scale(0.99);
+}
+
+a {
+  font-size: 15px;
+  color: #999;
+  text-decoration: none;
+}
