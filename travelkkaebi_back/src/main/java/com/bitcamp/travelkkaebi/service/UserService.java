@@ -75,9 +75,10 @@ public class UserService {
      * 회원정보 update logic
      */
     @Transactional
-    public void update(UserUpdateDTO userUpdateDTO, MultipartFile multipartFile) {
+    public void update(UserUpdateDTO userUpdateDTO, MultipartFile image) {
         UserEntity findUser = userRepository.findById(userUpdateDTO.getUserid()).orElseThrow(() -> new RuntimeException("update exception"));
-        ImageRepository.userImageUpdate(userUpdateDTO, multipartFile);
+        String updateImage = imageRepository.saveImageFile(image);
+        userUpdateDTO.setProfileImageUrl(updateImage);
         findUser.change(userUpdateDTO);
     }
 

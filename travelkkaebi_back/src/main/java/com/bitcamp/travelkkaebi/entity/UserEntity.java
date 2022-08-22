@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +29,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "sex", nullable = false)
     private Gender gender;
 
-    @Column(name = "profile_image_url", nullable = false)
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
 
     @Column(name = "blocked_until")
@@ -63,7 +62,12 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private String region;
 
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
     public void change(UserUpdateDTO userUpdateDTO) {
+        System.out.println(userUpdateDTO.getProfileImageUrl());
         this.email = userUpdateDTO.getEmail();
         this.password = Password.passwordEncoding(userUpdateDTO.getPassword());
         this.profileImageUrl = userUpdateDTO.getProfileImageUrl();

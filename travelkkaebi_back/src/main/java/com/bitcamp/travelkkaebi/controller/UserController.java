@@ -48,9 +48,9 @@ public class UserController {
      * 회원정보수정 Update
      */
     @PutMapping("/update")
-    public ResponseEntity<Void> userUpdate(@RequestPart(value = "image", required = false) MultipartFile multipartFile,
+    public ResponseEntity<Void> userUpdate(@RequestPart(value = "image", required = false) MultipartFile image,
                                            @RequestPart UserUpdateDTO userUpdateDTO) {
-        userService.update(userUpdateDTO, multipartFile);
+        userService.update(userUpdateDTO, image);
         return ResponseEntity.ok().build();
     }
 
