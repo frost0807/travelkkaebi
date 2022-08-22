@@ -8,6 +8,7 @@ import com.bitcamp.travelkkaebi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -21,8 +22,9 @@ public class UserController {
      * 회원가입 Create
      */
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody @Valid UserDTO userDTO) {
-        userService.register(userDTO);
+    public ResponseEntity<Void> signUp(@RequestPart(value = "file", required = false) MultipartFile multipartFile,
+                                       @RequestPart(value = "userDTO") @Valid UserDTO userDTO) {
+        userService.register(userDTO, multipartFile);
         return ResponseEntity.ok().build();
     }
 
@@ -46,8 +48,9 @@ public class UserController {
      * 회원정보수정 Update
      */
     @PutMapping("/update")
-    public ResponseEntity<Void> userUpdate(@RequestBody UserUpdateDTO userUpdateDTO) {
-        userService.update(userUpdateDTO);
+    public ResponseEntity<Void> userUpdate(@RequestPart(value = "image", required = false) MultipartFile multipartFile,
+                                           @RequestPart UserUpdateDTO userUpdateDTO) {
+        userService.update(userUpdateDTO, multipartFile);
         return ResponseEntity.ok().build();
     }
 

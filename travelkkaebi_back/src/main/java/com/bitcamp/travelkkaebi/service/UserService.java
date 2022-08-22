@@ -1,6 +1,7 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.entity.UserEntity;
+import com.bitcamp.travelkkaebi.image.ImageRepository;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import com.bitcamp.travelkkaebi.security.TokenProvider;
 import com.bitcamp.travelkkaebi.dto.DeleteUserDTO;
@@ -11,6 +12,7 @@ import com.bitcamp.travelkkaebi.encode.Password;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -18,18 +20,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
     private final TokenProvider tokenProvider;
 
     /**
      * 회원가입 logic
      */
-    public void register(UserDTO userDTO) {
+    public void register(UserDTO userDTO, MultipartFile userImage) {
         //username 중복체크
         validate(userDTO.getUsername());
 
+        //  user avatar image save
+        String profileImageFilePath = imageRepository.saveImageFile(userImage);
+
+        UserEntity userEntity = UserDTO.toUserEntity(userDTO);
+        userEntity.setProfileImageUrl(profileImageFilePath);
+
         //dto -> entity 변환후 save
-        userRepository.save(UserDTO.toUserEntity(userDTO));
+        userRepository.save(userEntity);
     }
+
 
     private void validate(String username) {
         if (usernameCheck(username))
@@ -65,13 +75,14 @@ public class UserService {
      * 회원정보 update logic
      */
     @Transactional
-    public void update(UserUpdateDTO userUpdateDTO) {
+    public void update(UserUpdateDTO userUpdateDTO, MultipartFile multipartFile) {
         UserEntity findUser = userRepository.findById(userUpdateDTO.getUserid()).orElseThrow(() -> new RuntimeException("update exception"));
+        ImageRepository.userImageUpdate(userUpdateDTO, multipartFile);
         findUser.change(userUpdateDTO);
     }
 
     /**
-     *  회원정보 delete logic
+     * 회원정보 delete logic
      */
     @Transactional
     public void delete(DeleteUserDTO deleteUserDTO) {

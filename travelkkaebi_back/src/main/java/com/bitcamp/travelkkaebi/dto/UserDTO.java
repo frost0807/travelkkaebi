@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Pattern;
 
@@ -17,7 +18,6 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @Getter
 public class UserDTO {
-    private static final String BASIC_IMAGE_URL = "basicImageUrl";
 
     @Pattern(regexp = Regex.USERNAME)
     private String username;
@@ -36,16 +36,14 @@ public class UserDTO {
     private String name;
     private String region;
 
-    private void setProfileImageUrl() {
-        this.profileImageUrl = UserDTO.BASIC_IMAGE_URL;
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     /**
      * userDTO -> userEntity
      */
-
     public static UserEntity toUserEntity(UserDTO userDTO) {
-        defaultImageUrl(userDTO);
         return UserEntity.builder()
                 .username(userDTO.getUsername())
                 .password(Password.passwordEncoding(userDTO.getPassword()))
@@ -60,10 +58,5 @@ public class UserDTO {
                 .build();
     }
 
-    private static void defaultImageUrl(UserDTO userDTO) {
-        if (userDTO.getProfileImageUrl() == null) {
-            userDTO.setProfileImageUrl();
-        }
-    }
 
 }
