@@ -24,5 +24,8 @@ public class UserUpdateDTO {
 
     private String nickname;
 
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 }
 
