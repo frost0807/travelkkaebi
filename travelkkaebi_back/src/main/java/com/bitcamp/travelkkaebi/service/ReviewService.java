@@ -12,11 +12,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final LikeOrDislikeService likeOrDislikeService;
 
-    // ??
 
-
-
-    // 후기 게시판에 글 등록하는 메소드
+//     후기 게시판에 글 등록하는 메소드
     public int writeReview(ReviewDTO review) {
         System.out.println("서비스");
         LikeOrDislikeDTO likeOrDislikeDTO = new LikeOrDislikeDTO();

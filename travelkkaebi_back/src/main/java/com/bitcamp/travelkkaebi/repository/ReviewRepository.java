@@ -2,6 +2,7 @@ package com.bitcamp.travelkkaebi.repository;
 
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,9 +10,10 @@ import java.util.List;
 @Repository
 public class ReviewRepository {
 
-    private final String NAMESPACE = "src.main.resources.mapper.ReviewMapper";
+    private final String NAMESPACE = "mapper.ReviewMapper";
 
-    private  SqlSession sqlSession;
+    @Autowired
+    SqlSession sqlSession;
 
     // 후기 등록하는 메소드
     public int insert(ReviewDTO review) {

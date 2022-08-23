@@ -3,13 +3,14 @@ package com.bitcamp.travelkkaebi.repository;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@RequiredArgsConstructor
 @Repository
 public class LikeOrDislikeRepository {
     private final String NAMESPACE = "mapper.LikeOrDislikeMapper";
-    SqlSession sqlSession;
+    @Autowired
+    private SqlSession sqlSession;
 
     public LikeOrDislikeDTO selectOne(LikeOrDislikeDTO l){
         return sqlSession.selectOne(NAMESPACE+".selectOne", l);
