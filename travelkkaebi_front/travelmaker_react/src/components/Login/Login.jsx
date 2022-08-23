@@ -17,11 +17,11 @@ function Login ({ isOpen, close }) {
       <Background>
       <ModalContainer onClick={ e => e.stopPropagation() } >
       <LoginForm />
-     <Closebtn onClick= { close } />
-     </ModalContainer>
-     </Background> : null}
+      <Closebtn onClick= { close } />
+      </ModalContainer>
+      </Background> : null}
 
-     </>
+      </>
 
   )
 }

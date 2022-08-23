@@ -70,7 +70,7 @@ td { line-height: 60px; padding: 3px 0; font-size: 14px; color: #2d2f43; font-we
   overflow: hidden;
 }
 
- .register_form input {
+  .register_form input {
   margin: 0;
   writing-mode: horizontal-tb !important;
   text-rendering: auto;
