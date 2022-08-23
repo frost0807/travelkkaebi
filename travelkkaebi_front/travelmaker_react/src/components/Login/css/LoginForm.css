@@ -20,8 +20,20 @@
 .Formbtn:active {
   transform: scale(0.99);
 }
+.sns_log button {
+  border: none;
+  background-color: white;
+}
+.sns_log img {
+  margin: 5px 0;
+} .sns_log :hover {
+  cursor: pointer;
+} .sns_log :active {
+  transform: scale(0.99);
+}
 
-a {
+
+.loginform a {
   font-size: 15px;
   color: #999;
   text-decoration: none;
