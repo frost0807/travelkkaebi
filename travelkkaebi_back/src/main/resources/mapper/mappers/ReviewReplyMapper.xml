@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="src.main.resources.mapper.ReviewReplyMapper">
+
+    <resultMap id="ReviewReplyResult" type="ReviewReplyDTO">
+        <result column="review_reply_id" property="reviewReplyId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="board_id" property="boardId"/>
+        <result column="writer_id" property="writerId"/>
+        <result column="comment" property="comment"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="reviewReplyId" parameterType="reviewReplyDTO">
+        INSERT INTO review_reply (category_id, writer_id, comment)
+        VALUES (#{categoryId}, #{writerId}, #{title}, #{comment})
+    </insert>
+
+    <update id="update" useGeneratedKeys="true" keyProperty="reviewReplyId" parameterType="reviewReplyDTO">
+        UPDATE review_reply SET comment = #{comment}, update_time = NOW
+        WHERE review_reply_id = #{reviewReplyId}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM review_reply WHERE review_reply_id = #{reviewReplyId}
+    </delete>
+
+    <select id="selectByReviewId" parameterType="int" resultType="ReviewReplyDTO">
+        SELECT * FROM review_reply WHERE board_id = #{boardId}
+    </select>
+</mapper>
