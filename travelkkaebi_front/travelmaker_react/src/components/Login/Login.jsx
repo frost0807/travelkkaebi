@@ -2,7 +2,7 @@ import React from 'react';
 import LoginForm from './LoginForm';
 import { Background, ModalContainer, Closebtn } from './Loginstyle';
 
-const Login = ({ isOpen, close }) => {
+function Login ({ isOpen, close }) {
 
 
   // stopPropagation

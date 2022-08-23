@@ -1,17 +1,34 @@
 import React, { useRef, useState } from 'react'
 import { ContainerWrapper, FormTitle, Title, Wrapper } from './Registerstyle'
 import './css/register.css';
-import { FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
+import { Button, FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import styled from 'styled-components';
 import { PhotoCamera } from '@mui/icons-material';
 import Logo from '../../images/basicLogo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { useForm } from 'react-hook-form';
 
 
 
 
 const RegisterForm = () => {
+
+    const repetitionBtn = useRef();
+    const {
+        register,
+        handleSubmit,
+        trigger,
+        watch,
+        setValue,
+        getValues,
+        formState: { isSubmitting, isDirty, errors }
+    } = useForm({
+        mode: 'onChange'
+    });
+
 
     const navi = useNavigate();
 
@@ -30,17 +47,28 @@ const RegisterForm = () => {
         }
     }
 
-const signUpEvnt = (userDTO) => {
-    axios.post ( 'server', userDTO )
-    .then (res => {
-        navi('/')
-    })
-    .catch (error => {
-        console.log(error);
-    })
-}
+    const signUpEvnt = (userDTO) => {
+        axios.post('server', userDTO)
+            .then(res => {
+                navi('/')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
-const handleSubmit = (e) => {
+    const onSubmit = async data => {
+        await new Promise(r => setTimeout(r, 1000));
+        console.log("data", data)
+
+    }
+
+    // username 중복체크 repetitionEvent
+    const repetitionEvent = () => {
+
+    }
+
+    /*
     e.preventDefault();
     const data = new FormData(e.target)
     const username = data.get('username')
@@ -63,7 +91,7 @@ const handleSubmit = (e) => {
         sex : RadioGroup.value,
         profile_img : selectFile
     })
-}
+    */
 
     return (
 
@@ -71,7 +99,7 @@ const handleSubmit = (e) => {
             <Title> 회원가입 </Title>
             <ContainerWrapper>
 
-                <form className="reg_form" id='reg_form' onSubmit={ handleSubmit }>
+                <form className="reg_form" id='reg_form' onSubmit={handleSubmit(onSubmit)}>
                     <div className='register_form'>
 
                         <FormTitle>기본정보
@@ -86,35 +114,34 @@ const handleSubmit = (e) => {
                                 </colgroup>
 
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                        <div className="profileimg">
-                                            <img alt="basicimg"
-                                                src={ profile ? profile : Logo }
-                                                className="user_profile" />
-                                        </div>
-                                        <div className="photo_icon">
-                                            <IconButton
-                                                color="primary"
-                                                aria-label="upload picture"
-                                                component="label"
-                                                style={{ color: '#ffbe3bee' }}
-                                                onClick= { () => selectFile.current.click() }
-                                            >
-                                                <input
-                                                    hidden
-                                                    accept="image/*"
-                                                    type="file"
-                                                    style={{ display: 'none' }}
-                                                    onChange={ imageUpload }
-                                                    ref={ selectFile }
-                                                />
-                                                <PhotoCamera />
-                                            </IconButton>
-                                        </div>
-                                        <br />
-                                        </td>
-                                        </tr>
+                                    <div className="profileimgdiv">                       
+                                            <div className="profileimg">
+                                                <img alt="basicimg"
+                                                    src={profile ? profile : Logo}
+                                                    className="user_profile" />
+                                            </div>
+                                            <div className="photo_icon">
+                                                <IconButton
+                                                    color="primary"
+                                                    aria-label="upload picture"
+                                                    component="label"
+                                                    style={{ color: '#ffbe3bee' }}
+                                                    onClick={() => selectFile.current.click()}
+                                                >
+                                                    <input
+                                                        hidden
+                                                        accept="image/*"
+                                                        type="file"
+                                                        name='profile_img_url'
+                                                        style={{ display: 'none' }}
+                                                        onChange={imageUpload}
+                                                        ref={selectFile}
+                                                    />
+                                                    <PhotoCamera />
+                                                </IconButton>
+                                            </div>
+                                            </div>
+                                            <br />
 
                                     <tr>
                                         <th scope='row'>
@@ -131,8 +158,40 @@ const handleSubmit = (e) => {
                                                 required
                                                 autoComplete='off'
                                                 placeholder='영소문자/숫자, 6~16자'
+                                                aria-invalid=
+                                                {!isDirty ? undefined : errors.username ? "true" : "false"}
+                                                {...register('username', {
+                                                    minLength: {
+                                                        value: 6,
+                                                        message: '6글자 이상 입력해주세요'
+                                                    },
+                                                    maxLength: {
+                                                        value: 16,
+                                                        message: '16글자까지 입력 가능합니다.'
+                                                    },
+                                                    pattern: {
+                                                        value: /^[a-z0-9,-_]{3,16}$/,
+                                                        message: '영소문자/숫자, -,_ 만 입력할 수 있습니다.'
+                                                    }
+                                                }
+                                                )}
                                             />
-                                            <span id='username' className='reg_msg'></span>
+                                            {errors.username && (
+                                                <div className="regis-error1">
+                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                    {" "}{errors.username.message}
+                                                </div>
+                                            )}
+                                            <Button
+                                                size="small"
+                                                onClick={ repetitionEvent }
+                                                className="repetitionBtn"
+                                                style={{ color: 'gray', marginLeft: '276px' }}
+                                                startIcon={<CheckCircleOutlineIcon />}
+                                                ref={ repetitionBtn }
+                                            >
+                                                중복확인
+                                            </Button>
                                         </td>
                                     </tr>
 
@@ -150,7 +209,30 @@ const handleSubmit = (e) => {
                                                 id='passoword'
                                                 required
                                                 autoComplete='off'
+                                                aria-invalid=
+                                                {!isDirty ? undefined : errors.password ? "true" : "false"}
+                                                {...register('password', {
+                                                    minLength: {
+                                                        value: 8,
+                                                        message: '8글자 이상 입력해주세요'
+                                                    },
+                                                    maxLength: {
+                                                        value: 16,
+                                                        message: '16글자까지 입력 가능합니다'
+                                                    },
+                                                    pattern: {
+                                                        value: /^(?=.*\d)(?=.*[a-zA-Zs]).{8,}/,
+                                                        message: '8자이상, 영문, 숫자를 혼용하여 주세요.',
+                                                    }
+                                                }
+                                                )}
                                             />
+                                            {errors.password && (
+                                                <div className="regis-error3">
+                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                    {" "}{errors.password.message}
+                                                </div>
+                                            )}
                                         </td>
                                     </tr>
 
@@ -271,7 +353,7 @@ const handleSubmit = (e) => {
                                         </td>
                                     </tr>
 
-                                    <tr style={{ marginTop : '20px' }}>
+                                    <tr style={{ marginTop: '20px' }}>
                                         <th scope='row'>
                                             <label htmlFor='SEX'>🔸성별</label>
                                         </th>
@@ -280,7 +362,7 @@ const handleSubmit = (e) => {
                                                 row
                                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                                 name="row-radio-buttons-group"
-                                                style={{ marginTop : '50px' }}
+                                                style={{ marginTop: '50px' }}
                                             >
                                                 <FormControlLabel value="female" control={<Radio />} label="Female" />
                                                 <FormControlLabel value="male" control={<Radio />} label="Male" />
@@ -299,8 +381,8 @@ const handleSubmit = (e) => {
 
                         <BtnConfirm>
                             <a href='/' className='btn_cancel'>취소</a>
-                            <input type='submit' onClick={ signUpEvnt }
-                            value='가입하기' id='btn_submit' className='btn_submit' accessKey='s'></input>
+                            <input type='submit' onClick={signUpEvnt} disabled={isSubmitting}
+                                value='가입하기' id='btn_submit' className='btn_submit' accessKey='s'></input>
                         </BtnConfirm>
 
                     </div>

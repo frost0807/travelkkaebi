@@ -1,0 +1,46 @@
+🔶 리액트 컨벤션
+
+✔️  함수형 컴포넌트 형식
+            function ()  {
+              return ()
+            }
+            export default 
+
+✔️  axios sync
+        axios({
+          url :
+          method :
+          data :
+          header :
+        })
+        .then(response => {
+              })
+
+✔️ * apiconfig 만들기
+
+✔️ * JWT 관리하기 ( Redux ? zustand ? ) 이유 : 상태 끌어올리기가 헷갈리고 귀찮아서
+      token 은 localStorage 에 보관
+
+✔️ Global Css 숙지
+
+
+✔️ Bootstrap / mui 는 사용 그 외 ui 라이브러리 자유
+      -> 라이브러리 추가 시 따로 노트나 공지하기
+
+
+✔️ 중괄호 {} 안에 변수 or 함수는 앞 뒤 한칸씩 띄우기
+
+
+✔️ accessToken은 인증용 토큰 
+      refreshToken은 만료된 토큰을 갱신하기 위해 사용하는 토큰
+
+
+❗조회수 이슈
+- 클라이언트에서 글을 눌렀을 때, 단순히 server쪽에서 view(조회수) 의 count + 1 을 하고
+- React의 상세글 컴포넌트에 view 의 데이터를 넣으면 될 줄 알았다.
+- React는 컴포넌트별 랜더링이 발생한다 즉, 상세글 컴포넌트의 구성에서 state가 변경된다거나, 페이지 새로고침을 누르면
+- 상세글 페이지에 있지만 조회수는 계속 증가하게 된다
+
+* 0823
+ -  로그인 : 카카오 로그인 로직 진행 중 ( 에러 나는 이유 찾는 중 )
+ -  회원가입 : 정규식, 중복확인 구현 완료 [ 남음 : css 다듬기(후순위) , axios test ]

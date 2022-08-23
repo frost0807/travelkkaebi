@@ -232,18 +232,13 @@ b {
   visibility: hidden;
 }
 
-div.profileimg {
-  margin: auto;
-  text-align: center;
-  display: inline-flex;
-  width: 120px;
-  height: 120px;
-  border-radius: 120px;
-  overflow: hidden;
+.profileimgdiv {
+  display: flex;
   background-image: url(../../../images/basicLogo.png);
+  transform: translateX(135%);
+  margin-bottom: 50px;
 }
 img.user_profile {
-  margin: auto;
   width: 120px;
   height: 120px;
   border-radius: 120px;
@@ -252,5 +247,25 @@ img.user_profile {
 }
 div.photo_icon {
   float: right;
-  margin-bottom: 30px;
+}
+
+ /* ---------에  러--------- */
+ .regis-error {
+  font-size: 15px;
+  color: #cb2f1d9a;
+  margin-right: 120px;
+  margin-top: 3px;
+}
+.regis-error1 {
+  font-size: 15px;
+  color: #cb2f1d9a;
+  margin-right: 160px;
+  margin-top: 3px;
+}
+
+.regis-error3 {
+  font-size: 15px;
+  color: #cb2f1d9a;
+  margin-right: 95px;
+  margin-top: 3px;
 }
