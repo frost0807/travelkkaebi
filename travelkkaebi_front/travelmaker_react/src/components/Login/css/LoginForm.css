@@ -21,7 +21,19 @@
   transform: scale(0.99);
 }
 
-a {
+.sns_log button {
+  border: none;
+  background-color: white;
+}
+.sns_log img {
+  margin: auto
+} .sns_log button :hover {
+  cursor: pointer;
+} .sns_log button :active {
+  transform: scale(0.99);
+}
+
+.loginform a {
   font-size: 15px;
   color: #999;
   text-decoration: none;

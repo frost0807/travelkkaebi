@@ -67,16 +67,23 @@ public class LikeOrDislikeService {
     }
     //게시물의 싫어요를 클릭했을 때 실행 할 메소드
     public int clickDislike(LikeOrDislikeDTO l){
-        if(l.isLiked()==true&&l.isDisliked()==false){ //좋아요가 클릭되어 있었을 경우
-            l.setLiked(false);
-            l.setDisliked(true);
-        } else if(l.isLiked()==false&&l.isDisliked()==false){ //아무것도 클릭되어있지 않았을 경우
-            l.setDisliked(true);
-        } else if(l.isLiked()==false&&l.isDisliked()==true){ //싫어요가 클릭되어 있었을 경우
-            l.setDisliked(false);
+        int likeOrDislikeId;
+
+        try{
+            if(l.isLiked()==true&&l.isDisliked()==false){ //좋아요가 클릭되어 있었을 경우
+                l.setLiked(false);
+                l.setDisliked(true);
+            } else if(l.isLiked()==false&&l.isDisliked()==false){ //아무것도 클릭되어있지 않았을 경우
+                l.setDisliked(true);
+            } else if(l.isLiked()==false&&l.isDisliked()==true){ //싫어요가 클릭되어 있었을 경우
+                l.setDisliked(false);
+            }
+            likeOrDislikeId = likeOrDislikeRepository.update(l);
+        } catch (Exception e){
+            e.printStackTrace();
+            return 0;
         }
 
-        int likeOrDislikeId = likeOrDislikeRepository.update(l);
         //성공했을 경우 likeOrDislikeId리턴, 실패했을 경우 0 리턴
         return likeOrDislikeId;
     }

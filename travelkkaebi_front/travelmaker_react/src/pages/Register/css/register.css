@@ -42,12 +42,12 @@
   display: table;
 }
 
-tbody { display: table-row-group; vertical-align: middle; border-color: inherit; }
-tr { display: table-row; vertical-align: inherit; border-color: inherit; }
-th { width: 130px; line-height: 60px; padding: 0; font-size: 14px; 
+.register_form tbody { display: table-row-group; vertical-align: middle; border-color: inherit; }
+.register_form tr { display: table-row; vertical-align: inherit; border-color: inherit; }
+.register_form th { width: 130px; line-height: 60px; padding: 0; font-size: 14px; 
   color: #2d2f43; font-weight: 500; background-color: #fff; border: 0; vertical-align: top;
   text-align: left; display: table-cell; }
-td { line-height: 60px; padding: 3px 0; font-size: 14px; color: #2d2f43; font-weight: 400; background-color: #fff;
+  .register_form td { line-height: 60px; padding: 3px 0; font-size: 14px; color: #2d2f43; font-weight: 400; background-color: #fff;
   border: 0; vertical-align: top; text-align: left; word-break: break-all; word-wrap: break-word; display: table-cell; }
 
 .register_form label { position: relative; font-size: 14px; color: #2d2f43; font-weight: 500;
@@ -82,35 +82,13 @@ td { line-height: 60px; padding: 3px 0; font-size: 14px; color: #2d2f43; font-we
   cursor: text;
 }
 
-select {
-  writing-mode: horizontal-tb !important;
-  text-rendering: auto;
-  cursor:default;
-  text-indent: 0px;
-}
-
-
-
-option {
-  font-weight: normal;
-  display: block;
-  white-space: nowrap;
-  min-height: 1.2rem;
-  padding: 0px 2px 1px;
-}
-
 b {
   float: left;
   width: 5%;
   text-align: center;
   box-sizing: border-box;
   font-weight: bold;
-  vertical-align: top;
-}
-.emailselect_wrap b {
-  float: left;
-  width: 10%;
-  text-align: center;
+  vertical-align: bottom;
 }
 
 .reg_input {
@@ -133,11 +111,6 @@ b {
   width: 180px;
 }
 .register_form #hp1, #hp2, #hp3 {
-  float: left;
-  width: 30%;
-}
-
-.register_form #email, #email2, #email3 {
   float: left;
   width: 30%;
 }
@@ -224,23 +197,14 @@ b {
   vertical-align: middle;
 }
 
-.emailselect_wrap ::after ,
-.telselect_wrap ::after {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: hidden;
-}
-
-div.profileimg {
+.profileimg {
   margin: auto;
-  text-align: center;
-  display: inline-flex;
-  width: 120px;
-  height: 120px;
-  border-radius: 120px;
+  width: 130px;
+  height: 130px;
+  border-radius: 160px;
   overflow: hidden;
   background-image: url(../../../images/basicLogo.png);
+  text-align: center; 
 }
 img.user_profile {
   margin: auto;
@@ -251,6 +215,27 @@ img.user_profile {
   background-color: #ffffff00;
 }
 div.photo_icon {
-  float: right;
-  margin-bottom: 30px;
+  margin-top: -25px;
+  text-align: center;
+  margin-left: 100px;
+  transition: all 0.3s;
+} div.photo_icon :hover {
+  cursor: pointer;
+} div.photo_icon :active {
+  transform: scale(0.99);
+}
+
+ /* ---------에  러--------- */
+.reg-error1 {
+  font-size: 15px;
+  color: #cb2f1d9a;
+  margin-right: 160px;
+  margin-top: 3px;
+}
+
+.reg-error3 {
+  font-size: 15px;
+  color: #cb2f1d9a;
+  margin-right: 95px;
+  margin-top: 3px;
 }

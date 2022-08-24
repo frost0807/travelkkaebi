@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.JoinMeMapper">
+    <select id="selectOne" parameterType="JoinMeDTO" resultMap="JoinMeResult">
+        SELECT * FROM board_join_me WHERE join_me_id=#{joinMeId} AND category_id=#{categoryId}
+    </select>
+
+    <select id="selectAllByPage" parameterType="hashMap" resultMap="JoinMeResult">
+        SELECT * FROM board_join_me LIMIT #{startNum}, #{PAGE_SIZE} ORDER BY join_me_id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeDTO">
+        INSERT INTO join_me (category_id, user_id, title, content, start_date, end_date, region, charge, capacity)
+        VALUES (#{categoryId}, #{userId}, #{title}, #{content}, #{start_date}, #{end_date}, #{region}, #{charge}, #{capacity})
+    </insert>
+
+    <resultMap id="JoinMeResult" type="JoinMeDTO">
+        <result column="join_me_id" property="joinMeId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="user_id" property="userId"/>
+        <result column="view" property="view"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="region" property="region"/>
+        <result column="charge" property="charge"/>
+        <result column="capacity" property="capacity"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="closed" property="closed"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+</mapper>
