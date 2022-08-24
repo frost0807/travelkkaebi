@@ -30,9 +30,6 @@ public class UserService {
         //username 중복체크 method
         validate(userDTO.getUsername());
 
-        //password 일치 체크 method
-        Password.passwordSameCheck(userDTO.getPassword(), userDTO.getSecondPassword());
-
         //user avatar image save
         String profileImageFilePath = imageRepository.saveImageFile(userImage);
 
