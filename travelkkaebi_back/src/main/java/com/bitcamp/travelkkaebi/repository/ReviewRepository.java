@@ -1,8 +1,8 @@
 package com.bitcamp.travelkkaebi.repository;
 
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
+import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,10 +10,9 @@ import java.util.List;
 @Repository
 public class ReviewRepository {
 
-    private final String NAMESPACE = "mapper.ReviewMapper";
+    private final String NAMESPACE = "src.main.resources.mapper.ReviewMapper";
 
-    @Autowired
-    SqlSession sqlSession;
+    private  SqlSession sqlSession;
 
     // 후기 등록하는 메소드
     public int insert(ReviewDTO review) {
@@ -40,10 +39,21 @@ public class ReviewRepository {
         return sqlSession.delete(NAMESPACE+".delete", reviewId);
     }
 
-
-
-    // 후기 보여주는 메소드
-    public List<ReviewDTO> selectAll(int pageNo) {
-        return sqlSession.selectList(NAMESPACE + ".selectAll", pageNo);
+    // 후기 게시글 보여주는 메소드
+    public List<ReviewDTO> selectAll() {
+        return sqlSession.selectList(NAMESPACE + ".selectAll");
     }
+
+    // 후기 게시글 상세보기 하는 메소드
+    public ReviewDTO selectOne(int reviewId) {
+        ReviewDTO review = sqlSession.selectOne(NAMESPACE+ ".selectByReviewId", reviewId);
+        return review;
+    }
+
+    // 조회수 +1 더해주는 메소드
+    public int viewPlus(int reviewId) {
+        int success = sqlSession.update(NAMESPACE + ".viewPlus", reviewId);
+        return success;
+    }
+
 }

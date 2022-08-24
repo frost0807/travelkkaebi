@@ -1,12 +1,13 @@
 package com.bitcamp.travelkkaebi.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Calendar;
 
+@Builder
 @Getter
-@Setter
 public class JoinMeDTO {
     private int joinMeId;
     private int userId;
