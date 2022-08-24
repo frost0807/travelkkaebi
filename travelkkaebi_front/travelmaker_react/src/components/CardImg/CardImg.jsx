@@ -6,6 +6,7 @@ import Img2 from './/CardImg2.jpg';
 import Img3 from './/CardImg3.jpg';
 import Img4 from './/CardImg4.jpg';
 
+
 // 이미지 사이즈 일괄 조정하기 추가
 
 // 하단에 작성한 보령 머드 축제를 다녀오고서 이하 등등은 임시로 적은것
