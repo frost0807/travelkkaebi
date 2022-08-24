@@ -1,16 +1,12 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
-import com.bitcamp.travelkkaebi.repository.ReviewReplyRepository;
-import com.bitcamp.travelkkaebi.repository.ReviewRepository;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
@@ -19,8 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-    private final ReviewRepository reviewRepository;
-    private final ReviewReplyRepository reviewReplyRepository;
+    private final ReviewMapper reviewMapper;
     private final LikeOrDislikeService likeOrDislikeService;
     private final ReviewReplyService reviewReplyService;
 
@@ -49,7 +44,7 @@ public class ReviewService {
             likeOrDislikeService.createLikeOrDislike(likeOrDislikeDTO);
 
             // 게시글 등록 성공 !
-            writtenReviewId = reviewRepository.insert(review);
+            writtenReviewId = reviewMapper.insert(review);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -67,7 +62,7 @@ public class ReviewService {
             review.setContent(review.getContent());
             review.setRegion(review.getRegion());
 
-            updatedReviewId = reviewRepository.update(review);
+            updatedReviewId = reviewMapper.update(review);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +79,7 @@ public class ReviewService {
         int deletedReviewId;
 
         try {
-            deletedReviewId = reviewRepository.delete(reviewId);
+            deletedReviewId = reviewMapper.delete(reviewId);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -96,7 +91,7 @@ public class ReviewService {
 
     // 게시글 리스트를 출력해줄 메소드
     public List<ReviewDTO> selectAll() {
-        List<ReviewDTO> list = reviewRepository.selectAll();
+        List<ReviewDTO> list = reviewMapper.selectAll();
 
         // 작성자 닉네임 보여주기 위한 코드는
         // userService에서 가져오려고 지금은 임시로 식별자(writerId)를 보여줄 예정
@@ -115,7 +110,7 @@ public class ReviewService {
         l.setUserId(review.getWriterId());
 
         // 게시물을 클릭했다는 의미이므로 조회수부터 +1 시켜준다.
-        reviewRepository.viewPlus(review.getReviewId());
+//        reviewRepository.viewPlus(review.getReviewId());
 
         // 좋아요 클릭 시
         HashMap<String, Boolean> likeMap = ReviewStatus(review);
@@ -127,7 +122,7 @@ public class ReviewService {
 
 
         // 작성된 게시글을 보여주는 코드
-        review = reviewRepository.selectOne(review.getReviewId());
+        review = reviewMapper.selectOne(review.getReviewId());
 
         return review;
     }

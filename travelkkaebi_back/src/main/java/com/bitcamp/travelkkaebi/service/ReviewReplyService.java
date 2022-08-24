@@ -1,8 +1,8 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
-import com.bitcamp.travelkkaebi.repository.ReviewReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ReviewReplyService {
-
-    private final ReviewReplyRepository reviewReplyRepository;
+    private final ReviewReplyMapper reviewReplyMapper;
 
     // 후기 등록하는 메소드
     public int writeReply(ReviewReplyDTO reply, ReviewDTO review, @AuthenticationPrincipal int userId) {
@@ -26,10 +25,10 @@ public class ReviewReplyService {
             reply.setWriterId(userId);
             reply.setComment(reply.getComment());
 
-            reviewReplyRepository.insert(reply);
+            reviewReplyMapper.insert(reply);
 
             // 댓글 등록 성공 시
-            writtenReplyId = reviewReplyRepository.insert(reply);
+            writtenReplyId = reviewReplyMapper.insert(reply);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +44,7 @@ public class ReviewReplyService {
 
         try {
             reply.setComment(reply.getComment());
-            updatedReplyId = reviewReplyRepository.update(reply);
+            updatedReplyId = reviewReplyMapper.update(reply);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -59,7 +58,7 @@ public class ReviewReplyService {
         int deletedReplyId;
 
         try {
-            deletedReplyId = reviewReplyRepository.delete(replyId);
+            deletedReplyId = reviewReplyMapper.delete();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,13 +71,9 @@ public class ReviewReplyService {
     // 후기 댓글 보여주는 메소드
     public List<ReviewReplyDTO> selectOne(int reviewId) {
 
-        List<ReviewReplyDTO> list = reviewReplyRepository.selectOne(reviewId);
+        List<ReviewReplyDTO> list = reviewReplyMapper.selectOne(reviewId);
 
         return list;
     }
-
-
-
-
 
 }

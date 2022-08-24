@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mapper.LikeOrDislikeMapper">
+<mapper namespace="com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper">
     <select id="selectOne" parameterType="LikeOrDislikeDTO" resultMap="LikeOrDislikeResult">
         SELECT * FROM like_or_dislike WHERE category_id=#{categoryId} AND board_id=#{boardId} AND user_id=#{userId}
     </select>

@@ -4,7 +4,7 @@ import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface LikeOrDislikeMapepr {
+public interface LikeOrDislikeMapper {
     LikeOrDislikeDTO selectOne(LikeOrDislikeDTO likeOrDislikeDTO);
     int insert(LikeOrDislikeDTO likeOrDislikeDTO);
     int update(LikeOrDislikeDTO likeOrDislikeDTO);

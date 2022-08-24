@@ -9,6 +9,7 @@ import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
 import com.bitcamp.travelkkaebi.service.ReviewReplyService;
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,8 @@ import java.util.List;
 @RequestMapping("/review")
 @RequiredArgsConstructor
 public class ReviewController {
-
     private final ReviewService reviewService;
     private final ReviewReplyService reviewReplyService;
-
     private final LikeOrDislikeService likeOrDislikeService;
 
     // 후기 게시글 작성하는 메소드
