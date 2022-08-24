@@ -27,27 +27,26 @@ public class UserService {
      * 회원가입 logic
      */
     public void register(UserDTO userDTO, MultipartFile userImage) {
-        //username 중복체크
+        //username 중복체크 method
         validate(userDTO.getUsername());
 
-        //  user avatar image save
+        //user avatar image save
         String profileImageFilePath = imageRepository.saveImageFile(userImage);
 
+        //dto, imageUrl -> entity 변환후 DB save
         UserEntity userEntity = UserDTO.toUserEntity(userDTO);
         userEntity.setProfileImageUrl(profileImageFilePath);
-
-        //dto -> entity 변환후 save
         userRepository.save(userEntity);
     }
 
-
+    //username 중복체크
     private void validate(String username) {
         if (usernameCheck(username))
             throw new RuntimeException("already exist username...");
     }
 
     /**
-     * username 중복체크 logic
+     * username 중복체크 logic 존재 -> true, 존재x -> false
      */
     public boolean usernameCheck(String username) {
         return userRepository.existsByUsername(username);
@@ -58,6 +57,7 @@ public class UserService {
      */
     public LogInDTO auth(String username, String password) {
         UserEntity findUser = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("does not exist"));
+        //password 일치 check
         if (Password.passwordMatch(password, findUser.getPassword())) {
             // create token
             String token = tokenProvider.create(findUser);

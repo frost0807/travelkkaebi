@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.access.method.P;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Pattern;
@@ -24,6 +25,10 @@ public class UserDTO {
 
     @Pattern(regexp = Regex.PASSWORD)
     private String password;
+
+    @Pattern(regexp = Regex.PASSWORD)
+    private String secondPassword;
+
     private String nickname;
     private String profileImageUrl;
 
