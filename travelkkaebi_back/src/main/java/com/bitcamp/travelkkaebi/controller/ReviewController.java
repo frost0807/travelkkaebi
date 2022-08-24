@@ -44,6 +44,7 @@ public class ReviewController {
         reviewService.delete(reviewId);
     }
 
+
     // 후기 게시글 최신순으로 모두 보여주는 메소드
     @GetMapping("/selectAll")
     private List<ReviewDTO> selectAll() {
@@ -86,14 +87,15 @@ public class ReviewController {
     }
 
     // 후기 게시글에 달린 댓글 보기
-    @GetMapping("/replyselectOne")
+    @GetMapping("/reply/selectOne")
     private List<ReviewReplyDTO> replySelectOne(@RequestBody int reviewId) {
         List<ReviewReplyDTO> list = reviewReplyService.selectOne(reviewId);
         return list;
     }
 
     // 후기 게시글에 달린 좋아요 상태 보기
-    @GetMapping("/reviewstatus")
+    //@GetMapping("/review/status")
+    @GetMapping("/selectOne")
     private HashMap<String, Boolean> reviewStatus(@RequestBody ReviewDTO reviewDTO) {
       HashMap<String, Boolean> likeMap = reviewService.ReviewStatus(reviewDTO);
       return likeMap;

@@ -114,9 +114,12 @@ public class ReviewService {
         l.setBoardId(review.getReviewId());
         l.setUserId(review.getWriterId());
 
+        // likeOrDislike
+
         // 게시물을 클릭했다는 의미이므로 조회수부터 +1 시켜준다.
         reviewRepository.viewPlus(review.getReviewId());
 
+        // --------_ ? ?? ? ? ? ?? ?
         // 좋아요 클릭 시
         HashMap<String, Boolean> likeMap = ReviewStatus(review);
         if(likeMap.get("liked") == true) {
@@ -124,6 +127,8 @@ public class ReviewService {
         } else {
             likeOrDislikeService.clickDislike(l);
         }
+
+
 
 
         // 작성된 게시글을 보여주는 코드
