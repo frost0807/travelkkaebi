@@ -12,5 +12,4 @@ export {
   KAKAO_AUTH_URL,
   setKakaToken,
   code,
-  scope
 }

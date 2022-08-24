@@ -100,34 +100,20 @@ function LoginForm({ close }) {
             // 토큰 키 이름 이대로 ?
             localStorage.setItem("ACCESS_TOKEN", res.data.token);
             localStorage.setItem('username', res.data.username);
+            // role 
             close();
       })
       .catch ( error => {
         console.log(error);
+        console.log(userDTO);
         alert("ID 또는 비밀번호가 틀립니다.");
       })
   }
 
-  // 로그아웃 로직
-  // 로그아웃을 눌렀을 경우에만, 토큰을 삭제?
-  /*
-  localStorage.removeItem("ACCESS_TOKEN");
-  */
+  /** Block (정지) 된 User 로그인 못하게 함 */
 
-  // 존재하지 않는 아이디 or 틀린 비밀번호를 입력했을 시
-  /* if (res.data.userDTO == ??) {
-    alert("아이디 혹은 비밀번호가 틀렸습니다.")
-  }
-*/
 
-  // block 된 user가 로그인 시
-  /* 
-    if (res.data.userDTO == ??) {
-      alert("??일 정지되었습니다.")
-    }
-  */
-
-  // 관리자 로그인시 ?
+  // 관리자 로그인시 ? ?
   
 
   const formSubmit = e => {
