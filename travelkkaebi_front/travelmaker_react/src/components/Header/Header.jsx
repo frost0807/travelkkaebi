@@ -22,13 +22,15 @@ function Header() { // 헤더 펑션
   return (
 
 
-    <Navbar bg="light" expand="lg" style={{ marginBottom:'100px', position:'sticky', top:"0px" }}>
+    <Navbar bg="light" expand="lg" style={{ marginBottom:'100px', position:'sticky', top:"0px", zIndex:"3"}}>
       <Container>
         <Logo href="home" src={ LogoSrc } />
-        <Navbar.Brand href="home">전국팔도 깨비</Navbar.Brand>
+        <Navbar.Brand href="/">전국팔도 깨비</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+          <Nav.Link href="contact">Contact</Nav.Link>
+
           <NavDropdown title="Info" id="basic-nav-dropdown">
               <NavDropdown.Item href="EditorPick">에디터 추천</NavDropdown.Item>
               <NavDropdown.Item href="LocalPick">
@@ -40,7 +42,7 @@ function Header() { // 헤더 펑션
                 기타
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="review">후기</Nav.Link>
+            <Nav.Link href="review">Review</Nav.Link>
             <NavDropdown title="Party" id="basic-nav-dropdown">
               <NavDropdown.Item href="PartyMain">구인</NavDropdown.Item>
               <NavDropdown.Item href="FollowMe">
