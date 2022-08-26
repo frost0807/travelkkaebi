@@ -17,4 +17,6 @@ public class LogInDTO {
     private String password;
     private String token;
     private UserRole role;
+    private int mannerDegree;
+    private String nickname;
 }

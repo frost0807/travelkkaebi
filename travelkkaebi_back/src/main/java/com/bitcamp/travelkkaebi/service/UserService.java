@@ -63,6 +63,8 @@ public class UserService {
             //발급된 토큰과 함께 리턴
             return LogInDTO.builder()
                     .username(findUser.getUsername())
+                    .nickname(findUser.getNickname())
+                    .mannerDegree(findUser.getMannerDegree())
                     .id(findUser.getId())
                     .role(findUser.getRole())
                     .token(token)
