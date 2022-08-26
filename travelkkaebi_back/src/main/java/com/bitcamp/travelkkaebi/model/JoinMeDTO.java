@@ -4,10 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 @Builder
 @Getter
+@Setter
 public class JoinMeDTO {
     private int joinMeId;
     private int userId;
@@ -21,8 +23,8 @@ public class JoinMeDTO {
     private int likeCount;
     private boolean closed;
 
-    private Calendar startDate;
-    private Calendar endDate;
-    private Calendar createDate;
-    private Calendar updateDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
+    private Timestamp createDate;
+    private Timestamp updateDate;
 }

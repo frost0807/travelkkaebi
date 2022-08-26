@@ -1,13 +1,14 @@
 package com.bitcamp.travelkkaebi.mapper;
 
-import com.bitcamp.travelkkaebi.model.ImageDTO;
 import com.bitcamp.travelkkaebi.model.TravelMapDTO;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TravelMapMapper {
     @Select("SELECT * FROM travel_map WHERE category_id=#{t.categoryId} AND board_id=#{t.boardId}")
-    ImageDTO selectAll(@Param("t")TravelMapDTO travelMapDTO);
+    List<TravelMapDTO> selectAll(@Param("t")TravelMapDTO travelMapDTO);
 
     @Insert("INSERT INTO travel_map (category_id, board_id, map_url)" +
             "VALUES (#{t.categoryId}, #{t.boardId}, #{t.mapUrl})")

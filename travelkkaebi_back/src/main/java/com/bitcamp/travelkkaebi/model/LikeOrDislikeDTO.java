@@ -13,6 +13,4 @@ public class LikeOrDislikeDTO {
     private int userId;
     private boolean liked;
     private boolean disliked;
-    private Calendar createTime;
-    private Calendar updateTime;
 }

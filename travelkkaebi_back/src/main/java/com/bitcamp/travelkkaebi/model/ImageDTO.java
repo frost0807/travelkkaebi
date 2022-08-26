@@ -11,8 +11,6 @@ public class ImageDTO {
     private int imageId;
     private int categoryId;
     private int boardId;
+    private int userId;
     private String imageUrl;
-
-    private Calendar createTime;
-    private Calendar updateTime;
 }

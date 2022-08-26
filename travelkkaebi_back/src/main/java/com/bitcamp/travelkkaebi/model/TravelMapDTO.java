@@ -12,7 +12,4 @@ public class TravelMapDTO {
     private int categoryId;
     private int boardId;
     private String mapUrl;
-
-    private Calendar createTime;
-    private Calendar updateTime;
 }

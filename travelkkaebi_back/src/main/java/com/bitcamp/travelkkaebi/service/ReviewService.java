@@ -36,13 +36,6 @@ public class ReviewService {
             review.setContent(review.getContent());
             review.setRegion(review.getRegion());
 
-
-            // 좋아요 상태 추가
-            likeOrDislikeDTO.setCategoryId(review.getCategoryId());
-            likeOrDislikeDTO.setBoardId(review.getReviewId());
-
-            likeOrDislikeService.createLikeOrDislike(likeOrDislikeDTO);
-
             // 게시글 등록 성공 !
             writtenReviewId = reviewMapper.insert(review);
 
@@ -112,31 +105,9 @@ public class ReviewService {
         // 게시물을 클릭했다는 의미이므로 조회수부터 +1 시켜준다.
 //        reviewRepository.viewPlus(review.getReviewId());
 
-        // 좋아요 클릭 시
-        HashMap<String, Boolean> likeMap = ReviewStatus(review);
-        if(likeMap.get("liked") == true) {
-            likeOrDislikeService.clickLike(l);
-        } else {
-            likeOrDislikeService.clickDislike(l);
-        }
-
-
         // 작성된 게시글을 보여주는 코드
         review = reviewMapper.selectOne(review.getReviewId());
 
         return review;
-    }
-
-
-    // 게시글 좋아요 상태 리턴해주는 메소드
-    public HashMap<String, Boolean> ReviewStatus(ReviewDTO review) {
-        LikeOrDislikeDTO l = null;
-
-        l.setCategoryId(review.getCategoryId());
-        l.setBoardId(review.getReviewId());
-        l.setUserId(review.getWriterId());
-        HashMap<String, Boolean> likeMap = likeOrDislikeService.isLikeOrDislikeChecked(l);
-
-        return likeMap;
     }
 }
