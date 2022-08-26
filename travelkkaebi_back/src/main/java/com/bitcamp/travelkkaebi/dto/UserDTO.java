@@ -38,6 +38,7 @@ public class UserDTO {
     private String name;
     private LocalDateTime blockedUntil = LocalDateTime.now();
 
+
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
@@ -59,5 +60,27 @@ public class UserDTO {
                 .build();
     }
 
+    /**
+     * kakaoInfo -> userEntity
+     */
+    public static UserEntity kaKaoInfoToUserEntity(UserDTO userDTO) {
+        return UserEntity.builder()
+                .username("kakao_" + userDTO.getEmail())
+                .password("kakao_password")
+                .nickname(userDTO.getNickname())
+                .blockedUntil(userDTO.getBlockedUntil())
+                .profileImageUrl(userDTO.getProfileImageUrl())
+                .email(userDTO.getEmail())
+                .name("kakao_" + userDTO.getNickname())
+                .phone("kakao_phone_number")
+                .role(UserRole.GENERAL)
+                .build();
+    }
+
+    public UserDTO(String email, String profileImageUrl, String nickname) {
+        this.email = email;
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+    }
 
 }

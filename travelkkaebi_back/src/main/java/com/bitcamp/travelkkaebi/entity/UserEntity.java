@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class UserEntity extends BaseEntity {
+public class    UserEntity extends BaseEntity {
     static final int DEFAULT_MANNER_DEGREE = 37;
 
     @Id
