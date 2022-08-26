@@ -13,7 +13,7 @@ public class ReviewDTO {
 
     private int reviewId;
     private int categoryId;
-    private int writerId;
+    private int userId;
     private String title;
     private String content;
     private String region;
@@ -23,13 +23,4 @@ public class ReviewDTO {
     private Calendar createTime;
     private Calendar updateTime;
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = Calendar.getInstance();
-        this.createTime.setTime(createTime);
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = Calendar.getInstance();
-        this.updateTime.setTime(updateTime);
-    }
 }

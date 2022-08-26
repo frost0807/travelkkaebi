@@ -16,7 +16,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class JoinMeController {
+    /*
     private final JoinMeService joinMeService;
+
 
     @PostMapping("/selectAllByPage")
     public List<JoinMeDTO> selectAllByPage(@RequestBody Map<String, Integer> pageMap){
@@ -28,6 +30,8 @@ public class JoinMeController {
         }
     }
 
+
+    /*
     @PostMapping("/selectOne")
     public ResponseEntity selectOne(@RequestBody JoinMeDTO joinMeDTO){
         try{
@@ -36,7 +40,7 @@ public class JoinMeController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch(Exception e){
-            throw e
+            //throw e;
         }
-    }
+    } */
 }

@@ -1,8 +1,8 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
-import com.bitcamp.travelkkaebi.repository.ReviewReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
@@ -13,23 +13,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewReplyService {
 
-    private final ReviewReplyRepository reviewReplyRepository;
+    private final ReviewReplyMapper replyMapper;
 
-    // 후기 등록하는 메소드
+    /**
+     * 댓글 작성
+     * @param reply
+     * @param review
+     * @param userId
+     * @return
+     */
     public int writeReply(ReviewReplyDTO reply, ReviewDTO review, @AuthenticationPrincipal int userId) {
-
         int writtenReplyId;
 
         try {
             reply.setBoardId(review.getReviewId());
             reply.setCategoryId(review.getCategoryId());
-            reply.setWriterId(userId);
+            reply.setUserId(userId);
             reply.setComment(reply.getComment());
 
-            reviewReplyRepository.insert(reply);
-
             // 댓글 등록 성공 시
-            writtenReplyId = reviewReplyRepository.insert(reply);
+            writtenReplyId = replyMapper.insert(reply);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,46 +42,76 @@ public class ReviewReplyService {
         return writtenReplyId;
     }
 
-    // 후기 수정하는 메소드
-    public int update(ReviewReplyDTO reply) {
+    /**
+     * 댓글 수정
+     * @param reply
+     * @param userId
+     * @return updatedReplyId
+     */
+    public int update(ReviewReplyDTO reply, int userId) {
         int updatedReplyId;
 
-        try {
-            reply.setComment(reply.getComment());
-            updatedReplyId = reviewReplyRepository.update(reply);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (userId == reply.getUserId()) {
+            try {
+                reply.setComment(reply.getComment());
+                updatedReplyId = replyMapper.update(reply);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        } else {
             return 0;
         }
-
         return updatedReplyId;
     }
 
-    // 후기 삭제하는 메소드
-    public int delete(int replyId) {
+    /**
+     * 댓글 삭제
+     * @param reply
+     * @param userId
+     * @return deletedReplyId
+     */
+    public int delete(ReviewReplyDTO reply, int userId) {
         int deletedReplyId;
 
-        try {
-            deletedReplyId = reviewReplyRepository.delete(replyId);
+        if(userId == reply.getUserId()) {
+            try {
+                deletedReplyId = replyMapper.delete(reply.getReviewReplyId());
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        } else {
             return 0;
         }
 
         return deletedReplyId;
     }
 
-    // 후기 댓글 보여주는 메소드
-    public List<ReviewReplyDTO> selectOne(int reviewId) {
+    /**
+     * 댓글 조회
+     * @param review
+     * @return list
+     */
+    public List<ReviewReplyDTO> selectOne(ReviewDTO review) {
+        List<ReviewReplyDTO> list;
 
-        List<ReviewReplyDTO> list = reviewReplyRepository.selectOne(reviewId);
+        if(review != null) {
+            try {
+                list = replyMapper.selectAllByBoardId(review);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
 
         return list;
     }
-
-
-
 
 
 }
