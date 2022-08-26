@@ -227,15 +227,15 @@ div.photo_icon {
 
  /* ---------에  러--------- */
 .reg-error1 {
-  font-size: 15px;
+  font-size: 13px;
   color: #cb2f1d9a;
-  margin-right: 160px;
-  margin-top: 3px;
+  margin-right: auto;
+  margin-top: -0px;
 }
 
 .reg-error3 {
-  font-size: 15px;
+  font-size: 12px;
   color: #cb2f1d9a;
-  margin-right: 95px;
-  margin-top: 3px;
+  margin-right: auto;
+  margin-top: -0px;
 }

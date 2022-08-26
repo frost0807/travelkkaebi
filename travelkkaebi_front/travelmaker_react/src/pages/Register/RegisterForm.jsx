@@ -1,104 +1,86 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ContainerWrapper, FormTitle, Title, Wrapper } from './Registerstyle'
 import './css/register.css';
-import { Button, FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import styled from 'styled-components';
-import { PhotoCamera, RepeatOneSharp } from '@mui/icons-material';
+import { PhotoCamera } from '@mui/icons-material';
 import Logo from '../../images/basicLogo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { API_BASE_URL } from '../../config';
 
-// rest api 주소 아직 안 적음
-
-// 핸드폰 validation 숫자
-
 const RegisterForm = () => {
 
     const navi = useNavigate();
-    // 회원가입 완료 후 페이지를 선택할 수 있게 할 예정
-    // 일단 메인으로 보냄
-
-    // profile 이미지 상태
-    // pull 하고 이미지 미리보기가 안되는 중...
-    // 되는 파일이 있고 일단 https://duckgugong.tistory.com/249 참고 하기
-    const [profile, setProfile] = useState(null);
-    const selectFile = useRef(null);
-
-    const imageUpload = e => {
-        e.preventDefault();
-        const reader = new FileReader();
-        const file = selectFile.current.files[0];
-        console.log(file);
-
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setProfile(reader.result);
-            console.log("img url", reader.result);
-        }
-    }
-// validation hook
-    const { 
+    // validation hook
+    const {
         register,
         handleSubmit,
         trigger,
         watch,
         getValues,
         formState: { isSubmitting, isDirty, errors }
-    } = useForm({
+    } = useForm ({
         mode: 'onChange'
     });
-
-
-    // 비밀번호 확인
+    // 비밀번호 확인 onChange 와 비슷한 기능
     const password = useRef();
     password.current = watch('password');
 
+    // profile 이미지 상태
+    // 되는 파일이 있고 일단 https://duckgugong.tistory.com/249 참고 하기
+    const [profile, setProfile] = useState({
+        image_file: "",
+        preview_URL: Logo
+    });
+    let inputRef;
 
-    // 사진도 formdata로 한번에 보내도 가지려나
-    const signUpEvnt = (user) => {
-        if (!user.username || !user.password || !user.name || !user.nickname || !user.email || !user.phone ) {
-            alert('입력칸이 비어있습니다.');
-            console.log(user.sex);
-         } else if ( !repetition ) {
-            alert ('중복 체크를 해주세요.');
-            return;
+    const imageUpload = e => {
+        e.preventDefault();
+        if (e.target.files[0]) {
+            // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
+            URL.revokeObjectURL(profile.preview_URL);
+            const preview_URL = URL.createObjectURL(e.target.files[0]);
+            setProfile(() => (
+                {
+                    image_file: e.target.files[0],
+                    preview_URL: preview_URL
+                }
+            ))
         }
-        axios.post(API_BASE_URL, user)
-            .then(res => {
-                console.log(res.data)
-                navi('/')
-            })
-            .catch(error => {
-                console.log(error);
-            })
     }
 
-    const onSubmit = e => {
-        e.preventDefault();
-        const data = new FormData(e.target)
-        const username = data.get('username')
-        const password = data.get('password')
-        const name = data.get ('name')
-        const nickname = data.get('nickname')
-        const phone = data.get('phone')
-        const email = data.get('email')
-        // append가 되었을까?
-        const profile_img = data.append('profile_img_url', setProfile);
-        console.log(profile_img);
-        
-        signUpEvnt ({
-            username : username,
-            password : password,
-            name : name,
-            nickname : nickname,
-            phone : phone,
-            email : email,
-            profile_img_url : profile_img
-        })
+    useEffect (()=> {
+        // 컴포넌트가 언마운트되면 createObjectURL()을 통해 생성한 기존 URL을 폐기
+        return () => {
+          URL.revokeObjectURL(profile.preview_URL)
+        }
+      }, [])
+
+      // 회원가입
+    const onSubmit = async data => {
+        //console.log('data', data);
+        const headerConfig = {
+            Headers: {
+                'content-type': 'multipart/form-data',
+            }
+        }
+        if ( profile.image_file ) {
+            const formData = new FormData()
+            const userDTO = JSON.stringify(data);
+            formData.append('file', profile.image_file);
+            formData.append('userDTO', new Blob([userDTO], { type: "application/json" }));
+            console.log('FormData' ,formData);
+            await axios.post ( API_BASE_URL+"/signup" , formData, headerConfig )
+            .then( res => {
+                console.log(res.data);
+                alert("👹회원가입이 완료되었습니다.");
+                setProfile ({ image_file :"", preview_URL : Logo });
+            })
+        }
     }
 
     // ** 이슈 ** 유효성에 맞지 않았을 때에도 경고창을 ,,,?!
@@ -106,90 +88,83 @@ const RegisterForm = () => {
     // 한번에 해버릴까 했는데 버튼 구역이 나뉘어져 있고
     // false일 경우 해당값이 다른 걸 알려줘야 해서... 2개로 나뉘었다..
     // username / nickname
-    const [ repetition, setRepetition ] = useState(false);
-    const repetitionBtn = useRef(null);
+    const [repetition, setRepetition] = useState(false);
+    const repetitionIdBtn = useRef('');
+    const repetitionNickBtn = useRef('');
     const userName = getValues('username');
     const nickName = getValues('nickname');
-    const repetitionEvent_id = () => {
+
+    const repetitionEventid = () => {
+        console.log(userName);
         if (userName === '') {
             alert("아이디를 입력해주세요.");
-            return;
+            setRepetition(false);
         } else {
-            axios.get(API_BASE_URL+'샬라샬라~' , userName)
-            .then(res => {
-                if (res.data === true) {
-                    setRepetition(true);
-                    alert ('사용 가능한 아이디입니다.');
-                    repetitionBtn.current.style.color = '#03d85e';
-                    repetitionBtn.current.style.fontWeight = 'bold';
-                } else {
-                    setRepetition(false);
-                    alert('이미 사용 중인 아이디 입니다.')
-                }
-            })
+            // get ( API_BASE_URL +"/username/check?username="+userName)
+            axios.get(API_BASE_URL + "/username/check", { params: { username: userName } })
+                .then(res => {
+                    if (res.data === false) {
+                        console.log(res.data);
+                        setRepetition(true);
+                        alert('사용 가능한 아이디입니다.');
+                        repetitionIdBtn.current.style.color = '#03d85e';
+                        repetitionIdBtn.current.style.fontWeight = 'bold';
+                    } else {
+                        setRepetition(false);
+                        alert('이미 사용 중인 아이디 입니다.')
+                    }
+                })
         }
     }
-    const repetitionEvent_nickname =() => {
+    const repetitionEvent_nickname = () => {
         if (nickName === '') {
             alert("닉네임을 입력해주세요.");
             return;
         } else {
-            axios.get(API_BASE_URL+'샬라샬라~' , nickName)
-            .then(res => {
-                if (res.data === true) {
-                    setRepetition(true);
-                    alert ('사용 가능한 닉네임 입니다.');
-                    repetitionBtn.current.style.color = '#03d85e';
-                    repetitionBtn.current.style.fontWeight = 'bold';
-                } else {
-                    setRepetition(false);
-                    alert('이미 사용 중인 닉네임 입니다.')
-                }
-            })
+            axios.get(API_BASE_URL + "/nickname/check", { params: { nickname: nickName } })
+                .then(res => {
+                    if (res.data === false) {
+                        setRepetition(true);
+                        alert('사용 가능한 닉네임 입니다.');
+                        repetitionNickBtn.current.style.color = '#03d85e';
+                        repetitionNickBtn.current.style.fontWeight = 'bold';
+                    } else {
+                        setRepetition(false);
+                        alert('이미 사용 중인 닉네임 입니다.')
+                    }
+                })
         }
     }
 
+    // 핸드폰 정규식
+    const autoHyphen2 = (target) => {
+        target.value = target.value
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+    }
 
     return (
 
         <Wrapper>
-            <Title> 회원가입 </Title>
             <ContainerWrapper>
-
                 <form className="reg_form" id='reg_form' onSubmit={ handleSubmit(onSubmit) }>
                     <div className='register_form'>
-
                         <FormTitle>기본정보
                             <p className='must'>필수입력사항 </p>
                         </FormTitle>
-                                        <div className="profileimg">
-                                            <img alt="basicimg"
-                                                src={ profile ? profile : Logo }
-                                                className="user_profile" />
-                                                 {/* 이미지를  controller에서 따로 url을 받는 곳이 없어서
-                                                  *   url을 때려박지를 못함
-                                                   */}
-                                        </div>
-                                        <div className="photo_icon">
-                                            <IconButton
-                                                color="primary"
-                                                aria-label="upload picture"
-                                                component="label"
-                                                onClick={() => selectFile.current.click()}
-                                            >
-                                                <input
-                                                    type="file"
-                                                    accept="image/*"
-                                                    name='profile_img_url'
-                                                    multiple
-                                                    style={{ display: 'none' }}
-                                                    onChange= { imageUpload }
-                                                    ref={ selectFile }
-                                                />
-                                                <PhotoCamera />
-                                            </IconButton>
-                                        </div>
-                                    <br />
+                        <div className="profileimg">
+                            <img alt="basicimg"
+                                src={ profile.preview_URL }
+                                className="user_profile" />
+                        </div>
+                        <div className="photo_icon">
+                                <input type="file" accept="image/*" name='profile_img_url' hidden style={{ display: 'none' }}
+                                    onChange={imageUpload} ref={refParam => inputRef = refParam} onClick={e => e.target.value = null} />
+                            <IconButton color="primary" aria-label="upload picture" onClick={() => inputRef.click()}>
+                                <PhotoCamera />
+                            </IconButton>
+                        </div>
+                        <br />
 
                         <div className='reg_table' style={{ margin: 0, display: 'block' }}>
                             <table className='register_table'>
@@ -199,23 +174,15 @@ const RegisterForm = () => {
                                 </colgroup>
 
                                 <tbody>
-                                   <tr>
+                                    <tr>
                                         <th scope='row'>
-                                            <label htmlFor="username" className='req'>
-                                                🔸아이디
-                                            </label>
+                                            <label htmlFor="usernamelabel" className='req'>🔸아이디</label>
                                         </th>
                                         <td>
-                                            <input
-                                                className='reg_input'
-                                                type='text'
-                                                name='username'
-                                                id='username'
-                                                required
-                                                autoComplete='off'
-                                                placeholder='영소문자/숫자, 6~16자'
-                                                aria-invalid=
-                                                {!isDirty ? undefined : errors.username ? "true" : "false"}
+                                            <input className='reg_input'
+                                                type='text' name='username' id='username' required
+                                                autoComplete='off' placeholder='영소문자/숫자, 6~16자'
+                                                aria-invalid={!isDirty ? undefined : errors.username ? "true" : "false"}
                                                 {...register('username', {
                                                     minLength: {
                                                         value: 6,
@@ -226,25 +193,23 @@ const RegisterForm = () => {
                                                         message: '16글자까지 입력 가능합니다.'
                                                     },
                                                     pattern: {
-                                                        value: /^[a-z0-9,-_]{6,16}$/,
-                                                        message: '영소문자/숫자, -,_ 만 입력할 수 있습니다.'
+                                                        value: /^[a-z0-9,_].{6,16}$/,
+                                                        message: '영소문자/숫자, _ 만 입력할 수 있습니다.'
                                                     }
                                                 }
                                                 )}
                                             />
-                                            {errors.username && (
-                                                <div className="reg-error1">
-                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
-                                                    {" "}{errors.username.message}
-                                                </div>
+                                            {errors.username && (<div className="reg-error1">
+                                                <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                {" "}{errors.username.message}
+                                            </div>
                                             )}
-                                            <Button
-                                                size="small"
-                                                onClick={ repetitionEvent_id }
+                                            <Button size="small"
+                                                onClick={ repetitionEventid }
                                                 className="repetitionBtn"
-                                                style={{ color: 'gray', marginLeft: '276px' }}
+                                                style={{ color: 'gray', marginLeft: '276px', marginTop: '-50px' }}
                                                 startIcon={<CheckCircleOutlineIcon />}
-                                                ref={repetitionBtn}
+                                                ref={ repetitionIdBtn }
                                             >
                                                 중복확인
                                             </Button>
@@ -253,20 +218,13 @@ const RegisterForm = () => {
 
                                     <tr>
                                         <th scope='row'>
-                                            <label htmlFor="passoword" className='req'>
-                                                🔸비밀번호
-                                            </label>
+                                            <label htmlFor="passoword" className='req'>🔸비밀번호</label>
                                         </th>
                                         <td>
-                                            <input
-                                                className='reg_input'
-                                                type='password'
-                                                name='passoword'
-                                                id='passoword'
-                                                required
-                                                autoComplete='off'
-                                                aria-invalid=
-                                                {!isDirty ? undefined : errors.password ? "true" : "false"}
+                                            <input className='reg_input'
+                                                type='password' name='passoword' id='passoword'
+                                                required autoComplete='off'
+                                                aria-invalid={!isDirty ? undefined : errors.password ? "true" : "false"}
                                                 {...register('password', {
                                                     minLength: {
                                                         value: 8,
@@ -283,29 +241,22 @@ const RegisterForm = () => {
                                                 }
                                                 )}
                                             />
-                                            {errors.password && (
-                                                <div className="reg-error3">
-                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
-                                                    {" "}{errors.password.message}
-                                                </div>
+                                            {errors.password && (<div className="reg-error3">
+                                                <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                {" "}{errors.password.message}
+                                            </div>
                                             )}
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th scope='row'>
-                                            <label htmlFor="passoword_re" className='req'>
-                                                🔸비밀번호 확인
-                                            </label>
+                                            <label htmlFor="passoword_re" className='req'>🔸비밀번호 확인</label>
                                         </th>
                                         <td>
-                                            <input
-                                                className='reg_input'
-                                                type='password'
-                                                name='passoword_re'
-                                                id='passoword_re'
-                                                required
-                                                autoComplete='off'
+                                            <input className='reg_input'
+                                                type='password' name='passoword_re' id='passoword_re'
+                                                required autoComplete='off'
                                                 {...register('password_re', {
                                                     required: (
                                                         <div className="regis-error">
@@ -334,20 +285,13 @@ const RegisterForm = () => {
 
                                     <tr>
                                         <th scope='row'>
-                                            <label htmlFor="name" className='req'>
-                                                🔸이름
-                                            </label>
+                                            <label htmlFor="name" className='req'>🔸이름</label>
                                         </th>
                                         <td>
-                                            <input
-                                                className='reg_input'
-                                                type='text'
-                                                name='name'
-                                                id='name'
-                                                required
-                                                autoComplete='off'
-                                                aria-invalid=
-                                                {!isDirty ? undefined : errors.name ? "true" : "false"}
+                                            <input className='reg_input'
+                                                type='text' name='name' id='name'
+                                                required autoComplete='off'
+                                                aria-invalid={!isDirty ? undefined : errors.name ? "true" : "false"}
                                                 {...register('name', {
                                                     minLength: {
                                                         value: 2,
@@ -365,32 +309,24 @@ const RegisterForm = () => {
                                                 )}
                                             />
                                             <button type='button' className='btn_frmline'>휴대폰 본인확인</button>
-                                            {errors.name && (
-                                                <div className="reg-error1">
-                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
-                                                    {" "}{errors.name.message}
-                                                </div>
+                                            {errors.name && (<div className="reg-error1">
+                                                <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                {" "}{errors.name.message}
+                                            </div>
                                             )}
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th scope='row'>
-                                            <label htmlFor="nickname" className='req'>
-                                                🔸닉네임
-                                            </label>
+                                            <label htmlFor="nickname" className='req'>🔸닉네임</label>
                                         </th>
                                         <td>
-                                            <input
-                                                className='reg_input'
-                                                type='text'
-                                                name='nickname'
-                                                id='nickname'
-                                                required
-                                                autoComplete='off'
-                                                aria-invalid=
-                                                { !isDirty ? undefined : errors.nickname ? "true" : " false" }
-                                                { ...register('nickname', {
+                                            <input className='reg_input'
+                                                type='text' name='nickname' id='nickname'
+                                                required autoComplete='off'
+                                                aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : " false"}
+                                                {...register('nickname', {
                                                     pattern: {
                                                         value: /^[a-zA-Z가-힣,-_]{2,16}$/,
                                                         message: '이름이 올바르지 않습니다.'
@@ -399,26 +335,24 @@ const RegisterForm = () => {
                                                         value: 16,
                                                         message: '16글자까지 입력 가능합니다.'
                                                     },
-                                                    minLength : {
-                                                        value : 6,
-                                                        message : '6글자 이상 입력 가능합니다.'
+                                                    minLength: {
+                                                        value: 6,
+                                                        message: '6글자 이상 입력 가능합니다.'
                                                     }
-                                                } 
+                                                }
                                                 )}
                                             />
-                                            {errors.nickname && (
-                                                <div className="reg-error1">
-                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
-                                                    {" "}{errors.nickname.message}
-                                                </div>
+                                            {errors.nickname && (<div className="reg-error1">
+                                                <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                {" "}{errors.nickname.message}
+                                            </div>
                                             )}
-                                            <Button
-                                                size="small"
-                                                onClick={ repetitionEvent_nickname }
+                                            <Button size="small"
+                                                onClick={repetitionEvent_nickname}
                                                 className="repetitionBtn"
-                                                style={{ color: 'gray', marginLeft: '276px' }}
+                                                style={{ color: 'gray', marginLeft: '276px', marginTop: '-50px' }}
                                                 startIcon={<CheckCircleOutlineIcon />}
-                                                ref={repetitionBtn}
+                                                ref={ repetitionNickBtn }
                                             >
                                                 중복확인
                                             </Button>
@@ -427,26 +361,26 @@ const RegisterForm = () => {
 
                                     <tr>
                                         <th scope='row'>
-                                            <label htmlFor="phone" className='req'>
-                                                🔸휴대전화
-                                            </label>
+                                            <label htmlFor="phone" className='req'>🔸휴대전화</label>
                                         </th>
                                         <td>
                                             <div className='telselect_wrap'>
-                                                <input type='text' className='reg_input' required maxLength='3' id='hp1' name='phone' />
-                                                <b>-</b>
-                                                <input type='text' className='reg_input' required maxLength='4' id='hp2' name='phone' />
-                                                <b>-</b>
-                                                <input type='text' className='reg_input' required maxLength='4' id='hp3' name='phone' />
+                                                <input type='text' className='reg_input' name='phone' id='phone' maxLength='11'
+                                                    {...register('phone', {
+                                                        required: true,
+                                                        pattern: {
+                                                            value: /^[0-9\b -]{0,13}$/,
+                                                            message: '숫자만 입력 가능합니다.'
+                                                        }
+                                                    })}
+                                                />
                                             </div>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th scope='row'>
-                                            <label htmlFor="email" className='req'>
-                                                🔸이메일
-                                            </label>
+                                            <label htmlFor="email" className='req'>🔸이메일</label>
                                         </th>
                                         <td>
                                             <div className='emailselect_wrap'>
@@ -464,11 +398,10 @@ const RegisterForm = () => {
                                                             message: '이메일 형식에 맞게 입력해주세요',
                                                         },
                                                     })} />
-                                                {errors.email && (
-                                                    <div className="reg-error3">
-                                                        <WarningAmberIcon style={{ fontSize: 'small' }} />
-                                                        {" "}{errors.email.message}
-                                                    </div>
+                                                {errors.email && (<div className="reg-error3">
+                                                    <WarningAmberIcon style={{ fontSize: 'small' }} />
+                                                    {" "}{errors.email.message}
+                                                </div>
                                                 )}
                                             </div>
                                         </td>
@@ -484,7 +417,7 @@ const RegisterForm = () => {
 
                         <BtnConfirm>
                             <a href='/' className='btn_cancel'>취소</a>
-                            <input type='submit' onClick={ signUpEvnt } disabled= {isSubmitting }
+                            <input type='submit' disabled={isSubmitting}
                                 value='가입하기' id='btn_submit' className='btn_submit' accessKey='s'></input>
                         </BtnConfirm>
 
