@@ -2,12 +2,9 @@ package com.bitcamp.travelkkaebi.controller;
 // 후기 게시판
 
 
-import com.bitcamp.travelkkaebi.dto.LogInDTO;
-import com.bitcamp.travelkkaebi.model.ResponseDTO;
+
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
-import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
-import com.bitcamp.travelkkaebi.service.ReviewReplyService;
+
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
