@@ -2,7 +2,7 @@ import React from 'react';
 import LoginForm from './LoginForm';
 import { Background, ModalContainer, Closebtn } from './Loginstyle';
 
-const Login = ({ isOpen, close }) => {
+function Login ({ isOpen, close }) {
 
 
   // stopPropagation
@@ -17,11 +17,11 @@ const Login = ({ isOpen, close }) => {
       <Background>
       <ModalContainer onClick={ e => e.stopPropagation() } >
       <LoginForm />
-     <Closebtn onClick= { close } />
-     </ModalContainer>
-     </Background> : null}
+      <Closebtn onClick= { close } />
+      </ModalContainer>
+      </Background> : null}
 
-     </>
+      </>
 
   )
 }

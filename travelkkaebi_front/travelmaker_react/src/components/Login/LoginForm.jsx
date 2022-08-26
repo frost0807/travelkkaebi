@@ -15,15 +15,16 @@ import {
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { KAKAO_AUTH_URL } from './KakaoAuth';
+import { setNickname, setProfile, setToken, setUsername } from '../../util';
 
 
 function LoginForm({ close }) {
 
   const navi = useNavigate();
+  const moveMain =() => {
+    navi("/")
+  }
 
-
-  /**카카오의 SDK를 react에서 활용하려면 window 객체를 사용해야 한다.
-그렇지 않으면 Kakao가 정의되지 않았다는 에러가 발생한다. */
   // 카카오 로그인 이벤트 함수
   function kakaoLoginEvent () {
     window.location.href = KAKAO_AUTH_URL
