@@ -3,8 +3,9 @@ package com.bitcamp.travelkkaebi.service;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
+import com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper;
+import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,75 +17,106 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewMapper reviewMapper;
+    private final ReviewReplyMapper replyMapper;
     private final LikeOrDislikeService likeOrDislikeService;
-    private final ReviewReplyService reviewReplyService;
 
+    private final int PAGE_SIZE = 10;
 
-    // 후기 게시판에 글 등록하는 메소드
-    public int writeReview(ReviewDTO review, @AuthenticationPrincipal int userId) {
-        System.out.println("서비스");
-        LikeOrDislikeDTO likeOrDislikeDTO = new LikeOrDislikeDTO();
-        int writtenReviewId;
-        int likeOrDislikeId;
+    /**
+     * 게시글 등록
+     * @param review
+     * @param userId
+     * @return writtenReviewId
+     */
+    public int writeReview(ReviewDTO review, int userId) {
 
-        try {
-            review.setCategoryId(review.getCategoryId());
-            // 마의 구간,,,
-
-            review.setWriterId(userId);
-            review.setTitle(review.getTitle());
-            review.setContent(review.getContent());
-            review.setRegion(review.getRegion());
-
-            // 게시글 등록 성공 !
-            writtenReviewId = reviewMapper.insert(review);
-
-        } catch(Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return writtenReviewId;
-    }
-
-    // 후기글 수정하는 메소드
-    public int update(ReviewDTO review) {
-        int updatedReviewId;
+        int writtenId;
 
         try {
-            review.setTitle(review.getTitle());
-            review.setContent(review.getContent());
-            review.setRegion(review.getRegion());
-
-            updatedReviewId = reviewMapper.update(review);
+            review.setUserId(userId);
+            writtenId = reviewMapper.insert(review);
 
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
 
+        return writtenId;
+    }
+
+    /**
+     * 게시글 수정
+     * @param review
+     * @param userId
+     * @return updatedReviewId
+     */
+    public int update(ReviewDTO review, int userId) {
+        int updatedReviewId;
+
+        if (userId == review.getUserId()) {
+            try {
+                updatedReviewId = reviewMapper.update(review);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+
+        } else {
+            return 0;
+        }
         // 성공했을 경우 updatedReviewid 리턴, 실패 시 0 리턴
         return updatedReviewId;
     }
 
 
-    // 후기 게시글 삭제하는 메소드
-    public int delete(int reviewId) {
-        int deletedReviewId;
+    /**
+     * 게시글 삭제
+     * @param review
+     * @param userId
+     * @return deletedReviewId;
+     */
+    public int delete(ReviewDTO review, int userId) {
+        System.out.println("게시글 삭제 서비스 도착");
 
-        try {
-            deletedReviewId = reviewMapper.delete(reviewId);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int deletedReviewId;
+        // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
+        if (userId == review.getUserId()) {
+            try {
+                deletedReviewId = reviewMapper.delete(review.getReviewId());
+
+                // 해당 게시글에 달린 댓글 삭제
+                //replyMapper.deletedByBoardId(review.getReviewId());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        } else {
             return 0;
         }
-
         // 성공했을 경우 deletedReviewId 리턴, 실패 시 0 리턴
         return deletedReviewId;
     }
 
-    // 게시글 리스트를 출력해줄 메소드
-    public List<ReviewDTO> selectAll() {
-        List<ReviewDTO> list = reviewMapper.selectAll();
+    /**
+     * 게시글 리스트 출력
+     */
+    public List<ReviewDTO> selectAllByPage(int pageNo) {
+        System.out.println("서비스 들어왔어요!");
+        List<ReviewDTO> list;
+
+        try {
+            HashMap<String, Integer> pageMap = new HashMap<>();
+            int startNum = (pageNo - 1) * PAGE_SIZE;
+
+            pageMap.put("startNum", startNum);
+            pageMap.put("PAGE_SIZE", PAGE_SIZE);
+
+            list = reviewMapper.selectAllByPage(pageMap);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
         // 작성자 닉네임 보여주기 위한 코드는
         // userService에서 가져오려고 지금은 임시로 식별자(writerId)를 보여줄 예정
@@ -93,21 +125,16 @@ public class ReviewService {
         return list;
     }
 
-    // 게시글 상세보기
-    @GetMapping("/selectOne")
-    public ReviewDTO selectOne(@RequestBody ReviewDTO review, @AuthenticationPrincipal int userId) {
-        LikeOrDislikeDTO l = null;
+    /**
+     * 게시글 상세보기
+     * @param reviewId
+     * @return review
+     */
+    public ReviewDTO selectOne(ReviewDTO reviewDTO) {
+        System.out.println("상세보기 서비스 도착");
+        // 조회수 +1 시켜주는 코드
+        reviewMapper.viewPlus(reviewDTO.getReviewId());
 
-        l.setCategoryId(review.getCategoryId());
-        l.setBoardId(review.getReviewId());
-        l.setUserId(review.getWriterId());
-
-        // 게시물을 클릭했다는 의미이므로 조회수부터 +1 시켜준다.
-//        reviewRepository.viewPlus(review.getReviewId());
-
-        // 작성된 게시글을 보여주는 코드
-        review = reviewMapper.selectOne(review.getReviewId());
-
-        return review;
+        return reviewMapper.selectOne(reviewDTO.getReviewId());
     }
 }

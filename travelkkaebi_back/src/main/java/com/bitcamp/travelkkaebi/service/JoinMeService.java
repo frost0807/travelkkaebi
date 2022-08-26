@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class JoinMeService {
     private final int PAGE_SIZE = 20;
+    
     private final JoinMeMapper joinMeMapper;
 
     public List<JoinMeDTO> selectAllByPage(int pageNo) throws Exception {

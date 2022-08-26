@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class UserEntity extends BaseEntity {
+public class    UserEntity extends BaseEntity {
     static final int DEFAULT_MANNER_DEGREE = 37;
 
     @Id
@@ -25,14 +25,10 @@ public class UserEntity extends BaseEntity {
     @Column(name = "role")
     private UserRole role;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sex", nullable = false)
-    private Gender gender;
-
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
-    @Column(name = "blocked_until")
+    @Column(name = "blocked_until", nullable = false)
     private LocalDateTime blockedUntil;
 
     @Column(name = "manner_degree", nullable = false)
@@ -59,19 +55,14 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String region;
-
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
 
     public void change(UserUpdateDTO userUpdateDTO) {
-        System.out.println(userUpdateDTO.getProfileImageUrl());
         this.email = userUpdateDTO.getEmail();
         this.password = Password.passwordEncoding(userUpdateDTO.getPassword());
         this.profileImageUrl = userUpdateDTO.getProfileImageUrl();
-        this.region = userUpdateDTO.getRegion();
         this.phone = userUpdateDTO.getPhone();
         this.nickname = userUpdateDTO.getNickname();
     }

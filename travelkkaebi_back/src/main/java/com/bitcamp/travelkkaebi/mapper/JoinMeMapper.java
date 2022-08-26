@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface JoinMeMapper {
-//    @Results(id = "result", value = {
+    //    @Results(id = "result", value = {
 //            @Result(column = "join_me_id", property = "joinMeId", jdbcType = JdbcType.INTEGER, id = true),
 //            @Result(column = "category_id", property = "categoryId", jdbcType = JdbcType.INTEGER),
 //            @Result(column = "user_id", property = "userId", jdbcType = JdbcType.INTEGER),
@@ -57,5 +57,4 @@ public interface JoinMeMapper {
 
     @Delete("DELETE FROM board_join_me WHERE join_me_id=#{joinMeId}")
     int delete(int joinMeId);
-
 }

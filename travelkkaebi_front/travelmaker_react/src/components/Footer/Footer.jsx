@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const FooterBar = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   font-size: 18px;

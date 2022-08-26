@@ -13,7 +13,7 @@ public class ReviewReplyDTO {
     private int ReviewReplyId;
     private int categoryId;
     private int boardId;
-    private int writerId;
+    private int userId;
     private String comment;
     private Calendar createTime;
     private Calendar updateTime;

@@ -1,7 +1,6 @@
 package com.bitcamp.travelkkaebi.dto;
 
 import com.bitcamp.travelkkaebi.encode.Password;
-import com.bitcamp.travelkkaebi.entity.Gender;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.regex.Regex;
@@ -9,10 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.access.method.P;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -37,9 +35,9 @@ public class UserDTO {
 
     @Pattern(regexp = Regex.PHONE)
     private String phone;
-    private Gender sex;
     private String name;
-    private String region;
+    private LocalDateTime blockedUntil = LocalDateTime.now();
+
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
@@ -53,15 +51,36 @@ public class UserDTO {
                 .username(userDTO.getUsername())
                 .password(Password.passwordEncoding(userDTO.getPassword()))
                 .nickname(userDTO.getNickname())
+                .blockedUntil(userDTO.getBlockedUntil())
                 .profileImageUrl(userDTO.getProfileImageUrl())
                 .email(userDTO.getEmail())
                 .name(userDTO.getName())
                 .phone(userDTO.getPhone())
-                .gender(userDTO.getSex())
-                .region(userDTO.getRegion())
                 .role(UserRole.GENERAL)
                 .build();
     }
 
+    /**
+     * kakaoInfo -> userEntity
+     */
+    public static UserEntity kaKaoInfoToUserEntity(UserDTO userDTO) {
+        return UserEntity.builder()
+                .username("kakao_" + userDTO.getEmail())
+                .password("kakao_password")
+                .nickname(userDTO.getNickname())
+                .blockedUntil(userDTO.getBlockedUntil())
+                .profileImageUrl(userDTO.getProfileImageUrl())
+                .email(userDTO.getEmail())
+                .name("kakao_" + userDTO.getNickname())
+                .phone("kakao_phone_number")
+                .role(UserRole.GENERAL)
+                .build();
+    }
+
+    public UserDTO(String email, String profileImageUrl, String nickname) {
+        this.email = email;
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+    }
 
 }

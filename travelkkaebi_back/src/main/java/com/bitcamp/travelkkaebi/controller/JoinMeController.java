@@ -16,6 +16,7 @@ import java.util.Map;
 @RequestMapping("/joinme")
 @RequiredArgsConstructor
 public class JoinMeController {
+    /*
     private final JoinMeService joinMeService;
 
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
