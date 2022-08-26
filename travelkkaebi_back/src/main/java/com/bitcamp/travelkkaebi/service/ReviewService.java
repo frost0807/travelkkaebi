@@ -1,10 +1,13 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
+import com.bitcamp.travelkkaebi.model.ReviewDTO;
+import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
@@ -18,7 +21,6 @@ public class ReviewService {
     private final LikeOrDislikeService likeOrDislikeService;
 
     private final int PAGE_SIZE = 10;
-
 
     /**
      * 게시글 등록
@@ -54,7 +56,6 @@ public class ReviewService {
         if (userId == review.getUserId()) {
             try {
                 updatedReviewId = reviewMapper.update(review);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 return 0;
@@ -96,7 +97,6 @@ public class ReviewService {
         return deletedReviewId;
     }
 
-
     /**
      * 게시글 리스트 출력
      */
@@ -137,5 +137,4 @@ public class ReviewService {
 
         return reviewMapper.selectOne(reviewDTO.getReviewId());
     }
-
 }

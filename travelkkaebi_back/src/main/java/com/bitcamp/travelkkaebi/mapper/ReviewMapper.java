@@ -1,6 +1,7 @@
 package com.bitcamp.travelkkaebi.mapper;
 
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.*;
 
 import java.util.HashMap;
@@ -31,15 +32,5 @@ public interface ReviewMapper {
 
     @Update("UPDATE board_review SET view = #{r.view} +1 WHERE review_id = #{r.reviewId}")
     int viewPlus(@Param("r") int reviewId);
-
-
-
-
-
-
-
-
-
-
 
 }

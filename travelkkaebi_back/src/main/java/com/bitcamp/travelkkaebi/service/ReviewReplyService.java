@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ReviewReplyService {
-
     private final ReviewReplyMapper replyMapper;
 
     /**
@@ -78,7 +77,6 @@ public class ReviewReplyService {
         if(userId == reply.getUserId()) {
             try {
                 deletedReplyId = replyMapper.delete(reply.getReviewReplyId());
-
             } catch (Exception e) {
                 e.printStackTrace();
                 return 0;
@@ -112,6 +110,4 @@ public class ReviewReplyService {
 
         return list;
     }
-
-
 }

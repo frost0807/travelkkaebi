@@ -1,5 +1,9 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
+import com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper;
+import com.bitcamp.travelkkaebi.model.JoinMeDTO;
+import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -8,25 +12,56 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class JoinMeService {
-    /*
-    private final JoinMeRepository joinMeRepository;
+    private final int PAGE_SIZE = 20;
+    
     private final JoinMeMapper joinMeMapper;
 
-    public List<JoinMeDTO> selectAllByPage(int pageNo, int pageSize) throws Exception{
-        try{
-            HashMap<String, Integer> pageMap = new HashMap<>();
-            int startNum = (pageNo-1)*pageSize;
-            pageMap.put("startNum", startNum);
-            pageMap.put("pageSize", pageSize);
+    public List<JoinMeDTO> selectAllByPage(int pageNo) throws Exception {
 
-            return joinMeRepository.selectAllByPage(pageMap);
-        } catch(Exception e) {
-            e.printStackTrace();
+        HashMap<String, Integer> pageMap = new HashMap<>();
+        int startNum = (pageNo-1)*PAGE_SIZE;
+        pageMap.put("startNum", startNum);
+        pageMap.put("pageSize", PAGE_SIZE);
+
+        return joinMeMapper.selectAllByPage(pageMap);
+    }
+
+    //게시물 상세보기하면서 조회수+1
+    public JoinMeDTO selectOne(int joinMeId) throws Exception {
+        if(joinMeMapper.viewPlus(joinMeId)!=0){ //해당 게시물의 조회수+1에 성공하면
+            return joinMeMapper.selectOne(joinMeId);
+        } else{ //게시물이 존재하지 않으면
             return null;
         }
     }
 
-    public JoinMeDTO selectOne(JoinMeDTO joinMeDTO) throws Exception{
-            return joinMeMapper.selectOne(joinMeDTO);
-    } */
+    public JoinMeDTO insert(JoinMeDTO joinMeDTO, int userId) throws Exception {
+        joinMeDTO.setUserId(userId);
+
+        if(joinMeMapper.insert(joinMeDTO)!=0){ //insert가 성공했으면
+            //useGenerateKeys에 의해 생성된 Id값으로 selectOne해서 리턴
+            return joinMeMapper.selectOne(joinMeDTO.getJoinMeId());
+        } else{ //삽입 실패했으면
+            return null;
+        }
+    }
+
+    public JoinMeDTO update(JoinMeDTO joinMeDTO, int userId) throws Exception{
+        joinMeDTO.setUserId(userId);
+        //update가 성공했으면
+        if(joinMeMapper.update(joinMeDTO)!=0){
+            //useGenerateKeys에 의해 생성된 Id값으로 selectOne해서 리턴
+            return joinMeMapper.selectOne(joinMeDTO.getJoinMeId());
+        } else{ //삽입 실패했으면
+            return null;
+        }
+    }
+
+    public boolean delete(int joinMeId, int userId) throws Exception{
+        if(joinMeMapper.selectOne(joinMeId).getUserId()==userId){
+            return (joinMeMapper.delete(joinMeId)!=0 ? true : false);
+        } else{
+            return false;
+        }
+    }
 }

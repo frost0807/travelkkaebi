@@ -1,16 +1,16 @@
 package com.bitcamp.travelkkaebi.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Calendar;
 
-@Getter
 @Setter
-public class LikeOrDislikeDTO {
-    private int likeOrDislikeId;
+@Getter
+public class ImageDTO {
+    private int imageId;
     private int categoryId;
     private int boardId;
     private int userId;
-    private boolean liked;
-    private boolean disliked;
+    private String imageUrl;
 }

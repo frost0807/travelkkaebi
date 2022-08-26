@@ -28,28 +28,33 @@ public interface JoinMeMapper {
 //    })
 //
 //    @ResultMap("result")
-//    @Select("SELECT join_me_id, user_id, category_id, view, title, content, region, charge," +
-//            "capacity, like_count, closed, start_date, end_date, create_time, update_time" +
-//            " FROM board_join_me WHERE category_id=#{j.categoryId} AND join_me_id=#{j.joinMeId}")
-//    JoinMeDTO selectOne(@Param("j") JoinMeDTO joinMeDTO);
-//
-//    @Select("SELECT  join_me_id, user_id, category_id, view, title, content, region, charge," +
-//            "capacity, like_count, closed, start_date, end_date, create_time, update_time" +
-//            " FROM board_join_me LIMIT #{p.startNum}, #{p.pageSize} ORDER BY join_me_id DESC")
-//    List<JoinMeDTO> selectAllByPage(@Param("p")HashMap<String, Integer> pageMap);
-//
-//    @Insert("INSERT INTO board_join_me" +
-//            "(category_id, user_id, title, content, region, charge, capacity) " +
-//            "VALUES (#{j.categoryId}, #{j.userId}, #{j.title}, #{j.content}, #{j.region}, #{j.charge}, #{j.capacity})")
-//    int insert(@Param("j")JoinMeDTO joinMeDTO);
-//
-//    @Update("UPDATE board_join_me SET" +
-//            "title=#{j.title}, content=#{j.content}, start_date=#{j.startDate}, end_date=#{j.endDate}," +
-//            "region=#{j.region}, charge=#{j.charge}, capacity=#{j.capacity}" +
-//            "WHERE category_id=#{j.categoryId} AND join_me_id=#{j.joinMeId}")
-//    int update(@Param("j")JoinMeDTO joinMeDTO);
-//
-//    @Delete("DELETE FROM board_join_me WHERE category_id=#{j.categoryId} AND join_me_id=#{j.joinMeId}")
-//    int delete(@Param("j")JoinMeDTO joinMeDTO);
+    @Select("SELECT join_me_id, user_id, category_id, view, title, content, region, charge," +
+            "capacity, like_count, closed, start_date, end_date, create_time, update_time" +
+            " FROM board_join_me WHERE join_me_id=#{joinMeId}")
+    JoinMeDTO selectOne(int joinMeId);
 
+    @Select("SELECT join_me_id, user_id, category_id, view, title, content, region, charge," +
+            "capacity, like_count, closed, start_date, end_date, create_time, update_time" +
+            " FROM board_join_me LIMIT #{p.startNum}, #{p.pageSize} ORDER BY join_me_id DESC")
+    List<JoinMeDTO> selectAllByPage(@Param("p")HashMap<String, Integer> pageMap);
+
+    @Options(useGeneratedKeys = true, keyProperty = "joinMeId")
+    @Insert("INSERT INTO board_join_me" +
+            "(category_id, user_id, title, content, region, charge, capacity) " +
+            "VALUES (#{j.categoryId}, #{j.userId}, #{j.title}, #{j.content}, #{j.region}, #{j.charge}, #{j.capacity})")
+    int insert(@Param("j")JoinMeDTO joinMeDTO);
+
+    @Options(useGeneratedKeys = true, keyProperty = "joinMeId")
+    @Update("UPDATE board_join_me SET" +
+            "title=#{j.title}, content=#{j.content}, start_date=#{j.startDate}, end_date=#{j.endDate}," +
+            "region=#{j.region}, charge=#{j.charge}, capacity=#{j.capacity}" +
+            "WHERE join_me_id=#{j.joinMeId}")
+    int update(@Param("j")JoinMeDTO joinMeDTO);
+
+    @Options(useGeneratedKeys = true, keyProperty = "joinMeId")
+    @Update("UPDATE board_join_me SET view=view+1 WHERE join_me_id=#{joinMeId}")
+    int viewPlus(int joinMeId);
+
+    @Delete("DELETE FROM board_join_me WHERE join_me_id=#{joinMeId}")
+    int delete(int joinMeId);
 }
