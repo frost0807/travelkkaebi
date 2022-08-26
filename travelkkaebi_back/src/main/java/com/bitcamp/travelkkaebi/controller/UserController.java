@@ -6,13 +6,16 @@ import com.bitcamp.travelkkaebi.dto.UserDTO;
 import com.bitcamp.travelkkaebi.dto.UserUpdateDTO;
 import com.bitcamp.travelkkaebi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
+@CrossOrigin
 @RestController
+@RequestMapping("/travelkkaebi")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -31,9 +34,17 @@ public class UserController {
     /**
      * 회원아이디 확인 중복버튼
      */
-    @GetMapping("/duplicate")
+    @GetMapping("/username/check")
     public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
         return ResponseEntity.ok().body(userService.usernameCheck(username));
+    }
+
+    /**
+     * userNickname 중복체크
+     */
+    @GetMapping("/nickname/check")
+    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
+        return ResponseEntity.ok().body(userService.nicknameCheck(nickname));
     }
 
     /**

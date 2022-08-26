@@ -10,5 +10,5 @@ public class Regex {
     public final static String USERNAME = "^[a-zA-Z0-9]{6,16}$";
     public final static String PASSWORD = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$";
     public final static String EMAIL = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
-    public final static String PHONE = "^\\d{3}-\\d{4}-\\d{4}$";
+    public final static String PHONE = "^\\d{3}\\d{4}\\d{4}$";
 }

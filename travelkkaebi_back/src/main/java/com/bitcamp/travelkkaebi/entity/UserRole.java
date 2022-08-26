@@ -1,5 +1,5 @@
 package com.bitcamp.travelkkaebi.entity;
 
 public enum UserRole {
-    GENERAL, EDITOR
+    GENERAL, EDITOR, ADMIN
 }

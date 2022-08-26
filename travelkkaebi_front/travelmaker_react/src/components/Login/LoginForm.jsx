@@ -14,6 +14,7 @@ import {
 } from './Loginstyle';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
+import { KAKAO_AUTH_URL } from './KakaoAuth';
 import { setNickname, setProfile, setToken, setUsername } from '../../util';
 
 
@@ -24,71 +25,10 @@ function LoginForm({ close }) {
     navi("/")
   }
 
-  /**카카오의 SDK를 react에서 활용하려면 window 객체를 사용해야 한다.
-그렇지 않으면 Kakao가 정의되지 않았다는 에러가 발생한다. */
   // 카카오 로그인 이벤트 함수
   function kakaoLoginEvent () {
-    window.Kakao.Auth.login({
-      
-      //받아오고 싶은 정보
-       // 다람쥐님과 아직 상의 X [ 근데 이거 이외의 정보는 노필요한 것 같음 ]
-       // 관리하기도 귀찮음 ..
-      scope: 'profile_nickname, profile_image, account_email, gender',
-      //로그인 후 실행되는 코드(res=받아온데이터)
-      success: function (res) {
-        //console.log(res);
-
-        // 로그인한 user 정보 불러오기
-        window.Kakao.API.request({
-          url: '/v2/user/me',
-          success: res => {
-            console.log(JSON.stringify(res));
-
-            // kakao user 정보 변수에 저장
-            const username = res.id;
-            const email = res.kakao_account.email;
-            const token = res.access_token;
-            const profile_img = res.properties.profile_image;
-            const nickname = res.properties.nickname;
-
-            // 카카오로 로그인한 유저의 정보가 DB에 없을 시에 저장
-
-            axios.get( API_BASE_URL+'/샬라샬라~', username ).then(res => {
-              if ( res.data === false ) {
-                axios
-                  .post(API_BASE_URL+'/signin/kakao', {
-                    username: username,
-                    password: username,
-                    email: email,
-                    profile_img_url: profile_img,
-                    nickname: nickname,
-                  })
-                  .then(res => {
-                    // 회원가입 후 회원정보 저장  여기서 authenticate url 호출하면 될 것 같기는 함..
-                    setUsername(username);
-                    setToken(token);
-                    setProfile(profile_img);
-                    setNickname(nickname);
-                    moveMain();
-                  });
-              } else {
-                //로컬스토리지에 저장
-                // 로그인 성공한 후의 기능? (로그인 이벤트가 발생했던 페이지로 callback?)
-                setUsername(username);
-                setToken(token);
-                setProfile(profile_img);
-                setNickname(nickname);
-              }
-            });
-          },
-          fail: function (error) {
-            console.log(error);
-          },
-        });
-      },
-    });
+    window.location.href = KAKAO_AUTH_URL
   }
-
   // 일반 로그인
   function login(userDTO) {
     axios.post(

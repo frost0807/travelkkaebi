@@ -29,7 +29,6 @@ public class UserService {
     public void register(UserDTO userDTO, MultipartFile userImage) {
         //username 중복체크 method
         validate(userDTO.getUsername());
-
         //user avatar image save
         String profileImageFilePath = imageRepository.saveImageFile(userImage);
 
@@ -40,16 +39,16 @@ public class UserService {
     }
 
     //username 중복체크
-    private void validate(String username) {
-        if (usernameCheck(username))
-            throw new RuntimeException("already exist username...");
-    }
-
     /**
      * username 중복체크 logic 존재 -> true, 존재x -> false
      */
     public boolean usernameCheck(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    private void validate(String username) {
+        if (usernameCheck(username))
+            throw new RuntimeException("already exist username...");
     }
 
     /**
@@ -64,7 +63,10 @@ public class UserService {
             //발급된 토큰과 함께 리턴
             return LogInDTO.builder()
                     .username(findUser.getUsername())
+                    .nickname(findUser.getNickname())
+                    .mannerDegree(findUser.getMannerDegree())
                     .id(findUser.getId())
+                    .role(findUser.getRole())
                     .token(token)
                     .build();
         }
@@ -92,4 +94,9 @@ public class UserService {
             userRepository.delete(deleteUser);
         }
     }
+
+    public Boolean nicknameCheck(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
 }
