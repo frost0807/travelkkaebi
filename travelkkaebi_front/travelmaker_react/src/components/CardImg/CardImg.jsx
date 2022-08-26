@@ -14,8 +14,8 @@ import Img4 from './/CardImg4.jpg';
 
 function CardImg() {
   return (
-    <CardGroup>
-      <Card>
+    <CardGroup style={{marginLeft:'100px', marginRight:'100px'}}>
+      <Card >
         <Card.Img variant="top" src={ Img1 } />
         <Card.Body>
           <Card.Title as="a" href="CardImg1">보령 머드 축제를 다녀오고서</Card.Title>
@@ -30,7 +30,7 @@ function CardImg() {
       <Card>
         <Card.Img variant="top" src={ Img2 } />
         <Card.Body>
-          <Card.Title>붓싼 조선통신사 후기</Card.Title>
+          <Card.Title as="a" href="CardImg2">부산 조선통신사 후기</Card.Title>
           <Card.Text>
             작성자 : e의2승
           </Card.Text>
@@ -42,7 +42,7 @@ function CardImg() {
       <Card>
         <Card.Img variant="top" src={ Img3 } />
         <Card.Body>
-          <Card.Title>스울 재즈 페스티발</Card.Title>
+          <Card.Title as="a" href="CardImg3">서울 재즈 페스티발</Card.Title>
           <Card.Text>
             작성자 : 천지삐까리
           </Card.Text>
@@ -55,9 +55,9 @@ function CardImg() {
       <Card>
         <Card.Img variant="top" src={ Img4 } />
         <Card.Body>
-          <Card.Title>횡성 더덕 축제를 다녀왔읍니다^^.</Card.Title>
+          <Card.Title as="a" href="CardImg4">횡성 더덕 축제를 다녀왔읍니다^^.</Card.Title>
           <Card.Text>
-            작성자 : 지하철공짜로탐
+            작성자 : 2호선러버
           </Card.Text>
         </Card.Body>
         <Card.Footer>

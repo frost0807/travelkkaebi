@@ -1,0 +1,10 @@
+.containerFirst {
+  display: flex;
+  justify-content: center;
+  margin-left:100px;
+  margin-right:100px;
+  width: 100%;
+  
+}
+.itemFisrt { flex-basis:40%; }
+.itemSecond { flex-basis:60%; }
