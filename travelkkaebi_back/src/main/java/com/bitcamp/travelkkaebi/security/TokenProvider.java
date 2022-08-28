@@ -22,7 +22,7 @@ public class TokenProvider {
 
     Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
-    /**ㅌ
+    /**
      * 사용자 정보를 받아서 JWT 토큰 생성
      */
     public String create(UserEntity userEntity) {
@@ -34,7 +34,7 @@ public class TokenProvider {
                 //헤더(header) 에 들어갈 내용 및 서명을 하기위한 SECRET KEY
                 .signWith(key, SignatureAlgorithm.HS256)
                 //페이로드(payload) 에 들아걸 내용
-                .setSubject(userEntity.getId() + "") //sub
+                .setSubject(Integer.toString(userEntity.getId())) //sub
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .compact();
