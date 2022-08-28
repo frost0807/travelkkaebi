@@ -45,9 +45,8 @@ public class KaKaoService {
     }
 
     private LogInDTO jsonParsingAndSave(String userInfoByAccessToken) {
-        JsonElement element = JsonParser.parseString(userInfoByAccessToken);
-
         // kakao 유저정보 JSON -> String parsing
+        JsonElement element = JsonParser.parseString(userInfoByAccessToken);
         String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
         String profile_image = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
         String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
