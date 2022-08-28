@@ -27,8 +27,8 @@ public class UserService {
      * 회원가입 logic
      */
     public void register(UserDTO userDTO, MultipartFile userImage) {
-        //username 중복체크 method
-        validate(userDTO.getUsername());
+        //username 및 email 중복체크 method
+        validate(userDTO.getUsername(), userDTO.getEmail());
         //user avatar image save
         String profileImageFilePath = imageRepository.saveImageFile(userImage);
 
@@ -39,17 +39,27 @@ public class UserService {
     }
 
     //username 중복체크
+
     /**
-     * username 중복체크 logic 존재 -> true, 존재x -> false
+     * username, email, nickname 중복체크 logic 존재 -> true, 존재x -> false
      */
     public boolean usernameCheck(String username) {
         return userRepository.existsByUsername(username);
     }
 
-    private void validate(String username) {
-        if (usernameCheck(username))
+    private boolean emailCheck(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public Boolean nicknameCheck(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    private void validate(String username, String email) {
+        if (usernameCheck(username) || emailCheck(email))
             throw new RuntimeException("already exist username...");
     }
+
 
     /**
      * 로그인 logic
@@ -68,6 +78,8 @@ public class UserService {
                     .id(findUser.getId())
                     .role(findUser.getRole())
                     .token(token)
+                    .profileImageUrl(findUser.getProfileImageUrl())
+                    .email(findUser.getEmail())
                     .build();
         }
         return null;
@@ -93,10 +105,6 @@ public class UserService {
         if (Password.passwordMatch(deleteUserDTO.getPassword(), deleteUser.getPassword())) {
             userRepository.delete(deleteUser);
         }
-    }
-
-    public Boolean nicknameCheck(String nickname) {
-        return userRepository.existsByNickname(nickname);
     }
 
 }

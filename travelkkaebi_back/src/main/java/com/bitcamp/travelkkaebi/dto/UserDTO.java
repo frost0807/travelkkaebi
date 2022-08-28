@@ -37,6 +37,7 @@ public class UserDTO {
     private String phone;
     private String name;
     private LocalDateTime blockedUntil = LocalDateTime.now();
+    private int mannerDegree = 37;
 
 
     public void setProfileImageUrl(String profileImageUrl) {
@@ -57,6 +58,7 @@ public class UserDTO {
                 .name(userDTO.getName())
                 .phone(userDTO.getPhone())
                 .role(UserRole.GENERAL)
+                .mannerDegree(userDTO.getMannerDegree())
                 .build();
     }
 
@@ -74,6 +76,7 @@ public class UserDTO {
                 .name("kakao_" + userDTO.getNickname())
                 .phone("kakao_phone_number")
                 .role(UserRole.GENERAL)
+                .mannerDegree(userDTO.getMannerDegree())
                 .build();
     }
 

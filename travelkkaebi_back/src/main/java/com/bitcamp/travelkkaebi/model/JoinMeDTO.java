@@ -5,12 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 
 @Builder
 @Setter
 @Getter
-@Setter
 public class JoinMeDTO {
     private int joinMeId;
     private int userId;

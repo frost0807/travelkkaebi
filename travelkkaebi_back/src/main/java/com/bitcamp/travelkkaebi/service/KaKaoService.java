@@ -1,8 +1,11 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.dto.LogInDTO;
 import com.bitcamp.travelkkaebi.dto.UserDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
+import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
+import com.bitcamp.travelkkaebi.security.TokenProvider;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -22,35 +25,53 @@ import java.util.Objects;
 public class KaKaoService {
 
     private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
 
     private final String GRANT_TYPE = "authorization_code";
     private final String CLIENT_ID = "7885d8a4bb6d5b564863fbf38ee1a72b";
     private final String REDIRECT_URI = "http://127.0.0.1:5500/kakaotest/kakaotest.html";
     private final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 
-    public String kaKaoAuth(String authorizeCode) {
+    public LogInDTO kaKaoAuth(String authorizeCode) {
         // 인가코드를 통해 토큰발급
         String accessToken = getAccessToken(authorizeCode);
 
-        // accessToken 을 이용하여 JSON 형태의 KAKAO_USER_INFO
+        // accessToken 을 이용하여 JSON 형태의 KAKAO_USER_INFO 를 가져온다
         String kaKaoUserInfo = getUserInfoByAccessToken(accessToken);
 
         // json 형태의 userinfo parsing
-        jsonParsingAndSave(kaKaoUserInfo);
+        return jsonParsingAndSave(kaKaoUserInfo);
 
-        return "whdcks";
     }
 
-    private void jsonParsingAndSave(String userInfoByAccessToken) {
+    private LogInDTO jsonParsingAndSave(String userInfoByAccessToken) {
         JsonElement element = JsonParser.parseString(userInfoByAccessToken);
+
+        // kakao 유저정보 JSON -> String parsing
         String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
         String profile_image = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
         String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 
+        if (userRepository.existsByEmail(email)) {
+            throw new RuntimeException("이미 존재하는 이메일입니다.");
+        }
+
         UserDTO userDTO = new UserDTO(email, profile_image, nickname);
         UserEntity kaKaoLoginUser = UserDTO.kaKaoInfoToUserEntity(userDTO);
 
+        // travelkkaebi db에 save
         userRepository.save(kaKaoLoginUser);
+        // token 생성
+        String token = tokenProvider.create(kaKaoLoginUser);
+
+        return LogInDTO.builder()
+                .nickname(userDTO.getNickname())
+                .email(userDTO.getEmail())
+                .mannerDegree(userDTO.getMannerDegree())
+                .profileImageUrl(userDTO.getProfileImageUrl())
+                .role(UserRole.GENERAL)
+                .token(token)
+                .build();
     }
 
     /**

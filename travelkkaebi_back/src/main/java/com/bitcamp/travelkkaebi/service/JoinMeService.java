@@ -1,12 +1,13 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
-import com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
-import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

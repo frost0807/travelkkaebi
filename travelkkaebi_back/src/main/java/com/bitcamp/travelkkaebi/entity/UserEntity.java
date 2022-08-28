@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "user")
 public class    UserEntity extends BaseEntity {
-    static final int DEFAULT_MANNER_DEGREE = 37;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +31,7 @@ public class    UserEntity extends BaseEntity {
     private LocalDateTime blockedUntil;
 
     @Column(name = "manner_degree", nullable = false)
-    private int mannerDegree = DEFAULT_MANNER_DEGREE;
+    private int mannerDegree;
 
     @Column(nullable = false, unique = true)
     private String username;

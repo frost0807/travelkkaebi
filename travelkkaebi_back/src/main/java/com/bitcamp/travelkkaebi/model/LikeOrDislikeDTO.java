@@ -2,7 +2,6 @@ package com.bitcamp.travelkkaebi.model;
 
 import lombok.*;
 
-import java.util.Calendar;
 
 @Getter
 @Setter

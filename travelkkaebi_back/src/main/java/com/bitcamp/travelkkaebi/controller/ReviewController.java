@@ -2,22 +2,15 @@ package com.bitcamp.travelkkaebi.controller;
 // 후기 게시판
 
 
-
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.server.ExportException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/review")
@@ -77,10 +70,10 @@ public class ReviewController {
     @GetMapping("/selectAllByPage")
     private List<ReviewDTO> selectAll() {
         System.out.println("컨트롤러 들어왔어요");
-       try {
+        try {
             List<ReviewDTO> reviewList = reviewService.selectAllByPage(1);
-           // return new ResponseEntity(reviewList, HttpStatus.OK);
-           return reviewList;
+            // return new ResponseEntity(reviewList, HttpStatus.OK);
+            return reviewList;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -105,13 +98,6 @@ public class ReviewController {
 
         return new ResponseEntity(review, HttpStatus.OK);
     }
-
-
-
-
-
-
-
 
 
 }

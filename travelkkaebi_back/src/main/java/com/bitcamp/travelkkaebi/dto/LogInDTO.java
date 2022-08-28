@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 @Getter
 @Builder
@@ -19,4 +18,6 @@ public class LogInDTO {
     private UserRole role;
     private int mannerDegree;
     private String nickname;
+    private String profileImageUrl;
+    private String email;
 }
