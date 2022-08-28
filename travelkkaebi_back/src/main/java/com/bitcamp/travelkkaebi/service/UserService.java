@@ -29,15 +29,14 @@ public class UserService {
     public void register(UserDTO userDTO, MultipartFile userImage) {
         //username 및 email 중복체크 method
         validate(userDTO.getUsername(), userDTO.getEmail());
-        System.out.println(1);
+
         //user avatar image save
         String profileImageFilePath = imageRepository.saveImageFile(userImage);
-        System.out.println(2);
+
         //dto, imageUrl -> entity 변환후 DB save
         UserEntity userEntity = UserDTO.toUserEntity(userDTO);
-        System.out.println(3);
         userEntity.setProfileImageUrl(profileImageFilePath);
-        System.out.println(4);
+
         userRepository.save(userEntity);
     }
 

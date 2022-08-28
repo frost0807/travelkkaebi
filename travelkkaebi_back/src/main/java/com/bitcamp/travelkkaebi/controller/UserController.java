@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@RequestPart(value = "file", required = false) MultipartFile multipartFile,
                                        @RequestPart(value = "userDTO") @Valid UserDTO userDTO) throws IOException {
-        System.out.println(1);
         awsS3service.upload(multipartFile, "static");
         userService.register(userDTO, multipartFile);
         return ResponseEntity.ok().build();
