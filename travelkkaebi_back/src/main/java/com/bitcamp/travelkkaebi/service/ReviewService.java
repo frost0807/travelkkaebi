@@ -40,7 +40,6 @@ public class ReviewService {
             e.printStackTrace();
             return 0;
         }
-
         return writtenId;
     }
 
@@ -72,15 +71,16 @@ public class ReviewService {
     /**
      * 게시글 삭제
      * @param review
-     * @param userId
+     * //@param userId
      * @return deletedReviewId;
      */
-    public int delete(ReviewDTO review, int userId) {
+    public int delete(ReviewDTO review) {
         System.out.println("게시글 삭제 서비스 도착");
+        System.out.println(review.getReviewId());
 
         int deletedReviewId;
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
-        if (userId == review.getUserId()) {
+        if (review.getUserId() != 0) {
             try {
                 deletedReviewId = reviewMapper.delete(review.getReviewId());
 
@@ -88,10 +88,11 @@ public class ReviewService {
                 //replyMapper.deletedByBoardId(review.getReviewId());
             } catch (Exception e) {
                 e.printStackTrace();
-                return 0;
+                return 100;
             }
         } else {
-            return 0;
+            System.out.println("작성자와 다름");
+            return 123;
         }
         // 성공했을 경우 deletedReviewId 리턴, 실패 시 0 리턴
         return deletedReviewId;
@@ -101,7 +102,7 @@ public class ReviewService {
      * 게시글 리스트 출력
      */
     public List<ReviewDTO> selectAllByPage(int pageNo) {
-        System.out.println("서비스 들어왔어요!");
+        System.out.println("게시글 리스트 서비스 들어왔어요!");
         List<ReviewDTO> list;
 
         try {
@@ -127,14 +128,16 @@ public class ReviewService {
 
     /**
      * 게시글 상세보기
-     * @param reviewId
+     * @param reviewDTO
      * @return review
      */
     public ReviewDTO selectOne(ReviewDTO reviewDTO) {
         System.out.println("상세보기 서비스 도착");
         // 조회수 +1 시켜주는 코드
         reviewMapper.viewPlus(reviewDTO.getReviewId());
+        ReviewDTO review = reviewMapper.selectOne(reviewDTO.getReviewId());
 
-        return reviewMapper.selectOne(reviewDTO.getReviewId());
+
+        return review;
     }
 }
