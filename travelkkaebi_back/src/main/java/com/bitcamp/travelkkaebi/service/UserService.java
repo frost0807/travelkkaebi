@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -34,7 +33,6 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-
     /**
      * username, email, nickname 중복체크 logic 존재 -> true, 존재x -> false
      */
@@ -54,7 +52,6 @@ public class UserService {
         if (usernameCheck(username) || emailCheck(email))
             throw new RuntimeException("already exist username...");
     }
-
 
     /**
      * 로그인 logic

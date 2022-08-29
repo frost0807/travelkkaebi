@@ -27,14 +27,13 @@ public class TokenProvider {
      */
     public String create(UserEntity userEntity) {
         // 기한 설정
-        Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
-
+        Date expiryDate = Date.from(Instant.now().plus(5, ChronoUnit.MINUTES));
         // JWT 토큰 생성
         return Jwts.builder()
                 //헤더(header) 에 들어갈 내용 및 서명을 하기위한 SECRET KEY
                 .signWith(key, SignatureAlgorithm.HS256)
                 //페이로드(payload) 에 들아걸 내용
-                .setSubject(Integer.toString(userEntity.getId())) //sub
+                .setSubject(Integer.toString(userEntity.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .compact();

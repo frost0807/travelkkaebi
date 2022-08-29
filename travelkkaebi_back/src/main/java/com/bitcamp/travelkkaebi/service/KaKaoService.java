@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
-
 @Service
 @RequiredArgsConstructor
 public class KaKaoService {
@@ -64,6 +63,7 @@ public class KaKaoService {
         String token = tokenProvider.create(kaKaoLoginUser);
 
         return LogInDTO.builder()
+                .id(userDTO.getId())
                 .nickname(userDTO.getNickname())
                 .email(userDTO.getEmail())
                 .mannerDegree(userDTO.getMannerDegree())
@@ -123,6 +123,5 @@ public class KaKaoService {
 
         return restTemplate.postForObject("https://kapi.kakao.com/v2/user/me", request, String.class);
     }
-
 
 }

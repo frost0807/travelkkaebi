@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 @Getter
 public class UserDTO {
 
+    private int id;
+
     @Pattern(regexp = Regex.USERNAME)
     private String username;
 

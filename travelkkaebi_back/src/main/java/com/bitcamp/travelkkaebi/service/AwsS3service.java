@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,10 +33,10 @@ public class AwsS3service {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        Calendar calendar = Calendar.getInstance();
+        String fileName = dirName + "/" + calendar + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
-        System.out.println("업로드 image url ->" + uploadImageUrl);
         return uploadImageUrl;
     }
 
