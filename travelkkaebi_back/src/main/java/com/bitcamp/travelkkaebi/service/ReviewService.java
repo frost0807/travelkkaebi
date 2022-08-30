@@ -88,11 +88,11 @@ public class ReviewService {
                 //replyMapper.deletedByBoardId(review.getReviewId());
             } catch (Exception e) {
                 e.printStackTrace();
-                return 100;
+                return 0;
             }
         } else {
             System.out.println("작성자와 다름");
-            return 123;
+            return -1;
         }
         // 성공했을 경우 deletedReviewId 리턴, 실패 시 0 리턴
         return deletedReviewId;
@@ -128,17 +128,52 @@ public class ReviewService {
 
     /**
      * 게시글 상세보기
-     * @param ReviewId
+     * @param reviewId
      * @return review
      */
-    public ReviewDTO selectOne(int ReviewId) {
+    public ReviewDTO selectOne(int reviewId) {
         System.out.println("상세보기 서비스 도착");
         // 조회수 +1 시켜주는 코드
-        reviewMapper.viewPlus(ReviewId);
-        ReviewDTO review = reviewMapper.selectOne(ReviewId);
-
-
+        reviewMapper.viewPlus(reviewId);
+        ReviewDTO review = reviewMapper.selectOne(reviewId);
 
         return review;
     }
+
+    public int likeUp(int reviewId) throws Exception {
+        System.out.println("좋아요 UP 서비스 도착");
+        return reviewMapper.likeUp(reviewId);
+    }
+
+    public int likeDown(int reviewId) throws Exception {
+        System.out.println("좋아요 DOWN 서비스 도착");
+        return reviewMapper.likeDown(reviewId);
+    }
+    public int dislikeUp(int reviewId) throws Exception {
+        System.out.println("싫어요 UP 서비스 도착");
+        return reviewMapper.dislikeUp(reviewId);
+    }
+    public int dislikeDown(int reviewId) throws Exception {
+        System.out.println("좋아요 UP 서비스 도착");
+        return reviewMapper.dislikeDown(reviewId);
+    }
+
+    public int count() throws Exception {
+        return reviewMapper.reviewCount();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

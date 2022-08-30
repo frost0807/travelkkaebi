@@ -112,22 +112,6 @@ public interface ReviewMapper {
     @Update("UPDATE board_review SET view = view +1 WHERE review_id = #{reviewId}")
     int viewPlus(int reviewId);
 
-    @Results({
-            @Result(column = "review_id", property = "reviewId"),
-            @Result(column = "category_id", property = "categoryId"),
-            @Result(column = "user_id", property = "userId"),
-            @Result(column = "title", property = "title"),
-            @Result(column = "content", property = "content"),
-            @Result(column = "region", property = "region"),
-            @Result(column = "like_count", property = "likeCount"),
-            @Result(column = "dislike_count", property = "dislikeCount"),
-            @Result(column = "view", property = "view"),
-            @Result(column = "create_time", property = "createTime"),
-            @Result(column = "update_time", property = "updateTime")
-    })
-    @Update("UPDATE board_review SET like_count = #{r.likeCount} + 1 " +
-            "WHERE review_id = #{r.reviewId}")
-    int likeUp(@Param("r") ReviewDTO reviewDTO);
 
     @Results({
             @Result(column = "review_id", property = "reviewId"),
@@ -142,9 +126,9 @@ public interface ReviewMapper {
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime")
     })
-    @Update("UPDATE board_review SET like_count = #{r.likeCount} - 1 " +
-            "WHERE review_id = #{r.reviewId}")
-    int likeDown(@Param("r") ReviewDTO reviewDTO);
+    @Update("UPDATE board_review SET like_count = #{likeCount} + 1 " +
+            "WHERE review_id = #{reviewId}")
+    int likeUp(int reviewId);
 
     @Results({
             @Result(column = "review_id", property = "reviewId"),
@@ -159,9 +143,9 @@ public interface ReviewMapper {
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime")
     })
-    @Update("UPDATE board_review SET dislike_count = #{r.dislikeCount} + 1 " +
-            "WHERE review_id = #{r.reviewId}")
-    int dislikeUp(@Param("r") ReviewDTO reviewDTO);
+    @Update("UPDATE board_review SET like_count = #{likeCount} - 1 " +
+            "WHERE review_id = #{reviewId}")
+    int likeDown(int reviewId);
 
     @Results({
             @Result(column = "review_id", property = "reviewId"),
@@ -176,28 +160,42 @@ public interface ReviewMapper {
             @Result(column = "create_time", property = "createTime"),
             @Result(column = "update_time", property = "updateTime")
     })
-    @Update("UPDATE board_review SET dislike_count = #{r.dislikeCount} - 1 " +
-            "WHERE review_id = #{r.reviewId}")
-    int dislikeDown(@Param("r") ReviewDTO reviewDTO);
+    @Update("UPDATE board_review SET dislike_count = #{dislikeCount} + 1 " +
+            "WHERE review_id = #{reviewId}")
+    int dislikeUp(int reviewId);
 
+    @Results({
+            @Result(column = "review_id", property = "reviewId"),
+            @Result(column = "category_id", property = "categoryId"),
+            @Result(column = "user_id", property = "userId"),
+            @Result(column = "title", property = "title"),
+            @Result(column = "content", property = "content"),
+            @Result(column = "region", property = "region"),
+            @Result(column = "like_count", property = "likeCount"),
+            @Result(column = "dislike_count", property = "dislikeCount"),
+            @Result(column = "view", property = "view"),
+            @Result(column = "create_time", property = "createTime"),
+            @Result(column = "update_time", property = "updateTime")
+    })
+    @Update("UPDATE board_review SET dislike_count = #{dislikeCount} - 1 " +
+            "WHERE review_id = #{reviewId}")
+    int dislikeDown(int reviewId);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Results({
+            @Result(column = "review_id", property = "reviewId"),
+            @Result(column = "category_id", property = "categoryId"),
+            @Result(column = "user_id", property = "userId"),
+            @Result(column = "title", property = "title"),
+            @Result(column = "content", property = "content"),
+            @Result(column = "region", property = "region"),
+            @Result(column = "like_count", property = "likeCount"),
+            @Result(column = "dislike_count", property = "dislikeCount"),
+            @Result(column = "view", property = "view"),
+            @Result(column = "create_time", property = "createTime"),
+            @Result(column = "update_time", property = "updateTime")
+    })
+    @Select("SELECT COUNT(*) FROM board_review")
+    int reviewCount();
 
 
 }

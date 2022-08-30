@@ -36,7 +36,7 @@ public class ReviewController {
     @PostMapping("/write")
     public ResponseEntity write(@RequestBody ReviewDTO reviewDTO, String userId) {
         try {
-            int reviewId = reviewService.writeReview(reviewDTO, Integer.parseInt("1"));
+            int reviewId = reviewService.writeReview(reviewDTO, Integer.parseInt(userId));
             return new ResponseEntity(reviewId, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -79,12 +79,12 @@ public class ReviewController {
      * 게시글 리스트 출력
      */
     @GetMapping("/selectallbypage")
-    private ResponseEntity selectAll() {
+    private ResponseEntity selectAll(@RequestParam int pageNo) {
         List<ReviewDTO> reviewList;
         System.out.println("게시글 리스트 컨트롤러 들어왔어요");
 
        try {
-            reviewList = reviewService.selectAllByPage(1);
+            reviewList = reviewService.selectAllByPage(pageNo);
        } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -111,6 +111,96 @@ public class ReviewController {
         return new ResponseEntity(review, HttpStatus.OK);
     }
 
+    /**
+     * 게시물 좋아요 Up
+     */
+    @GetMapping("/likeup")
+    private ResponseEntity likeUp (@RequestParam int reviewId) {
+        int likedId;
+        System.out.println("게시물 좋아요 Up 컨트롤러 도착");
+
+        try {
+            likedId = reviewService.likeUp(reviewId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(likedId, HttpStatus.OK);
+    }
+
+    /**
+     * 게시물 좋아요 Down
+     */
+    @GetMapping("/likedown")
+    private ResponseEntity likeDown (@RequestParam int reviewId) {
+        int likedId;
+        System.out.println("게시물 좋아요 DOWN 컨트롤러 도착");
+
+        try {
+            likedId = reviewService.likeDown(reviewId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(likedId, HttpStatus.OK);
+    }
+
+    /**
+     * 게시물 싫어요 UP
+     */
+    @GetMapping("/dislikeup")
+    private ResponseEntity dislikeUp (@RequestParam int reviewId) {
+        int likedId;
+        System.out.println("게시물 싫어요 UP 컨트롤러 도착");
+
+        try {
+            likedId = reviewService.dislikeUp(reviewId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(likedId, HttpStatus.OK);
+    }
+
+    /**
+     * 게시물 싫어요 DOWN
+     */
+    @GetMapping("/dislikedown")
+    private ResponseEntity dislikeDown (@RequestParam int reviewId) {
+        int likedId;
+        System.out.println("게시물 싫어요 DOWN 컨트롤러 도착");
+
+        try {
+            likedId = reviewService.dislikeDown(reviewId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(likedId, HttpStatus.OK);
+    }
+
+    /**
+     * 게시물 갯수 반환
+     */
+    @GetMapping("count")
+    private ResponseEntity count () {
+        int reviewCount;
+        try {
+            reviewCount = reviewService.count();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return new ResponseEntity(reviewCount, HttpStatus.OK);
+    }
 
 
 
