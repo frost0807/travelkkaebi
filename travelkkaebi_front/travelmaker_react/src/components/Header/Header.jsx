@@ -42,7 +42,7 @@ function Header() { // 헤더 펑션
                 기타
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="review">Review</Nav.Link>
+            <Nav.Link href="/review/1">Review</Nav.Link>
             <NavDropdown title="Party" id="basic-nav-dropdown">
               <NavDropdown.Item href="PartyMain">구인</NavDropdown.Item>
               <NavDropdown.Item href="FollowMe">

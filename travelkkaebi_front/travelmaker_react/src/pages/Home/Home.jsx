@@ -16,7 +16,7 @@ function Home() {
     <div style={{}}>
     <CarouselHome/>
     </div>
-    <div style={{marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
+    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
     <CardImg topImage1="topImage1" topImage2="topImage2" topImage3="topImage3"  topImage4="topImage4" />
     {/* <div style={{height:'100px'}}></div> */}
     {/* <CardImg bottomImage1="bottomImage1" bottomImage2="bottomImage2" bottomImage3="bottomImage3"  bottomImage4="bottomImage4" /> */}
