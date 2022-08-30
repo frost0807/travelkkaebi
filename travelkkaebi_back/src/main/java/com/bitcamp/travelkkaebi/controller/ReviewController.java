@@ -79,12 +79,12 @@ public class ReviewController {
      * 게시글 리스트 출력
      */
     @GetMapping("/selectallbypage")
-    private ResponseEntity selectAll() {
+    private ResponseEntity selectAll(@RequestParam int pageNo) {
         List<ReviewDTO> reviewList;
         System.out.println("게시글 리스트 컨트롤러 들어왔어요");
 
        try {
-            reviewList = reviewService.selectAllByPage(1);
+            reviewList = reviewService.selectAllByPage(pageNo);
        } catch (Exception e) {
             e.printStackTrace();
             return null;
