@@ -9,5 +9,6 @@ public class TravelMapDTO {
     private int travelMapId;
     private int categoryId;
     private int boardId;
+    private int userId;
     private String mapUrl;
 }
