@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Calendar;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class ReviewDTO {
     private int likeCount;
     private int dislikeCount;
     private int view;
-    private Calendar createTime;
-    private Calendar updateTime;
+    private Timestamp createTime;
+    private Timestamp updateTime;
 
 }

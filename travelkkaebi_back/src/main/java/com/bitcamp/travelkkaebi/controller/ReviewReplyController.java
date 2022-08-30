@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/review/reply")
@@ -20,9 +22,9 @@ public class ReviewReplyController {
      * 댓글 작성
      */
     @PostMapping("/write")
-    public ResponseEntity replyWrite(@RequestBody ReviewReplyDTO reviewReplyDTO, @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal int userId) {
+    public ResponseEntity replyWrite(@RequestPart ReviewReplyDTO reviewReplyDTO, @RequestPart ReviewDTO reviewDTO, Integer userId) {
         try {
-            int replyId = reviewReplyService.writeReply(reviewReplyDTO, reviewDTO, userId);
+            int replyId = reviewReplyService.writeReply(reviewReplyDTO, reviewDTO, 1);
             return new ResponseEntity(replyId, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -61,5 +63,36 @@ public class ReviewReplyController {
             return null;
         }
     }
+
+    /**
+     * 댓글 조회 (특정 게시물에 달린)
+     */
+    @GetMapping("/selectbyreview")
+    private ResponseEntity selectByReview(@RequestParam int reviewId) {
+        List<ReviewReplyDTO> reply;
+        System.out.println("특정 게시물에 달린 댓글 조회 컨트롤러 도착");
+
+        try {
+            reply = reviewReplyService.selectOne(reviewId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return new ResponseEntity(reply, HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

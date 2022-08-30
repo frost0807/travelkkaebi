@@ -36,7 +36,6 @@ public class ReviewService {
             e.printStackTrace();
             return 0;
         }
-
         return writtenId;
     }
 
@@ -68,15 +67,16 @@ public class ReviewService {
     /**
      * 게시글 삭제
      * @param review
-     * @param userId
+     * //@param userId
      * @return deletedReviewId;
      */
-    public int delete(ReviewDTO review, int userId) {
+    public int delete(ReviewDTO review) {
         System.out.println("게시글 삭제 서비스 도착");
+        System.out.println(review.getReviewId());
 
         int deletedReviewId;
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
-        if (userId == review.getUserId()) {
+        if (review.getUserId() != 0) {
             try {
                 deletedReviewId = reviewMapper.delete(review.getReviewId());
 
@@ -87,7 +87,8 @@ public class ReviewService {
                 return 0;
             }
         } else {
-            return 0;
+            System.out.println("작성자와 다름");
+            return -1;
         }
         // 성공했을 경우 deletedReviewId 리턴, 실패 시 0 리턴
         return deletedReviewId;
@@ -97,7 +98,7 @@ public class ReviewService {
      * 게시글 리스트 출력
      */
     public List<ReviewDTO> selectAllByPage(int pageNo) {
-        System.out.println("서비스 들어왔어요!");
+        System.out.println("게시글 리스트 서비스 들어왔어요!");
         List<ReviewDTO> list;
 
         try {
@@ -126,11 +127,49 @@ public class ReviewService {
      * @param reviewId
      * @return review
      */
-    public ReviewDTO selectOne(ReviewDTO reviewDTO) {
+    public ReviewDTO selectOne(int reviewId) {
         System.out.println("상세보기 서비스 도착");
         // 조회수 +1 시켜주는 코드
-        reviewMapper.viewPlus(reviewDTO.getReviewId());
+        reviewMapper.viewPlus(reviewId);
+        ReviewDTO review = reviewMapper.selectOne(reviewId);
 
-        return reviewMapper.selectOne(reviewDTO.getReviewId());
+        return review;
     }
+
+    public int likeUp(int reviewId) throws Exception {
+        System.out.println("좋아요 UP 서비스 도착");
+        return reviewMapper.likeUp(reviewId);
+    }
+
+    public int likeDown(int reviewId) throws Exception {
+        System.out.println("좋아요 DOWN 서비스 도착");
+        return reviewMapper.likeDown(reviewId);
+    }
+    public int dislikeUp(int reviewId) throws Exception {
+        System.out.println("싫어요 UP 서비스 도착");
+        return reviewMapper.dislikeUp(reviewId);
+    }
+    public int dislikeDown(int reviewId) throws Exception {
+        System.out.println("좋아요 UP 서비스 도착");
+        return reviewMapper.dislikeDown(reviewId);
+    }
+
+    public int count() throws Exception {
+        return reviewMapper.reviewCount();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

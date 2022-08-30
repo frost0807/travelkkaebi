@@ -7,8 +7,6 @@ import java.sql.Timestamp;
 @Builder
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class JoinMeDTO {
     private int joinMeId;
     private int userId;

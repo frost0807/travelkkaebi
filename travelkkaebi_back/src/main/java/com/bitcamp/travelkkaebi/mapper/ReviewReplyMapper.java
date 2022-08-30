@@ -3,7 +3,6 @@ package com.bitcamp.travelkkaebi.mapper;
 import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
 import org.apache.ibatis.annotations.Mapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -23,8 +22,33 @@ public interface ReviewReplyMapper {
     @Delete("DELETE FROM review_reply WHERE board_id = #{r.boardId}")
     int deletedByBoardId(@Param("r") int boardId);
 
-    @Select("SELECT review_reply_id, category_id, board_id, user_id, comment, create_time, update_time FROM review_reply" +
-            "WHERE category_id = #{r.categoryId}, board_id = #{r.boardId}")
-    List<ReviewReplyDTO> selectAllByBoardId(@Param("r") ReviewDTO reviewDTO);
+    @Results({
+            @Result(column = "review_reply_id" , property = "reviewReplyId"),
+            @Result(column = "category_id" , property = "categoryId"),
+            @Result(column = "board_id" , property = "boardId"),
+            @Result(column = "user_id" , property = "userId"),
+            @Result(column = "comment" , property = "comment"),
+            @Result(column = "create_time" , property = "createTime"),
+            @Result(column = "update_time" , property = "updateTime"),
+    })
+    @Select("SELECT * FROM review_reply WHERE category_id = 1 AND board_id = #{boardId}")
+    List<ReviewReplyDTO> selectAllByBoardId(int boardId);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
