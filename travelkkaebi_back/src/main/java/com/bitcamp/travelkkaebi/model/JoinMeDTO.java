@@ -10,7 +10,6 @@ import java.util.Calendar;
 @Builder
 @Setter
 @Getter
-@Setter
 public class JoinMeDTO {
     private int joinMeId;
     private int userId;
