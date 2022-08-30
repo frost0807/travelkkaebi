@@ -1,53 +1,55 @@
 package com.bitcamp.travelkkaebi.service;
 
-import com.bitcamp.travelkkaebi.entity.UserEntity;
-import com.bitcamp.travelkkaebi.image.ImageRepository;
-import com.bitcamp.travelkkaebi.repository.UserRepository;
-import com.bitcamp.travelkkaebi.security.TokenProvider;
 import com.bitcamp.travelkkaebi.dto.DeleteUserDTO;
 import com.bitcamp.travelkkaebi.dto.LogInDTO;
 import com.bitcamp.travelkkaebi.dto.UserDTO;
 import com.bitcamp.travelkkaebi.dto.UserUpdateDTO;
 import com.bitcamp.travelkkaebi.encode.Password;
+import com.bitcamp.travelkkaebi.entity.UserEntity;
+import com.bitcamp.travelkkaebi.repository.UserRepository;
+import com.bitcamp.travelkkaebi.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ImageRepository imageRepository;
     private final TokenProvider tokenProvider;
 
     /**
      * 회원가입 logic
      */
-    public void register(UserDTO userDTO, MultipartFile userImage) {
-        //username 중복체크 method
-        validate(userDTO.getUsername());
-        //user avatar image save
-        String profileImageFilePath = imageRepository.saveImageFile(userImage);
+    public void register(UserDTO userDTO, String uploadImageUrl) {
+        //username 및 email 중복체크 method
+        validate(userDTO.getUsername(), userDTO.getEmail());
 
         //dto, imageUrl -> entity 변환후 DB save
         UserEntity userEntity = UserDTO.toUserEntity(userDTO);
-        userEntity.setProfileImageUrl(profileImageFilePath);
+        userEntity.setProfileImageUrl(uploadImageUrl);
+
         userRepository.save(userEntity);
     }
 
-    //username 중복체크
     /**
-     * username 중복체크 logic 존재 -> true, 존재x -> false
+     * username, email, nickname 중복체크 logic 존재 -> true, 존재x -> false
      */
     public boolean usernameCheck(String username) {
         return userRepository.existsByUsername(username);
     }
 
-    private void validate(String username) {
-        if (usernameCheck(username))
+    private boolean emailCheck(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean nicknameCheck(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    private void validate(String username, String email) {
+        if (usernameCheck(username) || emailCheck(email))
             throw new RuntimeException("already exist username...");
     }
 
@@ -67,6 +69,8 @@ public class UserService {
                     .mannerDegree(findUser.getMannerDegree())
                     .id(findUser.getId())
                     .role(findUser.getRole())
+                    .profileImageUrl(findUser.getProfileImageUrl())
+                    .email(findUser.getEmail())
                     .token(token)
                     .build();
         }
@@ -77,10 +81,9 @@ public class UserService {
      * 회원정보 update logic
      */
     @Transactional
-    public void update(UserUpdateDTO userUpdateDTO, MultipartFile image) {
+    public void update(UserUpdateDTO userUpdateDTO, String uploadImageUrl) {
         UserEntity findUser = userRepository.findById(userUpdateDTO.getUserid()).orElseThrow(() -> new RuntimeException("update exception"));
-        String updateImage = imageRepository.saveImageFile(image);
-        userUpdateDTO.setProfileImageUrl(updateImage);
+        userUpdateDTO.setProfileImageUrl(uploadImageUrl);
         findUser.change(userUpdateDTO);
     }
 
@@ -93,10 +96,6 @@ public class UserService {
         if (Password.passwordMatch(deleteUserDTO.getPassword(), deleteUser.getPassword())) {
             userRepository.delete(deleteUser);
         }
-    }
-
-    public Boolean nicknameCheck(String nickname) {
-        return userRepository.existsByNickname(nickname);
     }
 
 }

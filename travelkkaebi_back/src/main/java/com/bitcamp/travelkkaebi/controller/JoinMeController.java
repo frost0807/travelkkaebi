@@ -1,22 +1,22 @@
 package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
-import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import com.bitcamp.travelkkaebi.service.JoinMeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/joinme")
 @RequiredArgsConstructor
 public class JoinMeController {
-    /*
     private final JoinMeService joinMeService;
 
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
@@ -42,9 +42,9 @@ public class JoinMeController {
     }
     //유저가 글을 썼을 때 들어온 객체를 Service로 보내고 삽입된 객체 리턴
     @PostMapping("/insert")
-    public ResponseEntity<JoinMeDTO> insert(@RequestBody JoinMeDTO joinMeDTO, @AuthenticationPrincipal int userId){
+    public ResponseEntity<JoinMeDTO> insert(@RequestBody JoinMeDTO joinMeDTO, @AuthenticationPrincipal String userId){
         try{
-            return new ResponseEntity<>(joinMeService.insert(joinMeDTO, userId), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.insert(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return null;

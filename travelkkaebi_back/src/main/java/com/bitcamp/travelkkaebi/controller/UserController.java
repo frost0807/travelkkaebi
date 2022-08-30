@@ -4,14 +4,15 @@ import com.bitcamp.travelkkaebi.dto.DeleteUserDTO;
 import com.bitcamp.travelkkaebi.dto.LogInDTO;
 import com.bitcamp.travelkkaebi.dto.UserDTO;
 import com.bitcamp.travelkkaebi.dto.UserUpdateDTO;
+import com.bitcamp.travelkkaebi.service.AwsS3service;
 import com.bitcamp.travelkkaebi.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @CrossOrigin
 @RestController
@@ -20,14 +21,15 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    private final AwsS3service awsS3service;
 
     /**
      * 회원가입 Create
      */
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestPart(value = "file", required = false) MultipartFile multipartFile,
-                                       @RequestPart(value = "userDTO") @Valid UserDTO userDTO) {
-        userService.register(userDTO, multipartFile);
+    public ResponseEntity<Void> signUp(@RequestPart(value = "file", required = false) MultipartFile image,
+                                       @RequestPart(value = "userDTO") @Valid UserDTO userDTO) throws IOException {
+        userService.register(userDTO, awsS3service.upload(image, "static"));
         return ResponseEntity.ok().build();
     }
 
@@ -60,8 +62,8 @@ public class UserController {
      */
     @PutMapping("/update")
     public ResponseEntity<Void> userUpdate(@RequestPart(value = "image", required = false) MultipartFile image,
-                                           @RequestPart UserUpdateDTO userUpdateDTO) {
-        userService.update(userUpdateDTO, image);
+                                           @RequestPart UserUpdateDTO userUpdateDTO) throws IOException {
+        userService.update(userUpdateDTO, awsS3service.upload(image, "static"));
         return ResponseEntity.ok().build();
     }
 

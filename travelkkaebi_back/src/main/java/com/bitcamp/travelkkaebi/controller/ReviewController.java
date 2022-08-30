@@ -4,22 +4,14 @@ package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.LogInDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
-import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
-import com.bitcamp.travelkkaebi.service.ReviewReplyService;
+
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.server.ExportException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/review")
@@ -140,7 +132,6 @@ public class ReviewController {
 
         try {
             likedId = reviewService.likeDown(reviewId);
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -201,11 +192,5 @@ public class ReviewController {
         }
         return new ResponseEntity(reviewCount, HttpStatus.OK);
     }
-
-
-
-
-
-
 
 }
