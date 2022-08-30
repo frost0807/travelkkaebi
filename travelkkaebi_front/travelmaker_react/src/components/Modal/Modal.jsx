@@ -45,14 +45,14 @@ function Modal({ component }) {
   const ref = useRef();
 
   useEffect(() => {
-    document.addEventListener("mousedown", onClickModalOutSide, false);
+    document.addEventListener("mousedown", onClickModalOutSide);
     return () => {
-      document.addEventListener("mousedown", onClickModalOutSide, false);
+      document.addEventListener("mousedown", onClickModalOutSide);
     };
   }, [ref]);
 
   function onClickModalOutSide(e) {
-    if (!ref.current.contains(e.target)) {
+    if (ref.current && ref.current.contains(e.target)) {
       onClose();
     }
   }

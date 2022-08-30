@@ -46,7 +46,7 @@ function Header() {
               <NavDropdown.Divider />
               <NavDropdown.Item href="Info#">기타</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="review">Review</Nav.Link>
+            <Nav.Link href="/review/1">Review</Nav.Link>
             <NavDropdown title="Party" id="basic-nav-dropdown">
               <NavDropdown.Item href="PartyMain">구인</NavDropdown.Item>
               <NavDropdown.Item href="FollowMe">같이가요</NavDropdown.Item>

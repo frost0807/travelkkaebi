@@ -10,7 +10,7 @@ function CarouselHome() {
     <Carousel>
       <Carousel.Item>
         <img
-          height={300}
+          height={600}
           width={"60%"}
         
           className="d-block w-100"
@@ -24,7 +24,7 @@ function CarouselHome() {
       </Carousel.Item>
       <Carousel.Item>
         <img
-          height={300}
+          height={600}
           width={"60%"}
           className="d-block w-100"
           src={Img2}
@@ -38,7 +38,7 @@ function CarouselHome() {
       </Carousel.Item>
       <Carousel.Item>
         <img
-          height={300}
+          height={600}
           width={"60%"}
           className="d-block w-100"
           src={Img3}

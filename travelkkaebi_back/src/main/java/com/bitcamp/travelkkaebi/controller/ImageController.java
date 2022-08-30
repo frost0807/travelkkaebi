@@ -17,10 +17,10 @@ import java.util.List;
 public class ImageController {
     private final ImageService imageService;
 
-    @GetMapping("/selectall")
-    public ResponseEntity<List> selectAll(@RequestBody ImageDTO i){
+    @PostMapping("/selectall")
+    public ResponseEntity<List> selectAll(@RequestBody ImageDTO imageDTO){
         try{
-            return new ResponseEntity<>(imageService.selectAll(i), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.selectAll(imageDTO), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return null;
@@ -28,11 +28,11 @@ public class ImageController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<ImageDTO> insert(@RequestPart(value="file", required = true)MultipartFile m,
-                                          @RequestPart(value="imageDTO")ImageDTO i,
+    public ResponseEntity<ImageDTO> insert(@RequestPart(value="file", required = true)MultipartFile multipartFile,
+                                           @RequestPart(value="imageDTO")ImageDTO imageDTO,
                                           @AuthenticationPrincipal int userId){
         try{
-            return new ResponseEntity<>(imageService.insert(m, i, userId), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.insert(multipartFile, imageDTO, userId), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,11 +40,11 @@ public class ImageController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ImageDTO> update(@RequestPart(value="file", required = true)MultipartFile m,
-                                          @RequestPart(value="imageDTO")ImageDTO i,
+    public ResponseEntity<ImageDTO> update(@RequestPart(value="file", required = true)MultipartFile multipartFile,
+                                          @RequestPart(value="imageDTO")ImageDTO imageDTO,
                                           @AuthenticationPrincipal int userId){
         try{
-            return new ResponseEntity<>(imageService.update(m, i, userId), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.update(multipartFile, imageDTO, userId), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

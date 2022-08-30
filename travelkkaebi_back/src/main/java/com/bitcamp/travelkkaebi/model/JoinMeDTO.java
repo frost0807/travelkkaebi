@@ -1,16 +1,13 @@
 package com.bitcamp.travelkkaebi.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.Column;
 import java.sql.Timestamp;
-import java.util.Calendar;
 
 @Builder
 @Setter
 @Getter
-@Setter
 public class JoinMeDTO {
     private int joinMeId;
     private int userId;
@@ -26,6 +23,6 @@ public class JoinMeDTO {
 
     private Timestamp startDate;
     private Timestamp endDate;
-    private Timestamp createDate;
-    private Timestamp updateDate;
+    private Timestamp createTime;
+    private Timestamp updateTime;
 }
