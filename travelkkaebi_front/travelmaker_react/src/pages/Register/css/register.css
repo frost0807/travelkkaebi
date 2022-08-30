@@ -78,9 +78,8 @@
   word-spacing: normal;
   text-align: start;
   display: inline-block;
-  appearance: auto;
   cursor: text;
-}
+} /*appearance: auto;*/
 
 b {
   float: left;

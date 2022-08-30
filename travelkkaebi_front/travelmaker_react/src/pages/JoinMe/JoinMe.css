@@ -1,0 +1,42 @@
+.post-card {
+  width: 14rem;
+  height: 18rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px 0px rgb(98, 98, 98);
+  overflow: hidden;
+  transition-property: scale, top;
+  transition-duration: 2s, 2s;
+  padding: 10px;
+  display: block;
+  cursor: pointer;
+}
+.post-card:hover,
+.post-card:focus {
+  top: -6px;
+  box-shadow: 1px 4px 8px 1px rgb(98, 98, 98);
+  transform: scale(1);
+}
+
+.join-form-container {
+  margin-top: 10px;
+  max-height: 30rem;
+  height: 30rem;
+  max-width: 52rem;
+}
+.join-form-container label {
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+}
+
+.join-btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 80px;
+}
+.join-form-date {
+  padding-bottom: 10px;
+}
+
+.heart-btn {
+  float: right;
+}

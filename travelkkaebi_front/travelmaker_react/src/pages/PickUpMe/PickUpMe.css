@@ -1,0 +1,15 @@
+.post-card {
+  width: 14rem;
+  height: 18rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px 0px rgb(98, 98, 98);
+  overflow: hidden;
+  transition-property: scale,top;
+  transition-duration: 2s,2s;
+  padding: 10px;
+}
+.post-card:hover, .post-card:focus {
+  top: -6px;
+  box-shadow: 1px 4px 8px 1px rgb(98, 98, 98);
+  transform: scale(1);
+}
