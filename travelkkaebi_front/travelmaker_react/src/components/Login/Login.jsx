@@ -39,6 +39,7 @@ function Login({ isOpen, close }) {
         localStorage.setItem("role", res.data.role);
         // role
         alert("👹 로그인 되었습니다. ");
+        window.location.reload();
         navi("/");
       })
       .catch((error) => {
@@ -66,71 +67,72 @@ function Login({ isOpen, close }) {
   // 이벤트 전파를 막고 싶은 요소에 넣는다.
   // 참고사이트 https://velog.io/@tlatjdgh3778/React%EC%97%90%EC%84%9C-Modal-%EA%B5%AC%ED%98%84
   return (
-    <>
-      {isOpen ? (
-        <Background>
-          <ModalContainer onClick={(e) => e.stopPropagation()}>
-            <FormBox>
-              <form onSubmit={formSubmit} className="loginform">
-                <img alt="도깨비" src={Logo} style={{ width: "100px" }} />
+    <FormBox>
+      <form onSubmit={formSubmit} className="loginform">
+        <img alt="도깨비" src={Logo} style={{ width: "100px" }} />
 
-                <Typography component="h1" variant="h5">
-                  <p style={{ margin: "5px", color: "#ccc" }}> 로그인</p>
-                </Typography>
-                <InputBox>
-                  <InputField
-                    className="InputField"
-                    type="text"
-                    id="username"
-                    name="username"
-                    autoComplete="off"
-                    required
-                    maxLength="16"
-                  />
-                  <label>아이디</label>
-                </InputBox>
+        <Typography component="h1" variant="h5">
+          <p style={{ margin: "5px", color: "#ccc" }}> 로그인</p>
+        </Typography>
+        <InputBox>
+          <InputField
+            className="InputField"
+            type="text"
+            id="username"
+            name="username"
+            autoComplete="off"
+            required
+            maxLength="16"
+          />
+          <label>아이디</label>
+        </InputBox>
 
-                <InputBox>
-                  <InputField
-                    className="InputField"
-                    type="password"
-                    id="password"
-                    name="password"
-                    autoComplete="off"
-                    required
-                    maxLength="16"
-                  />
-                  <label>비밀번호</label>
-                </InputBox>
+        <InputBox>
+          <InputField
+            className="InputField"
+            type="password"
+            id="password"
+            name="password"
+            autoComplete="off"
+            required
+            maxLength="16"
+          />
+          <label>비밀번호</label>
+        </InputBox>
 
-                <div style={{ marginTop: "40px" }}>
-                  <Btn
-                    className="Formbtn"
-                    type="submit"
-                    onClick={console.log("login btn evnt!")}
-                  >
-                    LOGIN
-                  </Btn>
-                </div>
-                <FormFooter>
-                  <a href="/forgotPassword">Forgot Password? </a>/
-                  <a href="/register"> Register</a>
-                </FormFooter>
+        <div style={{ marginTop: "40px" }}>
+          <Btn
+            className="Formbtn"
+            type="submit"
+            onClick={console.log("login btn evnt!")}
+          >
+            LOGIN
+          </Btn>
+        </div>
+        <FormFooter>
+          <a href="/forgotPassword">Forgot Password? </a>/
+          <a href="/register"> Register</a>
+        </FormFooter>
 
-                <SnsLine>SNS</SnsLine>
-                <div className="sns_log">
-                  <button type="button" onClick={kakaoLoginEvent}>
-                    <img alt="카카오로그인" src={kakaoLogin} />
-                  </button>
-                </div>
-              </form>
-            </FormBox>
-            <Closebtn onClick={close} />
-          </ModalContainer>
-        </Background>
-      ) : null}
-    </>
+        <SnsLine>SNS</SnsLine>
+        <div className="sns_log">
+          <button type="button" onClick={kakaoLoginEvent}>
+            <img alt="카카오로그인" src={kakaoLogin} />
+          </button>
+        </div>
+      </form>
+    </FormBox>
   );
 }
 
 export default Login;
+
+/*
+    <Background>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+
+<Closebtn onClick={close} />
+      </ModalContainer>
+    </Background>
+
+    */

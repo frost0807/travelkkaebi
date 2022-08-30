@@ -34,6 +34,12 @@
 ✔️ accessToken 은 인증용 토큰 
       refreshToken 은 만료된 토큰을 갱신하기 위해 사용하는 토큰
 
+📌 라이브러리/CDN 추가
+ - 0826 Lib = [ zustand ]
+ - 0827 Lib = [ react-js-pagination ]  CDN = 구글폰트
+ - 0828 Lib = [ react-bootstrap, quill,@mui/x-date-pickers-pro ] (card)
+ - 0829 Lib = [ Recoil ]
+
 
 ❗조회수 이슈
 - 클라이언트에서 글을 눌렀을 때, 단순히 server쪽에서 view(조회수) 의 count + 1 을 하고
@@ -48,6 +54,38 @@
 
  * 0824
   - 회원가입 프로필 이미지 undefind
-  * 0826
-   - 회원가입 file input 2번 뜨는거 완료 ( label 컴포넌트 안에 인풋으로 불러와서 생김 => 라벨컴포넌트 삭제, input 태크 뒤에 button )
+
+* 0826
+   - 회원가입 file input 2번 뜨는거 완료 ( label 컴포넌트 안에 인풋으로 불러와서 생김 => 라벨컴포넌트 삭제, input 태그 뒤에 button )
    - 전역 상태관리를 위해 zustand 라이브러리 install [ redux 의 이슈때문에 pass / context api : 모든 자식컴포넌트의 랜더링 이슈 ]
+
+* 0827
+ - JoinMe / PickUpMe 게시판 list ( css : X / api랑 ui 기능만 작업 )
+    * List Page는 ui 다른 게 없으므로 재사용 [ 가로 5 * 세로 4 로 바꿈 = 사이드바 사라짐 ]
+ - Pagenation Component 추가
+ [https://velog.io/@eunjitech/react-js-pagination-pagination-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0]
+❓pagenation 의 숫자 이슈 
+   데이터의 시작점과 종료점을 react에선 어떻게 알고 pagenation을 구현해야할지
+   data의 총 갯수를 알아야 pagenation 숫자를 나눌텐데... 이건 얘기해보고 좀 더 찾아봐야 할 듯? (잘 안나옴)
+   - 미완 (controller에서 table의 총 갯수를 받아올 지, 어떻게 할 지.. 찾는데 시간이 너무 오래걸림)]
+   서버에서  총페이지갯수
+
+* 0828
+ - JoinMe / PickUpMe 상세보기 -> 렌더링 이슈 -> redux or recoil 사용해야 할 듯
+ - Like Component ( 별다른 css : X / api test : X )
+ - JoinMe / PickUpMe 글쓰기 page
+ - 렌더링 이슈로 다시.. * 전역상태관리 * 이거 하나가 시간 다 잡아먹음
+
+      금주 목표 (css 제외 기능 구현)
+     💭 [ 0829 - 0902 ] 좋아요/joinme/pickupme/키워드 api까지 완성 ,전역상태관리 해결
+     💭 [ 0903- 0904 ] Mypage/아바타 눌렀을 때, 회원정보 볼 수 있는 기능
+      차주 (태그기능,채팅)
+
+* 0829
+ - react-quill image upload와 넘길 데이터 값이 null 로 찍힘
+- Recoil install
+
+* 0830
+- navbar 오른쪽 아이콘들 (search 제외) => login null 이면 login / 회원가입 버튼만 보여주게 한다 => 인프런 okky 방식
+- ref 아웃사이드 창 클릭시 콘솔찍히는 이슈
+- 일단 rerender 이슈없이 모달구현 완료
