@@ -3,7 +3,6 @@ package com.bitcamp.travelkkaebi.controller;
 
 
 import com.bitcamp.travelkkaebi.dto.LogInDTO;
-import com.bitcamp.travelkkaebi.model.ResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
 import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
