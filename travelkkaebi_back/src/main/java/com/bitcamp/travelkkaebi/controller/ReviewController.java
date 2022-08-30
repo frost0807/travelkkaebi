@@ -79,28 +79,29 @@ public class ReviewController {
      * 게시글 리스트 출력
      */
     @GetMapping("/selectallbypage")
-    private List<ReviewDTO> selectAll() {
+    private ResponseEntity selectAll() {
+        List<ReviewDTO> reviewList;
         System.out.println("게시글 리스트 컨트롤러 들어왔어요");
+
        try {
-            List<ReviewDTO> reviewList = reviewService.selectAllByPage(1);
-           // return new ResponseEntity(reviewList, HttpStatus.OK);
-           return reviewList;
-        } catch (Exception e) {
+            reviewList = reviewService.selectAllByPage(1);
+       } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
+       }
+       return new ResponseEntity(reviewList, HttpStatus.OK);
     }
 
     /**
      * 게시글 상세보기
      */
     @GetMapping("/selectone")
-    private ResponseEntity selectOne(@RequestParam ReviewDTO reviewDTO) {
+    private ResponseEntity selectOne(@RequestParam int reviewId) {
         ReviewDTO review;
         System.out.println("게시물 상세보기 컨트롤러 도착");
 
         try {
-            review = reviewService.selectOne(reviewDTO);
+            review = reviewService.selectOne(reviewId);
 
         } catch (Exception e) {
             e.printStackTrace();

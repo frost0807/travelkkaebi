@@ -128,14 +128,15 @@ public class ReviewService {
 
     /**
      * 게시글 상세보기
-     * @param reviewDTO
+     * @param ReviewId
      * @return review
      */
-    public ReviewDTO selectOne(ReviewDTO reviewDTO) {
+    public ReviewDTO selectOne(int ReviewId) {
         System.out.println("상세보기 서비스 도착");
         // 조회수 +1 시켜주는 코드
-        reviewMapper.viewPlus(reviewDTO.getReviewId());
-        ReviewDTO review = reviewMapper.selectOne(reviewDTO.getReviewId());
+        reviewMapper.viewPlus(ReviewId);
+        ReviewDTO review = reviewMapper.selectOne(ReviewId);
+
 
 
         return review;
