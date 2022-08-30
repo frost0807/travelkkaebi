@@ -90,15 +90,15 @@ public class ReviewReplyService {
 
     /**
      * 댓글 조회
-     * @param review
+     * @param boardId
      * @return list
      */
-    public List<ReviewReplyDTO> selectOne(ReviewDTO review) {
+    public List<ReviewReplyDTO> selectOne(int boardId) {
         List<ReviewReplyDTO> list;
 
-        if(review != null) {
+        if(boardId != 0) {
             try {
-                list = replyMapper.selectAllByBoardId(review);
+                list = replyMapper.selectAllByBoardId(boardId);
 
             } catch (Exception e) {
                 e.printStackTrace();

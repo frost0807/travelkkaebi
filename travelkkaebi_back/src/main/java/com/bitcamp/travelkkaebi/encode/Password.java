@@ -21,11 +21,4 @@ public class Password {
         return passwordEncoder.matches(password, originalPassword);
     }
 
-    /**
-     * 회원가입시 패스워드 2차검증 method
-     */
-    public static void passwordSameCheck(String password, String secondPassword) {
-        if (!password.equals(secondPassword))
-            throw new RuntimeException("password Inconsistency...");
-    }
 }

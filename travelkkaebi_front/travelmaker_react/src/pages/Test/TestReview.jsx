@@ -23,7 +23,7 @@ function TestReview() {
 
   // 시작시 호출되는 함수
   const pageList=()=>{
-    axios.get( API_BASE_URL+"/selectAllByPage1" )
+    axios.get( API_BASE_URL+"/selectallbypage" )
     .then(res=>{
       setData(res.data.reviewList);
     })

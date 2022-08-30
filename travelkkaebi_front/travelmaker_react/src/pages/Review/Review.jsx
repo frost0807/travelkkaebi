@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { API_BASE_URL } from '../../config';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
@@ -13,21 +14,25 @@ function Review() {
 
   const [show, setShow] = useState(1);
 
-  const [data, setData]=useState('');
+  const [data, setData]=useState([]);
   const navi = useNavigate();
 
   // 현재 페이지 번호
   const { currentPage }=useParams();
 
-  // url선언
-  let pagelistUrl = process.env.REACT_APP_SPRING_URL + 'board/pagelist?currentPage=' + currentPage;
+  // url선언 (미사용)
+  let pagelistUrl = process.env.REACT_APP_SPRING_URL + 'review/pagelist?currentPage=' + currentPage;
   let photoUrl  = process.env.REACT_APP_SPRING_URL + 'save/';
 
   // 시작시 호출되는 함수
   const pageList=()=>{
-    axios.get(pagelistUrl)
+    axios.get(API_BASE_URL+"/review/selectallbypage",
+    {params : {
+      pageNo : currentPage }
+    })
     .then(res=>{
       setData(res.data);
+      console.log(res.data);
     })
   }
 
@@ -65,19 +70,16 @@ function Review() {
           {
             /* https://maggie-a.tistory.com/220 TypeError: Cannot read property 'map' of null
             */
-            data && data.list.map((row, idx)=>(
+            data && data.map((row, idx)=>(
               <tr>
-                <td>{data.no - idx}</td>
+                <td key={row.revieId}>{row.reviewId}</td>
                 <td onClick={()=>{
-                  navi(`/board/detail/${row.num}/${currentPage}`)
+                  navi(`/review/detail/${row.reviewId}`)
                 }} style={{ cursor:'pointer' }}>
-                  <img alt='' className='photo_small'
-                  src={photoUrl + row.photo} style={{ borderRadius:'50px', border:'none' }}/>
-                  
-                  <b>{row.subject}</b>
+                  {row.title}
                 </td>
-                <td>{row.name}</td>
-                <td>{row.readcount}</td>
+                <td>{row.userId}</td>
+                <td>{row.view}</td>
               </tr>
             ))
           }
@@ -89,11 +91,11 @@ function Review() {
           <ul className='pagination'>
           {
             (data.startPage > 1 ? <li>
-              <Link to={ `/board/list/${data.startPage-1}` }>이전</Link></li>:'')
+              <Link to={ `/review/list/${data.startPage-1}` }>이전</Link></li>:'')
           }  
           {
             data.parr && data.parr.map(n=>{
-              const url = '/board/list/' + n;
+              const url = '/review/list/' + n;
               return (
                 <li>
                   <Link to={url}>
@@ -133,7 +135,7 @@ function Review() {
           <button type='button' className='btn btn-info'
           style={{ width:'110px', marginTop:'10px' }}
           onClick={()=>{
-            navi("/board/form");
+            navi("/review/form");
           }}>글쓰기</button>
 
           <div className='list-icon'>

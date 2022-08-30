@@ -5,7 +5,6 @@ import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +30,7 @@ public class LikeOrDislikeService {
             return null;
         }
     }
+
     //좋아요-싫어요 테이블 생성후 id리턴
     public int insert(LikeOrDislikeDTO l) throws Exception{
         try{
