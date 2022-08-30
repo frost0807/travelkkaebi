@@ -27,7 +27,7 @@ public class TokenProvider {
      */
     public String create(UserEntity userEntity) {
         // 기한 설정
-        Date expiryDate = Date.from(Instant.now().plus(5, ChronoUnit.MINUTES));
+        Date expiryDate = Date.from(Instant.now().plus(12, ChronoUnit.HOURS));
         // JWT 토큰 생성
         return Jwts.builder()
                 //헤더(header) 에 들어갈 내용 및 서명을 하기위한 SECRET KEY

@@ -65,4 +65,5 @@ public class UserEntity extends BaseEntity {
         this.phone = userUpdateDTO.getPhone();
         this.nickname = userUpdateDTO.getNickname();
     }
+
 }
