@@ -2,13 +2,12 @@ package com.bitcamp.travelkkaebi.controller;
 // 후기 게시판
 
 
-import com.bitcamp.travelkkaebi.dto.LogInDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -75,13 +74,13 @@ public class ReviewController {
         List<ReviewDTO> reviewList;
         System.out.println("게시글 리스트 컨트롤러 들어왔어요");
 
-       try {
+        try {
             reviewList = reviewService.selectAllByPage(pageNo);
-       } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-       }
-       return new ResponseEntity(reviewList, HttpStatus.OK);
+        }
+        return new ResponseEntity(reviewList, HttpStatus.OK);
     }
 
     /**
@@ -107,7 +106,7 @@ public class ReviewController {
      * 게시물 좋아요 Up
      */
     @GetMapping("/likeup")
-    private ResponseEntity likeUp (@RequestParam int reviewId) {
+    private ResponseEntity likeUp(@RequestParam int reviewId) {
         int likedId;
         System.out.println("게시물 좋아요 Up 컨트롤러 도착");
 
@@ -126,7 +125,7 @@ public class ReviewController {
      * 게시물 좋아요 Down
      */
     @GetMapping("/likedown")
-    private ResponseEntity likeDown (@RequestParam int reviewId) {
+    private ResponseEntity likeDown(@RequestParam int reviewId) {
         int likedId;
         System.out.println("게시물 좋아요 DOWN 컨트롤러 도착");
 
@@ -144,7 +143,7 @@ public class ReviewController {
      * 게시물 싫어요 UP
      */
     @GetMapping("/dislikeup")
-    private ResponseEntity dislikeUp (@RequestParam int reviewId) {
+    private ResponseEntity dislikeUp(@RequestParam int reviewId) {
         int likedId;
         System.out.println("게시물 싫어요 UP 컨트롤러 도착");
 
@@ -163,7 +162,7 @@ public class ReviewController {
      * 게시물 싫어요 DOWN
      */
     @GetMapping("/dislikedown")
-    private ResponseEntity dislikeDown (@RequestParam int reviewId) {
+    private ResponseEntity dislikeDown(@RequestParam int reviewId) {
         int likedId;
         System.out.println("게시물 싫어요 DOWN 컨트롤러 도착");
 
@@ -182,11 +181,11 @@ public class ReviewController {
      * 게시물 갯수 반환
      */
     @GetMapping("count")
-    private ResponseEntity count () {
+    private ResponseEntity count() {
         int reviewCount;
         try {
             reviewCount = reviewService.count();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
