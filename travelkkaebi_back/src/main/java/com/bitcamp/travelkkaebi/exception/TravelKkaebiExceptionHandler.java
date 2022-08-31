@@ -11,6 +11,16 @@ import java.sql.SQLException;
 @RestControllerAdvice
 public class TravelKkaebiExceptionHandler {
     @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(RuntimeException e){
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                e.getMessage(),
+                System.currentTimeMillis());
+
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(KkaebiException e){
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),

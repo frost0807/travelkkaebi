@@ -15,6 +15,7 @@
 
     <typeAliases>
         <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeDTO" alias="JoinMeDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeApplyDTO" alias="JoinMeApplyDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ImageDTO" alias="ImageDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.TravelMapDTO" alias="TravelMapDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO" alias="LikeOrDislikeDTO"></typeAlias>

@@ -28,11 +28,11 @@ public class ImageController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<ImageDTO> insert(@RequestPart(value="file", required = true)MultipartFile multipartFile,
+    public ResponseEntity<ImageDTO> insert(@RequestPart(value="file")MultipartFile multipartFile,
                                            @RequestPart(value="imageDTO")ImageDTO imageDTO,
-                                          @AuthenticationPrincipal int userId){
+                                          @AuthenticationPrincipal String userId){
         try{
-            return new ResponseEntity<>(imageService.insert(multipartFile, imageDTO, userId), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.insert(multipartFile, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,11 +40,11 @@ public class ImageController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ImageDTO> update(@RequestPart(value="file", required = true)MultipartFile multipartFile,
+    public ResponseEntity<ImageDTO> update(@RequestPart(value="file")MultipartFile multipartFile,
                                           @RequestPart(value="imageDTO")ImageDTO imageDTO,
-                                          @AuthenticationPrincipal int userId){
+                                          @AuthenticationPrincipal String userId){
         try{
-            return new ResponseEntity<>(imageService.update(multipartFile, imageDTO, userId), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.update(multipartFile, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,9 +53,9 @@ public class ImageController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Integer> delete(@RequestParam int imageId,
-                                          @AuthenticationPrincipal int userId){
+                                          @AuthenticationPrincipal String userId){
         try{
-            return new ResponseEntity<>(imageService.delete(imageId, userId), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.delete(imageId, Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(0, HttpStatus.OK);

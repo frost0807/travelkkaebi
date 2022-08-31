@@ -18,6 +18,7 @@ public class JoinMeDTO {
     private String region;
     private int charge;
     private int capacity;
+    private int currentMemberCount;
     private int likeCount;
     private boolean closed;
 

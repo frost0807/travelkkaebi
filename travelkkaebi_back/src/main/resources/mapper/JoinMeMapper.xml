@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.JoinMeMapper">
 
+    <select id="getCount" resultType="int">
+        SELECT COUNT(*) FROM board_join_me
+    </select>
+
     <select id="selectOne" parameterType="int" resultType="JoinMeDTO">
         SELECT * FROM board_join_me WHERE join_me_id=#{joinMeId}
     </select>
@@ -21,24 +25,14 @@
         WHERE join_me_id=#{joinMeId}
     </update>
 
-    <update id="viewPlus" parameterType="int">
-        UPDATE board_join_me SET view=view+1 WHERE join_me_id=#{joinMeId}
+    <update id="updateSelectOne" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeDTO">
+        UPDATE board_join_me SET view=view+1, like_count=#{likeCount}
+        WHERE join_me_id=#{joinMeId}
     </update>
 
-    <update id="likePlus" parameterType="int">
-        UPDATE board_join_me SET like_count=like_count+1 WHERE join_me_id=#{joinMeId}
-    </update>
-
-    <update id="likeMinus" parameterType="int">
-        UPDATE board_join_me SET like_count=like_count-1 WHERE join_me_id=#{joinMeId}
-    </update>
-
-    <update id="dislikePlus" parameterType="int">
-        UPDATE board_join_me SET dislike_count=dislike_count+1 WHERE join_me_id=#{joinMeId}
-    </update>
-
-    <update id="dislikeMinus" parameterType="int">
-        UPDATE board_join_me SET dislike_count=dislike_count-1 WHERE join_me_id=#{joinMeId}
+    <update id="updateClosed" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="int">
+        UPDATE board_join_me SET closed=1
+        WHERE join_me_id = #{joinMeId}
     </update>
 
     <delete id="delete" parameterType="int">

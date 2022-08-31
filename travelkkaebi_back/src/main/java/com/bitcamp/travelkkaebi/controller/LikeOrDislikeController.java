@@ -17,10 +17,11 @@ public class LikeOrDislikeController {
     private final LikeOrDislikeService likeOrDislikeService;
 
     @PostMapping("/selectone")
-    public ResponseEntity<LikeOrDislikeDTO> selectOne(@RequestBody LikeOrDislikeDTO l){
+    public ResponseEntity<LikeOrDislikeDTO> selectOne(@RequestBody LikeOrDislikeDTO likeOrDislikeDTO,
+                                                      @AuthenticationPrincipal String userId){
         try{
-            int userId=11;
-            return new ResponseEntity<>(likeOrDislikeService.selectOne(l, userId), HttpStatus.OK);
+            return new ResponseEntity<>(likeOrDislikeService.selectOne(likeOrDislikeDTO,
+                    Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return null;
@@ -28,10 +29,11 @@ public class LikeOrDislikeController {
     }
 
     @PutMapping("/clicklike")
-    public ResponseEntity<LikeOrDislikeDTO> clickLike(@RequestBody LikeOrDislikeDTO l){
+    public ResponseEntity<LikeOrDislikeDTO> clickLike(@RequestBody LikeOrDislikeDTO likeOrDislikeDTO,
+                                                      @AuthenticationPrincipal String userId){
         try{
-            int userId = 11;
-            return new ResponseEntity<>(likeOrDislikeService.clickLike(l, userId), HttpStatus.OK);
+            return new ResponseEntity<>(likeOrDislikeService.clickLike(likeOrDislikeDTO,
+                    Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return null;
@@ -39,20 +41,11 @@ public class LikeOrDislikeController {
     }
 
     @PutMapping("/clickdislike")
-    public ResponseEntity<LikeOrDislikeDTO> clickDislike(@RequestBody LikeOrDislikeDTO l){
+    public ResponseEntity<LikeOrDislikeDTO> clickDislike(@RequestBody LikeOrDislikeDTO likeOrDislikeDTO,
+                                                         @AuthenticationPrincipal String userId){
         try{
-            int userId = 11;
-            return new ResponseEntity<>(likeOrDislikeService.clickDislike(l, userId), HttpStatus.OK);
-        } catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @PostMapping("/getcount")
-    public ResponseEntity<HashMap<String, Integer>> getCount(@RequestBody LikeOrDislikeDTO likeOrDislikeDTO){
-        try{
-            return new ResponseEntity<>(likeOrDislikeService.getCount(likeOrDislikeDTO), HttpStatus.OK);
+            return new ResponseEntity<>(likeOrDislikeService.clickDislike(likeOrDislikeDTO,
+                    Integer.parseInt(userId)), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return null;

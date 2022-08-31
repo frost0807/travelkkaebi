@@ -9,12 +9,12 @@ import java.util.List;
 
 @Mapper
 public interface JoinMeMapper {
-
+    int getCount();
     List<JoinMeDTO> selectAllByPage(HashMap<String, Integer> pageMap);
     JoinMeDTO selectOne(int joinMeId);
     int insert(JoinMeDTO joinMeDTO);
     int update(JoinMeDTO joinMeDTO);
-    int viewPlus(int joinMeId);
-    int likePlus(int joinMeId);
+    int updateSelectOne(JoinMeDTO joinMeDTO);
+    int updateClosed(JoinMeDTO joinMeDTO);
     int delete(int joinMeId);
 }
