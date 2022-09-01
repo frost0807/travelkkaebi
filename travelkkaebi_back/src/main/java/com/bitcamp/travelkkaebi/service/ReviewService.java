@@ -1,11 +1,14 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
+import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,17 +23,17 @@ public class ReviewService {
 
     /**
      * 게시글 등록
-     * @param review
+     * @param reviewDTO
      * @param userId
      * @return writtenReviewId
      */
-    public int writeReview(ReviewDTO review, int userId) {
+    public int writeReview(ReviewDTO reviewDTO, int userId) {
 
         int writtenId;
 
         try {
-            review.setUserId(userId);
-            writtenId = reviewMapper.insert(review);
+            reviewDTO.setUserId(userId);
+            writtenId = reviewMapper.insert(reviewDTO);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,6 +48,7 @@ public class ReviewService {
      * @param userId
      * @return updatedReviewId
      */
+    @Transactional
     public int update(ReviewDTO review, int userId) {
         int updatedReviewId;
 
@@ -63,20 +67,20 @@ public class ReviewService {
         return updatedReviewId;
     }
 
-
     /**
      * 게시글 삭제
      * @param review
-     * //@param userId
+     * @param userId
      * @return deletedReviewId;
      */
-    public int delete(ReviewDTO review) {
+    @Transactional
+    public int delete(ReviewDTO review, int userId) {
         System.out.println("게시글 삭제 서비스 도착");
         System.out.println(review.getReviewId());
 
         int deletedReviewId;
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
-        if (review.getUserId() != 0) {
+        if (review.getUserId() == userId) {
             try {
                 deletedReviewId = reviewMapper.delete(review.getReviewId());
 
@@ -97,9 +101,9 @@ public class ReviewService {
     /**
      * 게시글 리스트 출력
      */
-    public List<ReviewDTO> selectAllByPage(int pageNo) {
+    public List<ReviewResponseDTO> selectAllByPage(int pageNo) {
         System.out.println("게시글 리스트 서비스 들어왔어요!");
-        List<ReviewDTO> list;
+        List<ReviewResponseDTO> list;
 
         try {
             HashMap<String, Integer> pageMap = new HashMap<>();
@@ -115,10 +119,6 @@ public class ReviewService {
             return null;
         }
 
-        // 작성자 닉네임 보여주기 위한 코드는
-        // userService에서 가져오려고 지금은 임시로 식별자(writerId)를 보여줄 예정
-        //HashMap<Integer, String> nicknameMap = new HashMap<>();
-
         return list;
     }
 
@@ -127,38 +127,51 @@ public class ReviewService {
      * @param reviewId
      * @return review
      */
-    public ReviewDTO selectOne(int reviewId) {
+    public ReviewResponseDTO selectOne(int reviewId) {
+        LikeOrDislikeDTO likeOrDislike = null;
         System.out.println("상세보기 서비스 도착");
+
         // 조회수 +1 시켜주는 코드
         reviewMapper.viewPlus(reviewId);
-        ReviewDTO review = reviewMapper.selectOne(reviewId);
+        ReviewResponseDTO review = reviewMapper.selectOne(reviewId);
+
+        // 좋아요, 싫어요 갯수 업데이트
+        likeOrDislike.setCategoryId(review.getCategoryId());
+        likeOrDislike.setBoardId(review.getReviewId());
+        HashMap<String, Integer> countMap = likeOrDislikeService.getCount(likeOrDislike);
+
+        review.setLikeCount(countMap.get("like"));
+        review.setDislikeCount(countMap.get("dislike"));
 
         return review;
     }
 
-    public int likeUp(int reviewId) throws Exception {
-        System.out.println("좋아요 UP 서비스 도착");
-        return reviewMapper.likeUp(reviewId);
-    }
 
-    public int likeDown(int reviewId) throws Exception {
-        System.out.println("좋아요 DOWN 서비스 도착");
-        return reviewMapper.likeDown(reviewId);
-    }
-    public int dislikeUp(int reviewId) throws Exception {
-        System.out.println("싫어요 UP 서비스 도착");
-        return reviewMapper.dislikeUp(reviewId);
-    }
-    public int dislikeDown(int reviewId) throws Exception {
-        System.out.println("좋아요 UP 서비스 도착");
-        return reviewMapper.dislikeDown(reviewId);
-    }
-
+    /**
+     * 전체 게시글 갯수 리턴
+     */
     public int count() throws Exception {
         return reviewMapper.reviewCount();
     }
 
+    /**
+     * selectAll (전체보기) 할 때 페이지 수 리턴
+     */
+    public int pageCount() throws Exception {
+        int total = reviewMapper.reviewCount();
 
+        if(total % PAGE_SIZE == 0) {
+            return total / PAGE_SIZE;
+        } else {
+            return (total / PAGE_SIZE) + 1;
+        }
+    }
+
+    /*
+    public List<ReviewDTO> searchByTitle(String title) {
+        String searchTitle = reviewMapper.
+
+    } */
 
 
 
