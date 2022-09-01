@@ -47,7 +47,7 @@ public class LikeOrDislikeService {
     }
 
     //게시물의 좋아요를 클릭했을 때 실행 할 메소드
-    public LikeOrDislikeDTO clickLike(LikeOrDislikeDTO l, int userId) {
+    public LikeOrDislikeDTO clickLike(LikeOrDislikeDTO l, int userId) throws Exception{
         try{
             //로그인한 유저의 식별자를 삽입(중간에 가로채서 접근할 수 있으므로 userId갱신)
             l.setUserId(userId);
@@ -73,7 +73,7 @@ public class LikeOrDislikeService {
         }
     }
     //게시물의 싫어요를 클릭했을 때 실행 할 메소드
-    public LikeOrDislikeDTO clickDislike(LikeOrDislikeDTO l, int userId) {
+    public LikeOrDislikeDTO clickDislike(LikeOrDislikeDTO l, int userId) throws Exception{
         try{
             //로그인한 유저의 식별자를 삽입
             l.setUserId(userId);
@@ -98,7 +98,7 @@ public class LikeOrDislikeService {
         }
     }
     //게시물의 좋아요, 싫어요 갯수를 리턴해주는 메소드
-    public HashMap<String, Integer> getCount(LikeOrDislikeDTO likeOrDislikeDTO){
+    public HashMap<String, Integer> getCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
         HashMap<String, Integer> countMap = new HashMap<>();
         countMap.put("like", likeOrDislikeMapper.getLikeCount(likeOrDislikeDTO));
         countMap.put("dislike", likeOrDislikeMapper.getDislikeCount(likeOrDislikeDTO));

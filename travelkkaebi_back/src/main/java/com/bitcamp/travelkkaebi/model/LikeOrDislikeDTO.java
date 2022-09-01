@@ -2,7 +2,7 @@ package com.bitcamp.travelkkaebi.model;
 
 import lombok.*;
 
-
+@Builder
 @Getter
 @Setter
 public class LikeOrDislikeDTO {

@@ -14,7 +14,11 @@
     </settings>
 
     <typeAliases>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndKeywordDTO" alias="PageAndKeywordDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeDTO" alias="JoinMeDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTO" alias="JoinMeListDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeOneDTO" alias="JoinMeOneDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeApplyDTO" alias="JoinMeApplyDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ImageDTO" alias="ImageDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.TravelMapDTO" alias="TravelMapDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO" alias="LikeOrDislikeDTO"></typeAlias>

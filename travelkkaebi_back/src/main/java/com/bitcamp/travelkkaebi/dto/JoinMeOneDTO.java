@@ -1,25 +1,28 @@
-package com.bitcamp.travelkkaebi.model;
+package com.bitcamp.travelkkaebi.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 
-@Builder
-@Setter
 @Getter
-public class JoinMeDTO {
+@Setter
+public class JoinMeOneDTO {
     private int joinMeId;
     private int userId;
     private int categoryId;
     private int view;
-    private String title;
-    private String content;
-    private String region;
     private int charge;
     private int capacity;
     private int currentMemberCount;
     private int likeCount;
+    private int mannerDegree;
+
+    private String nickname;
+    private String title;
+    private String content;
+    private String region;
+
     private boolean closed;
 
     private Timestamp startDate;
