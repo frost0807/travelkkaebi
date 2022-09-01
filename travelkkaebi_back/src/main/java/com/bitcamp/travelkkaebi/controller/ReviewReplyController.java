@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.controller;
 
+import com.bitcamp.travelkkaebi.dto.ReviewReplyResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.model.ReviewReplyDTO;
 import com.bitcamp.travelkkaebi.service.ReviewReplyService;
@@ -22,9 +23,9 @@ public class ReviewReplyController {
      * 댓글 작성
      */
     @PostMapping("/write")
-    public ResponseEntity replyWrite(@RequestPart ReviewReplyDTO reviewReplyDTO, @RequestPart ReviewDTO reviewDTO, Integer userId) {
+    public ResponseEntity replyWrite(@RequestPart ReviewReplyDTO reviewReplyDTO, @RequestPart ReviewDTO reviewDTO, @AuthenticationPrincipal String userId) {
         try {
-            int replyId = reviewReplyService.writeReply(reviewReplyDTO, reviewDTO, 1);
+            int replyId = reviewReplyService.writeReply(reviewReplyDTO, reviewDTO, Integer.parseInt(userId));
             return new ResponseEntity(replyId, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -38,9 +39,9 @@ public class ReviewReplyController {
      * 댓글 수정
      */
     @PutMapping("/update")
-    private ResponseEntity replyUpdate(@RequestBody ReviewReplyDTO reviewReplyDTO, @AuthenticationPrincipal int userId) {
+    private ResponseEntity replyUpdate(@RequestBody ReviewReplyDTO reviewReplyDTO, @AuthenticationPrincipal String userId) {
         try {
-            int replyId = reviewReplyService.update(reviewReplyDTO, userId);
+            int replyId = reviewReplyService.update(reviewReplyDTO, Integer.parseInt(userId));
             return new ResponseEntity(replyId, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -53,9 +54,9 @@ public class ReviewReplyController {
      * 댓글 삭제
      */
     @DeleteMapping("/delete")
-    private ResponseEntity replyDelete(@RequestBody ReviewReplyDTO reply, @AuthenticationPrincipal int userId) {
+    private ResponseEntity replyDelete(@RequestBody ReviewReplyDTO reply, @AuthenticationPrincipal String userId) {
         try {
-            int replyId = reviewReplyService.delete(reply, userId);
+            int replyId = reviewReplyService.delete(reply, Integer.parseInt(userId));
             return new ResponseEntity(replyId, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -69,7 +70,7 @@ public class ReviewReplyController {
      */
     @GetMapping("/selectbyreview")
     private ResponseEntity selectByReview(@RequestParam int reviewId) {
-        List<ReviewReplyDTO> reply;
+        List<ReviewReplyResponseDTO> reply;
         System.out.println("특정 게시물에 달린 댓글 조회 컨트롤러 도착");
 
         try {
@@ -79,6 +80,21 @@ public class ReviewReplyController {
             return null;
         }
         return new ResponseEntity(reply, HttpStatus.OK);
+    }
+
+    /**
+     * 댓글 삭제 (특정 게시물에 달린)
+     */
+    @DeleteMapping("/delete")
+    private ResponseEntity deleteByReview (@RequestPart ReviewReplyDTO reply, @RequestPart ReviewDTO review, @AuthenticationPrincipal String userId) {
+        try {
+            int replyId = reviewReplyService.deleteByReview(reply, review, Integer.parseInt(userId));
+            return new ResponseEntity(replyId, HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
