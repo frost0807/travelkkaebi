@@ -16,10 +16,6 @@
         DELETE FROM review_reply WHERE review_reply_id = #{reviewReplyId}
     </delete>
 
-    <delete id="deleteByBoardId" parameterType="int">
-        DELETE FROM review_reply WHERE board_id = #{boardId}
-    </delete>
-
     <select id="selectAllByBoardId" parameterType="int" resultType="ReviewReplyResponseDTO">
         SELECT * FROM review_reply JOIN user On review_reply.userId = user.user_id
                  WHERE category_id = 1 AND board_id = #{boardId}
