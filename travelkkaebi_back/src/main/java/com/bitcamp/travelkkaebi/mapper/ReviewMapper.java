@@ -26,6 +26,12 @@ public interface ReviewMapper {
     int viewPlus(int reviewId);
 
     int reviewCount();
+    List<ReviewResponseDTO> searchByTitle(String title);
+    List<ReviewResponseDTO> searchByContent(String content);
+    List<ReviewResponseDTO> searchByWriter(String writer);
+    List<ReviewResponseDTO> keywordByRegion(String region);
+
+
 
 
 }

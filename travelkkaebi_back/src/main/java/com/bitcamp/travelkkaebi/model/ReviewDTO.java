@@ -15,8 +15,6 @@ public class ReviewDTO {
     private String title;
     private String content;
     private String region;
-    private int likeCount;
-    private int dislikeCount;
     private int view;
     private Timestamp createTime;
     private Timestamp updateTime;
