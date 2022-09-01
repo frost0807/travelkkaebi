@@ -82,21 +82,6 @@ public class ReviewReplyController {
         return new ResponseEntity(reply, HttpStatus.OK);
     }
 
-    /**
-     * 댓글 삭제 (특정 게시물에 달린)
-     */
-    @DeleteMapping("/delete")
-    private ResponseEntity deleteByReview (@RequestPart ReviewReplyDTO reply, @RequestPart ReviewDTO review, @AuthenticationPrincipal String userId) {
-        try {
-            int replyId = reviewReplyService.deleteByReview(reply, review, Integer.parseInt(userId));
-            return new ResponseEntity(replyId, HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
 
 
