@@ -1,11 +1,11 @@
 package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.RegionEventDTO;
-import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import com.bitcamp.travelkkaebi.service.AwsS3service;
-import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
 import com.bitcamp.travelkkaebi.service.RegionEventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +22,15 @@ public class RegionEventController {
 
     private final RegionEventService regionEventService;
     private final AwsS3service awsS3service;
-    private final LikeOrDislikeService likeOrDislikeService;
 
-    @GetMapping("main")
+    /*@GetMapping("main")
     public ResponseEntity<List<RegionEventDTO>> regionEventShowList() {
         return ResponseEntity.ok().body(regionEventService.findAll());
+    }*/
+
+    @GetMapping("low")
+    public ResponseEntity<List<RegionEventDTO>> regionEventShowNewList(@PageableDefault(size = 4) Pageable pageable) {
+        return ResponseEntity.ok().body(regionEventService.findAll(pageable).getContent());
     }
 
     @PostMapping("write")
@@ -58,12 +62,6 @@ public class RegionEventController {
     @PostMapping("show/{regionBoardId}")
     public ResponseEntity<Void> updateView(@PathVariable int regionBoardId) {
         regionEventService.updateView(regionBoardId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("like")
-    public ResponseEntity<?> updateLiked(@AuthenticationPrincipal String userId, @RequestBody LikeOrDislikeDTO likeOrDislikeDTO) {
-        likeOrDislikeService.clickLike(likeOrDislikeDTO, Integer.parseInt(userId));
         return ResponseEntity.ok().build();
     }
 

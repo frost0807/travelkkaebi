@@ -87,12 +87,4 @@ public class UserService {
         }
     }
 
-    /**
-     * userId -> nickname, profileImage
-     */
-    public UserDTO getNicknameById(int userId) {
-        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("does not exist"));
-        return UserEntity.toDto(findUser);
-    }
-
 }

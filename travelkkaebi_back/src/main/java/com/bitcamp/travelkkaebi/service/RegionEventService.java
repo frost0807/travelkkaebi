@@ -7,11 +7,10 @@ import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.repository.RegionEventRepository;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -21,10 +20,10 @@ public class RegionEventService {
     private final RegionEventRepository regionEventRepository;
     private final UserRepository userRepository;
 
-    public List<RegionEventDTO> findAll() {
+    /*public List<RegionEventDTO> findAll() {
         List<RegionalEventEntity> findRegion = regionEventRepository.findAll();
         return findRegion.stream().map(RegionEventDTO::new).collect(Collectors.toList());
-    }
+    }*/
 
     /**
      * 글 작성 logic
@@ -98,4 +97,10 @@ public class RegionEventService {
         findRegionEvent.updateView(findRegionEvent.getView());
     }
 
+    /**
+     * 최신순 4개씩 pagination logic
+     */
+    public Page<RegionEventDTO> findAll(Pageable pageable) {
+        return regionEventRepository.findByOrderByIdDesc(pageable).map(RegionEventDTO::new);
+    }
 }

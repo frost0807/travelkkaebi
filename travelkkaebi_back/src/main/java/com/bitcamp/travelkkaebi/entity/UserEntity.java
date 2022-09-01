@@ -1,9 +1,11 @@
 package com.bitcamp.travelkkaebi.entity;
 
-import com.bitcamp.travelkkaebi.dto.UserDTO;
 import com.bitcamp.travelkkaebi.dto.UserUpdateDTO;
 import com.bitcamp.travelkkaebi.encode.Password;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -65,13 +67,6 @@ public class UserEntity extends BaseEntity {
         this.profileImageUrl = userUpdateDTO.getProfileImageUrl();
         this.phone = userUpdateDTO.getPhone();
         this.nickname = userUpdateDTO.getNickname();
-    }
-
-    public static UserDTO toDto(UserEntity userEntity) {
-        return UserDTO.builder()
-                .nickname(userEntity.getNickname())
-                .profileImageUrl(userEntity.getProfileImageUrl())
-                .build();
     }
 
 }
