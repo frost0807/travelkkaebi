@@ -12,3 +12,9 @@
 4. 캐로솔 작성, 계쏙 수정중
 5. 테스트 페이지 등 작성
 //220826
+
+
+
+npm i react-material-ui-carousel
+npm install @mui/styles
+// 220831

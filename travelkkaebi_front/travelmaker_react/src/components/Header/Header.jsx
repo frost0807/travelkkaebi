@@ -32,41 +32,41 @@ function Header() {
       }}
     >
       <Container>
-        <Logo href="home" src={LogoSrc} />
+        <Logo href="/home" src={LogoSrc} />
         <Navbar.Brand href="/">전국팔도 깨비</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="contact">Contact</Nav.Link>
+            <Nav.Link href="/contact">Contact</Nav.Link>
 
             <NavDropdown title="Info" id="basic-nav-dropdown">
-              <NavDropdown.Item href="EditorPick">에디터 추천</NavDropdown.Item>
-              <NavDropdown.Item href="LocalPick">지역별 추천</NavDropdown.Item>
-              <NavDropdown.Item href="UserPick">유저 추천</NavDropdown.Item>
+              <NavDropdown.Item href="/EditorPick">에디터 추천</NavDropdown.Item>
+              <NavDropdown.Item href="/regionevent">지역별 축제</NavDropdown.Item>
+              <NavDropdown.Item href="/UserPick">유저 추천</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="Info#">기타</NavDropdown.Item>
+              <NavDropdown.Item href="/Info#">기타</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="/review/1">Review</Nav.Link>
             <NavDropdown title="Party" id="basic-nav-dropdown">
-              <NavDropdown.Item href="PartyMain">구인</NavDropdown.Item>
-              <NavDropdown.Item href="FollowMe">같이가요</NavDropdown.Item>
-              <NavDropdown.Item href="TakeMe">데려가줘</NavDropdown.Item>
+              <NavDropdown.Item href="/PartyMain">구인</NavDropdown.Item>
+              <NavDropdown.Item href="/FollowMe">같이가요</NavDropdown.Item>
+              <NavDropdown.Item href="/pickupme">데려가줘</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="Party#">기타</NavDropdown.Item>
+              <NavDropdown.Item href="/Party#">기타</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
-            <Nav.Link href="alert">🔔</Nav.Link>
-            <Nav.Link href="search">🔍</Nav.Link>
+            <Nav.Link href="/alert">🔔</Nav.Link>
+            <Nav.Link href="/search">🔍</Nav.Link>
             {/* MyProfile 부분은 만약 로그인 상태가 null이면은 기본 도깨비 이미지, href -> Login
               로그인 상태면은 그 사람 프사 정보 받아서 이미지 띄우고, 클릭시 href-> MyPage
             */}
             {logInStatus === false ? (
-              <Nav.Link href="MyProfile">깨비자리</Nav.Link>
+              <Nav.Link href="/MyProfile">깨비자리</Nav.Link>
             ) : (
-              <Nav.Link href="MyProfile">프사 자리</Nav.Link>
+              <Nav.Link href="/MyProfile">프사 자리</Nav.Link>
             )}
             {/* <Nav.Link href="MyProfile">프사 자리</Nav.Link> */}
           </Nav>
