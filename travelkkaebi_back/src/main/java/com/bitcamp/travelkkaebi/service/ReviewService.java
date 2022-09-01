@@ -127,7 +127,7 @@ public class ReviewService {
      * @param reviewId
      * @return review
      */
-    public ReviewResponseDTO selectOne(int reviewId) {
+    public ReviewResponseDTO selectOne(int reviewId) throws Exception {
         LikeOrDislikeDTO likeOrDislike = null;
         System.out.println("상세보기 서비스 도착");
 

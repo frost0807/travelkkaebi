@@ -23,6 +23,7 @@ function ReviewDetail(){
         reviewId : id }
       })
       .then(response=>{
+        console.log(response.data);
         setData(response.data);
         console.log(response);
         console.log(response.data);
