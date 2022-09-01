@@ -5,14 +5,12 @@ import HeartImg from "../../images/heart.png";
 import EmptyHeartImg from "../../images/empty-heart.png";
 
 const Heart = styled.img`
-width: 12px;
-height: 12px;
+  width: 15px;
+  height: 15px;
 `;
 
-function LikeBtn({ like, onClick }){
-    return (
-        <Heart src={like?HeartImg:EmptyHeartImg} onClick={onClick} />
-    );
-};
+function LikeBtn({ like, onClick }) {
+  return <Heart src={like ? HeartImg : EmptyHeartImg} onClick={onClick} />;
+}
 
 export default LikeBtn;

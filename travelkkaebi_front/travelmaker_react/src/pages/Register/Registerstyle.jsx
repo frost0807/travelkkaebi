@@ -26,7 +26,6 @@ const Title = styled.h2 `
   margin-block-ebd : 0.83rem;
   margin-inline-start : 0px;
   margin-inline-end : 0px;
-
 `
 const FormTitle = styled.h3 `
   position : relative;

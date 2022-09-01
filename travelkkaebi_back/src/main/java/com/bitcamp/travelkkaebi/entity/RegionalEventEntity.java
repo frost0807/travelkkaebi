@@ -1,7 +1,6 @@
 package com.bitcamp.travelkkaebi.entity;
 
 import com.bitcamp.travelkkaebi.dto.RegionEventDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +28,6 @@ public class RegionalEventEntity extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private UserEntity userEntity;
 
     @Column(name = "poster_image_url")
@@ -44,10 +42,13 @@ public class RegionalEventEntity extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+    private int view;
+
     public static RegionalEventEntity toEntity(RegionEventDTO regionEventDTO) {
         return RegionalEventEntity.builder()
                 .userEntity(UserEntity.builder()
                         .id(regionEventDTO.getUserId())
+                        .nickname(regionEventDTO.getNickname())
                         .build())
                 .categoryId(regionEventDTO.getCategoryId())
                 .content(regionEventDTO.getContent())
@@ -59,8 +60,12 @@ public class RegionalEventEntity extends BaseEntity {
     }
 
     public void change(RegionEventDTO regionEventDTO) {
-        this.content = regionEventDTO.getContent();;
+        this.content = regionEventDTO.getContent();
         this.title = regionEventDTO.getTitle();
         this.posterImageUrl = regionEventDTO.getPosterImageUrl();
+    }
+
+    public void updateView(int view) {
+        this.view = view + 1;
     }
 }

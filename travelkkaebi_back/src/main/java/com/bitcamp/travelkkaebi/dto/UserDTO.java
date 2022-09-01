@@ -87,5 +87,6 @@ public class UserDTO {
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
     }
+    
 
 }

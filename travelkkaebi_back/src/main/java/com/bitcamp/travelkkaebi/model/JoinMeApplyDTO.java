@@ -4,18 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 
 @Getter
 @Setter
-public class ReviewReplyDTO {
-
-    private int ReviewReplyId;
+public class JoinMeApplyDTO {
+    private int pickMeApplyId;
     private int categoryId;
     private int boardId;
     private int userId;
     private String comment;
-    private Calendar createTime;
-    private Calendar updateTime;
+    private boolean picked;
 
+    private Timestamp createTime;
+    private Timestamp updateTime;
 }

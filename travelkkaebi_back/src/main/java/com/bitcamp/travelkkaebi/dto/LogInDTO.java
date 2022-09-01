@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.dto;
 
+import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,4 +21,17 @@ public class LogInDTO {
     private String nickname;
     private String profileImageUrl;
     private String email;
+
+    public static LogInDTO toDto(UserEntity userEntity, String token) {
+        return LogInDTO.builder()
+                .username(userEntity.getUsername())
+                .nickname(userEntity.getNickname())
+                .mannerDegree(userEntity.getMannerDegree())
+                .id(userEntity.getId())
+                .role(userEntity.getRole())
+                .profileImageUrl(userEntity.getProfileImageUrl())
+                .email(userEntity.getEmail())
+                .token(token)
+                .build();
+    }
 }

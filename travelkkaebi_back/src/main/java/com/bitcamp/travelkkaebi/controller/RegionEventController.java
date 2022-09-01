@@ -4,6 +4,8 @@ import com.bitcamp.travelkkaebi.dto.RegionEventDTO;
 import com.bitcamp.travelkkaebi.service.AwsS3service;
 import com.bitcamp.travelkkaebi.service.RegionEventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,14 @@ public class RegionEventController {
     private final RegionEventService regionEventService;
     private final AwsS3service awsS3service;
 
-    @GetMapping("main")
+    /*@GetMapping("main")
     public ResponseEntity<List<RegionEventDTO>> regionEventShowList() {
         return ResponseEntity.ok().body(regionEventService.findAll());
+    }*/
+
+    @GetMapping("low")
+    public ResponseEntity<List<RegionEventDTO>> regionEventShowNewList(@PageableDefault(size = 4) Pageable pageable) {
+        return ResponseEntity.ok().body(regionEventService.findAll(pageable).getContent());
     }
 
     @PostMapping("write")
@@ -41,9 +48,20 @@ public class RegionEventController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("delete")
-    public ResponseEntity<Void> regionEventDelete(@AuthenticationPrincipal String userId, @RequestParam int regionalEventId) {
-        regionEventService.delete(Integer.parseInt(userId), regionalEventId);
+    @DeleteMapping("delete/{regionBoardId}")
+    public ResponseEntity<Void> regionEventDelete(@AuthenticationPrincipal String userId, @PathVariable int regionBoardId) {
+        regionEventService.delete(Integer.parseInt(userId), regionBoardId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("show/{regionBoardId}")
+    public ResponseEntity<RegionEventDTO> selectOne(@PathVariable int regionBoardId) {
+        return ResponseEntity.ok().body(regionEventService.showRegionEvent(regionBoardId));
+    }
+
+    @PostMapping("show/{regionBoardId}")
+    public ResponseEntity<Void> updateView(@PathVariable int regionBoardId) {
+        regionEventService.updateView(regionBoardId);
         return ResponseEntity.ok().build();
     }
 

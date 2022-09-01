@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +29,7 @@ public class KaKaoService {
 
     private final String GRANT_TYPE = "authorization_code";
     private final String CLIENT_ID = "7885d8a4bb6d5b564863fbf38ee1a72b";
-    private final String REDIRECT_URI = "http://127.0.0.1:5500/kakaotest/kakaotest.html";
+    private final String REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
     private final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 
     public LogInDTO kaKaoAuth(String authorizeCode) {
@@ -43,6 +44,7 @@ public class KaKaoService {
 
     }
 
+    @Transactional
     private LogInDTO jsonParsingAndSave(String userInfoByAccessToken) {
         // kakao 유저정보 JSON -> String parsing
         JsonElement element = JsonParser.parseString(userInfoByAccessToken);

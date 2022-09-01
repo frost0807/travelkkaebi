@@ -4,12 +4,11 @@ import com.bitcamp.travelkkaebi.entity.RegionalEventEntity;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegionEventDTO {
-    private int id = 0;
+    private int id;
     private int userId;
     private int categoryId;
     private String nickname;
@@ -17,6 +16,7 @@ public class RegionEventDTO {
     private int likeCount;
     private String title;
     private String content;
+    private int view;
 
     public RegionEventDTO(RegionalEventEntity regionalEventEntity) {
         this.id = regionalEventEntity.getId();
@@ -27,5 +27,33 @@ public class RegionEventDTO {
         this.content = regionalEventEntity.getContent();
         this.userId = regionalEventEntity.getUserEntity().getId();
         this.nickname = regionalEventEntity.getUserEntity().getNickname();
+    }
+
+    public static RegionEventDTO toDto(RegionalEventEntity regionalEventEntity) {
+        return RegionEventDTO.builder()
+                .id(regionalEventEntity.getId())
+                .userId(regionalEventEntity.getId())
+                .categoryId(regionalEventEntity.getCategoryId())
+                .nickname(regionalEventEntity.getUserEntity().getNickname())
+                .posterImageUrl(regionalEventEntity.getPosterImageUrl())
+                .likeCount(regionalEventEntity.getLikeCount())
+                .title(regionalEventEntity.getTitle())
+                .content(regionalEventEntity.getContent())
+                .view(regionalEventEntity.getView())
+                .build();
+    }
+
+    public void setUserIdAndNicknameAndPosterImageUrl(int userId, String nickname, String posterImageUrl) {
+        this.userId = userId;
+        this.nickname = nickname;
+        this.posterImageUrl = posterImageUrl;
+    }
+
+    public void setPosterImageUrl(String posterImageUrl) {
+        this.posterImageUrl = posterImageUrl;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

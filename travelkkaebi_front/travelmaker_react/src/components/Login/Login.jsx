@@ -15,9 +15,8 @@ import {
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { KAKAO_AUTH_URL } from "./KakaoAuth";
-import { Background, ModalContainer, Closebtn } from "./Loginstyle";
 
-function Login({ isOpen, close }) {
+function Login() {
   const navi = useNavigate();
 
   /**카카오의 SDK를 react에서 활용하려면 window 객체를 사용해야 한다.
