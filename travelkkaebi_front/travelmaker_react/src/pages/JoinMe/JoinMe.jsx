@@ -72,7 +72,7 @@ function JoinMe() {
 
   // 글쓰기 Page (noModal)
   const joinMeFormhandler = () => {
-    navigate("/joinMeForm");
+    navigate("/joinmeform");
   };
 
   return (
@@ -93,6 +93,11 @@ function JoinMe() {
                   {post.title.length < 12
                     ? post.title
                     : post.title.slice(0, 13) + "..."}
+                  <span style={{ fontSize: "0.3rem" }}>
+                    {" "}
+                    <i className="fa-solid fa-eye" />
+                    &nbsp;30
+                  </span>
                 </Card.Title>
                 <Card.Text>
                   {post.body.length < 122
@@ -101,8 +106,11 @@ function JoinMe() {
                 </Card.Text>
               </Card.Body>
               <div className="heart-btn">
-                <LikeBtn />
+                <LikeBtn /> <p>좋아요 수</p>
               </div>
+              <div>아바타요</div>
+              <span> 닉네임이요 </span>
+              <p> CreateTime </p>
             </Card>
           </Col>
         ))}

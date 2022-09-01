@@ -40,3 +40,140 @@
 .heart-btn {
   float: right;
 }
+
+/* =================================================================
+  JoinMe 상세보기
+*/
+
+.jd-container {
+  font-family: "Malgun Gothic", sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  bottom: 0;
+  overflow: hidden;
+  padding: 32px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-sizing: inherit;
+}
+
+/*  인원 수 */
+joinme-charge {
+  display: block;
+  position: relative;
+  flex-shrink: 0;
+  padding-top: 13px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.47;
+  letter-spacing: -0.3px;
+  box-sizing: inherit;
+}
+.joinme-charge::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -30px;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(
+    180deg,
+    hsla(0, 0%, 100%, 0),
+    hsla(0, 0%, 100%, 0.9) 53.76%,
+    #fff
+  );
+  box-sizing: inherit;
+}
+.joinme-charge p {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-size: 16px;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: 500;
+  color: #495057;
+}
+
+/* 좋아요*/
+.jd-likebtn {
+  text-align: right;
+  margin-right: 30px;
+  margin-top: -38px;
+  height: 30px;
+}
+
+/* */
+.joinme-nbspspace {
+  padding-bottom: 45px !important;
+  margin-bottom: 1rem;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  line-height: 1.6;
+  display: block;
+  box-sizing: inherit;
+}
+
+/* 유저정보 */
+.joinme-userinfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.joinme-userinfo img {
+  overflow: hidden;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #e9ebee;
+  border-radius: 60px;
+  -o-object-fit: contain;
+  object-fit: contain;
+  max-width: 100%;
+  display: block;
+  cursor: pointer;
+}
+.joinme-userinfo span {
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.3px;
+  color: #495057;
+  cursor: pointer;
+  margin-left: 12px;
+  font-style: inherit;
+}
+
+/* 게시글 상단 정보 */
+.joinme-dtitle {
+  line-height: 1.47;
+  letter-spacing: -0.3px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1b1c1d;
+  margin-bottom: 8px;
+  display: block;
+  box-sizing: inherit;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.joinme-ereion {
+  line-height: 1.43;
+  letter-spacing: -0.3px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px px 8px;
+  text-align: center;
+  color: #00c471;
+  background: #e5f9f1;
+  box-sizing: inherit;
+}
