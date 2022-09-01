@@ -15,5 +15,4 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JoinMeApplyController {
     private final JoinMeService joinMeService;
-
 }

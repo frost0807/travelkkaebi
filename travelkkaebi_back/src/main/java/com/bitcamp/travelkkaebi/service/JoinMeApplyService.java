@@ -9,5 +9,4 @@ import org.springframework.stereotype.Service;
 public class JoinMeApplyService {
     private final JoinMeApplyMapper joinMeApplyMapper;
 
-    public
 }
