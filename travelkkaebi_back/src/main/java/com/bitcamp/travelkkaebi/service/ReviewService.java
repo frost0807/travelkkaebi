@@ -40,7 +40,7 @@ public class ReviewService {
     }
 
     /**
-     * 게시글 수정
+     * 게시글 수정><
      * @param review
      * @param userId
      * @return updatedReviewId

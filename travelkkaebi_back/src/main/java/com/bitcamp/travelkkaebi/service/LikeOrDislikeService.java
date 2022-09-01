@@ -5,6 +5,8 @@ import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 
 @Service
 @RequiredArgsConstructor

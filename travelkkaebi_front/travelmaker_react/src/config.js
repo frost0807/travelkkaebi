@@ -1,13 +1,19 @@
 let url_1;
 let url_2;
+let url_3;
+let url_4;
+
 let host;
 
 const hostname = window && window.location && window.location.hostname;
 if (hostname == "localhost") {
   url_1 = "http://localhost:8080/travelkkaebi";
   url_2 = "http://192.168.0.4:8080/travelkkaebi"; // 임시
+  url_3 = "http://192.168.0.33:8080";  // tomato 9층일때 http://192.168.0.195:8080 , 7층일때 http://192.168.0.33:8080
+  url_4 = "http://localhost:8080"; // tomato 셀프 서버 
+
 }
 
-host = url_2;
+host = url_4;
 
 export const API_BASE_URL = `${host}`;
