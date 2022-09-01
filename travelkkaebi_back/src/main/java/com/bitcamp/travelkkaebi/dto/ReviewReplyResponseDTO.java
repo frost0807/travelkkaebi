@@ -1,21 +1,23 @@
-package com.bitcamp.travelkkaebi.model;
+package com.bitcamp.travelkkaebi.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 @Getter
 @Setter
-public class ReviewReplyDTO {
+public class ReviewReplyResponseDTO {
 
     private int ReviewReplyId;
     private int categoryId;
     private int boardId;
     private int userId;
+    private String nickname;
+    private String profile_image_url;
     private String comment;
     private Calendar createTime;
     private Calendar updateTime;
+
 
 }
