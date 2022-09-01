@@ -34,22 +34,22 @@
         SELECT COUNT(*) FROM board_review
     </select>
 
-<!--    <select id="searchByRegion" parameterType="String" resultType="hashMap">-->
-<!--        SELECT * FROM board_review WHERE region LIKE  CONCAT('%',#{region},'%')-->
-<!--    </select>-->
+    <select id="searchByRegion" parameterType="String" resultType="hashMap">
+        SELECT * FROM board_review WHERE region LIKE  CONCAT('%',#{region},'%')
+    </select>
 
-<!--    <select id="searchByTitle" parameterType="String" resultType="hashMap">-->
-<!--        SELECT * FROM board_review WHERE title LIKE  CONCAT('%',#{title},'%')-->
-<!--    </select>-->
+    <select id="searchByTitle" parameterType="String" resultType="hashMap">
+        SELECT * FROM board_review WHERE title LIKE  CONCAT('%',#{title},'%')
+    </select>
 
-<!--    <select id="searchByContent" parameterType="String" resultType="hashMap">-->
-<!--        SELECT * FROM board_review WHERE content LIKE  CONCAT('%',#{content},'%')-->
-<!--    </select>-->
+    <select id="searchByContent" parameterType="String" resultType="hashMap">
+        SELECT * FROM board_review WHERE content LIKE  CONCAT('%',#{content},'%')
+    </select>
 
-<!--    &lt;!&ndash; 아직 안 만듦 !미완성! &ndash;&gt;-->
-<!--    <select id="searchByWriter" parameterType="String" resultType="hashMap">-->
-<!--        SELECT * FROM board_review WHERE  LIKE  CONCAT('%',#{},'%')-->
-<!--    </select>-->
+    <!-- 아직 안 만듦 !미완성! -->
+    <select id="searchByWriter" parameterType="String" resultType="hashMap">
+        SELECT * FROM board_review WHERE  LIKE  CONCAT('%',#{},'%')
+    </select>
 
 
 
