@@ -4,7 +4,6 @@ package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-
 import com.bitcamp.travelkkaebi.service.AwsS3service;
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -110,9 +109,18 @@ public class ReviewController {
     }
 
     /**
-     * 특정 제목으로 검색하기
+    /**
+     * 게시물 갯수 반환
      */
-
-
-
+    @GetMapping("count")
+    private ResponseEntity count() {
+        int reviewCount;
+        try {
+            reviewCount = reviewService.count();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return new ResponseEntity(reviewCount, HttpStatus.OK);
+    }
 }

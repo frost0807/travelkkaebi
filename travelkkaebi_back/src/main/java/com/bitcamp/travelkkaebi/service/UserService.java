@@ -1,9 +1,6 @@
 package com.bitcamp.travelkkaebi.service;
 
-import com.bitcamp.travelkkaebi.dto.DeleteUserDTO;
-import com.bitcamp.travelkkaebi.dto.LogInDTO;
-import com.bitcamp.travelkkaebi.dto.UserDTO;
-import com.bitcamp.travelkkaebi.dto.UserUpdateDTO;
+import com.bitcamp.travelkkaebi.dto.*;
 import com.bitcamp.travelkkaebi.encode.Password;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
@@ -22,6 +19,7 @@ public class UserService {
     /**
      * 회원가입 logic
      */
+    @Transactional
     public void register(UserDTO userDTO, String uploadImageUrl) {
         //username 및 email 중복체크 method
         validate(userDTO.getUsername(), userDTO.getEmail());
@@ -62,17 +60,8 @@ public class UserService {
         if (Password.passwordMatch(password, findUser.getPassword())) {
             // create token
             String token = tokenProvider.create(findUser);
-            //발급된 토큰과 함께 리턴
-            return LogInDTO.builder()
-                    .username(findUser.getUsername())
-                    .nickname(findUser.getNickname())
-                    .mannerDegree(findUser.getMannerDegree())
-                    .id(findUser.getId())
-                    .role(findUser.getRole())
-                    .profileImageUrl(findUser.getProfileImageUrl())
-                    .email(findUser.getEmail())
-                    .token(token)
-                    .build();
+            //발급된 토큰및 entity -> dto 변환후 함께 리턴
+            return LogInDTO.toDto(findUser, token);
         }
         return null;
     }

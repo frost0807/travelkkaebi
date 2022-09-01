@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,8 +32,7 @@ public class AwsS3service {
     }
 
     private String upload(File uploadFile, String dirName) {
-        Calendar calendar = Calendar.getInstance();
-        String fileName = dirName + "/" + calendar + uploadFile.getName();
+        String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -45,7 +43,7 @@ public class AwsS3service {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
-    private void removeNewFile(File targetFile) {
+    public static void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
         } else {
