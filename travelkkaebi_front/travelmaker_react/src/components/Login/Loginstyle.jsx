@@ -2,12 +2,15 @@ import styled from "styled-components";
 
 const FormBox = styled.div`
   margin: auto;
+  width: 400px;
+  height: 100%;
+  padding: 5px;
 `;
 
 const InputBox = styled.div`
-  width: 80%;
   position: relative;
   margin-top: 30px;
+  min-width: 100%;
 `;
 
 const InputField = styled.input`
@@ -32,7 +35,8 @@ const SnsLine = styled.div`
   flex-basis: 100%;
   align-items: center;
   color: rgba(0, 0, 0, 0.35);
-  font-size: 12px;
+  font-size: 5px;
+  padding: 10px;
   margin: 8px 0px;
   &:before {
     content: "";
@@ -58,18 +62,11 @@ const Btn = styled.button`
   color: white;
   width: 80%;
   height: 50px;
-  background-color: #ffbe3bee;
   font-size: 20px;
+  background-color: #ffbe3bee;
   border: none;
   border-radius: 30px;
   cursor: pointer;
 `;
 
-export {
-  FormBox,
-  InputBox,
-  InputField,
-  FormFooter,
-  Btn,
-  SnsLine,
-};
+export { FormBox, InputBox, InputField, FormFooter, Btn, SnsLine };
