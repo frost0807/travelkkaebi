@@ -15,26 +15,10 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class BaseWrite {
 
-    @Column(name = "category_id", nullable = false)
+    @Column(name = "category_id")
     private int categoryId;
-
-    @Column(nullable = false)
     private int view;
-
-    @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
     private String title;
-
-    public BaseWrite(String content, String title) {
-        this.content = content;
-        this.title = title;
-    }
-
-    public BaseWrite(int view) {
-        this.view = view + 1;
-    }
-
 
 }

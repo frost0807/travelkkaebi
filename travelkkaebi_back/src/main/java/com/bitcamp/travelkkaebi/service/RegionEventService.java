@@ -32,6 +32,7 @@ public class RegionEventService {
         regionEventDTO.setUserIdAndNicknameAndPosterImageUrl(findUser.getId(), findUser.getNickname(), image);
 
         RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
+        System.out.println(2);
         regionEventDTO.setId(saveRegionEvent.getId());
 
         return regionEventDTO;
@@ -91,7 +92,7 @@ public class RegionEventService {
     @Transactional
     public void updateView(int regionBoardId) {
         RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionBoardId).orElseThrow(() -> new RuntimeException("edit exception"));
-        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
+        findRegionEvent.updateView(findRegionEvent.getView());
     }
 
     /**
