@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface EditorChoiceMapper {
 
-    List<EditorChoiceResponseDTO> selectAllPage(HashMap<String, Integer> pageMap);
+    List<EditorChoiceResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
 
     EditorChoiceResponseDTO selectOne (int editorChoiceId);
 

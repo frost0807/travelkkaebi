@@ -63,6 +63,21 @@ public class EditorChoiceController {
         }
     }
 
+    /**
+     * 게시글 리스트
+     */
+    @GetMapping("/selectallbypage")
+    private ResponseEntity selectAllByPage(@RequestParam int pageNo) {
+        List<EditorChoiceResponseDTO> list;
+
+        try {
+            list = editorChoiceService.selectAllByPage(pageNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
 
 
     /**

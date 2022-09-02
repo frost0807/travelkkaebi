@@ -87,7 +87,7 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
-    public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception{
+    public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception {
         List<EditorChoiceResponseDTO> list;
 
         HashMap<String, Integer> pageMap = new HashMap<>();
@@ -96,7 +96,7 @@ public class EditorChoiceService {
         pageMap.put("startNum", startNum);
         pageMap.put("PAGE_SIZE", PAGE_SIZE);
 
-        return list = editorChoiceMapper.selectAllPage(pageMap);
+        return list = editorChoiceMapper.selectAllByPage(pageMap);
     }
 
     /**
