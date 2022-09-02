@@ -4,7 +4,6 @@ import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -32,9 +31,18 @@ public class EditorChoiceService {
 
         int writtenId;
 
-        if(editorChoiceDTO != null ) {
-            editorChoiceDTO.setUserId(userId);
-            writtenId = editorChoiceMapper.insert(editorChoiceDTO);
+        // 로그인 된 유저가 에디터 인지 확인하는 코드
+        String role = editorChoiceMapper.selectRole(editorChoiceDTO.getEditorChoiceId());
+
+        if(role.equals("EDITOR")) {
+
+            if(editorChoiceDTO != null ) {
+                editorChoiceDTO.setUserId(userId);
+                writtenId = editorChoiceMapper.insert(editorChoiceDTO);
+            } else {
+                return 0;
+            }
+
         } else {
             return 0;
         }
@@ -54,7 +62,7 @@ public class EditorChoiceService {
     public int update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
         int updatedId = 0;
 
-        if (updatedId == editorChoiceDTO.getUserId()) {
+        if (userId == editorChoiceDTO.getUserId()) {
             return updatedId = editorChoiceMapper.update(editorChoiceDTO);
         } else {
             return 0;

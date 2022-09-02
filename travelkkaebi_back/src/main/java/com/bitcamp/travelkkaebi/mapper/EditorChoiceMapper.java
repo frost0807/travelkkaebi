@@ -1,7 +1,6 @@
 package com.bitcamp.travelkkaebi.mapper;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
-import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +13,8 @@ public interface EditorChoiceMapper {
     List<EditorChoiceResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
 
     EditorChoiceResponseDTO selectOne (int editorChoiceId);
+
+    String selectRole (int editorChoiceId);
 
     int insert (EditorChoiceDTO editorChoiceDTO);
 
