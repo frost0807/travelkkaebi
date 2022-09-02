@@ -32,7 +32,6 @@ public class RegionEventService {
         regionEventDTO.setUserIdAndNicknameAndPosterImageUrl(findUser.getId(), findUser.getNickname(), image);
 
         RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
-        System.out.println(2);
         regionEventDTO.setId(saveRegionEvent.getId());
 
         return regionEventDTO;

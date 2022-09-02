@@ -50,16 +50,12 @@ public class RegionalEventEntity extends BaseEntity {
     }
 
     public void change(RegionEventDTO regionEventDTO) {
-        this.baseWrite = BaseWrite.builder()
-                .content(regionEventDTO.getContent())
-                .title(regionEventDTO.getTitle())
-                .build();
+        this.baseWrite.changeTitleAndContent(regionEventDTO.getContent(), regionEventDTO.getTitle());
         this.posterImageUrl = regionEventDTO.getPosterImageUrl();
     }
 
+
     public void updateView(int view) {
-        this.baseWrite = BaseWrite.builder()
-                .view(view + 1)
-                .build();
+        this.baseWrite.increaseView(view);
     }
 }

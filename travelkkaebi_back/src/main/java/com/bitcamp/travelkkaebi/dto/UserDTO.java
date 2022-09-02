@@ -42,11 +42,6 @@ public class UserDTO {
     private LocalDateTime blockedUntil = LocalDateTime.now();
     private int mannerDegree = 37;
 
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
-
     /**
      * userDTO -> userEntity
      */
