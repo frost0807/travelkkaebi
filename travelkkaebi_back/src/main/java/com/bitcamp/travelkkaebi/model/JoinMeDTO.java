@@ -19,7 +19,6 @@ public class JoinMeDTO {
     private int charge;
     private int capacity;
     private int currentMemberCount;
-    private int likeCount;
     private boolean closed;
 
     private Timestamp startDate;

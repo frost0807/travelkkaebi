@@ -3,12 +3,16 @@
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.TravelMapMapper">
 
     <select id="selectAll" parameterType="TravelMapDTO" resultType="TravelMapDTO">
-        SELECT * FROM travel_map
-        WHERE category_id=#{categoryId} AND board_id=#{boardId}
+        SELECT *
+        FROM travel_map
+        WHERE category_id = #{categoryId}
+          AND board_id = #{boardId}
     </select>
 
     <select id="selectOne" parameterType="TravelMapDTO" resultType="TravelMapDTO">
-        SELECT * FROM travel_map WHERE travel_map_id=#{travelMapId}
+        SELECT *
+        FROM travel_map
+        WHERE travel_map_id = #{travelMapId}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="travelMapId" parameterType="TravelMapDTO">
@@ -17,11 +21,17 @@
     </insert>
 
     <update id="update" useGeneratedKeys="true" keyProperty="travelMapId" parameterType="TravelMapDTO">
-        UPDATE travel_map SET map_url=#{mapUrl}
-        WHERE category_id=#{categoryId} AND board_id=#{t.boardId}
+        UPDATE travel_map
+        SET map_url=#{mapUrl}
+        WHERE category_id = #{categoryId}
+          AND board_id = #{boardId}
+          AND user_id = #{userId}
     </update>
 
-    <delete id="delete" parameterType="int">
-        DELETE FROM travel_map WHERE travel_map_id=#{travelMapId}
+    <delete id="delete" parameterType="TravelMapDTO">
+        DELETE
+        FROM travel_map
+        WHERE travel_map_id = #{travelMapId}
+          AND user_id = #{userId}
     </delete>
 </mapper>

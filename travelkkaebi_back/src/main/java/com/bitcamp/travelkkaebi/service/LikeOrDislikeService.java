@@ -1,11 +1,14 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 
 @Service
@@ -14,95 +17,93 @@ public class LikeOrDislikeService {
     private final LikeOrDislikeMapper likeOrDislikeMapper;
 
     //게시물 상세보기를 했을 때 좋아요, 싫어요의 체크상태 리턴해주는 메소드
-    public LikeOrDislikeDTO selectOne(LikeOrDislikeDTO likeOrDislikeDTO, int userId) throws Exception {
-        try{
-            likeOrDislikeDTO.setUserId(userId);
-            //로그인한 유저의 해당 게시물에 대한 좋-싫 테이블이 존재하는지 확인(게시물을 본적 있는지)
-            LikeOrDislikeDTO checkLikeOrDislikeDTO = likeOrDislikeMapper.selectOneByDTO(likeOrDislikeDTO);
-            //게시물을 본적이 있다면
-            if(checkLikeOrDislikeDTO!=null){
-                //상태 리턴
-                return checkLikeOrDislikeDTO;
-            } else{ //게시물을 처음 본다면
-                //좋-싫 상태 테이블 생성하고 성공하면 해당 row리턴
-                return likeOrDislikeMapper.selectOne(insert(likeOrDislikeDTO));
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public LikeOrDislikeResponseDTO selectOne(LikeOrDislikeDTO likeOrDislikeDTO, int userId) throws Exception {
+        likeOrDislikeDTO.setUserId(userId);
+        //로그인한 유저의 해당 게시물에 대한 좋-싫 테이블이 존재하는지 확인후 없으면 생성(게시물을 본적 있는지)
+        LikeOrDislikeResponseDTO likeOrDislikeResponseDTO = likeOrDislikeMapper.selectOneByDTO(likeOrDislikeDTO)
+                .orElse(likeOrDislikeMapper.selectOneById(insert(likeOrDislikeDTO)).get());
+
+        return setCounts(likeOrDislikeResponseDTO);
     }
 
     //좋아요-싫어요 테이블 생성후 id리턴
-    public int insert(LikeOrDislikeDTO l) throws Exception{
-        try{
-            //삽입
-            likeOrDislikeMapper.insert(l);
-            //useGeneratedKeys에 의해 생성된 id리턴
-            return l.getLikeOrDislikeId();
-        } catch(Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    private int insert(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception {
+        //삽입
+        likeOrDislikeMapper.insert(likeOrDislikeDTO);
+        //useGeneratedKeys에 의해 생성된 id리턴
+        return likeOrDislikeDTO.getLikeOrDislikeId();
     }
 
     //게시물의 좋아요를 클릭했을 때 실행 할 메소드
-    public LikeOrDislikeDTO clickLike(LikeOrDislikeDTO l, int userId) throws Exception{
-        try{
-            //로그인한 유저의 식별자를 삽입(중간에 가로채서 접근할 수 있으므로 userId갱신)
-            l.setUserId(userId);
+    @Transactional
+    public LikeOrDislikeResponseDTO clickLike(int likeOrDislikeId, int userId) throws Exception {
+        //로그인한 유저의 식별자를 삽입(중간에 가로채서 접근할 수 있으므로 userId갱신)
+        LikeOrDislikeDTO likeOrDislikeDTO = likeOrDislikeMapper.selectOneById(likeOrDislikeId)
+                .orElseThrow(() -> new NullPointerException("해당 likeOrDislikeId의 레코드가 없음"));
 
-            if(l.isLiked()==true&&l.isDisliked()==false){ //좋아요가 클릭되어 있었을 경우
-                l.setLiked(false);
-            } else if(l.isLiked()==false&&l.isDisliked()==false){ //아무것도 클릭되어있지 않았을 경우
-                l.setLiked(true);
-            } else if(l.isLiked()==false&&l.isDisliked()==true){ //싫어요가 클릭되어 있었을 경우
-                l.setLiked(true);
-                l.setDisliked(false);
-            }
-            //상태 업데이트하고 성공했다면
-            if(likeOrDislikeMapper.update(l)!=0){
-                //update성공했으면 리턴
-                return likeOrDislikeMapper.selectOne(l.getLikeOrDislikeId());
-            }
-            //테이블이 존재하지않거나 update 실패하던 null 리턴
-            return null;
-        } catch (Exception e){
-            e.printStackTrace();
-            return null;
+        if (likeOrDislikeDTO.isLiked() == true && likeOrDislikeDTO.isDisliked() == false) { //좋아요가 클릭되어 있었을 경우
+            likeOrDislikeDTO.setLiked(false);
+        } else if (likeOrDislikeDTO.isLiked() == false && likeOrDislikeDTO.isDisliked() == false) { //아무것도 클릭되어있지 않았을 경우
+            likeOrDislikeDTO.setLiked(true);
+        } else if (likeOrDislikeDTO.isLiked() == false && likeOrDislikeDTO.isDisliked() == true) { //싫어요가 클릭되어 있었을 경우
+            likeOrDislikeDTO.setLiked(true);
+            likeOrDislikeDTO.setDisliked(false);
         }
+        //CSRF방어
+        likeOrDislikeDTO.setUserId(userId);
+        //상태업데이트하면서 count추가해 리턴
+        return updateClickStatus(likeOrDislikeDTO);
     }
+
     //게시물의 싫어요를 클릭했을 때 실행 할 메소드
-    public LikeOrDislikeDTO clickDislike(LikeOrDislikeDTO l, int userId) throws Exception{
-        try{
-            //로그인한 유저의 식별자를 삽입
-            l.setUserId(userId);
-            if(l.isLiked()==true&&l.isDisliked()==false){ //좋아요가 클릭되어 있었을 경우
-                l.setLiked(false);
-                l.setDisliked(true);
-            } else if(l.isLiked()==false&&l.isDisliked()==false){ //아무것도 클릭되어있지 않았을 경우
-                l.setDisliked(true);
-            } else if(l.isLiked()==false&&l.isDisliked()==true){ //싫어요가 클릭되어 있었을 경우
-                l.setDisliked(false);
-            }
-            //상태 업데이트하고 성공했다면
-            if(likeOrDislikeMapper.update(l)!=0){
-                //update성공했으면 리턴
-                return likeOrDislikeMapper.selectOne(l.getLikeOrDislikeId());
-            }
-            //테이블이 존재하지않거나 update 실패하던 null 리턴
-            return null;
-        } catch (Exception e){
-            e.printStackTrace();
-            return null;
+    @Transactional
+    public LikeOrDislikeResponseDTO clickDislike(int likeOrDislikeId, int userId) throws Exception {
+        //로그인한 유저의 식별자를 삽입(중간에 가로채서 접근할 수 있으므로 userId갱신)
+        LikeOrDislikeDTO likeOrDislikeDTO = likeOrDislikeMapper.selectOneById(likeOrDislikeId)
+                .orElseThrow(() -> new NullPointerException("해당 likeOrDislikeId의 레코드가 없음"));
+
+        if (likeOrDislikeDTO.isLiked() == true && likeOrDislikeDTO.isDisliked() == false) { //좋아요가 클릭되어 있었을 경우
+            likeOrDislikeDTO.setLiked(false);
+            likeOrDislikeDTO.setDisliked(true);
+        } else if (likeOrDislikeDTO.isLiked() == false && likeOrDislikeDTO.isDisliked() == false) { //아무것도 클릭되어있지 않았을 경우
+            likeOrDislikeDTO.setDisliked(true);
+        } else if (likeOrDislikeDTO.isLiked() == false && likeOrDislikeDTO.isDisliked() == true) { //싫어요가 클릭되어 있었을 경우
+            likeOrDislikeDTO.setDisliked(false);
+        }
+        //CSRF방어
+        likeOrDislikeDTO.setUserId(userId);
+        //상태업데이트하면서 count추가해 리턴
+        return updateClickStatus(likeOrDislikeDTO);
+    }
+
+    //게시물의 좋아요 갯수를 리턴해주는 메소드
+    public int getLikeCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
+        return likeOrDislikeMapper.getLikeCount(likeOrDislikeDTO);
+    }
+
+    //게시물의 싫어요 갯수를 리턴해주는 메소드
+    public int getDislikeCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
+        return likeOrDislikeMapper.getDislikeCount(likeOrDislikeDTO);
+    }
+
+    @Transactional
+    public LikeOrDislikeResponseDTO updateClickStatus(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception {
+        //상태 업데이트하고 성공했다면
+        if (likeOrDislikeMapper.update(likeOrDislikeDTO) != 0) {
+            //update성공했으면 리턴
+            LikeOrDislikeResponseDTO likeOrDislikeResponseDTO =
+                    likeOrDislikeMapper.selectOneById(likeOrDislikeDTO.getLikeOrDislikeId()).get();
+
+            return setCounts(likeOrDislikeResponseDTO);
+        } else {
+            throw new RuntimeException("상태 업데이트 실패");
         }
     }
-    //게시물의 좋아요, 싫어요 갯수를 리턴해주는 메소드
-    public HashMap<String, Integer> getCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
-        HashMap<String, Integer> countMap = new HashMap<>();
-        countMap.put("like", likeOrDislikeMapper.getLikeCount(likeOrDislikeDTO));
-        countMap.put("dislike", likeOrDislikeMapper.getDislikeCount(likeOrDislikeDTO));
 
-        return countMap;
+    public LikeOrDislikeResponseDTO setCounts(LikeOrDislikeResponseDTO likeOrDislikeResponseDTO) throws Exception {
+        likeOrDislikeResponseDTO.setLikeCount(getLikeCount(likeOrDislikeResponseDTO));
+        likeOrDislikeResponseDTO.setDislikeCount(getDislikeCount(likeOrDislikeResponseDTO));
+
+        return likeOrDislikeResponseDTO;
     }
 }

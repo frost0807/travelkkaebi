@@ -28,37 +28,40 @@ public class ImageController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<ImageDTO> insert(@RequestPart(value = "file") MultipartFile multipartFile,
-                                           @RequestPart(value = "imageDTO") ImageDTO imageDTO,
-                                           @AuthenticationPrincipal String userId) {
+    public ResponseEntity<Boolean> insert(
+            @RequestPart(value = "file") List<MultipartFile> multipartFileList,
+            @RequestPart(value = "imageDTO") List<ImageDTO> imageDTOList,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(imageService.insert(multipartFile, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.insert(multipartFileList, imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return null;
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ImageDTO> update(@RequestPart(value = "file") MultipartFile multipartFile,
-                                           @RequestPart(value = "imageDTO") ImageDTO imageDTO,
-                                           @AuthenticationPrincipal String userId) {
+    public ResponseEntity<Boolean> update(
+            @RequestPart(value = "file") List<MultipartFile> multipartFileList,
+            @RequestPart(value = "imageDTO") List<ImageDTO> imageDTOList,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(imageService.update(multipartFile, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.update(multipartFileList, imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return null;
         }
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Integer> delete(@RequestParam int imageId,
-                                          @AuthenticationPrincipal String userId) {
+    public ResponseEntity<Boolean> delete(
+            @RequestParam List<Integer> imageIdList,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(imageService.delete(imageId, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.delete(imageIdList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(0, HttpStatus.OK);
+            return null;
         }
     }
 }

@@ -3,29 +3,51 @@
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.JoinMeMapper">
 
     <select id="getPageCount" resultType="int">
-        SELECT COUNT(*) FROM board_join_me
+        SELECT COUNT(*)
+        FROM board_join_me
     </select>
 
     <select id="getPageCountByKeyword" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM board_join_me WHERE region=#{keyword}
+        SELECT COUNT(*)
+        FROM board_join_me
+        WHERE region = #{keyword}
     </select>
 
     <select id="selectOne" parameterType="int" resultType="JoinMeOneDTO">
-        SELECT * FROM board_join_me AS b
-        JOIN user AS u ON b.user_id = u.user_id
-        WHERE join_me_id=#{joinMeId}
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
+        WHERE join_me_id = #{joinMeId}
     </select>
 
-    <select id="selectAllByPage" parameterType="PageAndKeywordDTO" resultType="JoinMeListDTO">
-        SELECT * FROM board_join_me AS b
-        JOIN user AS u ON b.user_id = u.user_id
+    <select id="selectAllByPage" parameterType="PageAndWordDTO" resultType="JoinMeListDTO">
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
-    <select id="selectAllByPageAndKeyword" parameterType="PageAndKeywordDTO" resultType="JoinMeListDTO">
-        SELECT * FROM board_join_me AS b
-        JOIN user AS u ON b.user_id = u.user_id
+    <select id="selectAllByPageAndKeyword" parameterType="PageAndWordDTO" resultType="JoinMeListDTO">
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
         WHERE region = #{keyword}
+        ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectAllByPageAndTitle" parameterType="PageAndWordDTO" resultType="JoinMeListDTO">
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
+        WHERE title LIKE CONCAT('%', #{searchword}, '%')
+        ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectAllByPageAndNickname" parameterType="PageAndWordDTO" resultType="JoinMeListDTO">
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
+        WHERE nickname LIKE CONCAT('%', #{searchword}, '%')
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -35,22 +57,34 @@
     </insert>
 
     <update id="update" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeDTO">
-        UPDATE board_join_me SET title=#{title}, content=#{content}, start_date=#{startDate},
-        end_date=#{endDate}, region=#{region}, charge=#{charge}, capacity=#{capacity}
-        WHERE join_me_id=#{joinMeId}
+        UPDATE board_join_me
+        SET title=#{title},
+            content=#{content},
+            start_date=#{startDate},
+            end_date=#{endDate},
+            region=#{region},
+            charge=#{charge},
+            capacity=#{capacity}
+        WHERE join_me_id = #{joinMeId}
+          AND user_id = #{userId}
     </update>
 
-    <update id="updateSelectOne" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeOneDTO">
-        UPDATE board_join_me SET view=view+1, like_count=#{likeCount}
+    <update id="updateView" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeOneDTO">
+        UPDATE board_join_me
+        SET view= view +1
         WHERE join_me_id=#{joinMeId}
     </update>
 
     <update id="updateClosed" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="joinMeListDTO">
-        UPDATE board_join_me SET closed=#{closed}
+        UPDATE board_join_me
+        SET closed=#{closed}
         WHERE join_me_id = #{joinMeId}
     </update>
 
-    <delete id="delete" parameterType="int">
-        DELETE FROM board_join_me WHERE join_me_id=#{joinMeId}
+    <delete id="delete" parameterType="JoinMeDTO">
+        DELETE
+        FROM board_join_me
+        WHERE join_me_id = #{joinMeId}
+          AND user_id = #{userId}
     </delete>
 </mapper>

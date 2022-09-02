@@ -135,14 +135,6 @@ public class ReviewService {
         reviewMapper.viewPlus(reviewId);
         ReviewResponseDTO review = reviewMapper.selectOne(reviewId);
 
-        // 좋아요, 싫어요 갯수 업데이트
-        likeOrDislike.setCategoryId(review.getCategoryId());
-        likeOrDislike.setBoardId(review.getReviewId());
-        HashMap<String, Integer> countMap = likeOrDislikeService.getCount(likeOrDislike);
-
-        review.setLikeCount(countMap.get("like"));
-        review.setDislikeCount(countMap.get("dislike"));
-
         return review;
     }
 
