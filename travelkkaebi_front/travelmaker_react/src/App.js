@@ -1,7 +1,4 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap css 적용
-
-// import ModalOnbtn from "./components/ModalOnbtn";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./pages/Register/Register";
 import Login from "./components/Login/Login";
@@ -19,21 +16,21 @@ import TestReviewDetail from "./pages/Test/TestReviewDetail";
 import TestResponse from "./pages/Test/TestResponse";
 
 import TestPost from "./pages/Test/TestPost";
-import ReviewForm from './pages/Review/ReviewForm';
+import ReviewForm from "./pages/Review/ReviewForm";
 import RegionEvent from "./pages/RegionEvent/RegionEvent";
-import PickUpMe from"./pages/PickUpMe/PickUpMe";
-
+import PickUpMe from "./pages/PickUpMe/PickUpMe";
 
 import JoinMe from "./pages/JoinMe/JoinMe";
 import JoinMeDetail from "./pages/JoinMe/JoinMeDetail";
 import JoinMeForm from "./pages/JoinMe/JoinMeForm";
-
+import JoinMeCard from "./pages/JoinMe/JoinMeCard";
+import { useRecoilState } from "recoil";
+import { showJoinMeDetailState } from "./recoil/atom";
 
 function Main() {
   return (
     <BrowserRouter>
       <Header />
-      {/* <ModalOnbtn /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -46,13 +43,12 @@ function Main() {
         <Route path="/contact" element={<Contact />} />
 
         {/* Review Page */}
-        <Route path='/review/:currentPage' element={<Review />}/>
-        <Route path='/review/detail/:id' element={<ReviewDetail/>}/>
-        <Route path='/review/form' element={<ReviewForm />}/>
+        <Route path="/review/:currentPage" element={<Review />} />
+        <Route path="/review/detail/:id" element={<ReviewDetail />} />
+        <Route path="/review/form" element={<ReviewForm />} />
 
         {/* RegionEvent Page */}
-        <Route path="/regionevent" element={<RegionEvent />}/>
-
+        <Route path="/regionevent" element={<RegionEvent />} />
 
         {/* test용 페이지*/}
         <Route path="/testpage" element={<TestPage />} />
@@ -60,8 +56,6 @@ function Main() {
         <Route path="/testdetail/:id" element={<TestReviewDetail />} />
         <Route path="/testresponse" element={<TestResponse />} />
         {/* <Route path='/testpost' element={<TestPost />}/> */}
-
-        <Route path="/pickupme" element={<PickUpMe />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
@@ -70,14 +64,19 @@ function Main() {
 
 function App() {
   return (
+    <></>
+    /*
+    민진
     <BrowserRouter>
+      <Header />
       <Routes>
-        <Route path="/" element={<JoinMe />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/joinmedetail/:joinid" element={<JoinMeDetail />} />
+        <Route path="/" element={<JoinMe />} />
+        <Route path="/joinmedetail/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
       </Routes>
     </BrowserRouter>
+    */
   );
 }
 

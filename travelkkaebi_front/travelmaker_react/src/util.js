@@ -1,41 +1,38 @@
-
-const setUsername = username => {
-  return localStorage.setItem('username', username);
-}; // ID = username
-const setNickname = nickname => {
-  return localStorage.setItem('nickname', nickname);
+export const bearerToken = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+  },
 };
-const setProfile = profile_img => {
-  return localStorage.setItem('profile_img_url', profile_img);
-}; // 리액트에선 profile_img 로 통일
-const setToken = token => {
-  return localStorage.setItem("ACCESS_TOKEN",token);
-}
 
-const getUsername = () => {
-  return localStorage.getItem('usename');
+export const setUsername = (username) => {
+  return localStorage.setItem("username", username);
 }; // ID = username
-const getNickname = () => {
-  return localStorage.getItem('nickname');
+export const setNickname = (nickname) => {
+  return localStorage.setItem("nickname", nickname);
 };
-const getProfile = () => {
-  return localStorage.getItem('profile_img_url');
+export const setProfile = (profile_img) => {
+  return localStorage.setItem("profile_img_url", profile_img);
 }; // 리액트에선 profile_img 로 통일
-const getToken = () => {
+export const setToken = (token) => {
+  return localStorage.setItem("ACCESS_TOKEN", token);
+};
+
+export const getUsername = () => {
+  return localStorage.getItem("usename");
+}; // ID = username
+export const getNickname = () => {
+  return localStorage.getItem("nickname");
+};
+export const getProfile = () => {
+  return localStorage.getItem("profile_img_url");
+}; // 리액트에선 profile_img 로 통일
+export const getToken = () => {
   return localStorage.getItem("ACCESS_TOKEN");
-}
+};
 
-const removeAuthority = () => {
+export const removeAuthority = () => {
   return localStorage.removeItem("authority");
-}
-const clearLocal = () => {
+};
+export const clearLocal = () => {
   return localStorage.clear();
-}
-
-
-export {
-  setUsername, setNickname, setProfile, setToken,
-  getUsername, getNickname, getProfile, getToken,
-  removeAuthority,
-  clearLocal
-}
+};
