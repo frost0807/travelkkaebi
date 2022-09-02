@@ -3,12 +3,16 @@
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.ImageMapper">
 
     <select id="selectAll" parameterType="ImageDTO" resultType="ImageDTO">
-        SELECT * FROM board_image
-        WHERE category_id=#{categoryId} AND board_id=#{boardId}
+        SELECT *
+        FROM board_image
+        WHERE category_id = #{categoryId}
+          AND board_id = #{boardId}
     </select>
 
     <select id="selectOne" parameterType="int" resultType="ImageDTO">
-        SELECT * FROM board_image WHERE image_id=#{imageId}
+        SELECT *
+        FROM board_image
+        WHERE image_id = #{imageId}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="imageId" parameterType="ImageDTO">
@@ -17,11 +21,16 @@
     </insert>
 
     <update id="update" useGeneratedKeys="true" keyProperty="imageId" parameterType="ImageDTO">
-        UPDATE board_image SET image_url=#{imageUrl}
-        WHERE image_id=#{imageId} AND user_id=#{userId}
+        UPDATE board_image
+        SET image_url=#{imageUrl}
+        WHERE image_id = #{imageId}
+          AND user_id = #{userId}
     </update>
 
-    <delete id="delete" parameterType="int">
-        DELETE FROM board_image WHERE image_id=#{imageId} AND user_id=#{userId}
+    <delete id="delete" parameterType="ImageDTO">
+        DELETE
+        FROM board_image
+        WHERE image_id = #{imageId}
+          AND user_id = #{userId}
     </delete>
 </mapper>

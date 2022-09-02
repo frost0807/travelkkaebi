@@ -22,6 +22,7 @@
         <typeAlias type="com.bitcamp.travelkkaebi.model.ImageDTO" alias="ImageDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.TravelMapDTO" alias="TravelMapDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO" alias="LikeOrDislikeDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO" alias="LikeOrDislikeResponseDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ReviewDTO" alias="ReviewDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ReviewReplyDTO" alias="ReviewReplyDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewResponseDTO" alias="ReviewResponseDTO"></typeAlias>

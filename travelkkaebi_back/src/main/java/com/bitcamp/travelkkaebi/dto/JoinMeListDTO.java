@@ -11,7 +11,6 @@ public class JoinMeListDTO {
     private int joinMeId;
     private int userId;
     private int view;
-    private int likeCount;
     private int capacity;
     private int currentMemberCount;
 

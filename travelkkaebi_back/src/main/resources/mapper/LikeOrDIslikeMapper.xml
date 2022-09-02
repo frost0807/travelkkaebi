@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper">
 
-    <select id="selectOneByDTO" parameterType="LikeOrDislikeDTO" resultType="LikeOrDislikeDTO">
+    <select id="selectOneByDTO" parameterType="LikeOrDislikeDTO" resultType="LikeOrDislikeResponseDTO">
         SELECT * FROM like_or_dislike
         WHERE category_id = #{categoryId} AND board_id = #{boardId} AND user_id = #{userId}
     </select>
 
-    <select id="selectOne" parameterType="int" resultType="LikeOrDislikeDTO">
+    <select id="selectOneById" parameterType="int" resultType="LikeOrDislikeResponseDTO">
         SELECT * FROM like_or_dislike
         WHERE like_or_dislike_id = #{likeOrDislikeId}
     </select>
@@ -19,7 +19,7 @@
 
     <update id="update" useGeneratedKeys="true" keyProperty="likeOrDislikeId" parameterType="LikeOrDislikeDTO">
         UPDATE like_or_dislike SET liked=#{liked}, disliked=#{disliked}
-        WHERE like_or_dislike_id = #{likeOrDislikeId}
+        WHERE like_or_dislike_id = #{likeOrDislikeId} AND user_id=#{userId}
     </update>
 
     <select id="getLikeCount" parameterType="LikeOrDislikeDTO" resultType="int">

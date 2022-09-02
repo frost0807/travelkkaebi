@@ -44,16 +44,9 @@ public class JoinMeService {
                 PageAndKeywordDTO.builder().startNum((pageNo - 1) * PAGE_SIZE).pageSize(PAGE_SIZE).keyword(keyword).build()));
     }
 
-    //게시물 상세보기하면서 조회수+1, like_count갱신
+    //게시물 상세보기하면서 조회수+1
     public JoinMeOneDTO selectOne(int joinMeId) throws Exception {
-        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId);
-        joinMeOneDTO.setLikeCount(likeOrDislikeService.getCount(
-                        LikeOrDislikeDTO.builder()
-                                .categoryId(joinMeOneDTO.getCategoryId())
-                                .boardId(joinMeOneDTO.getJoinMeId())
-                                .build())
-                .get("like"));
-        if (joinMeMapper.updateSelectOne(joinMeOneDTO) != 0) { //조회수+1, like_count 갱신 성공하면
+        if (joinMeMapper.updateView(joinMeId) != 0) { //조회수+1 성공하면
             return joinMeMapper.selectOne(joinMeId);
         } else { //게시물이 존재하지 않으면
             return null;
@@ -76,8 +69,7 @@ public class JoinMeService {
         joinMeDTO.setUserId(userId);
         //update할 게시물의 id로 selectOne해와서 로그인한 userId와 비교하고
         //단축평가에 의해 true면 update수행 후 성공여부판별 후 객체리턴
-        if (joinMeMapper.selectOne(joinMeDTO.getJoinMeId()).getUserId() == userId
-                && joinMeMapper.update(joinMeDTO) != 0) {
+        if (joinMeDTO.getUserId() == userId && joinMeMapper.update(joinMeDTO) != 0) {
             //useGenerateKeys에 의해 생성된 Id값으로 selectOne해서 리턴
             return selectOne(joinMeDTO.getJoinMeId());
         } else { //삽입 실패했으면

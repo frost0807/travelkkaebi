@@ -15,7 +15,6 @@ public class JoinMeOneDTO {
     private int charge;
     private int capacity;
     private int currentMemberCount;
-    private int likeCount;
     private int mannerDegree;
 
     private String nickname;

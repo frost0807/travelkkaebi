@@ -19,7 +19,7 @@ public interface JoinMeMapper {
     JoinMeOneDTO selectOne(int joinMeId);
     int insert(JoinMeDTO joinMeDTO);
     int update(JoinMeDTO joinMeDTO);
-    int updateSelectOne(JoinMeOneDTO joinMeOneDTO);
+    int updateView(int joinMeId);
     int updateClosed(JoinMeListDTO joinMeListDTO);
     int delete(int joinMeId);
 }
