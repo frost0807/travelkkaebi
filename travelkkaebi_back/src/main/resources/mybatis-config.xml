@@ -14,7 +14,7 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndKeywordDTO" alias="PageAndKeywordDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndWordDTO" alias="PageAndWordDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeDTO" alias="JoinMeDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTO" alias="JoinMeListDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeOneDTO" alias="JoinMeOneDTO"></typeAlias>

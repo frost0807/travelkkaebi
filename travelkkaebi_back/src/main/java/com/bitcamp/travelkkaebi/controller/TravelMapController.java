@@ -28,7 +28,7 @@ public class TravelMapController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<TravelMapDTO> insert(
+    public ResponseEntity<Boolean> insert(
             @RequestBody TravelMapDTO travelMapDTO,
             @AuthenticationPrincipal String userId) {
         try {
@@ -40,7 +40,7 @@ public class TravelMapController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<TravelMapDTO> update(
+    public ResponseEntity<Boolean> update(
             @RequestBody TravelMapDTO travelMapDTO,
             @AuthenticationPrincipal String userId) {
         try {
@@ -52,7 +52,7 @@ public class TravelMapController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Integer> delete(
+    public ResponseEntity<Boolean> delete(
             @RequestParam int travelMapId,
             @AuthenticationPrincipal String userId) {
         try {

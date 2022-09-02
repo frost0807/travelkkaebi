@@ -45,12 +45,12 @@ public class ImageService {
         return (successCount == imageDTOList.size() ? true : false);
     }
 
-    public boolean delete(List<Integer> imageList, int userId) throws Exception {
+    public boolean delete(List<Integer> imageIdList, int userId) throws Exception {
         int successCount = 0;
-        for (int imageId : imageList) {
+        for (int imageId : imageIdList) {
             ImageDTO imageDTO = ImageDTO.builder().imageId(imageId).userId(userId).build();
             successCount += imageMapper.delete(imageDTO);
         }
-        return (successCount == imageList.size() ? true : false);
+        return (successCount == imageIdList.size() ? true : false);
     }
 }

@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.controller;
 
+import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
 import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import com.bitcamp.travelkkaebi.service.JoinMeService;
@@ -39,7 +40,7 @@ public class JoinMeController {
 
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
     @GetMapping("/selectallbypage")
-    public ResponseEntity<List> selectAllByPage(@RequestParam int pageNo) {
+    public ResponseEntity<List<JoinMeListDTO>> selectAllByPage(@RequestParam int pageNo) {
         try {
             //해당 pageNo의 게시물 리스트를 리턴
             return new ResponseEntity<>(joinMeService.selectAllByPage(pageNo), HttpStatus.OK);
@@ -50,10 +51,36 @@ public class JoinMeController {
     }
 
     @GetMapping("/selectallbypage/keyword")
-    public ResponseEntity<List> selectAllByPageAndKeyword(@RequestParam int pageNo,
-                                                          @RequestParam String keyword) {
+    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndKeyword(@RequestParam int pageNo,
+                                                                         @RequestParam String keyword) {
         try {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo, keyword), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //제목으로 검색
+    @GetMapping("/selectallbypage/searchbytitle")
+    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndTitle(
+            @RequestParam int pageNo,
+            @RequestParam String searchword) {
+        try {
+            return new ResponseEntity<>(joinMeService.selectAllByPageAndTitle(pageNo, searchword), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //제목으로 검색
+    @GetMapping("/selectallbypage/searchbynickname")
+    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndNickname(
+            @RequestParam int pageNo,
+            @RequestParam String searchword) {
+        try {
+            return new ResponseEntity<>(joinMeService.selectAllByPageAndNickname(pageNo, searchword), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -97,10 +124,10 @@ public class JoinMeController {
 
     //유저가 글을 삭제했을 때 삭제할 글의 joinMeId를 받아서 Service로 넘겨준다.
     @DeleteMapping("/delete")
-    public ResponseEntity<Boolean> delete(@RequestParam int joinMeId,
+    public ResponseEntity<Boolean> delete(@RequestBody JoinMeDTO joinMeDTO,
                                           @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(joinMeService.delete(joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.delete(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -8,11 +8,13 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class JoinMeListDTO {
+    private int categoryId;
     private int joinMeId;
     private int userId;
     private int view;
     private int capacity;
     private int currentMemberCount;
+    private int likeCount;
 
     private String nickname;
     private String title;

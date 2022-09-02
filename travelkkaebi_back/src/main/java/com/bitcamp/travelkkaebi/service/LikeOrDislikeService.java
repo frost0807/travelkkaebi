@@ -77,12 +77,12 @@ public class LikeOrDislikeService {
     }
 
     //게시물의 좋아요 갯수를 리턴해주는 메소드
-    private int getLikeCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
+    public int getLikeCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
         return likeOrDislikeMapper.getLikeCount(likeOrDislikeDTO);
     }
 
     //게시물의 싫어요 갯수를 리턴해주는 메소드
-    private int getDislikeCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
+    public int getDislikeCount(LikeOrDislikeDTO likeOrDislikeDTO) throws Exception{
         return likeOrDislikeMapper.getDislikeCount(likeOrDislikeDTO);
     }
 
