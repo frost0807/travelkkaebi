@@ -1,26 +1,25 @@
 package com.bitcamp.travelkkaebi.dto;
 
-import com.bitcamp.travelkkaebi.regex.Regex;
 import lombok.Getter;
 
 import javax.validation.constraints.Pattern;
+
+import static com.bitcamp.travelkkaebi.regex.Regex.*;
 
 @Getter
 public class UserUpdateDTO {
     private int userid;
 
-    @Pattern(regexp = Regex.PHONE)
+    @Pattern(regexp = EMAIL)
     private String email;
 
-    @Pattern(regexp = Regex.PHONE)
+    @Pattern(regexp = PHONE)
     private String phone;
 
-    @Pattern(regexp = Regex.PHONE)
+    @Pattern(regexp = PASSWORD)
     private String password;
 
     private String profileImageUrl;
-
-    private String region;
 
     private String nickname;
 

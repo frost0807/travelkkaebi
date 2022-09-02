@@ -3,7 +3,6 @@ package com.bitcamp.travelkkaebi.dto;
 import com.bitcamp.travelkkaebi.encode.Password;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
-import com.bitcamp.travelkkaebi.regex.Regex;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+
+import static com.bitcamp.travelkkaebi.regex.Regex.*;
 
 @Builder
 @NoArgsConstructor
@@ -20,31 +21,26 @@ public class UserDTO {
 
     private int id;
 
-    @Pattern(regexp = Regex.USERNAME)
+    @Pattern(regexp = USERNAME)
     private String username;
 
-    @Pattern(regexp = Regex.PASSWORD)
+    @Pattern(regexp = PASSWORD)
     private String password;
 
-    @Pattern(regexp = Regex.PASSWORD)
+    @Pattern(regexp = PASSWORD)
     private String secondPassword;
 
     private String nickname;
     private String profileImageUrl;
 
-    @Pattern(regexp = Regex.EMAIL)
+    @Pattern(regexp = EMAIL)
     private String email;
 
-    @Pattern(regexp = Regex.PHONE)
+    @Pattern(regexp = PHONE)
     private String phone;
     private String name;
     private LocalDateTime blockedUntil = LocalDateTime.now();
     private int mannerDegree = 37;
-
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
 
     /**
      * userDTO -> userEntity

@@ -27,8 +27,9 @@ public class UserController {
      * 회원가입 Create
      */
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestPart(value = "file", required = false) MultipartFile image,
-                                       @RequestPart(value = "userDTO") @Valid UserDTO userDTO) throws IOException {
+    public ResponseEntity<Void> signUp(
+            @RequestPart(value = "file", required = false) MultipartFile image,
+            @RequestPart(value = "userDTO") @Valid UserDTO userDTO) throws IOException {
         userService.register(userDTO, awsS3service.upload(image, "static"));
         return ResponseEntity.ok().build();
     }
@@ -61,8 +62,9 @@ public class UserController {
      * 회원정보수정 Update
      */
     @PutMapping("/update")
-    public ResponseEntity<Void> userUpdate(@RequestPart(value = "image", required = false) MultipartFile image,
-                                           @RequestPart UserUpdateDTO userUpdateDTO) throws IOException {
+    public ResponseEntity<Void> userUpdate(
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestPart UserUpdateDTO userUpdateDTO) throws IOException {
         userService.update(userUpdateDTO, awsS3service.upload(image, "static"));
         return ResponseEntity.ok().build();
     }
@@ -75,4 +77,6 @@ public class UserController {
         userService.delete(deleteUserDTO);
         return ResponseEntity.ok().build();
     }
+
+
 }
