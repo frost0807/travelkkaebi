@@ -6,6 +6,7 @@ import './ReviewDetail.css';
 import axios from 'axios';
 import React from 'react';
 import { textAlign } from "@mui/system";
+import { SettingsCellOutlined } from "@mui/icons-material";
 
 function ReviewDetail(){
 
@@ -19,14 +20,14 @@ function ReviewDetail(){
 
     // 시작시 호출되는 함수
 
-    // const getDetail=()=>{
-    //   axios
-    //   .get(API_BASE_URL+"/review/selectone",{params : {reviewId : id }})
-    //   .then(response=>{
-    //     setData(response.data);
-    //     console.log(response.data);
-    //   })
-    // }
+    const getDetail=()=>{
+      axios
+      .get(API_BASE_URL+"/review/selectone",{params : {reviewId : id }})
+      .then(response=>{
+        setData(response.data);
+        console.log(response.data);
+      })
+    }
 
 
       // 멀티 액시오스 시도한거
@@ -37,6 +38,8 @@ function ReviewDetail(){
       //   .then(
       //     axios.spread((response1, response2)=>{
       //       console.log(response1, response2);
+      //       setData(response1.data);
+      //       setReply(response2.data);
       //     })
       //   )
       //   .catch((err)=>console.log(err));
@@ -44,11 +47,11 @@ function ReviewDetail(){
 
       // 댓글받기 단일 액시오스
 
-      const getDetail=()=>{
+      const getReply=()=>{
         axios
         .get(API_BASE_URL+"/review/reply/selectbyreview",{params : {reviewId : id }})
         .then(response=>{
-          setData(response.data);
+          setReply(response.data);
           console.log(response);
         })
       }
@@ -56,6 +59,8 @@ function ReviewDetail(){
   
     useEffect(()=>{
       getDetail();
+      getReply();
+
     },[]);// currentPage가 변경될 때마다 다시 호출
     // let [cymd, chms] = data.creatTime.split('T');
     // let [uymd, uhms] = data.updateTime.split('T');
@@ -142,13 +147,30 @@ function ReviewDetail(){
               
 
         </div>
-        <div className="voc-view-row">
+        <div className="voc-view-reply" style={{marginTop:"100px"}}>
             <label>댓글</label>
+            <label>
             <div>
                 {
-                data.content
+                reply && reply.map((row, idx)=>(
+                  <tr>
+                    <td key={row.reviewReplyId}>{row.nickname}</td>
+                  
+                  </tr>
+                ))
                 }
             </div>
+            </label>
+            <label>
+            {
+                reply && reply.map((row, idx)=>(
+                  <tr>
+                    <td key={row.reviewReplyId}>{row.comment}</td>
+                    
+                  </tr>
+                ))
+                }
+            </label>
         </div>
 
 

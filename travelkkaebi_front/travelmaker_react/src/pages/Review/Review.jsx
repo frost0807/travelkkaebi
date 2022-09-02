@@ -9,10 +9,12 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import SplitButton from 'react-bootstrap/SplitButton';
+import usePagination from '@mui/material/usePagination';
 
 function Review() {
 
   const [show, setShow] = useState(1);
+  const [count, setCount] = useState(0);
 
   const [data, setData]=useState([]);
   const navi = useNavigate();
@@ -36,15 +38,15 @@ function Review() {
     })
   }
 
-  // const pageList=()=>{
-  //   axios.get(API_BASE_URL+"/review/count",
-  //   )
-  //   .then(res=>{
-  //     setData(res.data);
-  //     console.log(res.data);
-  //     console.log(res);
-  //   })
-  // }
+  const pageCount=()=>{
+    axios.get(API_BASE_URL+"/review/count",
+    )
+    .then(res=>{
+      setCount(res.data);
+      console.log(res.data);
+      console.log(res);
+    })
+  }
 
 
         // 멀티 액시오스 시도한거
@@ -63,6 +65,7 @@ function Review() {
 
   useEffect(()=>{
     pageList();
+    pageCount();
   },[currentPage]);// currentPage가 변경될 때마다 다시 호출
 
 
@@ -79,7 +82,7 @@ function Review() {
 
       <div style={{}}>
         <h3 className='alert alert-info' style={{ width:'700px', marginTop: 90, margin: 'auto' }}>
-          총 {data.totalCount} 개의 게시글이 있습니다
+          총 {count} 개의 게시글이 있습니다
         </h3>
         <br/>
         <table className='table table-bordered' style={{ width:'700px', margin: 'auto' }}>
@@ -132,10 +135,15 @@ function Review() {
           }
           {
             (currentPage < 500? 
-            <li><Link to={ `/review/${currentPage+2}` }>다음</Link></li>:'')
+            <li><Link to={ `/review/${currentPage+1}` }>다음</Link></li>:'')
           }
           </ul>
         </div>
+
+        
+
+
+
           
         <div style={{ width:'700px', textAlign:'right', margin:'auto', display:'flex' }}>
           <div style={{ width:'100%', marginTop:'10px' }}>
