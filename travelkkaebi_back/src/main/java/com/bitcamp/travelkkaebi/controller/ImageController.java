@@ -18,34 +18,34 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/selectall")
-    public ResponseEntity<List> selectAll(@RequestBody ImageDTO imageDTO){
-        try{
+    public ResponseEntity<List> selectAll(@RequestBody ImageDTO imageDTO) {
+        try {
             return new ResponseEntity<>(imageService.selectAll(imageDTO), HttpStatus.OK);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<ImageDTO> insert(@RequestPart(value="file")MultipartFile multipartFile,
-                                           @RequestPart(value="imageDTO")ImageDTO imageDTO,
-                                          @AuthenticationPrincipal String userId){
-        try{
+    public ResponseEntity<ImageDTO> insert(@RequestPart(value = "file") MultipartFile multipartFile,
+                                           @RequestPart(value = "imageDTO") ImageDTO imageDTO,
+                                           @AuthenticationPrincipal String userId) {
+        try {
             return new ResponseEntity<>(imageService.insert(multipartFile, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ImageDTO> update(@RequestPart(value="file")MultipartFile multipartFile,
-                                          @RequestPart(value="imageDTO")ImageDTO imageDTO,
-                                          @AuthenticationPrincipal String userId){
-        try{
+    public ResponseEntity<ImageDTO> update(@RequestPart(value = "file") MultipartFile multipartFile,
+                                           @RequestPart(value = "imageDTO") ImageDTO imageDTO,
+                                           @AuthenticationPrincipal String userId) {
+        try {
             return new ResponseEntity<>(imageService.update(multipartFile, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -53,10 +53,10 @@ public class ImageController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Integer> delete(@RequestParam int imageId,
-                                          @AuthenticationPrincipal String userId){
-        try{
+                                          @AuthenticationPrincipal String userId) {
+        try {
             return new ResponseEntity<>(imageService.delete(imageId, Integer.parseInt(userId)), HttpStatus.OK);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(0, HttpStatus.OK);
         }

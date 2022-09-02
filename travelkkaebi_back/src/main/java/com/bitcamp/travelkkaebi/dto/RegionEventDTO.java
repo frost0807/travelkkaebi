@@ -10,21 +10,19 @@ import lombok.*;
 public class RegionEventDTO {
     private int id;
     private int userId;
-    private int categoryId;
-    private String nickname;
+    private int categoryId = 4;
     private String posterImageUrl;
-    private int likeCount;
+    private String nickname;
     private String title;
     private String content;
     private int view;
 
     public RegionEventDTO(RegionalEventEntity regionalEventEntity) {
         this.id = regionalEventEntity.getId();
-        this.categoryId = regionalEventEntity.getCategoryId();
+        this.categoryId = regionalEventEntity.getBaseWrite().getCategoryId();
         this.posterImageUrl = regionalEventEntity.getPosterImageUrl();
-        this.likeCount = regionalEventEntity.getLikeCount();
-        this.title = regionalEventEntity.getTitle();
-        this.content = regionalEventEntity.getContent();
+        this.title = regionalEventEntity.getBaseWrite().getTitle();
+        this.content = regionalEventEntity.getBaseWrite().getContent();
         this.userId = regionalEventEntity.getUserEntity().getId();
         this.nickname = regionalEventEntity.getUserEntity().getNickname();
     }
@@ -33,13 +31,12 @@ public class RegionEventDTO {
         return RegionEventDTO.builder()
                 .id(regionalEventEntity.getId())
                 .userId(regionalEventEntity.getId())
-                .categoryId(regionalEventEntity.getCategoryId())
+                .categoryId(regionalEventEntity.getBaseWrite().getCategoryId())
                 .nickname(regionalEventEntity.getUserEntity().getNickname())
                 .posterImageUrl(regionalEventEntity.getPosterImageUrl())
-                .likeCount(regionalEventEntity.getLikeCount())
-                .title(regionalEventEntity.getTitle())
-                .content(regionalEventEntity.getContent())
-                .view(regionalEventEntity.getView())
+                .title(regionalEventEntity.getBaseWrite().getTitle())
+                .content(regionalEventEntity.getBaseWrite().getContent())
+                .view(regionalEventEntity.getBaseWrite().getView())
                 .build();
     }
 

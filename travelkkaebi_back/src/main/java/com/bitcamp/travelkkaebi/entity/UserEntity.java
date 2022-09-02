@@ -69,4 +69,8 @@ public class UserEntity extends BaseEntity {
         this.nickname = userUpdateDTO.getNickname();
     }
 
+    public UserEntity(int id, String nickname) {
+        this.id = id;
+        this.nickname = nickname;
+    }
 }

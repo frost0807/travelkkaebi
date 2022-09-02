@@ -23,9 +23,6 @@ public class RegionalEventEntity extends BaseEntity {
     @Column(name = "regional_event_id")
     private int id;
 
-    @Column(name = "category_id", nullable = false)
-    private int categoryId;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
@@ -33,39 +30,23 @@ public class RegionalEventEntity extends BaseEntity {
     @Column(name = "poster_image_url")
     private String posterImageUrl;
 
-    @Column(name = "like_count")
-    private int likeCount;
-
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    private String content;
-
-    private int view;
+    @Embedded
+    private BaseWrite baseWrite;
 
     public static RegionalEventEntity toEntity(RegionEventDTO regionEventDTO) {
         return RegionalEventEntity.builder()
-                .userEntity(UserEntity.builder()
-                        .id(regionEventDTO.getUserId())
-                        .nickname(regionEventDTO.getNickname())
-                        .build())
-                .categoryId(regionEventDTO.getCategoryId())
-                .content(regionEventDTO.getContent())
+                .userEntity(new UserEntity(regionEventDTO.getId(), regionEventDTO.getNickname()))
+                .baseWrite(new BaseWrite(regionEventDTO.getCategoryId(), regionEventDTO.getView(), regionEventDTO.getContent(), regionEventDTO.getTitle()))
                 .posterImageUrl(regionEventDTO.getPosterImageUrl())
-                .likeCount(regionEventDTO.getLikeCount())
-                .content(regionEventDTO.getContent())
-                .title(regionEventDTO.getTitle())
                 .build();
     }
 
     public void change(RegionEventDTO regionEventDTO) {
-        this.content = regionEventDTO.getContent();
-        this.title = regionEventDTO.getTitle();
+        this.baseWrite = new BaseWrite(regionEventDTO.getContent(), regionEventDTO.getTitle());
         this.posterImageUrl = regionEventDTO.getPosterImageUrl();
     }
 
     public void updateView(int view) {
-        this.view = view + 1;
+        this.baseWrite = new BaseWrite(view);
     }
 }
