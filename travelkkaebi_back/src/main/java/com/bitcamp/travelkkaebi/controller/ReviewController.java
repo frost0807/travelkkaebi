@@ -4,14 +4,12 @@ package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-import com.bitcamp.travelkkaebi.service.AwsS3service;
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    private final AwsS3service awsS3service;
 
     // GET -> RequestParam
     // POST -> RequestBody
@@ -30,11 +27,9 @@ public class ReviewController {
      */
     @PostMapping("/write")
     public ResponseEntity write(@RequestPart(value = "reviewDTO") ReviewDTO reviewDTO,
-                                @RequestPart(value = "file", required = false) MultipartFile image,
                                 @AuthenticationPrincipal String userId) {
         try {
             int reviewId = reviewService.writeReview(reviewDTO, Integer.parseInt(userId));
-            awsS3service.upload(image, "static");
             return new ResponseEntity(reviewId, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -109,10 +104,9 @@ public class ReviewController {
     }
 
     /**
-    /**
      * 게시물 갯수 반환
      */
-    @GetMapping("count")
+    @GetMapping("/count")
     private ResponseEntity count() {
         int reviewCount;
         try {
@@ -123,4 +117,72 @@ public class ReviewController {
         }
         return new ResponseEntity(reviewCount, HttpStatus.OK);
     }
+
+    /**
+     * 특정 제목으로 검색
+     */
+    @GetMapping("/searchbytitle")
+    private ResponseEntity searchByTitle(@RequestParam("title") String title) {
+        List<ReviewResponseDTO> titleList;
+
+        try {
+            titleList = reviewService.searchByTitle(title);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(titleList, HttpStatus.OK);
+    }
+
+    /**
+     * 특정 내용으로 검색
+     */
+    @GetMapping("/searchbycontent")
+    private ResponseEntity searchByContent(@RequestParam("content") String content) {
+        List<ReviewResponseDTO> contentList;
+
+        try {
+            contentList = reviewService.searchByContent(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(contentList, HttpStatus.OK);
+    }
+
+    /**
+     * 특정 작성자로 검색
+     */
+    @GetMapping("/searchbywriter")
+    private ResponseEntity searchByWriter(@RequestParam("writer") String writer) {
+        List<ReviewResponseDTO> writerList;
+
+        try {
+            writerList = reviewService.searchByWriter(writer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return new ResponseEntity(writerList, HttpStatus.OK);
+    }
+
+    /**
+     * 키워드로 지역 검색
+     */
+    @GetMapping("/keywordbyregion")
+    private ResponseEntity keywordByRegion (@RequestParam("region") String region) {
+        List <ReviewResponseDTO> regionList;
+
+        try {
+            regionList = reviewService.keywordByRegion(region);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return new ResponseEntity(regionList, HttpStatus.OK);
+    }
+
 }

@@ -10,6 +10,7 @@ import { textAlign } from "@mui/system";
 function ReviewDetail(){
 
   const [data, setData] = useState([])
+  const [reply, setReply] = useState([])
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([])
   const navi = useNavigate();
@@ -17,24 +18,48 @@ function ReviewDetail(){
   const {id} = useParams()
 
     // 시작시 호출되는 함수
-    const getDetail=()=>{
-      axios.get(API_BASE_URL+"/review/selectone",
-      {params : {
-        reviewId : id }
-      })
-      .then(response=>{
-        console.log(response.data);
-        setData(response.data);
-        console.log(response);
-        console.log(response.data);
-      })
-    }
+
+    // const getDetail=()=>{
+    //   axios
+    //   .get(API_BASE_URL+"/review/selectone",{params : {reviewId : id }})
+    //   .then(response=>{
+    //     setData(response.data);
+    //     console.log(response.data);
+    //   })
+    // }
+
+
+      // 멀티 액시오스 시도한거
+
+      // const getDetail=()=>{
+      //   axios
+      //   .all([axios.get(API_BASE_URL+"/review/selectone"),{params : { reviewId : id }}, axios.get(API_BASE_URL+"/review/reply/selectbyreview"),{params : {reviewId : id}}])
+      //   .then(
+      //     axios.spread((response1, response2)=>{
+      //       console.log(response1, response2);
+      //     })
+      //   )
+      //   .catch((err)=>console.log(err));
+      // }
+
+      // 댓글받기 단일 액시오스
+
+      const getDetail=()=>{
+        axios
+        .get(API_BASE_URL+"/review/reply/selectbyreview",{params : {reviewId : id }})
+        .then(response=>{
+          setData(response.data);
+          console.log(response);
+        })
+      }
+    
   
     useEffect(()=>{
       getDetail();
     },[]);// currentPage가 변경될 때마다 다시 호출
-
-
+    // let [cymd, chms] = data.creatTime.split('T');
+    // let [uymd, uhms] = data.updateTime.split('T');
+    // console.log(cymd)
   return (
     <div>
 
@@ -49,9 +74,14 @@ function ReviewDetail(){
             <label>{ data.title }</label>
         </div>
         <div className="voc-view-row">
-            <label>작성자 ID</label>
-            <label>{ data.userId }</label>
+            <label>작성자</label>
+            <label>{ data.nickname }</label>
         </div>
+        <div className="voc-view-row">
+            <label>프로필 사진</label>
+            <label><img src={data.profileImageUrl} style={{width : "100px", height : "100px"}} /></label>
+        </div>
+
         <div className="voc-view-row">
             <label>조회수</label>
             <label>{ data.view }</label>
@@ -111,6 +141,14 @@ function ReviewDetail(){
 
               
 
+        </div>
+        <div className="voc-view-row">
+            <label>댓글</label>
+            <div>
+                {
+                data.content
+                }
+            </div>
         </div>
 
 
