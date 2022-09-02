@@ -141,14 +141,15 @@ public class ReviewService {
      * 전체 게시글 갯수 리턴
      */
     public int count() throws Exception {
-        return reviewMapper.reviewCount();
+        int reviewCount = reviewMapper.reviewCount();
+        return reviewCount;
     }
 
     /**
      * selectAll (전체보기) 할 때 페이지 수 리턴
      */
     public int pageCount() throws Exception {
-        int total = reviewMapper.reviewCount();
+        int total = count();
 
         if(total % PAGE_SIZE == 0) {
             return total / PAGE_SIZE;
@@ -215,6 +216,12 @@ public class ReviewService {
         return writerList;
     }
 
+    /**
+     * (지역) 키워드로 검색
+     * @param region
+     * @return
+     * @throws Exception
+     */
 
     public List<ReviewResponseDTO> keywordByRegion(String region) throws Exception {
 

@@ -16,7 +16,7 @@
     </delete>
 
     <select id="selectAllByBoardId" parameterType="int" resultType="ReviewReplyResponseDTO">
-        SELECT * FROM review_reply JOIN user On review_reply.userId = user.user_id
+        SELECT * FROM review_reply JOIN user On review_reply.user_id = user.user_id
                  WHERE board_id = #{boardId}
     </select>
 
