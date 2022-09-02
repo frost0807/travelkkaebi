@@ -1,4 +1,48 @@
 import styled from "styled-components";
+import CloseIcon from "@mui/icons-material/Close";
+
+export const Backgr = styled.div`
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1060;
+  box-sizing: inherit;
+`;
+
+export const Dimmed = styled.div`
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background: rgba(11, 19, 30, 0.37);
+`;
+
+export const ModalContainer = styled.div`
+  padding: 24px;
+  margin: auto;
+  width: 450px !important;
+  height: 550px;
+  background-color: #fff;
+  border-radius: 6px;
+  z-index: 10;
+`;
+
+export const Closebtn = styled(CloseIcon)`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: inherit;
+  font-style: inherit;
+  box-sizing: inherit;
+`;
 
 const FormBox = styled.div`
   margin: auto;

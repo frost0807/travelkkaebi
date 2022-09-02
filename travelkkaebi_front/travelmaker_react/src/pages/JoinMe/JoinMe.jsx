@@ -1,6 +1,4 @@
-import { Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import Paging from "../../components/Pagenation/Pagination";
 import "./JoinMe.css";
@@ -8,11 +6,21 @@ import { Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { API_BASE_URL } from "../../config";
 import LikeBtn from "../../components/Like/LikeBtn";
-import Modal from "../../components/Modal/Modal";
+
 import { useRecoilState } from "recoil";
-import { isModalOpenState } from "../../recoil/atom";
+import {
+  isLoginModalState,
+  isLoginState,
+  showJoinMeDetailState,
+} from "../../recoil/atom";
 import Login from "../../components/Login/Login";
 import JoinMeDetail from "./JoinMeDetail";
+import Logo from "../../images/basicLogo.png";
+import { getToken, getUsername } from "../../util";
+import JoinMeForm from "./JoinMeForm";
+import JoinMeCard from "./JoinMeCard";
+import styled from "styled-components";
+import joinmebanner from "../../images/banner/joinme_banner.jpg";
 
 function JoinMe() {
   const navigate = useNavigate();
@@ -37,13 +45,9 @@ function JoinMe() {
   /*
   useEffect(() => {
     const fetchPost = async () => {
-      const fetchAxios = await axios.all([
-        axios.get('https://jsonplaceholder.typicode.com/posts'),
-        axios.get('API_BASE_URL')]
-        .then(axios.spread(
-          (res1, res2) => {
+      const fetchAxios = await axios.get(API_BASE_URL+"selectallbypage" +page)
+        .then(res => {
             setPosts(res1.data)
-            if (res.data.type === false) setLike(true)
           }
         ))
       )
@@ -53,74 +57,103 @@ function JoinMe() {
   }, [])
 */
 
+  //pagenation
+
   // modal
-  const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
-
-  const toggleModal = (target) => {
-    console.log("모달온오프");
-    setIsModalOpen((e) => target);
+  const [isLoginModalOpen, setIsLoginModalOpen] =
+    useRecoilState(isLoginModalState);
+  const [isLogin, setIsLoginState] = useRecoilState(isLoginState);
+  const loginModal = () => {
+    setIsLoginModalOpen(true);
   };
 
-  const modalType = {
-    Login: {
-      component: <Login />,
-    },
-    JoinMeDetail: {
-      component: <JoinMeDetail />,
-    },
-  };
-
-  // 글쓰기 Page (noModal)
-  const joinMeFormhandler = () => {
-    navigate("/joinmeform");
+  const [showJoinMeDetail, setShowJoinMeDetail] = useRecoilState(
+    showJoinMeDetailState
+  );
+  const toggleModal = () => {
+    setShowJoinMeDetail(true);
   };
 
   return (
-    <Container>
-      <Button onClick={joinMeFormhandler}>글쓰기</Button>
-      <Button onClick={() => toggleModal("Login")}>로그인</Button>
-      <Row xs={5} md={5} className="g-5">
-        {posts.slice(offset, offset + limit).map((post) => (
-          <Col>
-            <Card
-              key={post.id}
-              className="post-card"
-              onClick={() => toggleModal("JoinMeDetail")}
+    <MainContent>
+      <header className="instructor_banner">
+        <div className="header-bncontainer">
+          <div className="ins-banner-cover">
+            <h1 className="bannername"> 같이 가요 !</h1>
+            <p> 꿈같은 여행에 같이 떠날 친구들을 만나보세요.</p>
+            <br />
+            <p>더 행복한 여행이 될 거예요 !</p>
+          </div>
+        </div>
+      </header>
+      <Content>
+        <ContentBody>
+          <Button
+            onClick={() => {
+              {
+                isLogin ? navigate("/joinmeform") : loginModal();
+              }
+            }}
+          >
+            글쓰기
+          </Button>
+          {isLoginModalOpen && <Login />}
+
+          <View>
+            {posts.slice(offset, offset + limit).map((post) => (
+              <JoinMeCard key={post.id} post={post} />
+            ))}
+            <footer
+              style={{
+                display: "flex",
+                position: "relative",
+                width: "100%",
+                marginTop: "2rem",
+                textAlign: "center",
+                justifyContent: "center",
+                fontWeight: 100,
+              }}
             >
-              <Card.Body>
-                <Card.Title>
-                  {post.id},
-                  {post.title.length < 12
-                    ? post.title
-                    : post.title.slice(0, 13) + "..."}
-                  <span style={{ fontSize: "0.3rem" }}>
-                    {" "}
-                    <i className="fa-solid fa-eye" />
-                    &nbsp;30
-                  </span>
-                </Card.Title>
-                <Card.Text>
-                  {post.body.length < 122
-                    ? post.body
-                    : post.body.slice(0, 122) + "..."}
-                </Card.Text>
-              </Card.Body>
-              <div className="heart-btn">
-                <LikeBtn /> <p>좋아요 수</p>
-              </div>
-              <div>아바타요</div>
-              <span> 닉네임이요 </span>
-              <p> CreateTime </p>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-      <footer>
-        <Paging />
-      </footer>
-      {isModalOpen && <Modal {...modalType[isModalOpen]} />}
-    </Container>
+              <Paging />
+            </footer>
+          </View>
+        </ContentBody>
+      </Content>
+    </MainContent>
   );
 }
 
 export default JoinMe;
+
+const MainContent = styled.main`
+  min-height: 800px;
+  box-sizing: inherit;
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+`;
+
+const Content = styled.div`
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 2rem;
+  flex-grow: 1;
+  position: relative;
+  width: auto;
+  display: block;
+  box-sizing: inherit;
+  color: #000a12;
+`;
+const ContentBody = styled.div`
+  width: 100%;
+  margin-top: 2rem;
+  box-sizing: inherit;
+`;
+const View = styled.div`
+  width: 100%;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  display: grid;
+  box-sizing: inherit;
+`;

@@ -21,7 +21,6 @@
   transform: scale(0.99);
 }
 
-
 .sns_log {
   margin: auto;
 }
@@ -30,10 +29,12 @@
   background-color: white;
 }
 .sns_log img {
-  margin: auto
-} .sns_log button :hover {
+  margin: auto;
+}
+.sns_log button :hover {
   cursor: pointer;
-} .sns_log button :active {
+}
+.sns_log button :active {
   transform: scale(0.99);
 }
 

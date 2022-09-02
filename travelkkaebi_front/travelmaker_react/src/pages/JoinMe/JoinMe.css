@@ -1,60 +1,177 @@
-.post-card {
-  width: 14rem;
-  height: 18rem;
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px 0px rgb(98, 98, 98);
-  overflow: hidden;
-  transition-property: scale, top;
-  transition-duration: 2s, 2s;
-  padding: 10px;
+.instructor_banner {
+  background-color: #5b95ec75;
   display: block;
-  cursor: pointer;
+  box-sizing: inherit;
 }
-.post-card:hover,
-.post-card:focus {
-  top: -6px;
-  box-shadow: 1px 4px 8px 1px rgb(98, 98, 98);
-  transform: scale(1);
+.header-bncontainer {
+  position: relative;
+  margin: auto;
+  padding: 31px 2rem 38px;
+  max-width: 1200px;
+  flex-grow: 1;
+  width: auto;
+  box-sizing: inherit;
+  display: block;
+  height: 250px;
+}
+.bannername {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #dd9777;
+  letter-spacing: -0.3px;
+  margin: 0;
+  margin-block-start: 0.7em;
+  margin-block-end: 2.2em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.ins-banner-cover p {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.3px;
+  color: #1b1c1d;
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: 0.2em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }
 
-.join-form-container {
-  margin-top: 10px;
-  max-height: 30rem;
-  height: 30rem;
-  max-width: 52rem;
-}
-.join-form-container label {
-  margin-bottom: 20px;
-  font-size: 0.8rem;
+.ins-banner-cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-image: url(../../images/banner/jm_banner.png);
+  background-position: calc(100% + 80px) 30%;
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  display: block;
 }
 
-.join-btn {
+.joinme-subtitle {
+  position: relative;
+  display: flex;
+  box-sizing: inherit;
+}
+.joinme-subtitle2,
+.joinme-subtitle3 {
+  padding-right: 44px;
+  position: relative;
+  display: flex;
+  box-sizing: inherit;
+}
+.joinme-sublabel {
+  margin: 0;
+  padding: 0;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  font-size: 14px;
+  color: #abb0b5;
+  flex-shrink: 0;
+  margin-right: 10px;
+  box-sizing: inherit;
+  display: block;
+}
+.joinme-subdata {
+  margin: 0;
+  padding: 0;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #858a8d;
+  margin-inline-start: 40px;
+  box-sizing: inherit;
+}
+.card_profileimg {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #e9ebee;
+  border-radius: 50px;
+  display: block;
+}
+.card_profileimg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  display: block;
+  box-sizing: inherit;
+}
+.card_username {
   display: flex;
   justify-content: space-between;
-  margin-top: 80px;
+  align-items: center;
+  min-height: 28px;
+  box-sizing: inherit;
 }
-.join-form-date {
-  padding-bottom: 10px;
+.card_username span {
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.5;
+  text-align: left;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #abb0b5;
+  text-decoration: underline;
+  cursor: pointer;
+  box-sizing: inherit;
 }
-
-.heart-btn {
-  float: right;
+.like-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+  padding: 4px 8px;
+  max-width: 78px;
+  color: #f9390f;
+  text-align: center;
+  border: 0;
+  border-radius: 4px;
+  background-color: rgba(255, 210, 77, 0.2);
+  cursor: pointer;
+}
+.like-btn span {
+  line-height: 1.43;
+  letter-spacing: -0.3px;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: inherit;
+  text-align: center;
 }
 
 /* =================================================================
   JoinMe 상세보기
 */
-
 .jd-container {
-  font-family: "Malgun Gothic", sans-serif;
   display: flex;
   flex-direction: column;
-  position: relative;
-  bottom: 0;
-  overflow: hidden;
-  padding: 32px;
-  border-radius: 8px;
-  background-color: #fff;
+  height: 100%;
   box-sizing: inherit;
 }
 

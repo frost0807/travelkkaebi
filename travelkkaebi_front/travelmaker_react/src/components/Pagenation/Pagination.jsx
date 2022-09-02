@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 //import './Paging.css';
 import Pagination from "react-js-pagination";
+import { API_BASE_URL } from "../../config";
 
-// 📌 export 주의
-// 라이브러리 사용 이슈 해결 후 완료 
-const Paging = ({ page, setPage }) => {
-
+const Paging = ({ page, setPage, total }) => {
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -13,8 +12,7 @@ const Paging = ({ page, setPage }) => {
   return (
     <Pagination
       activePage={page}
-      itemsCountPerPage={10}
-      totalItemsCount={''}
+      itemsCountPerPage={20}
       pageRangeDisplayed={5}
       prevPageText={"‹"}
       nextPageText={"›"}
