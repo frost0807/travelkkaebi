@@ -2,17 +2,14 @@ package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
 import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndKeywordDTO;
+import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,7 +17,6 @@ import java.util.List;
 public class JoinMeService {
     private final int PAGE_SIZE = 20;
     private final LikeOrDislikeService likeOrDislikeService;
-    private final UserService userService;
     private final JoinMeMapper joinMeMapper;
 
     //전체보기 기준 페이지갯수 리턴
@@ -29,34 +25,51 @@ public class JoinMeService {
     }
 
     //키워드보기 기준 페이지갯수 리턴
-    public int getPageCountByKeyword(String keyword) {
+    public int getPageCountByKeyword(String keyword) throws Exception {
         return calculatePageCount(joinMeMapper.getPageCountByKeyword(keyword));
     }
 
     public List<JoinMeListDTO> selectAllByPage(int pageNo) throws Exception {
-        //기한에 따른 마감여부 갱신하고 list리턴
-        return checkClosed(joinMeMapper.selectAllByPage(
-                PageAndKeywordDTO.builder().startNum((pageNo - 1) * PAGE_SIZE).pageSize(PAGE_SIZE).build()));
+        List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
+                checkClosed(
+                        joinMeMapper.selectAllByPage(
+                                setPageAndWord(pageNo, null))));
+
+        return joinMeListDTOList;
     }
 
     public List<JoinMeListDTO> selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
-        return checkClosed(joinMeMapper.selectAllByPageAndKeyword(
-                PageAndKeywordDTO.builder().startNum((pageNo - 1) * PAGE_SIZE).pageSize(PAGE_SIZE).keyword(keyword).build()));
+        List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
+                checkClosed(
+                        joinMeMapper.selectAllByPageAndKeyword(
+                                setPageAndWord(pageNo, keyword))));
+
+        return joinMeListDTOList;
     }
 
-    //게시물 상세보기하면서 조회수+1, like_count갱신
+    public List<JoinMeListDTO> selectAllByPageAndTitle(int pageNo, String searchWord) throws Exception {
+        List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
+                checkClosed(
+                        joinMeMapper.selectAllByPageAndTitle(
+                                setPageAndWord(pageNo, searchWord))));
+        return joinMeListDTOList;
+    }
+
+    public List<JoinMeListDTO> selectAllByPageAndNickname(int pageNo, String searchWord) throws Exception {
+        List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
+                checkClosed(
+                        joinMeMapper.selectAllByPageAndNickname(
+                                setPageAndWord(pageNo, searchWord))));
+        return joinMeListDTOList;
+    }
+
+    //게시물 상세보기하면서 조회수+1
     public JoinMeOneDTO selectOne(int joinMeId) throws Exception {
-        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId);
-        joinMeOneDTO.setLikeCount(likeOrDislikeService.getCount(
-                        LikeOrDislikeDTO.builder()
-                                .categoryId(joinMeOneDTO.getCategoryId())
-                                .boardId(joinMeOneDTO.getJoinMeId())
-                                .build())
-                .get("like"));
-        if (joinMeMapper.updateSelectOne(joinMeOneDTO) != 0) { //조회수+1, like_count 갱신 성공하면
-            return joinMeMapper.selectOne(joinMeId);
+        if (joinMeMapper.updateView(joinMeId) != 0) { //조회수+1 성공하면
+            return joinMeMapper.selectOne(joinMeId)
+                    .orElseThrow(() -> new NullPointerException("선택한 게시물이 존재하지 않음"));
         } else { //게시물이 존재하지 않으면
-            return null;
+            throw new RuntimeException("게시물 조회수 갱신 실패");
         }
     }
 
@@ -65,38 +78,45 @@ public class JoinMeService {
 
         if (joinMeMapper.insert(joinMeDTO) != 0) { //insert가 성공했으면
             //useGenerateKeys에 의해 생성된 Id값으로 selectOne해서 리턴
-            return joinMeMapper.selectOne(joinMeDTO.getJoinMeId());
+            return joinMeMapper.selectOne(joinMeDTO.getJoinMeId())
+                    .orElseThrow(() -> new NullPointerException("입력한 게시물이 존재하지 않음"));
         } else { //삽입 실패했으면
-            return null;
+            throw new RuntimeException("게시물 삽입 실패");
         }
     }
 
     @Transactional
     public JoinMeOneDTO update(JoinMeDTO joinMeDTO, int userId) throws Exception {
+        //CSRF방어
         joinMeDTO.setUserId(userId);
-        //update할 게시물의 id로 selectOne해와서 로그인한 userId와 비교하고
-        //단축평가에 의해 true면 update수행 후 성공여부판별 후 객체리턴
-        if (joinMeMapper.selectOne(joinMeDTO.getJoinMeId()).getUserId() == userId
-                && joinMeMapper.update(joinMeDTO) != 0) {
+        if (joinMeMapper.update(joinMeDTO) != 0) {
             //useGenerateKeys에 의해 생성된 Id값으로 selectOne해서 리턴
             return selectOne(joinMeDTO.getJoinMeId());
         } else { //삽입 실패했으면
-            return null;
+            throw new RuntimeException("게시물 업데이트 실패");
         }
     }
 
     @Transactional
-    public boolean delete(int joinMeId, int userId) throws Exception {
-        if (joinMeMapper.selectOne(joinMeId).getUserId() == userId) {
-            return (joinMeMapper.delete(joinMeId) != 0 ? true : false);
-        } else {
-            return false;
-        }
+    public boolean delete(JoinMeDTO joinMeDTO, int userId) throws Exception {
+        //CSRF방어
+        joinMeDTO.setUserId(userId);
+
+        return (joinMeMapper.delete(joinMeDTO) != 0 ? true : false);
+    }
+
+    //페이지번호와 키워드를 객체에 세팅해주는 메소드
+    public PageAndWordDTO setPageAndWord(int pageNo, String word) {
+        return PageAndWordDTO.builder()
+                .startNum((pageNo - 1) * PAGE_SIZE)
+                .pageSize(PAGE_SIZE)
+                .word(word)
+                .build();
     }
 
     //여행 끝나는날을 기준으로 글을 마감처리하는 메소드
     @Transactional
-    public List<JoinMeListDTO> checkClosed(List<JoinMeListDTO> joinMeList) {
+    public List<JoinMeListDTO> checkClosed(List<JoinMeListDTO> joinMeList) throws Exception {
         for (int i = 0; i < joinMeList.size(); i++) {
             JoinMeListDTO joinMeListDTO = joinMeList.get(i);
             //여행 끝나는날이 현재시간기준 과거면
@@ -104,12 +124,28 @@ public class JoinMeService {
                 //글을 마감처리하고
                 joinMeListDTO.setClosed(true);
                 //마감처리된 글을 update
-                joinMeMapper.updateClosed(joinMeListDTO);
+                if (joinMeMapper.updateClosed(joinMeListDTO) == 0) {
+                    throw new RuntimeException("마감처리 업데이트 실패");
+                }
             }
         }
         return joinMeList;
     }
 
+    //응답객체에 좋아요 갯수 삽입해주는 메소드
+    public List<JoinMeListDTO> setLikeCount(List<JoinMeListDTO> joinMeList) throws Exception {
+        for (int i = 0; i < joinMeList.size(); i++) {
+            JoinMeListDTO joinMeListDTO = joinMeList.get(i);
+            LikeOrDislikeDTO likeOrDislikeDTO = LikeOrDislikeDTO.builder()
+                    .categoryId(joinMeListDTO.getCategoryId())
+                    .boardId(joinMeListDTO.getJoinMeId())
+                    .build();
+            joinMeListDTO.setLikeCount(likeOrDislikeService.getLikeCount(likeOrDislikeDTO));
+        }
+        return joinMeList;
+    }
+
+    //페이지수 계산해주는 메소드
     private int calculatePageCount(int boardCount) {
         if (boardCount % PAGE_SIZE != 0) {
             return boardCount / PAGE_SIZE + 1;

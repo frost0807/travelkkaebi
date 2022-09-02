@@ -8,9 +8,8 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class JoinMeApplyDTO {
-    private int pickMeApplyId;
-    private int categoryId;
-    private int boardId;
+    private int joinMeApplyId;
+    private int joinMeId;
     private int userId;
     private String comment;
     private boolean picked;

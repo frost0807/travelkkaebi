@@ -12,31 +12,25 @@ import java.util.List;
 public class TravelMapService {
     private final TravelMapMapper travelMapMapper;
 
-    public List<TravelMapDTO> selectAll(TravelMapDTO travelMapDTO) throws Exception{
+    public List<TravelMapDTO> selectAll(TravelMapDTO travelMapDTO) throws Exception {
         return travelMapMapper.selectAll(travelMapDTO);
     }
 
-    public TravelMapDTO insert(TravelMapDTO travelMapDTO, int userId) throws Exception{
+    public boolean insert(TravelMapDTO travelMapDTO, int userId) throws Exception {
         travelMapDTO.setUserId(userId);
-        travelMapMapper.insert(travelMapDTO);
 
-        return travelMapMapper.selectOne(travelMapDTO.getTravelMapId());
+        return travelMapMapper.insert(travelMapDTO) == 1 ? true : false;
     }
 
-    public TravelMapDTO update(TravelMapDTO travelMapDTO, int userId) throws Exception{
-        if(travelMapMapper.selectOne(travelMapDTO.getTravelMapId()).getUserId()==userId
-                &&travelMapMapper.update(travelMapDTO)!=0){
-            return travelMapMapper.selectOne(travelMapDTO.getTravelMapId());
-        } else{
-            return null;
-        }
+    public boolean update(TravelMapDTO travelMapDTO, int userId) throws Exception {
+        travelMapDTO.setUserId(userId);
+
+        return travelMapMapper.update(travelMapDTO) == 1 ? true : false;
     }
 
-    public int delete(int travelMapId, int userId) throws Exception{
-        if(travelMapMapper.selectOne(travelMapId).getUserId()==userId){
-            return travelMapMapper.delete(travelMapId);
-        } else{
-            return 0;
-        }
+    public boolean delete(int travelMapId, int userId) throws Exception {
+        TravelMapDTO travelMapDTO = TravelMapDTO.builder().travelMapId(travelMapId).userId(userId).build();
+
+        return travelMapMapper.delete(travelMapDTO)==1 ? true : false;
     }
 }
