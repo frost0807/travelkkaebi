@@ -11,5 +11,5 @@ public interface TravelMapMapper {
     TravelMapDTO selectOne(int travelMapId);
     int insert(TravelMapDTO travelMapDTO);
     int update(TravelMapDTO travelMapDTO);
-    int delete(int travelMapId);
+    int delete(TravelMapDTO travelMapDTO);
 }

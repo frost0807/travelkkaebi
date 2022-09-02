@@ -16,8 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewMapper reviewMapper;
-    private final ReviewReplyMapper replyMapper;
-    private final LikeOrDislikeService likeOrDislikeService;
 
     private final int PAGE_SIZE = 10;
 
@@ -43,7 +41,7 @@ public class ReviewService {
     }
 
     /**
-     * 게시글 수정><
+     * 게시글 수정
      * @param review
      * @param userId
      * @return updatedReviewId
@@ -127,21 +125,13 @@ public class ReviewService {
      * @param reviewId
      * @return review
      */
-    public ReviewResponseDTO selectOne(int reviewId) throws Exception {
-        LikeOrDislikeDTO likeOrDislike = null;
+
+    public ReviewResponseDTO selectOne(int reviewId) {
         System.out.println("상세보기 서비스 도착");
 
         // 조회수 +1 시켜주는 코드
         reviewMapper.viewPlus(reviewId);
         ReviewResponseDTO review = reviewMapper.selectOne(reviewId);
-
-        // 좋아요, 싫어요 갯수 업데이트
-        likeOrDislike.setCategoryId(review.getCategoryId());
-        likeOrDislike.setBoardId(review.getReviewId());
-        HashMap<String, Integer> countMap = likeOrDislikeService.getCount(likeOrDislike);
-
-        review.setLikeCount(countMap.get("like"));
-        review.setDislikeCount(countMap.get("dislike"));
 
         return review;
     }
@@ -151,14 +141,15 @@ public class ReviewService {
      * 전체 게시글 갯수 리턴
      */
     public int count() throws Exception {
-        return reviewMapper.reviewCount();
+        int reviewCount = reviewMapper.reviewCount();
+        return reviewCount;
     }
 
     /**
      * selectAll (전체보기) 할 때 페이지 수 리턴
      */
     public int pageCount() throws Exception {
-        int total = reviewMapper.reviewCount();
+        int total = count();
 
         if(total % PAGE_SIZE == 0) {
             return total / PAGE_SIZE;
@@ -167,22 +158,81 @@ public class ReviewService {
         }
     }
 
-    /*
-    public List<ReviewDTO> searchByTitle(String title) {
-        String searchTitle = reviewMapper.
 
-    } */
+    /**
+     * 특정 제목으로 검색
+     * @param title
+     * @return titleList
+     * @throws Exception
+     */
+    public List<ReviewResponseDTO> searchByTitle(String title) throws Exception {
 
+        List<ReviewResponseDTO> titleList;
 
+        if (title != null) {
+            titleList = reviewMapper.searchByTitle(title);
+        } else {
+            return null;
+        }
 
+        return titleList;
+    }
 
+    /**
+     * 특정 내용으로 검색
+     * @param content
+     * @return contentList
+     * @throws Exception
+     */
+    public List<ReviewResponseDTO> searchByContent(String content) throws Exception {
 
+        List<ReviewResponseDTO> contentList;
 
+        if (content != null) {
+            contentList = reviewMapper.searchByContent(content);
+        } else {
+            return null;
+        }
 
+        return contentList;
+    }
 
+    /**
+     * 특정 작성자로 검색
+     * @param writer
+     * @return writerList
+     * @throws Exception
+     */
 
+    public List<ReviewResponseDTO> searchByWriter(String writer) throws Exception {
 
+        List<ReviewResponseDTO> writerList;
 
+        if(writer != null) {
+            writerList = reviewMapper.searchByWriter(writer);
+        } else {
+            return null;
+        }
+        return writerList;
+    }
 
+    /**
+     * (지역) 키워드로 검색
+     * @param region
+     * @return
+     * @throws Exception
+     */
 
+    public List<ReviewResponseDTO> keywordByRegion(String region) throws Exception {
+
+        List<ReviewResponseDTO> regionList;
+
+        if(region != null) {
+            regionList = reviewMapper.keywordByRegion(region);
+        } else {
+            return null;
+        }
+
+        return regionList;
+    }
 }

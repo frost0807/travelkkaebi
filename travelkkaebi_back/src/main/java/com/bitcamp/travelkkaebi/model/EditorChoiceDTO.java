@@ -7,16 +7,15 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class ReviewDTO {
+public class EditorChoiceDTO {
 
-    private int reviewId;
-    private int categoryId;
+    private int editorChoiceId;
     private int userId;
+    private int categoryId;
     private String title;
     private String content;
-    private String region;
     private int view;
+    private String region;
     private Timestamp createTime;
     private Timestamp updateTime;
-
 }

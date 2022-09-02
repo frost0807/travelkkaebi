@@ -7,11 +7,13 @@ import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.repository.RegionEventRepository;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +21,6 @@ public class RegionEventService {
 
     private final RegionEventRepository regionEventRepository;
     private final UserRepository userRepository;
-
-    /*public List<RegionEventDTO> findAll() {
-        List<RegionalEventEntity> findRegion = regionEventRepository.findAll();
-        return findRegion.stream().map(RegionEventDTO::new).collect(Collectors.toList());
-    }*/
 
     /**
      * 글 작성 logic
@@ -35,8 +32,8 @@ public class RegionEventService {
         regionEventDTO.setUserIdAndNicknameAndPosterImageUrl(findUser.getId(), findUser.getNickname(), image);
 
         RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
-
         regionEventDTO.setId(saveRegionEvent.getId());
+
         return regionEventDTO;
     }
 
@@ -94,13 +91,17 @@ public class RegionEventService {
     @Transactional
     public void updateView(int regionBoardId) {
         RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionBoardId).orElseThrow(() -> new RuntimeException("edit exception"));
-        findRegionEvent.updateView(findRegionEvent.getView());
+        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
     }
 
     /**
-     * 최신순 4개씩 pagination logic
+     * 게시물 전체, 최신순 게시물 4개씩 pagination
      */
-    public Page<RegionEventDTO> findAll(Pageable pageable) {
-        return regionEventRepository.findByOrderByIdDesc(pageable).map(RegionEventDTO::new);
+    public HashMap<Integer, List<RegionEventDTO>> findAll(Pageable pageable) {
+        HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
+        regionList.put(1, regionEventRepository.findAll().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+        regionList.put(2, regionEventRepository.findByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+        return regionList;
     }
+
 }

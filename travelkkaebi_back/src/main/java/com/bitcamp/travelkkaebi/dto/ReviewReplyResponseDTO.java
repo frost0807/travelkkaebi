@@ -14,7 +14,7 @@ public class ReviewReplyResponseDTO {
     private int boardId;
     private int userId;
     private String nickname;
-    private String profile_image_url;
+    private String profileImageUrl;
     private String comment;
     private Calendar createTime;
     private Calendar updateTime;

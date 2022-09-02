@@ -5,21 +5,21 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Setter
 @Getter
-public class ReviewResponseDTO {
+@Setter
+public class EditorChoiceResponseDTO {
 
-    private int reviewId;
-    private int categoryId;
+    private int editorChoiceId;
     private int userId;
+    private int categoryId;
     private String nickname;
     private String profileImageUrl;
     private int mannerDegree;
+    private String role;
     private String title;
     private String content;
-    private String region;
     private int view;
+    private String region;
     private Timestamp createTime;
     private Timestamp updateTime;
-
 }
