@@ -1,4 +1,4 @@
-package com.bitcamp.travelkkaebi.model;
+package com.bitcamp.travelkkaebi.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,16 +7,18 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class ReviewDTO {
+public class EditorChoiceResponseDTO {
 
-    private int reviewId;
-    private int categoryId;
+    private int editorChoiceId;
     private int userId;
+    private int categoryId;
+    private String nickname;
+    private String profileImageUrl;
+    private int mannerDegree;
     private String title;
     private String content;
-    private String region;
     private int view;
+    private String region;
     private Timestamp createTime;
     private Timestamp updateTime;
-
 }

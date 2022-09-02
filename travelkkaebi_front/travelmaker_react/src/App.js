@@ -34,8 +34,16 @@ function Main() {
     <BrowserRouter>
       <Header />
       {/* <ModalOnbtn /> */}
+
+
+
+
+      {/* //=================================== */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route 
+        // path="/"
+        index
+         element={<Home />} />
         <Route path="/login" element={<Login />} />
 
         {/*<Route path="/oauth/kakao/callback" element={<KakaoLogin />} />*/}
@@ -61,8 +69,12 @@ function Main() {
         <Route path="/testresponse" element={<TestResponse />} />
         {/* <Route path='/testpost' element={<TestPost />}/> */}
 
-        <Route path="/pickupme" element={<PickUpMe />}></Route>
+        <Route path="/pickupme" element={<PickUpMe />}/>
       </Routes>
+
+
+
+      {/* //=================================== */}
       <Footer />
     </BrowserRouter>
   );
@@ -70,14 +82,15 @@ function Main() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<JoinMe />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/joinmedetail/:joinid" element={<JoinMeDetail />} />
-        <Route path="/joinmeform" element={<JoinMeForm />} />
-      </Routes>
-    </BrowserRouter>
+    <Main/>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<JoinMe />} />
+    //     <Route path="/login" element={<Login />} />
+    //     <Route path="/joinmedetail/:joinid" element={<JoinMeDetail />} />
+    //     <Route path="/joinmeform" element={<JoinMeForm />} />
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 

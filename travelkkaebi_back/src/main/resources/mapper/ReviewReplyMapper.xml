@@ -8,8 +8,7 @@
     </insert>
 
     <update id="update" parameterType="ReviewReplyDTO" useGeneratedKeys="true" keyProperty="reviewReplyId">
-        UPDATE review_reply SET comment = #{comment}, update_time = NOW(),
-            review_reply_id = #{reviewReplyId}
+        UPDATE review_reply SET comment = #{comment} WHERE review_reply_id = #{reviewReplyId}
     </update>
 
     <delete id="delete" parameterType="int">
@@ -17,8 +16,8 @@
     </delete>
 
     <select id="selectAllByBoardId" parameterType="int" resultType="ReviewReplyResponseDTO">
-        SELECT * FROM review_reply JOIN user On review_reply.userId = user.user_id
-                 WHERE category_id = 1 AND board_id = #{boardId}
+        SELECT * FROM review_reply JOIN user On review_reply.user_id = user.user_id
+                 WHERE board_id = #{boardId}
     </select>
 
 

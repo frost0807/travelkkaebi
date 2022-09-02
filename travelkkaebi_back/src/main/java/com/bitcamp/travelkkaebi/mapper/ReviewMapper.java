@@ -3,11 +3,6 @@ package com.bitcamp.travelkkaebi.mapper;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.*;
-
-import org.hibernate.annotations.Parameter;
-
-import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +21,12 @@ public interface ReviewMapper {
     int viewPlus(int reviewId);
 
     int reviewCount();
+    List<ReviewResponseDTO> searchByTitle(String title);
+    List<ReviewResponseDTO> searchByContent(String content);
+    List<ReviewResponseDTO> searchByWriter(String writer);
+    List<ReviewResponseDTO> keywordByRegion(String region);
+
+
 
 
 }
