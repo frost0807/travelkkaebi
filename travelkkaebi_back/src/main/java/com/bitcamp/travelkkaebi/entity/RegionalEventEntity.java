@@ -23,9 +23,6 @@ public class RegionalEventEntity extends BaseEntity {
     @Column(name = "regional_event_id")
     private int id;
 
-    @Column(name = "category_id", nullable = false)
-    private int categoryId;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
@@ -33,13 +30,8 @@ public class RegionalEventEntity extends BaseEntity {
     @Column(name = "poster_image_url")
     private String posterImageUrl;
 
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    private String content;
-
-    private int view;
+    @Embedded
+    private BaseWrite baseWrite;
 
     public static RegionalEventEntity toEntity(RegionEventDTO regionEventDTO) {
         return RegionalEventEntity.builder()
@@ -47,21 +39,27 @@ public class RegionalEventEntity extends BaseEntity {
                         .id(regionEventDTO.getUserId())
                         .nickname(regionEventDTO.getNickname())
                         .build())
-                .categoryId(regionEventDTO.getCategoryId())
-                .content(regionEventDTO.getContent())
+                .baseWrite(BaseWrite.builder()
+                        .categoryId(regionEventDTO.getCategoryId())
+                        .content(regionEventDTO.getContent())
+                        .title(regionEventDTO.getTitle())
+                        .view(regionEventDTO.getView())
+                        .build())
                 .posterImageUrl(regionEventDTO.getPosterImageUrl())
-                .content(regionEventDTO.getContent())
-                .title(regionEventDTO.getTitle())
                 .build();
     }
 
     public void change(RegionEventDTO regionEventDTO) {
-        this.content = regionEventDTO.getContent();
-        this.title = regionEventDTO.getTitle();
+        this.baseWrite = BaseWrite.builder()
+                .content(regionEventDTO.getContent())
+                .title(regionEventDTO.getTitle())
+                .build();
         this.posterImageUrl = regionEventDTO.getPosterImageUrl();
     }
 
     public void updateView(int view) {
-        this.view = view + 1;
+        this.baseWrite = BaseWrite.builder()
+                .view(view + 1)
+                .build();
     }
 }

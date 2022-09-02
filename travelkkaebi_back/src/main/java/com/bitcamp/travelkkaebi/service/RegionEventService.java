@@ -92,7 +92,7 @@ public class RegionEventService {
     @Transactional
     public void updateView(int regionBoardId) {
         RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionBoardId).orElseThrow(() -> new RuntimeException("edit exception"));
-        findRegionEvent.updateView(findRegionEvent.getView());
+        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
     }
 
     /**
