@@ -15,6 +15,7 @@ public class EditorChoiceResponseDTO {
     private String nickname;
     private String profileImageUrl;
     private int mannerDegree;
+    private String role;
     private String title;
     private String content;
     private int view;
