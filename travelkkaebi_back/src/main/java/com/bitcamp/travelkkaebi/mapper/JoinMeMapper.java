@@ -11,8 +11,10 @@ import java.util.Optional;
 
 @Mapper
 public interface JoinMeMapper {
-    int getPageCount();
-    int getPageCountByKeyword(String keyword);
+    int getBoardCount();
+    int getBoardCountByKeyword(String keyword);
+    int getBoardCountByTitle(String searchword);
+    int getBoardCountByNickname(String searchword);
     List<JoinMeListDTO> selectAllByPage(PageAndWordDTO pageAndWordDTO);
     List<JoinMeListDTO> selectAllByPageAndKeyword(PageAndWordDTO pageAndWordDTO);
     List<JoinMeListDTO> selectAllByPageAndTitle(PageAndWordDTO pageAndWordDTO);

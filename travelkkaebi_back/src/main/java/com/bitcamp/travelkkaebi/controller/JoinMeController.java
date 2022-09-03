@@ -19,16 +19,6 @@ import java.util.List;
 public class JoinMeController {
     private final JoinMeService joinMeService;
 
-    @GetMapping("/pagecount/keyword")
-    public ResponseEntity<Integer> getPageCountByKeyWord(@RequestParam String keyword) {
-        try {
-            return new ResponseEntity<>(joinMeService.getPageCountByKeyword(keyword), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
     @GetMapping("/selectallbypage")
     public ResponseEntity<ListResponseDTO> selectAllByPage(@RequestParam int pageNo) {
@@ -54,7 +44,7 @@ public class JoinMeController {
 
     //제목으로 검색
     @GetMapping("/selectallbypage/searchbytitle")
-    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndTitle(
+    public ResponseEntity<ListResponseDTO> selectAllByPageAndTitle(
             @RequestParam int pageNo,
             @RequestParam String searchword) {
         try {
@@ -67,7 +57,7 @@ public class JoinMeController {
 
     //제목으로 검색
     @GetMapping("/selectallbypage/searchbynickname")
-    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndNickname(
+    public ResponseEntity<ListResponseDTO> selectAllByPageAndNickname(
             @RequestParam int pageNo,
             @RequestParam String searchword) {
         try {
