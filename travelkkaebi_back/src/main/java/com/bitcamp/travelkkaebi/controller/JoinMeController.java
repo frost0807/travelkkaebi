@@ -2,6 +2,7 @@ package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
 import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import com.bitcamp.travelkkaebi.service.JoinMeService;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +29,9 @@ public class JoinMeController {
         }
     }
 
-    @GetMapping("/pagecount")
-    public ResponseEntity<Integer> getPageCount() {
-        try {
-            return new ResponseEntity<>(joinMeService.getPageCount(), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
     @GetMapping("/selectallbypage")
-    public ResponseEntity<List<JoinMeListDTO>> selectAllByPage(@RequestParam int pageNo) {
+    public ResponseEntity<ListResponseDTO> selectAllByPage(@RequestParam int pageNo) {
         try {
             //해당 pageNo의 게시물 리스트를 리턴
             return new ResponseEntity<>(joinMeService.selectAllByPage(pageNo), HttpStatus.OK);
@@ -51,7 +42,7 @@ public class JoinMeController {
     }
 
     @GetMapping("/selectallbypage/keyword")
-    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndKeyword(@RequestParam int pageNo,
+    public ResponseEntity<ListResponseDTO> selectAllByPageAndKeyword(@RequestParam int pageNo,
                                                                          @RequestParam String keyword) {
         try {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo, keyword), HttpStatus.OK);

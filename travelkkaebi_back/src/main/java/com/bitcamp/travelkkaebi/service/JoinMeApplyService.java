@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class JoinMeApplyService {
-    private final int PAGE_SIZE = 20;
+    private final int PAGE_SIZE = 10;
     private final JoinMeApplyMapper joinMeApplyMapper;
     private final JoinMeMapper joinMeMapper;
 
@@ -33,12 +33,29 @@ public class JoinMeApplyService {
         }
     }
 
+    //로그인한 유저가 신청한 신청서들
     public List<JoinMeApplyResponseDTO> selectAllByUserId(int pageNo, int userId) throws Exception {
-        PageAndUserIdDTO pageAndUserIdDTO = PageAndUserIdDTO.builder()
+        return joinMeApplyMapper.selectAllByUserId(setPageAndUserId(pageNo, userId));
+    }
+
+    //로그인한 유저의 같이가요 글에 신청한 신청서들
+    public List<JoinMeApplyResponseDTO> selectAllByWriterId(int pageNo, int userId) throws Exception {
+        return joinMeApplyMapper.selectAllByWriterId(setPageAndUserId(pageNo, userId));
+    }
+
+    public PageAndUserIdDTO setPageAndUserId(int pageNo, int userId) {
+        return PageAndUserIdDTO.builder()
                 .startNum((pageNo - 1) * PAGE_SIZE)
                 .pageSize(PAGE_SIZE)
-                .user_id(userId)
+                .userId(userId)
                 .build();
-        return joinMeApplyMapper.selectAllByUserId(pageAndUserIdDTO);
+    }
+    //페이지수 계산해주는 메소드
+    private int calculatePageCount(int boardCount) {
+        if (boardCount % PAGE_SIZE != 0) {
+            return boardCount / PAGE_SIZE + 1;
+        } else {
+            return boardCount / PAGE_SIZE;
+        }
     }
 }

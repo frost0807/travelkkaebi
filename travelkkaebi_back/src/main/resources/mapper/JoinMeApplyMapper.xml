@@ -2,17 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper">
 
+    <select id="get">
+
+    </select>
+
     <select id="selectAllByWriterId" parameterType="PageAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
         SELECT *
-        FROM join_me_apply
-        WHERE join_me_id = #{joinMeId}
+        FROM join_me_apply AS j
+        JOIN board_join_me AS b ON j.join_me_id = b.join_me_id
+        JOIN user AS u ON j.user_id = u.user_id
+        WHERE b.user_id = #{userId}
+        ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="selectAllByUserId" parameterType="PageAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
         SELECT *
         FROM join_me_apply AS j
                  JOIN user AS u ON j.user_id = u.user_id
-        WHERE user_id = #{userId}
+        WHERE j.user_id = #{userId}
         ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -27,4 +34,8 @@
         INSERT INTO join_me_apply (join_me_id, user_id, comment)
         VALUES (#{joinMeId}, #{userId}, #{comment})
     </insert>
+
+    <update id="setSelectedTrue">
+
+    </update>
 </mapper>

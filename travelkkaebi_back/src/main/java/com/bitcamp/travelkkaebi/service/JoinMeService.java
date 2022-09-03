@@ -2,6 +2,7 @@ package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
 import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
@@ -19,34 +20,37 @@ public class JoinMeService {
     private final LikeOrDislikeService likeOrDislikeService;
     private final JoinMeMapper joinMeMapper;
 
-    //전체보기 기준 페이지갯수 리턴
-    public int getPageCount() throws Exception {
-        return calculatePageCount(joinMeMapper.getPageCount());
-    }
-
     //키워드보기 기준 페이지갯수 리턴
     public int getPageCountByKeyword(String keyword) throws Exception {
         return calculatePageCount(joinMeMapper.getPageCountByKeyword(keyword));
     }
 
-    public List<JoinMeListDTO> selectAllByPage(int pageNo) throws Exception {
+    public ListResponseDTO selectAllByPage(int pageNo) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPage(
                                 setPageAndWord(pageNo, null))));
 
-        return joinMeListDTOList;
+        return ListResponseDTO.builder()
+                .totalPageCount(calculatePageCount(joinMeMapper.getPageCount()))
+                .list(joinMeListDTOList)
+                .build();
     }
 
-    public List<JoinMeListDTO> selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
+    //지역키워드 기준으로 추려서 게시물 20개 리턴
+    public ListResponseDTO selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndKeyword(
                                 setPageAndWord(pageNo, keyword))));
 
-        return joinMeListDTOList;
+        return ListResponseDTO.builder()
+                .totalPageCount(calculatePageCount(joinMeMapper.getPageCount()))
+                .list(joinMeListDTOList)
+                .build();
     }
 
+    //제목검색 후 추려서 게시물 20개 리턴
     public List<JoinMeListDTO> selectAllByPageAndTitle(int pageNo, String searchWord) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
@@ -55,6 +59,7 @@ public class JoinMeService {
         return joinMeListDTOList;
     }
 
+    //작성자 검색 후 추려서 게시물 20개 리턴
     public List<JoinMeListDTO> selectAllByPageAndNickname(int pageNo, String searchWord) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(

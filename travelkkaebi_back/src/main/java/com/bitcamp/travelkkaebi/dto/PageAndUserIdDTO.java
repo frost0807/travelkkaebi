@@ -10,5 +10,5 @@ import lombok.Setter;
 public class PageAndUserIdDTO {
     private int startNum;
     private int pageSize;
-    private int user_id;
+    private int userId;
 }

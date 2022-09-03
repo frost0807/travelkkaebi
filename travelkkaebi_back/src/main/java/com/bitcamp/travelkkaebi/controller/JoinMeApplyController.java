@@ -20,22 +20,36 @@ public class JoinMeApplyController {
 
     @PostMapping("/insert")
     public ResponseEntity<Boolean> insert(@RequestBody JoinMeApplyDTO joinMeApplyDTO,
-                                          @AuthenticationPrincipal String userId){
-        try{
+                                          @AuthenticationPrincipal String userId) {
+        try {
             return new ResponseEntity<>(joinMeApplyService.insert(joinMeApplyDTO, Integer.parseInt(userId)), HttpStatus.OK);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    //본인이 신청한 신청서들
+
+    //로그인한 유저가 신청한 신청서들
     @GetMapping("/selectall/byuserid")
     public ResponseEntity<List<JoinMeApplyResponseDTO>> selectAllByUserId(
             @RequestParam int pageNo,
-            @AuthenticationPrincipal String userId){
-        try{
+            @AuthenticationPrincipal String userId) {
+        try {
             return new ResponseEntity<>(joinMeApplyService.selectAllByUserId(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
-        } catch(Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    //내가 작성한 같이가요 글에 신청한 신청서들
+    @GetMapping("/selectall/bywriterid")
+    public ResponseEntity<List<JoinMeApplyResponseDTO>>
+    selectAllByWriterId(
+            @RequestParam int pageNo,
+            @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(joinMeApplyService.selectAllByWriterId(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
