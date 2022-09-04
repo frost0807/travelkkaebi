@@ -20,6 +20,7 @@ public class JoinMeService {
     private final LikeOrDislikeService likeOrDislikeService;
     private final JoinMeMapper joinMeMapper;
 
+    //전체보기 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
     public ListResponseDTO selectAllByPage(int pageNo) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
@@ -29,7 +30,7 @@ public class JoinMeService {
         return setListResponse(joinMeMapper.getBoardCount(), joinMeListDTOList);
     }
 
-    //지역키워드 기준으로 최대 20개의 게시물과 총 페이지수 리턴
+    //지역키워드 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
     public ListResponseDTO selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
@@ -39,7 +40,7 @@ public class JoinMeService {
         return setListResponse(joinMeMapper.getBoardCountByKeyword(keyword), joinMeListDTOList);
     }
 
-    //제목검색 후 최대 20개의 게시물과 총 페이지수 리턴
+    //제목검색 후 최대 20개의 게시물과 총 게시물 수 리턴
     public ListResponseDTO selectAllByPageAndTitle(int pageNo, String searchword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
@@ -48,7 +49,7 @@ public class JoinMeService {
         return setListResponse(joinMeMapper.getBoardCountByTitle(searchword), joinMeListDTOList);
     }
 
-    //닉네임검색 후 최대 20개의 게시물과 총 페이지수 리턴
+    //닉네임검색 후 최대 20개의 게시물과 총 게시물 수 리턴
     public ListResponseDTO selectAllByPageAndNickname(int pageNo, String searchword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
@@ -67,6 +68,7 @@ public class JoinMeService {
         }
     }
 
+    //게시물 삽입
     public JoinMeOneDTO insert(JoinMeDTO joinMeDTO, int userId) throws Exception {
         joinMeDTO.setUserId(userId);
 
@@ -79,6 +81,7 @@ public class JoinMeService {
         }
     }
 
+    //게시물 수정
     @Transactional
     public JoinMeOneDTO update(JoinMeDTO joinMeDTO, int userId) throws Exception {
         //CSRF방어
@@ -96,7 +99,7 @@ public class JoinMeService {
         //CSRF방어
         joinMeDTO.setUserId(userId);
 
-        return (joinMeMapper.delete(joinMeDTO) != 0 ? true : false);
+        return (joinMeMapper.delete(joinMeDTO) != 0);
     }
 
     //페이지번호와 키워드를 객체에 세팅해주는 메소드

@@ -94,6 +94,12 @@
         WHERE join_me_id = #{joinMeId}
     </update>
 
+    <update id="updateMemberCount" parameterType="UpdateMemberCountDTO">
+        UPDATE board_join_me
+        SET current_member_count = #{currentMemberCount}
+        WHERE join_me_id=#{joinMeId} AND user_id=#{userId}
+    </update>
+
     <delete id="delete" parameterType="JoinMeDTO">
         DELETE
         FROM board_join_me

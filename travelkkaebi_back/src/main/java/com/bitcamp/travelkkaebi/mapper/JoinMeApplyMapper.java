@@ -16,7 +16,7 @@ public interface JoinMeApplyMapper {
     List<JoinMeApplyResponseDTO> selectAllByWriterId(PageAndUserIdDTO pageAndUserIdDTO);
     List<JoinMeApplyResponseDTO> selectAllByUserId(PageAndUserIdDTO pageAndUserIdDTO);
     Optional<JoinMeApplyResponseDTO> selectOne(int joinMeApplyId);
-    Optional<JoinMeApplyDTO> checkValidUser(PrimaryIdAndUserIdDTO primaryIdAndUserIdDTO);
+    Optional<Integer> checkValidUserAndGetJoinMeId(PrimaryIdAndUserIdDTO primaryIdAndUserIdDTO);
     int insert(JoinMeApplyDTO joinMeApplyDTO);
     int updateSelectedTrue(int joinMeApplyId);
 }

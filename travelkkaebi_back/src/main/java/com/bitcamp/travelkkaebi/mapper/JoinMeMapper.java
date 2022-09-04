@@ -1,8 +1,6 @@
 package com.bitcamp.travelkkaebi.mapper;
 
-import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
-import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
+import com.bitcamp.travelkkaebi.dto.*;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import org.apache.ibatis.annotations.*;
 
@@ -23,6 +21,7 @@ public interface JoinMeMapper {
     int insert(JoinMeDTO joinMeDTO);
     int update(JoinMeDTO joinMeDTO);
     int updateView(int joinMeId);
+    int updateMemberCount(UpdateMemberCountDTO updateMemberCountDTO);
     int updateClosed(JoinMeListDTO joinMeListDTO);
     int delete(JoinMeDTO joinMeDTO);
 }

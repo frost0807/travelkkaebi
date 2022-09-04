@@ -21,7 +21,8 @@ public class JoinMeController {
 
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
     @GetMapping("/selectallbypage")
-    public ResponseEntity<ListResponseDTO> selectAllByPage(@RequestParam int pageNo) {
+    public ResponseEntity<ListResponseDTO> selectAllByPage(
+            @RequestParam int pageNo) {
         try {
             //해당 pageNo의 게시물 리스트를 리턴
             return new ResponseEntity<>(joinMeService.selectAllByPage(pageNo), HttpStatus.OK);
@@ -32,8 +33,9 @@ public class JoinMeController {
     }
 
     @GetMapping("/selectallbypage/keyword")
-    public ResponseEntity<ListResponseDTO> selectAllByPageAndKeyword(@RequestParam int pageNo,
-                                                                         @RequestParam String keyword) {
+    public ResponseEntity<ListResponseDTO> selectAllByPageAndKeyword(
+            @RequestParam int pageNo,
+            @RequestParam String keyword) {
         try {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo, keyword), HttpStatus.OK);
         } catch (Exception e) {
@@ -55,7 +57,7 @@ public class JoinMeController {
         }
     }
 
-    //제목으로 검색
+    //닉네임으로 검색
     @GetMapping("/selectallbypage/searchbynickname")
     public ResponseEntity<ListResponseDTO> selectAllByPageAndNickname(
             @RequestParam int pageNo,

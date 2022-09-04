@@ -39,12 +39,13 @@
         WHERE join_me_apply_id = #{joinMeApplyId}
     </select>
 
-    <select id="checkValidUser" parameterType="PrimaryIdAndUserIdDTO" resultType="JoinMeApplyDTO">
-        SELECT *
+    <select id="checkValidUserAndGetJoinMeId" parameterType="PrimaryIdAndUserIdDTO" resultType="int">
+        SELECT join_me_id
         FROM join_me_apply AS j
                  JOIN board_join_me AS b
                       ON j.join_me_id = b.join_me_id
-        WHERE join_me_apply_id = #{primaryId} b.user_id = #{userId}
+        WHERE join_me_apply_id = #{primaryId}
+          AND b.user_id = #{userId}
     </select>
 
     <insert id="insert" parameterType="JoinMeApplyDTO">
