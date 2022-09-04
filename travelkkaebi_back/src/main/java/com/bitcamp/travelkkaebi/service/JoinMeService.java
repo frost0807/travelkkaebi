@@ -21,44 +21,40 @@ public class JoinMeService {
     private final JoinMeMapper joinMeMapper;
 
     public ListResponseDTO selectAllByPage(int pageNo) throws Exception {
-        int totalPageCount = calculatePageCount(joinMeMapper.getBoardCount());
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPage(
                                 setPageAndWord(pageNo, null))));
 
-        return setListResponse(totalPageCount, joinMeListDTOList);
+        return setListResponse(joinMeMapper.getBoardCount(), joinMeListDTOList);
     }
 
     //지역키워드 기준으로 최대 20개의 게시물과 총 페이지수 리턴
     public ListResponseDTO selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
-        int totalPageCount = calculatePageCount(joinMeMapper.getBoardCountByKeyword(keyword));
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndKeyword(
                                 setPageAndWord(pageNo, keyword))));
 
-        return setListResponse(totalPageCount, joinMeListDTOList);
+        return setListResponse(joinMeMapper.getBoardCountByKeyword(keyword), joinMeListDTOList);
     }
 
     //제목검색 후 최대 20개의 게시물과 총 페이지수 리턴
     public ListResponseDTO selectAllByPageAndTitle(int pageNo, String searchword) throws Exception {
-        int totalPageCount = calculatePageCount(joinMeMapper.getBoardCountByTitle(searchword));
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndTitle(
                                 setPageAndWord(pageNo, searchword))));
-        return setListResponse(totalPageCount, joinMeListDTOList);
+        return setListResponse(joinMeMapper.getBoardCountByTitle(searchword), joinMeListDTOList);
     }
 
     //닉네임검색 후 최대 20개의 게시물과 총 페이지수 리턴
     public ListResponseDTO selectAllByPageAndNickname(int pageNo, String searchword) throws Exception {
-        int totalPageCount = calculatePageCount(joinMeMapper.getBoardCountByNickname(searchword));
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndNickname(
                                 setPageAndWord(pageNo, searchword))));
-        return setListResponse(totalPageCount, joinMeListDTOList);
+        return setListResponse(joinMeMapper.getBoardCountByNickname(searchword), joinMeListDTOList);
     }
 
     //게시물 상세보기하면서 조회수+1
@@ -115,7 +111,7 @@ public class JoinMeService {
     //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
     public ListResponseDTO setListResponse(int totalPageCount, List<JoinMeListDTO> joinMeListDTOList) {
         return ListResponseDTO.builder()
-                .totalPageCount(totalPageCount)
+                .totalBoardCount(totalPageCount)
                 .list(joinMeListDTOList)
                 .build();
     }
@@ -151,12 +147,12 @@ public class JoinMeService {
         return joinMeList;
     }
 
-    //페이지수 계산해주는 메소드
-    private int calculatePageCount(int boardCount) {
-        if (boardCount % PAGE_SIZE != 0) {
-            return boardCount / PAGE_SIZE + 1;
-        } else {
-            return boardCount / PAGE_SIZE;
-        }
-    }
+//    //페이지수 계산해주는 메소드
+//    private int calculatePageCount(int boardCount) {
+//        if (boardCount % PAGE_SIZE != 0) {
+//            return boardCount / PAGE_SIZE + 1;
+//        } else {
+//            return boardCount / PAGE_SIZE;
+//        }
+//    }
 }

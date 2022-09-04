@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Builder
 public class ListResponseDTO {
-    private int totalPageCount;
+    private int totalBoardCount;
     private List<?> list;
 }

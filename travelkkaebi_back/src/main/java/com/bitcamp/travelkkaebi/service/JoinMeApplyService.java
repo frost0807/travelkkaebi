@@ -32,19 +32,17 @@ public class JoinMeApplyService {
 
     //로그인한 유저가 신청한 신청서들
     public ListResponseDTO selectAllByUserId(int pageNo, int userId) throws Exception {
-        int totalPageCount = calculatePageCount(joinMeApplyMapper.getBoardCountByUserId(userId));
         List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList
                 = joinMeApplyMapper.selectAllByUserId(setPageAndUserId(pageNo, userId));
 
-        return setListResponse(totalPageCount, joinMeApplyResponseDTOList);
+        return setListResponse(joinMeApplyMapper.getBoardCountByUserId(userId), joinMeApplyResponseDTOList);
     }
 
     //로그인한 유저의 같이가요 글에 신청한 신청서들
     public ListResponseDTO selectAllByWriterId(int pageNo, int userId) throws Exception {
-        int totalPageCount = calculatePageCount(joinMeApplyMapper.getBoardCountByWriterId(userId));
         List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList
                 = joinMeApplyMapper.selectAllByWriterId(setPageAndUserId(pageNo, userId));
-        return setListResponse(totalPageCount, joinMeApplyResponseDTOList);
+        return setListResponse(joinMeApplyMapper.getBoardCountByWriterId(userId), joinMeApplyResponseDTOList);
     }
 
     public JoinMeApplyResponseDTO selectOne(int joinMeApplyId) throws Exception {
@@ -73,17 +71,17 @@ public class JoinMeApplyService {
     //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
     public ListResponseDTO setListResponse(int totalPageCount, List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList) {
         return ListResponseDTO.builder()
-                .totalPageCount(totalPageCount)
+                .totalBoardCount(totalPageCount)
                 .list(joinMeApplyResponseDTOList)
                 .build();
     }
 
-    //페이지수 계산해주는 메소드
-    private int calculatePageCount(int boardCount) {
-        if (boardCount % PAGE_SIZE != 0) {
-            return boardCount / PAGE_SIZE + 1;
-        } else {
-            return boardCount / PAGE_SIZE;
-        }
-    }
+//    //페이지수 계산해주는 메소드
+//    private int calculatePageCount(int boardCount) {
+//        if (boardCount % PAGE_SIZE != 0) {
+//            return boardCount / PAGE_SIZE + 1;
+//        } else {
+//            return boardCount / PAGE_SIZE;
+//        }
+//    }
 }
