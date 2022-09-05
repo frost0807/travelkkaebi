@@ -1,8 +1,11 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
+import com.bitcamp.travelkkaebi.entity.UserEntity;
+import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
+import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,13 @@ import java.util.List;
 public class EditorChoiceService {
 
     private final EditorChoiceMapper editorChoiceMapper;
+    private final UserRepository userRepository;
 
     private final int PAGE_SIZE = 10;
 
     /**
      * 게시글 작성
+     *
      * @param editorChoiceDTO
      * @param userId
      * @return writtenId
@@ -31,12 +36,12 @@ public class EditorChoiceService {
 
         int writtenId;
 
+        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
+
         // 로그인 된 유저가 에디터 인지 확인하는 코드
-        String role = editorChoiceMapper.selectRole(editorChoiceDTO.getEditorChoiceId());
+        if (findUser.getRole().equals(UserRole.EDITOR)) {
 
-        if(role.equals("EDITOR")) {
-
-            if(editorChoiceDTO != null ) {
+            if (editorChoiceDTO != null) {
                 editorChoiceDTO.setUserId(userId);
                 writtenId = editorChoiceMapper.insert(editorChoiceDTO);
             } else {
@@ -48,10 +53,18 @@ public class EditorChoiceService {
         }
 
         return writtenId;
+        /**
+         if(글쓴회원의 role이 에디터면){
+         insert
+         } else{
+         에디터가 아닙니다}
+         */
+
     }
 
     /**
      * 게시글 수정
+     *
      * @param editorChoiceDTO
      * @param userId
      * @return updatedId
@@ -60,10 +73,10 @@ public class EditorChoiceService {
 
     @Transactional
     public int update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
-        int updatedId = 0;
 
         if (userId == editorChoiceDTO.getUserId()) {
-            return updatedId = editorChoiceMapper.update(editorChoiceDTO);
+            // 리턴 값 바꾸기 **********
+            return editorChoiceMapper.update(editorChoiceDTO) * editorChoiceDTO.getEditorChoiceId();
         } else {
             return 0;
         }
@@ -71,6 +84,7 @@ public class EditorChoiceService {
 
     /**
      * 게시글 삭제
+     *
      * @param editorChoiceDTO
      * @param userId
      * @return deletedId
@@ -81,7 +95,8 @@ public class EditorChoiceService {
     public int delete(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
         int deletedId;
 
-        if(userId == editorChoiceDTO.getUserId()) {
+        if (userId == editorChoiceDTO.getUserId()) {
+            // 리턴 값 수정하기 ! ! ! !
             return deletedId = editorChoiceMapper.delete(editorChoiceDTO.getEditorChoiceId());
         } else {
             return 0;
@@ -99,7 +114,7 @@ public class EditorChoiceService {
         List<EditorChoiceResponseDTO> list;
 
         HashMap<String, Integer> pageMap = new HashMap<>();
-        int startNum = (pageNo -1) * PAGE_SIZE;
+        int startNum = (pageNo - 1) * PAGE_SIZE;
 
         pageMap.put("startNum", startNum);
         pageMap.put("PAGE_SIZE", PAGE_SIZE);
@@ -109,11 +124,14 @@ public class EditorChoiceService {
 
     /**
      * 게시글 상세보기
+     *
      * @param editorChoiceId
      * @return editorChoiceResponseDTO
      */
     public EditorChoiceResponseDTO selectOne(int editorChoiceId) {
+        // 조회수 더해주는 코드
         editorChoiceMapper.viewPlus(editorChoiceId);
+
         EditorChoiceResponseDTO editorChoiceResponseDTO = editorChoiceMapper.selectOne(editorChoiceId);
         return editorChoiceResponseDTO;
     }
@@ -131,15 +149,16 @@ public class EditorChoiceService {
     public int pageCount() throws Exception {
         int total = count();
 
-        if(total % PAGE_SIZE == 0) {
+        if (total % PAGE_SIZE == 0) {
             return total / PAGE_SIZE;
         } else {
-            return (total / PAGE_SIZE ) + 1;
+            return (total / PAGE_SIZE) + 1;
         }
     }
 
     /**
      * 특정 제목으로 검색
+     *
      * @param title
      * @return titleList
      * @throws Exception
@@ -149,7 +168,7 @@ public class EditorChoiceService {
 
         List<EditorChoiceResponseDTO> titleList;
 
-        if(title != null) {
+        if (title != null) {
             titleList = editorChoiceMapper.searchByTitle(title);
         } else {
             return null;
@@ -160,6 +179,7 @@ public class EditorChoiceService {
 
     /**
      * 특정 내용으로 검색
+     *
      * @param content
      * @return contentList
      * @throws Exception
@@ -169,7 +189,7 @@ public class EditorChoiceService {
 
         List<EditorChoiceResponseDTO> contentList;
 
-        if(content != null) {
+        if (content != null) {
             contentList = editorChoiceMapper.searchByContent(content);
         } else {
             return null;
@@ -180,6 +200,7 @@ public class EditorChoiceService {
 
     /**
      * 특정 작성자로 검색
+     *
      * @param writer
      * @return writerList
      * @throws Exception
@@ -189,7 +210,7 @@ public class EditorChoiceService {
 
         List<EditorChoiceResponseDTO> writerList;
 
-        if(writer != null) {
+        if (writer != null) {
             writerList = editorChoiceMapper.searchByWriter(writer);
         } else {
             return null;
@@ -200,6 +221,7 @@ public class EditorChoiceService {
 
     /**
      * (지역) 키워드로 검색
+     *
      * @param region
      * @return
      * @throws Exception
@@ -209,7 +231,7 @@ public class EditorChoiceService {
 
         List<EditorChoiceResponseDTO> regionList;
 
-        if(region != null) {
+        if (region != null) {
             regionList = editorChoiceMapper.keywordByRegion(region);
         } else {
             return null;
@@ -217,49 +239,6 @@ public class EditorChoiceService {
 
         return regionList;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

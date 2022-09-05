@@ -16,14 +16,14 @@
     <select id="getBoardCountByTitle" parameterType="String" resultType="int">
         SELECT COUNT(*)
         FROM board_join_me
-        WHERE title LIKE CONCAT('%', #{searchword}, '%')
+        WHERE title LIKE CONCAT('%', #{word}, '%')
     </select>
 
     <select id="getBoardCountByNickname" parameterType="String" resultType="int">
         SELECT COUNT(*)
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE nickname LIKE CONCAT('%', #{searchword}, '%')
+        WHERE nickname LIKE CONCAT('%', #{word}, '%')
     </select>
 
     <select id="selectOne" parameterType="int" resultType="JoinMeOneDTO">

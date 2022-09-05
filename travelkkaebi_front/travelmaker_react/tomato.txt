@@ -18,3 +18,6 @@
 npm i react-material-ui-carousel
 npm install @mui/styles
 // 220831
+
+npm i react-js-pagination
+// 220903

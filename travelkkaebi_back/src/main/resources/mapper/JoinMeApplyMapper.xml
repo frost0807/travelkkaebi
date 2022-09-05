@@ -40,7 +40,7 @@
     </select>
 
     <select id="checkValidUserAndGetJoinMeId" parameterType="PrimaryIdAndUserIdDTO" resultType="int">
-        SELECT join_me_id
+        SELECT b.join_me_id
         FROM join_me_apply AS j
                  JOIN board_join_me AS b
                       ON j.join_me_id = b.join_me_id

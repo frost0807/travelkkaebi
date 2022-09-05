@@ -4,7 +4,6 @@ import com.bitcamp.travelkkaebi.dto.*;
 import com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
-import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
