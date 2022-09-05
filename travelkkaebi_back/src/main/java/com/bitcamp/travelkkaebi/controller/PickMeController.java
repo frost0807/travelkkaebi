@@ -24,7 +24,7 @@ public class PickMeController {
     /**
      * pickMe 게시글 20개씩 pagination return
      */
-    @GetMapping("/@pickme")
+    @GetMapping("/pickme")
     public ResponseEntity<List<PickMeDTO>> showPickMeList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
@@ -35,5 +35,23 @@ public class PickMeController {
     @PostMapping("/pickme/write")
     public ResponseEntity<PickMeDTO> pickMeWrite(@AuthenticationPrincipal String userId, @RequestBody PickMeDTO pickMeDTO) {
         return ResponseEntity.ok().body(pickMeService.write(Integer.parseInt(userId), pickMeDTO));
+    }
+
+    /**
+     * pickMe update
+     */
+    @PutMapping("/pickme/update")
+    public ResponseEntity<Void> pickMeUpdate(@AuthenticationPrincipal String userId, @RequestBody PickMeDTO pickMeDTO) {
+        pickMeService.update(Integer.parseInt(userId), pickMeDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * pickMe delete
+     */
+    @DeleteMapping("/pickme/delete")
+    public ResponseEntity<Void> pickMeDelete(@AuthenticationPrincipal String userId, @RequestParam int pickMeId) {
+        pickMeService.delete(Integer.parseInt(userId), pickMeId);
+        return ResponseEntity.ok().build();
     }
 }

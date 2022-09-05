@@ -41,17 +41,38 @@ public class PickMeService {
     }
 
     /**
-     *  userInfo, null -> validate
+     * userInfo, null -> validate
      */
     private UserEntity validate(int userId, PickMeDTO pickMeDTO) {
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("does not exist"));
         if (pickMeDTO == null)
             throw new RuntimeException("입력 정보가 없습니다.");
 
-        if (pickMeDTO.getUserId() != userId)
-            throw new RuntimeException("회원정보가 일치하지 앖습니다.");
+        /*if (pickMeDTO.getUserId() != userId)
+            throw new RuntimeException("회원정보가 일치하지 앖습니다.");*/
 
         return findUser;
     }
 
+    /**
+     * pickMe update logic
+     */
+    @Transactional
+    public void update(int userId, PickMeDTO pickMeDTO) {
+        validate(userId, pickMeDTO);
+        PickMeEntity findPickMe = pickMeRepository.findById(pickMeDTO.getId()).orElseThrow(() -> new RuntimeException("게시물이 없습니다."));
+        findPickMe.change(pickMeDTO);
+    }
+
+    /**
+     * pickMe delete logic
+     */
+    @Transactional
+    public void delete(int userId, int pickMeId) {
+        PickMeEntity findPickMe = pickMeRepository.findById(pickMeId).orElseThrow(() -> new RuntimeException("게시물이 없습니다"));
+        if (findPickMe.getUserEntity().getId() != userId)
+            throw new RuntimeException("작성자와 회원정보가 일치하지 앖습니다.");
+
+        pickMeRepository.delete(findPickMe);
+    }
 }

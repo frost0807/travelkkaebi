@@ -1,7 +1,9 @@
 package com.bitcamp.travelkkaebi.dto;
 
 import com.bitcamp.travelkkaebi.entity.PickMeEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -21,11 +23,16 @@ public class PickMeDTO {
     private String title;
     private String content;
     private String preferredRegion;
-    private LocalDateTime preferredStartDate;
-    private LocalDateTime preferredEndDate;
-    private boolean company = true;
-    private boolean closed = true;
+    private boolean company = false;
+    private boolean closed = false;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime preferredStartDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime preferredEndDate;
 
     public PickMeDTO(PickMeEntity pickMeEntity) {
         this.id = pickMeEntity.getId();
@@ -46,4 +53,5 @@ public class PickMeDTO {
         this.mannerDegree = mannerDegree;
         this.profileImageUrl = profileImageUrl;
     }
+
 }
