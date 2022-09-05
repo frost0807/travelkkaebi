@@ -4,7 +4,6 @@ import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.service.EditorChoiceService;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +22,7 @@ public class EditorChoiceController {
      * 게시글 작성
      */
     @PostMapping("/write")
-    public ResponseEntity write(@RequestBody EditorChoiceDTO editorChoiceDTO, @AuthenticationPrincipal String userId) {
+    public ResponseEntity wri진te(@RequestBody EditorChoiceDTO editorChoiceDTO, @AuthenticationPrincipal String userId) {
         System.out.println("게시글 작성 컨트롤러");
        try {
             int editorId = editorChoiceService.write(editorChoiceDTO, Integer.parseInt(userId));

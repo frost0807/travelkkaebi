@@ -8,6 +8,7 @@ import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
@@ -19,12 +20,10 @@ public class EditorChoiceService {
 
     private final EditorChoiceMapper editorChoiceMapper;
     private final UserRepository userRepository;
-
     private final int PAGE_SIZE = 10;
 
     /**
      * 게시글 작성
-     *
      * @param editorChoiceDTO
      * @param userId
      * @return writtenId
@@ -40,19 +39,13 @@ public class EditorChoiceService {
 
         // 로그인 된 유저가 에디터 인지 확인하는 코드
         if (findUser.getRole().equals(UserRole.EDITOR)) {
-
-            if (editorChoiceDTO != null) {
-                editorChoiceDTO.setUserId(userId);
-                writtenId = editorChoiceMapper.insert(editorChoiceDTO);
-            } else {
-                return 0;
-            }
+            editorChoiceDTO.setUserId(userId);
+            return writtenId = editorChoiceMapper.insert(editorChoiceDTO);
 
         } else {
             return 0;
         }
 
-        return writtenId;
         /**
          if(글쓴회원의 role이 에디터면){
          insert
@@ -64,7 +57,6 @@ public class EditorChoiceService {
 
     /**
      * 게시글 수정
-     *
      * @param editorChoiceDTO
      * @param userId
      * @return updatedId
@@ -84,7 +76,6 @@ public class EditorChoiceService {
 
     /**
      * 게시글 삭제
-     *
      * @param editorChoiceDTO
      * @param userId
      * @return deletedId
@@ -236,7 +227,6 @@ public class EditorChoiceService {
         } else {
             return null;
         }
-
         return regionList;
     }
 
