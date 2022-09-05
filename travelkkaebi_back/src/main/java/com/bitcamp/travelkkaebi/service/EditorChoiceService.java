@@ -73,10 +73,10 @@ public class EditorChoiceService {
 
     @Transactional
     public int update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
-        int updatedId = 0;
 
         if (userId == editorChoiceDTO.getUserId()) {
-            return updatedId = editorChoiceMapper.update(editorChoiceDTO);
+            // 리턴 값 바꾸기 **********
+            return editorChoiceMapper.update(editorChoiceDTO) * editorChoiceDTO.getEditorChoiceId();
         } else {
             return 0;
         }
@@ -96,6 +96,7 @@ public class EditorChoiceService {
         int deletedId;
 
         if (userId == editorChoiceDTO.getUserId()) {
+            // 리턴 값 수정하기 ! ! ! !
             return deletedId = editorChoiceMapper.delete(editorChoiceDTO.getEditorChoiceId());
         } else {
             return 0;
@@ -104,7 +105,6 @@ public class EditorChoiceService {
 
     /**
      * 게시글 리스트 출력
-     *
      * @param pageNo
      * @return list
      * @throws Exception
@@ -129,7 +129,9 @@ public class EditorChoiceService {
      * @return editorChoiceResponseDTO
      */
     public EditorChoiceResponseDTO selectOne(int editorChoiceId) {
+        // 조회수 더해주는 코드
         editorChoiceMapper.viewPlus(editorChoiceId);
+
         EditorChoiceResponseDTO editorChoiceResponseDTO = editorChoiceMapper.selectOne(editorChoiceId);
         return editorChoiceResponseDTO;
     }
