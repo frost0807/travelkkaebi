@@ -31,6 +31,8 @@ public class EditorChoiceService {
 
         int writtenId;
 
+        // 코드 한 줄로 수정하기 !! - 김종찬씨 이걸 보신다면 얼른 role 반환하는 메소드 만들어주세요.
+
         // 로그인 된 유저가 에디터 인지 확인하는 코드
         String role = editorChoiceMapper.selectRole(editorChoiceDTO.getEditorChoiceId());
 
@@ -48,6 +50,13 @@ public class EditorChoiceService {
         }
 
         return writtenId;
+        /**
+         if(글쓴회원의 role이 에디터면){
+         insert
+         } else{
+         에디터가 아닙니다}
+         */
+
     }
 
     /**

@@ -8,9 +8,9 @@
         <setting name="mapUnderscoreToCamelCase" value="true"></setting>
         <!-- 쿼리 결과 null 리턴됐을 때 처리방식 지정 -->
         <!-- 결과 null일 때 모든 컬럼의 값을 null로 설정 -->
-<!--        <setting name="callSettersOnNulls" value="true"></setting>-->
+        <!-- <setting name="callSettersOnNulls" value="true"></setting>-->
         <!-- 쿼리 파라미터가 null일 때 Null처리 방식 지정 -->
-<!--        <setting name="jdbcTypeForNull" value="NULL"></setting>-->
+        <!-- <setting name="jdbcTypeForNull" value="NULL"></setting>-->
     </settings>
 
     <typeAliases>
@@ -20,7 +20,7 @@
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTO" alias="JoinMeListDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeOneDTO" alias="JoinMeOneDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeApplyDTO" alias="JoinMeApplyDTO"></typeAlias>
-        <typeAlias type="com.bitcamp.travelkkaebi.model.JoinMeApplyResponseDTO" alias="JoinMeApplyResponseDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeApplyResponseDTO" alias="JoinMeApplyResponseDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ImageDTO" alias="ImageDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.TravelMapDTO" alias="TravelMapDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO" alias="LikeOrDislikeDTO"></typeAlias>
@@ -28,9 +28,9 @@
         <typeAlias type="com.bitcamp.travelkkaebi.model.ReviewDTO" alias="ReviewDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ReviewReplyDTO" alias="ReviewReplyDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.model.EditorChoiceDTO" alias="EditorChoiceDTO"></typeAlias>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.ImageAndCommentDTO" alias="ImageAndCommentDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewResponseDTO" alias="ReviewResponseDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewReplyResponseDTO" alias="ReviewReplyResponseDTO"></typeAlias>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO" alias="EditorChoiceResponseDTO"></typeAlias>
-
     </typeAliases>
 </configuration>
