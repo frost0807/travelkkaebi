@@ -4,6 +4,7 @@ import com.bitcamp.travelkkaebi.mapper.ImageMapper;
 import com.bitcamp.travelkkaebi.model.ImageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,9 +30,11 @@ public class ImageService {
             imageDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
             successCount += imageMapper.insert(imageDTO);
         }
-        return (successCount == imageDTOList.size() ? true : false);
+        //이미지파일 저장과 경로삽입이 모두 다 성공적으로 끝나면 true리턴
+        return (successCount == imageDTOList.size());
     }
 
+    @Transactional
     public boolean update(List<MultipartFile> imageList, List<ImageDTO> imageDTOList, int userId) throws Exception {
         int successCount = 0;
         for (int i = 0; i < imageDTOList.size(); i++) {
@@ -42,15 +45,17 @@ public class ImageService {
             imageDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
             successCount += imageMapper.update(imageDTO);
         }
-        return (successCount == imageDTOList.size() ? true : false);
+        //업데이트된 이미지파일들의 저장과 경로update가 모두 다 성공적으로 끝나면 true리턴
+        return (successCount == imageDTOList.size());
     }
 
+    @Transactional
     public boolean delete(List<Integer> imageIdList, int userId) throws Exception {
         int successCount = 0;
         for (int imageId : imageIdList) {
             ImageDTO imageDTO = ImageDTO.builder().imageId(imageId).userId(userId).build();
             successCount += imageMapper.delete(imageDTO);
         }
-        return (successCount == imageIdList.size() ? true : false);
+        return (successCount == imageIdList.size());
     }
 }

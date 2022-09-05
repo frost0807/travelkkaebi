@@ -6,7 +6,6 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Getter
-@Setter
 public class JoinMeOneDTO {
     private int joinMeId;
     private int userId;

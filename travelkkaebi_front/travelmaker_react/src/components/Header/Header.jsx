@@ -49,7 +49,7 @@ function Header() {
             <Nav.Link href="/review/1">Review</Nav.Link>
             <NavDropdown title="Party" id="basic-nav-dropdown">
               <NavDropdown.Item href="/PartyMain">구인</NavDropdown.Item>
-              <NavDropdown.Item href="/FollowMe">같이가요</NavDropdown.Item>
+              <NavDropdown.Item href="/joinme/1">같이가요</NavDropdown.Item>
               <NavDropdown.Item href="/pickupme">데려가줘</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/Party#">기타</NavDropdown.Item>

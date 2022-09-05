@@ -10,7 +10,7 @@ import Logo from "../../images/basicLogo.png";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL, userconfig } from "../../config";
 
 const RegisterForm = () => {
   const navi = useNavigate();
@@ -73,12 +73,14 @@ const RegisterForm = () => {
         new Blob([userDTO], { type: "application/json" })
       );
       console.log("FormData", formData);
+      
       await axios
-        .post(API_BASE_URL + "/signup", formData, headerConfig)
+        .post(userconfig + "/signup", formData, headerConfig)
         .then((res) => {
           console.log(res.data);
           alert("👹회원가입이 완료되었습니다.");
           setProfile({ image_file: "", preview_URL: Logo });
+          navi('/');
         });
     }
   };
@@ -102,7 +104,7 @@ const RegisterForm = () => {
     } else {
       // get ( API_BASE_URL +"/username/check?username="+userName)
       axios
-        .get(API_BASE_URL + "/username/check", {
+        .get(userconfig + "/username/check", {
           params: { username: userName },
         })
         .then((res) => {
@@ -125,7 +127,7 @@ const RegisterForm = () => {
       return;
     } else {
       axios
-        .get(API_BASE_URL + "/nickname/check", {
+        .get(userconfig + "/nickname/check", {
           params: { nickname: nickName },
         })
         .then((res) => {
@@ -537,7 +539,7 @@ const RegisterForm = () => {
                 id="btn_submit"
                 className="btn_submit"
                 accessKey="s"
-              ></input>
+              />
             </BtnConfirm>
           </div>
         </form>

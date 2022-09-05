@@ -20,6 +20,5 @@ window.Kakao.init('본인 JAVASCRIPT API 키');
 		    window.location.href='/'
 	    });
 };
-출처: https://triplexlab.tistory.com/55 [트리플엑스랩 | TriplexLab:티스토리]
 */
 export default logout

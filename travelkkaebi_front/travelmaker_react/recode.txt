@@ -41,6 +41,8 @@
  - 0827 Lib = [ react-js-pagination ]  CDN = 구글폰트
  - 0828 Lib = [ react-bootstrap, quill,@mui/x-date-pickers-pro ] (card)
  - 0829 Lib = [ Recoil ]
+ - 0903 Lib = [삭제 - react-js-pagination | 추가 - query-string , quill-image-uploader]\
+ - 0904 Lib = [삭제 - mui datepicker | 추가 - react-datepicker ]
 
 
 

@@ -25,7 +25,7 @@ import JoinMeDetail from "./pages/JoinMe/JoinMeDetail";
 import JoinMeForm from "./pages/JoinMe/JoinMeForm";
 import JoinMeCard from "./pages/JoinMe/JoinMeCard";
 import { useRecoilState } from "recoil";
-import { showJoinMeDetailState } from "./recoil/atom";
+import { isLoginState, showJoinMeDetailState } from "./recoil/atom";
 
 function Main() {
   return (
@@ -59,6 +59,10 @@ function Main() {
         <Route path="/testdetail/:id" element={<TestReviewDetail />} />
         <Route path="/testresponse" element={<TestResponse />} />
         {/* <Route path='/testpost' element={<TestPost />}/> */}
+
+        <Route path="/joinme/:pageNo" element={<JoinMe />} />
+        <Route path="/joinme/:page/:joinme_id" element={<JoinMeDetail />} />
+        <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="/pickupme" element={<PickUpMe />}/>
 
       </Routes>

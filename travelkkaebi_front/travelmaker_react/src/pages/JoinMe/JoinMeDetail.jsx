@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL, joinmeurl } from "../../config";
 import axios from "axios";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/system";
 import {
@@ -15,129 +15,222 @@ import {
   JoinContainerWrapper,
   JoinIntroWrapper,
 } from "./joinme.style";
-import Logo from "../../images/basicLogo.png";
 import LikeBtn from "../../components/Like/LikeBtn";
 import Login from "../../components/Login/Login";
-import Modal from "../../components/Modal/Modal";
-import { useRecoilState } from "recoil";
-import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
-import { getUsername } from "../../util";
+import { useState } from "react";
+import { isLoginState } from "../../recoil/atom";
+import {
+  bearerToken,
+  getNickname,
+  getToken,
+  getUsername,
+  headerConfig,
+  headerImg_tk,
+} from "../../util";
 
 function JoinMeDetail(props) {
-  /*  useEffect(()=>{
-    const joinmeapi = () =>{
-      axios.get(API_BASE_URL+"/joinme/selectone" {params:{joinMeId : props.post.id}})
-      .then(res=>{
-        setPost(res.data);
-        console.log("res",res.data)
-      }
-      )
-    }
-    return
-  },[])
-  */
+  const [post, setPost] = useState([]);
+  const {
+    showJoinMeDetail,
+    close,
+    joinMeId,
+    profile_img,
+    likeCount,
+    setShowJoinMeDetail,
+  } = props;
+  const [likeState, setLikeState] = useState(likeCount);
+  const [comentValue, setComentValue] = useState("");
+
   const { id } = useParams();
 
-  const [showJoinMeDetail, setShowJoinMeDetail] = useRecoilState(
-    showJoinMeDetailState
-  );
-  const close = () => {
+  useEffect(() => {
+    const joinmeapi = () => {
+      axios
+        .get(joinmeurl + "/selectone", { params: { joinMeId: joinMeId } })
+        .then((res) => {
+          console.log("res : ", res.data);
+          setPost(res.data);
+        });
+    };
+    return () => joinmeapi();
+  }, []);
+
+  const onClose = () => {
     setShowJoinMeDetail(false);
   };
-
   // 신청하기
-  // textfield\ 값 상태로 저장해서 보내기
-  const joinMeApply = () => {
-    /*if(post.curruntMember >=  post.charge) {
-        alert("인원이 꽉 찼습니다.");
-        return;
+  // http 200 뜸 -> DB엔 안 들어감
+  function sendServerApply(data) {
+    if (post.currentMemberCount >= post.capacity) {
+      alert("인원이 꽉 찼습니다.");
+      return;
+    } else if (data.comment === "") {
+      alert("코멘트를 입력해주세요.");
     } else {
-      axios.post(API_BASE_URL+"신청하기", value)
-      .then(res => {
-        alert("신청완료하였습니다.")
-        window.location.reload(); ( 신청인원 상태 리랜더 )
-      }
+      axios.defaults.headers = {
+        "Content-Type": "application/json; charset = utf-8",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
+      axios
+        .post(API_BASE_URL + "/joinmeapply/insert", data)
+        .then((res) => {
+          console.log(res);
+          if (res.data === true) {
+            alert("신청이 완료되었습니다.");
+          }
+        })
+        .catch((error) => {
+          if (error.res) {
+            console.log(error.res);
+            console.log("server responded");
+            alert("axios 에러");
+          } else if (error.request) {
+            console.log("network error");
+            alert("server 에러");
+          } else {
+            console.log(error);
+          }
+        });
     }
-    */
-    // 좋아요의 상태 전역
+  }
+  //    window.location.reload();
+  //    navigator('/joime/1');
+
+  // textfield\ 값 상태로 저장해서 보내기
+  const joinMeApply = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const comment = formData.get("comment");
+    console.log("comment ", comment);
+
+    sendServerApply({ comment: comment, joinMeId: joinMeId });
+  };
+
+  // 좋아요
+
+  // 삭제
+  const deleteHandler = () => {
+    console.log(joinMeId);
+    if (post.nickname === getNickname) {
+      axios.defaults.headers = {
+        "Content-Type": "application/json; charset = utf-8",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
+      axios
+        .delete(joinmeurl + "/delete", joinMeId)
+        .then((res) => {
+          console.log(res);
+          window.location.reload();
+        })
+        .catch((error) => {
+          if (error.res) {
+            console.log(error.res);
+            console.log("server responded");
+            alert("axios 에러");
+          } else if (error.request) {
+            console.log("network error");
+            alert("server 에러");
+          } else {
+            console.log(error);
+          }
+        });
+    }
   };
 
   return (
-    <Background>
-      <DImmedd> </DImmedd>
-      <ModalContainer showJoinMeDetail={showJoinMeDetail}>
-        <div className="jd-container">
-          <DetailHeader>
-            <header>JOIN ME</header>
-            <p style={{ fontSize: "0.75rem" }}>
-              <i className="fa-solid fa-eye">&nbsp;300</i>
-            </p>
-          </DetailHeader>
-          <JoinContainerWrapper>
-            <JoinIntroWrapper>
-              <IntroHeaders>
-                <div className="joinme-userinfo">
-                  <img src={Logo} alt="" />
-                  {/** get user_profile_img / onclick event*/}
-                  <span className="joinme-usernickname">NICKNAME</span>
-                  <div style={{ marginLeft: "30px" }}>🔅 37</div>
+    <>
+      {showJoinMeDetail ? (
+        <Background>
+          <DImmedd> </DImmedd>
+          <ModalContainer>
+            <Closebtn onClick={onClose} />
+            <div className="jd-container">
+              <DetailHeader>
+                <header>JOIN ME</header>
+                <p style={{ fontSize: "0.75rem" }}>
+                  <i className="fa-solid fa-eye">&nbsp;{post.view}</i>
+                </p>
+              </DetailHeader>
+              <JoinContainerWrapper>
+                <JoinIntroWrapper>
+                  <IntroHeaders>
+                    <div className="joinme-userinfo">
+                      <img src={profile_img} alt="" />
+                      {/** get user_profile_img / onclick event*/}
+                      <span className="joinme-usernickname">
+                        {post.nickname}
+                      </span>
+                      <div style={{ marginLeft: "30px" }}>
+                        🔅 {post.mannerDegree}
+                      </div>
+                    </div>
+                    <h2 className="joinme-dtitle">{post.title}</h2>
+                    <h3 className="joinme-ereion">{post.region}</h3>
+                    <div>출발일 : 09-17 </div>
+                    <div>도착일 : 09-23 </div>
+                  </IntroHeaders>
+                  <IntroBodys>
+                    <div>{post.content}</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <div>content</div>
+                    <p className="joinme-nbspspace">&nbsp;</p>
+                  </IntroBodys>
+                </JoinIntroWrapper>
+                <div className="joinme-charge">
+                  <p className="pcharge">
+                    {" "}
+                    현재 신청인원 : {post.currentMemberCount} / {post.capacity}{" "}
+                    명
+                  </p>
                 </div>
-                <h2 className="joinme-dtitle">TITLE</h2>
-                <h3 className="joinme-ereion">제주도</h3>
-                <div>출발일 : 09-17 </div>
-                <div>도착일 : 09-23 </div>
-              </IntroHeaders>
-              <IntroBodys>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <div>content</div>
-                <p className="joinme-nbspspace">&nbsp;</p>
-              </IntroBodys>
-            </JoinIntroWrapper>
-            <div className="joinme-charge">
-              <p className="pcharge"> 현재 신청인원 : 3 / 6 명</p>
-            </div>
-          </JoinContainerWrapper>
-          <div className="jd-likebtn">
-            <LikeBtn /> <span> 215 </span>
-          </div>
-          <JDFooter>
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": { m: 2, width: "35ch" },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <div>
-                <TextField
-                  label="코멘트"
-                  id="outlined-size-normal"
-                  defaultValue="Normal"
-                />
-                <FooterButton onClick={joinMeApply}>신청하기</FooterButton>
+              </JoinContainerWrapper>
+              <div className="jd-likebtn">
+                <LikeBtn /> <span> {likeState} </span>
               </div>
-            </Box>
-          </JDFooter>
-        </div>
-        <Closebtn onClick={close} />
-      </ModalContainer>
-    </Background>
+              <JDFooter>
+                <Box
+                  component="form"
+                  onSubmit={joinMeApply}
+                  sx={{
+                    "& .MuiTextField-root": { m: 2, width: "35ch" },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <div>
+                    <TextField label="코멘트" id="comment" name="comment" />
+                    <FooterButton
+                      type="submit"
+                      onClick={console.log("Apply event")}
+                    >
+                      신청하기
+                    </FooterButton>
+                    <div>
+                      <Button>수정하기</Button>
+                      <Button onClick={deleteHandler}>삭제하기</Button>
+                    </div>
+                  </div>
+                </Box>
+              </JDFooter>
+            </div>
+          </ModalContainer>
+        </Background>
+      ) : null}
+    </>
   );
 }
 
@@ -164,6 +257,7 @@ const DImmedd = styled.div`
   bottom: 0;
   position: absolute;
   background: rgba(11, 19, 30, 0.37);
+  display: block;
 `;
 const ModalContainer = styled.div`
 display: flex;
@@ -179,7 +273,6 @@ max-height: 700px;
 border-radius: 8px;
 background-color: #fff;
 box-sizing: inherit;
-z-index: 9;
 animation: modal-show 0.3s;
 @media 480px {
   width: 90%

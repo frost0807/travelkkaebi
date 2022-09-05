@@ -2,15 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.JoinMeMapper">
 
-    <select id="getPageCount" resultType="int">
+    <select id="getBoardCount" resultType="int">
         SELECT COUNT(*)
         FROM board_join_me
     </select>
 
-    <select id="getPageCountByKeyword" parameterType="String" resultType="int">
+    <select id="getBoardCountByKeyword" parameterType="String" resultType="int">
         SELECT COUNT(*)
         FROM board_join_me
         WHERE region = #{keyword}
+    </select>
+
+    <select id="getBoardCountByTitle" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM board_join_me
+        WHERE title LIKE CONCAT('%', #{searchword}, '%')
+    </select>
+
+    <select id="getBoardCountByNickname" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
+        WHERE nickname LIKE CONCAT('%', #{searchword}, '%')
     </select>
 
     <select id="selectOne" parameterType="int" resultType="JoinMeOneDTO">
@@ -31,7 +44,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE region = #{keyword}
+        WHERE region = #{word}
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -39,7 +52,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE title LIKE CONCAT('%', #{searchword}, '%')
+        WHERE title LIKE CONCAT('%', #{word}, '%')
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -47,7 +60,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE nickname LIKE CONCAT('%', #{searchword}, '%')
+        WHERE nickname LIKE CONCAT('%', #{word}, '%')
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -79,6 +92,12 @@
         UPDATE board_join_me
         SET closed=#{closed}
         WHERE join_me_id = #{joinMeId}
+    </update>
+
+    <update id="updateMemberCount" parameterType="UpdateMemberCountDTO">
+        UPDATE board_join_me
+        SET current_member_count = #{currentMemberCount}
+        WHERE join_me_id=#{joinMeId} AND user_id=#{userId}
     </update>
 
     <delete id="delete" parameterType="JoinMeDTO">

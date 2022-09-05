@@ -2,17 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper">
 
+    <select id="getBoardCountByWriterId" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM join_me_apply AS j
+                 JOIN board_join_me AS b ON j.join_me_id = b.join_me_id
+        WHERE b.user_id = #{writerId}
+    </select>
+
+    <select id="getBoardCountByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM join_me_apply
+        WHERE user_id = #{userId}
+    </select>
+
     <select id="selectAllByWriterId" parameterType="PageAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
         SELECT *
-        FROM join_me_apply
-        WHERE join_me_id = #{joinMeId}
+        FROM join_me_apply AS j
+                 JOIN board_join_me AS b ON j.join_me_id = b.join_me_id
+                 JOIN user AS u ON j.user_id = u.user_id
+        WHERE b.user_id = #{userId}
+        ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="selectAllByUserId" parameterType="PageAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
         SELECT *
         FROM join_me_apply AS j
                  JOIN user AS u ON j.user_id = u.user_id
-        WHERE user_id = #{userId}
+        WHERE j.user_id = #{userId}
         ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -23,8 +39,23 @@
         WHERE join_me_apply_id = #{joinMeApplyId}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="joinMeApplyId" parameterType="JoinMeApplyDTO">
+    <select id="checkValidUserAndGetJoinMeId" parameterType="PrimaryIdAndUserIdDTO" resultType="int">
+        SELECT join_me_id
+        FROM join_me_apply AS j
+                 JOIN board_join_me AS b
+                      ON j.join_me_id = b.join_me_id
+        WHERE join_me_apply_id = #{primaryId}
+          AND b.user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="JoinMeApplyDTO">
         INSERT INTO join_me_apply (join_me_id, user_id, comment)
         VALUES (#{joinMeId}, #{userId}, #{comment})
     </insert>
+
+    <update id="updateSelectedTrue" parameterType="JoinMeApplyDTO">
+        UPDATE join_me_apply
+        SET selected = true
+        WHERE join_me_apply_id = #{joinMeApplyId}
+    </update>
 </mapper>

@@ -1,77 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import Paging from "../../components/Pagenation/Pagination";
 import "./JoinMe.css";
 import { Button } from "@mui/material";
-import { useNavigate, useParams } from "react-router";
-import { API_BASE_URL } from "../../config";
-import LikeBtn from "../../components/Like/LikeBtn";
-
+import { useLocation, useNavigate, useParams } from "react-router";
+import { API_BASE_URL, joinmeurl } from "../../config";
 import { useRecoilState } from "recoil";
-import {
-  isLoginModalState,
-  isLoginState,
-  showJoinMeDetailState,
-} from "../../recoil/atom";
+import { isLoginModalState, isLoginState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
-import JoinMeDetail from "./JoinMeDetail";
 import Logo from "../../images/basicLogo.png";
-import { getToken, getUsername } from "../../util";
-import JoinMeForm from "./JoinMeForm";
 import JoinMeCard from "./JoinMeCard";
+import Pagination from "../../components/Pagenation/Pagination";
+import queryString from "query-string";
+import { isLoginFc } from "../../util";
 import styled from "styled-components";
-import joinmebanner from "../../images/banner/joinme_banner.jpg";
 
 function JoinMe() {
   const navigate = useNavigate();
 
+  //  const query = queryString.parse(window.location.search);
+  const { pageNo } = useParams();
+
   const [posts, setPosts] = useState([]);
-  const [limit] = useState(20);
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
+  const [limits] = useState(20);
+  const [currentPage, setCurrentPage] = useState(1); //query.page ||
+  const [totalCount, setTotalCount] = useState();
+
+  // search
+  const [searchKeyword, setSearchKeyword] = useState();
+
+  // 이슈 service, DTO의 변수 이름이 mapper랑 다름
+  // onChange 렌더링 한글자 때문에 리스트 오는 갯수랑 totalcount 갯수가 다름
+  const searchHandler = (e) => {
+    setSearchKeyword(e.target.value);
+    console.log("onChange", searchKeyword);
+    let searchword = searchKeyword;
+    console.log("searchword", searchword);
+    const changeAPI =
+      // url 주소를 나중에 상태로 왔다리 갔다리
+      axios
+        .get(selectAllUrl + "/searchbytitle", {
+          params: { pageNo: pageNo, searchword: searchword },
+        })
+        .then((res) => {
+          console.log(res);
+          setPosts(res.data.list);
+          setTotalCount(res.data.totalBoardCount);
+          console.log("totalBoardCount", res.data.totalBoardCount);
+        })
+        .catch((error) => {
+          if (error.res) {
+            console.log(error.res);
+            console.log("server responded");
+            alert("axios 에러");
+          } else if (error.request) {
+            console.log("network error");
+            alert("server 에러");
+          } else {
+            console.log(error);
+          }
+        });
+  };
+  //    let stringKwd = e.target.value.toLowerCase()
+  //    const filterdpost = posts.filter((post) => {
+  //      return post.name.toLowerCase().includes(searchKeyword.toLowerCase()) !== -1;
+  //    });
+
+  let selectAllUrl = joinmeurl + "/selectallbypage";
 
   useEffect(() => {
     const fetchPost = async () => {
+      setCurrentPage();
       const fetchAxios = await axios
-        .get("https://jsonplaceholder.typicode.com/posts")
+        .get(selectAllUrl + "?pageNo=" + pageNo) //,{params:{pageNo:currentPage}}
         .then((res) => {
-          setPosts(res.data);
+          console.log(res.data);
+          setPosts(res.data.list);
+          console.log("list : ", res.data.list);
+          setTotalCount(res.data.totalBoardCount);
+          console.log("totalBoardCount", res.data.totalBoardCount);
         });
     };
-
-    fetchPost();
-  }, []);
-
-  /*
-  useEffect(() => {
-    const fetchPost = async () => {
-      const fetchAxios = await axios.get(API_BASE_URL+"selectallbypage" +page)
-        .then(res => {
-            setPosts(res1.data)
-          }
-        ))
-      )
-    }
-
-    fetchPost();
-  }, [])
-*/
+    return () => fetchPost();
+  }, [pageNo]);
 
   //pagenation
+  const pageNate = (pageNum) => pageNo(pageNum);
 
   // modal
   const [isLoginModalOpen, setIsLoginModalOpen] =
     useRecoilState(isLoginModalState);
-  const [isLogin, setIsLoginState] = useRecoilState(isLoginState);
   const loginModal = () => {
     setIsLoginModalOpen(true);
-  };
-
-  const [showJoinMeDetail, setShowJoinMeDetail] = useRecoilState(
-    showJoinMeDetailState
-  );
-  const toggleModal = () => {
-    setShowJoinMeDetail(true);
   };
 
   return (
@@ -90,33 +109,40 @@ function JoinMe() {
         <ContentBody>
           <Button
             onClick={() => {
-              {
-                isLogin ? navigate("/joinmeform") : loginModal();
-              }
+              isLoginFc ? navigate("/joinmeform") : loginModal();
             }}
           >
             글쓰기
           </Button>
           {isLoginModalOpen && <Login />}
 
+          <input
+            type="text"
+            placeholder="Search..."
+            name="SearchKeyword"
+            value={searchKeyword}
+            onChange={searchHandler}
+          />
+
           <View>
-            {posts.slice(offset, offset + limit).map((post) => (
-              <JoinMeCard key={post.id} post={post} />
-            ))}
-            <footer
-              style={{
-                display: "flex",
-                position: "relative",
-                width: "100%",
-                marginTop: "2rem",
-                textAlign: "center",
-                justifyContent: "center",
-                fontWeight: 100,
-              }}
-            >
-              <Paging />
-            </footer>
+            {posts &&
+              posts.map((post) => (
+                <JoinMeCard
+                  key={post.joinMeId}
+                  post={post}
+                  isLoginState={isLoginState}
+                />
+              ))}
           </View>
+          <footer>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              limits={limits}
+              totalCount={totalCount}
+              pageNate={pageNate}
+            />
+          </footer>
         </ContentBody>
       </Content>
     </MainContent>
@@ -135,7 +161,7 @@ const MainContent = styled.main`
 `;
 
 const Content = styled.div`
-  max-width: 1400px;
+  max-width: 1100px;
   margin: auto;
   padding: 0 2rem;
   flex-grow: 1;
@@ -152,8 +178,8 @@ const ContentBody = styled.div`
 `;
 const View = styled.div`
   width: 100%;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
   display: grid;
   box-sizing: inherit;
 `;

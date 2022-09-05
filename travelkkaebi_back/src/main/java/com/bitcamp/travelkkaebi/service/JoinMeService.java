@@ -2,6 +2,7 @@ package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
 import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
@@ -19,48 +20,42 @@ public class JoinMeService {
     private final LikeOrDislikeService likeOrDislikeService;
     private final JoinMeMapper joinMeMapper;
 
-    //전체보기 기준 페이지갯수 리턴
-    public int getPageCount() throws Exception {
-        return calculatePageCount(joinMeMapper.getPageCount());
-    }
-
-    //키워드보기 기준 페이지갯수 리턴
-    public int getPageCountByKeyword(String keyword) throws Exception {
-        return calculatePageCount(joinMeMapper.getPageCountByKeyword(keyword));
-    }
-
-    public List<JoinMeListDTO> selectAllByPage(int pageNo) throws Exception {
+    //전체보기 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
+    public ListResponseDTO selectAllByPage(int pageNo) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPage(
                                 setPageAndWord(pageNo, null))));
 
-        return joinMeListDTOList;
+        return setListResponse(joinMeMapper.getBoardCount(), joinMeListDTOList);
     }
 
-    public List<JoinMeListDTO> selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
+    //지역키워드 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
+    public ListResponseDTO selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndKeyword(
                                 setPageAndWord(pageNo, keyword))));
 
-        return joinMeListDTOList;
+        return setListResponse(joinMeMapper.getBoardCountByKeyword(keyword), joinMeListDTOList);
     }
 
-    public List<JoinMeListDTO> selectAllByPageAndTitle(int pageNo, String searchWord) throws Exception {
+    //제목검색 후 최대 20개의 게시물과 총 게시물 수 리턴
+    public ListResponseDTO selectAllByPageAndTitle(int pageNo, String searchword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndTitle(
-                                setPageAndWord(pageNo, searchWord))));
-        return joinMeListDTOList;
+                                setPageAndWord(pageNo, searchword))));
+        return setListResponse(joinMeMapper.getBoardCountByTitle(searchword), joinMeListDTOList);
     }
 
-    public List<JoinMeListDTO> selectAllByPageAndNickname(int pageNo, String searchWord) throws Exception {
+    //닉네임검색 후 최대 20개의 게시물과 총 게시물 수 리턴
+    public ListResponseDTO selectAllByPageAndNickname(int pageNo, String searchword) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndNickname(
-                                setPageAndWord(pageNo, searchWord))));
-        return joinMeListDTOList;
+                                setPageAndWord(pageNo, searchword))));
+        return setListResponse(joinMeMapper.getBoardCountByNickname(searchword), joinMeListDTOList);
     }
 
     //게시물 상세보기하면서 조회수+1
@@ -73,6 +68,7 @@ public class JoinMeService {
         }
     }
 
+    //게시물 삽입
     public JoinMeOneDTO insert(JoinMeDTO joinMeDTO, int userId) throws Exception {
         joinMeDTO.setUserId(userId);
 
@@ -85,6 +81,7 @@ public class JoinMeService {
         }
     }
 
+    //게시물 수정
     @Transactional
     public JoinMeOneDTO update(JoinMeDTO joinMeDTO, int userId) throws Exception {
         //CSRF방어
@@ -102,7 +99,7 @@ public class JoinMeService {
         //CSRF방어
         joinMeDTO.setUserId(userId);
 
-        return (joinMeMapper.delete(joinMeDTO) != 0 ? true : false);
+        return (joinMeMapper.delete(joinMeDTO) != 0);
     }
 
     //페이지번호와 키워드를 객체에 세팅해주는 메소드
@@ -111,6 +108,14 @@ public class JoinMeService {
                 .startNum((pageNo - 1) * PAGE_SIZE)
                 .pageSize(PAGE_SIZE)
                 .word(word)
+                .build();
+    }
+
+    //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
+    public ListResponseDTO setListResponse(int totalPageCount, List<JoinMeListDTO> joinMeListDTOList) {
+        return ListResponseDTO.builder()
+                .totalBoardCount(totalPageCount)
+                .list(joinMeListDTOList)
                 .build();
     }
 
@@ -145,12 +150,12 @@ public class JoinMeService {
         return joinMeList;
     }
 
-    //페이지수 계산해주는 메소드
-    private int calculatePageCount(int boardCount) {
-        if (boardCount % PAGE_SIZE != 0) {
-            return boardCount / PAGE_SIZE + 1;
-        } else {
-            return boardCount / PAGE_SIZE;
-        }
-    }
+//    //페이지수 계산해주는 메소드
+//    private int calculatePageCount(int boardCount) {
+//        if (boardCount % PAGE_SIZE != 0) {
+//            return boardCount / PAGE_SIZE + 1;
+//        } else {
+//            return boardCount / PAGE_SIZE;
+//        }
+//    }
 }

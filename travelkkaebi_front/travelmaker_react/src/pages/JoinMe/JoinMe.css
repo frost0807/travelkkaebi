@@ -1,5 +1,5 @@
 .instructor_banner {
-  background-color: #5b95ec75;
+  background-color: hsla(245, 79%, 59%, 0.279);
   display: block;
   box-sizing: inherit;
 }
@@ -12,14 +12,15 @@
   width: auto;
   box-sizing: inherit;
   display: block;
-  height: 250px;
+  height: 280px;
 }
 .bannername {
+  font-family: 'Poor Story', cursive;
   font-size: 30px;
   font-weight: 700;
   line-height: 1.5;
-  color: #dd9777;
-  letter-spacing: -0.3px;
+  color: #d56773;
+  letter-spacing: 3px;
   margin: 0;
   margin-block-start: 0.7em;
   margin-block-end: 2.2em;
@@ -29,8 +30,9 @@
 .ins-banner-cover p {
   font-size: 13px;
   font-weight: 400;
+  font-family: 'Poor Story', cursive;
   line-height: 1;
-  letter-spacing: -0.3px;
+  letter-spacing: 1.2px;
   color: #1b1c1d;
   display: block;
   margin-block-start: 0;
@@ -50,6 +52,10 @@
   background-repeat: no-repeat;
   box-sizing: inherit;
   display: block;
+}
+.joinme-content {
+  font-family: 'Poor Story', cursive;
+  color: #1b1c1d;
 }
 
 .joinme-subtitle {
@@ -141,6 +147,9 @@
   text-decoration: underline;
   cursor: pointer;
   box-sizing: inherit;
+} .card_username span:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 .like-btn {
   flex-shrink: 0;
@@ -155,6 +164,8 @@
   border-radius: 4px;
   background-color: rgba(255, 210, 77, 0.2);
   cursor: pointer;
+} .like-btn:hover {
+  background-color: rgba(255, 211, 77, 0.5);
 }
 .like-btn span {
   line-height: 1.43;
@@ -293,4 +304,32 @@ joinme-charge {
   color: #00c471;
   background: #e5f9f1;
   box-sizing: inherit;
+}
+.joinme-content {
+  width: 150px;
+  font-weight: 250;
+  font-size: 14px;
+}
+
+
+/*  form ======================================================== */
+
+.select-charge{
+  display: flex;
+  font-family: sans-serif;
+  text-align: center;
+}
+.select-charge select {
+  width: 8rem;
+  height: 3rem;
+  margin: 10px;
+  padding: 0.8em 0.5em;
+  border: 1px solid#34495e;
+  font-family: inherit;
+  color: #34495e;
+  font-weight: bold;
+  border-radius: 10px;
+}
+.select-charge > h3 {
+  color: #34495e;
 }
