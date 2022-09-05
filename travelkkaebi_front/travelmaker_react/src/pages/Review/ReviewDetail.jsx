@@ -23,9 +23,9 @@ function ReviewDetail(){
     const getDetail=()=>{
       axios
       .get(API_BASE_URL+"/review/selectone",{params : {reviewId : id }})
-      .then(response=>{
-        setData(response.data);
-        console.log(response.data);
+      .then(res=>{
+        setData(res.data);
+        console.log("detail"+res.data);
       })
     }
 
@@ -52,7 +52,7 @@ function ReviewDetail(){
         .get(API_BASE_URL+"/review/reply/selectbyreview",{params : {reviewId : id }})
         .then(response=>{
           setReply(response.data);
-          console.log(response);
+          console.log(response.data);
         })
       }
     
@@ -148,7 +148,7 @@ function ReviewDetail(){
 
         </div>
         <div className="voc-view-reply" style={{marginTop:"100px"}}>
-            <label>댓글</label>
+            <label style={{height:"100%", margin:"auto"}}>댓글</label>
             <label>
             <div>
                 {
@@ -166,10 +166,18 @@ function ReviewDetail(){
                 reply && reply.map((row, idx)=>(
                   <tr>
                     <td key={row.reviewReplyId}>{row.comment}</td>
-                    
                   </tr>
                 ))
-                }
+            }
+            </label>
+            <label>
+            {
+                reply && reply.map((row, idx)=>(
+                  <tr>
+                    <td key={row.reviewReplyId}>{row.comment}</td>
+                  </tr>
+                ))
+            }
             </label>
         </div>
 

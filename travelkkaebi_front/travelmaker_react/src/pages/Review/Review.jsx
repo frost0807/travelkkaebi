@@ -10,6 +10,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import SplitButton from 'react-bootstrap/SplitButton';
 import usePagination from '@mui/material/usePagination';
+import Paging from '../../components/Pagination/Paging';
 
 function Review() {
 
@@ -34,17 +35,15 @@ function Review() {
     })
     .then(res=>{
       setData(res.data);
-      console.log(res.data);
     })
   }
 
   const pageCount=()=>{
     axios.get(API_BASE_URL+"/review/count",
     )
-    .then(res=>{
-      setCount(res.data);
-      console.log(res.data);
-      console.log(res);
+    .then(response=>{
+      setCount(response.data);
+      console.log("total : "+ response.data);
     })
   }
 
@@ -116,7 +115,7 @@ function Review() {
 
         {/* 페이징 */}
         <div style={{ width:'700px', margin:'auto', backgroundColor:'skyblue' }}>
-          <ul className='pagination'>
+          {/* <ul className='pagination'>
           {
             (currentPage > 1 ? <li>
               <Link to={ `/review/${currentPage-1}` }>이전</Link></li>:'')
@@ -137,10 +136,13 @@ function Review() {
             (currentPage < 500? 
             <li><Link to={ `/review/${currentPage+1}` }>다음</Link></li>:'')
           }
-          </ul>
+          </ul> */}
+
+          <Paging count={count/10+1} />
+          
         </div>
 
-        
+
 
 
 

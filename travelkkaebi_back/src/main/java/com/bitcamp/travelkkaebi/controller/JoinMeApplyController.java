@@ -73,6 +73,7 @@ public class JoinMeApplyController {
             @AuthenticationPrincipal String userId) {
         try {
             return new ResponseEntity<>(joinMeApplyService.setSelectedTrue(joinMeApplyId, Integer.parseInt(userId)), HttpStatus.OK);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

@@ -25,6 +25,7 @@ public class RegionEventDTO {
         this.content = regionalEventEntity.getBaseWrite().getContent();
         this.userId = regionalEventEntity.getUserEntity().getId();
         this.nickname = regionalEventEntity.getUserEntity().getNickname();
+        this.view = regionalEventEntity.getBaseWrite().getView();
     }
 
     public static RegionEventDTO toDto(RegionalEventEntity regionalEventEntity) {
