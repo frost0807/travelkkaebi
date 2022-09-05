@@ -51,8 +51,9 @@ public class JoinMeController {
     }
 
     @GetMapping("/selectallbypage/keyword")
-    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndKeyword(@RequestParam int pageNo,
-                                                                         @RequestParam String keyword) {
+    public ResponseEntity<List<JoinMeListDTO>> selectAllByPageAndKeyword(
+            @RequestParam int pageNo,
+            @RequestParam String keyword) {
         try {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo, keyword), HttpStatus.OK);
         } catch (Exception e) {
@@ -112,8 +113,9 @@ public class JoinMeController {
 
     //유저가 글을 수정했을 때 수정된 객체를 받아서 Service로 넘겨주고 수정된 객체 리턴
     @PutMapping("/update")
-    public ResponseEntity<JoinMeOneDTO> update(@RequestBody JoinMeDTO joinMeDTO,
-                                               @AuthenticationPrincipal String userId) {
+    public ResponseEntity<JoinMeOneDTO> update(
+            @RequestBody JoinMeDTO joinMeDTO,
+            @AuthenticationPrincipal String userId) {
         try {
             return new ResponseEntity<>(joinMeService.update(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
@@ -124,8 +126,9 @@ public class JoinMeController {
 
     //유저가 글을 삭제했을 때 삭제할 글의 joinMeId를 받아서 Service로 넘겨준다.
     @DeleteMapping("/delete")
-    public ResponseEntity<Boolean> delete(@RequestBody JoinMeDTO joinMeDTO,
-                                          @AuthenticationPrincipal String userId) {
+    public ResponseEntity<Boolean> delete(
+            @RequestBody JoinMeDTO joinMeDTO,
+            @AuthenticationPrincipal String userId) {
         try {
             return new ResponseEntity<>(joinMeService.delete(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {

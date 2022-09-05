@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.entity;
 
+import com.bitcamp.travelkkaebi.dto.PickMeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,4 +35,22 @@ public class PickMeEntity {
     private String region;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+
+    public static PickMeEntity toEntity(PickMeDTO pickMeDTO, int userId) {
+        return PickMeEntity.builder()
+                .userEntity(UserEntity.builder()
+                        .id(userId)
+                        .build())
+                .baseWrite(BaseWrite.builder()
+                        .categoryId(pickMeDTO.getCategoryId())
+                        .content(pickMeDTO.getContent())
+                        .title(pickMeDTO.getTitle())
+                        .view(pickMeDTO.getView())
+                        .build())
+                .startDate(pickMeDTO.getPreferredStartDate())
+                .endDate(pickMeDTO.getPreferredEndDate())
+                .closed(pickMeDTO.isClosed())
+                .company(pickMeDTO.isCompany())
+                .build();
+    }
 }
