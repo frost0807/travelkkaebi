@@ -24,7 +24,7 @@ public class LikeOrDislikeController {
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ public class LikeOrDislikeController {
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ public class LikeOrDislikeController {
                     likeOrDislikeId, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

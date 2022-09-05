@@ -149,13 +149,4 @@ public class JoinMeService {
         }
         return joinMeList;
     }
-
-//    //페이지수 계산해주는 메소드
-//    private int calculatePageCount(int boardCount) {
-//        if (boardCount % PAGE_SIZE != 0) {
-//            return boardCount / PAGE_SIZE + 1;
-//        } else {
-//            return boardCount / PAGE_SIZE;
-//        }
-//    }
 }

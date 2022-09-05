@@ -10,8 +10,9 @@ import java.sql.SQLException;
 
 @RestControllerAdvice
 public class TravelKkaebiExceptionHandler {
-    @ExceptionHandler
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleException(RuntimeException e) {
+        System.out.println("11");
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 e.getMessage(),
@@ -20,7 +21,7 @@ public class TravelKkaebiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(KkaebiException.class)
     public ResponseEntity<ErrorResponse> handleException(KkaebiException e) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -30,7 +31,7 @@ public class TravelKkaebiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(IllegalAccessException.class)
     public ResponseEntity<ErrorResponse> handleException(IllegalStateException e) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -40,7 +41,7 @@ public class TravelKkaebiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorResponse> handelException(IOException e) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -50,7 +51,7 @@ public class TravelKkaebiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(SQLException.class)
     public ResponseEntity<ErrorResponse> handelException(SQLException e) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -60,7 +61,7 @@ public class TravelKkaebiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(ClassNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleException(ClassNotFoundException e) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -70,7 +71,7 @@ public class TravelKkaebiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorResponse> handleException(NullPointerException e) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),

@@ -4,13 +4,11 @@ import com.bitcamp.travelkkaebi.dto.*;
 import com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
-import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -106,13 +104,4 @@ public class JoinMeApplyService {
                 .list(joinMeApplyResponseDTOList)
                 .build();
     }
-
-//    //페이지수 계산해주는 메소드
-//    private int calculatePageCount(int boardCount) {
-//        if (boardCount % PAGE_SIZE != 0) {
-//            return boardCount / PAGE_SIZE + 1;
-//        } else {
-//            return boardCount / PAGE_SIZE;
-//        }
-//    }
 }

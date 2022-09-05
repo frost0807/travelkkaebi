@@ -4,14 +4,12 @@ import com.bitcamp.travelkkaebi.dto.JoinMeApplyResponseDTO;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
 import com.bitcamp.travelkkaebi.service.JoinMeApplyService;
-import com.bitcamp.travelkkaebi.service.JoinMeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/joinmeapply")
@@ -28,21 +26,30 @@ public class JoinMeApplyController {
             return new ResponseEntity<>(joinMeApplyService.selectAllByUserId(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     //내가 작성한 같이가요 글에 신청한 신청서들
     @GetMapping("/selectall/bywriterid")
-    public ResponseEntity<ListResponseDTO>
-    selectAllByWriterId(
+    public ResponseEntity<ListResponseDTO> selectAllByWriterId(
             @RequestParam int pageNo,
             @AuthenticationPrincipal String userId) {
         try {
             return new ResponseEntity<>(joinMeApplyService.selectAllByWriterId(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/selectone")
+    public ResponseEntity<JoinMeApplyResponseDTO> selectOne(
+            @RequestParam int joinMeApplyId) {
+        try {
+            return new ResponseEntity<>(joinMeApplyService.selectOne(joinMeApplyId), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -55,7 +62,7 @@ public class JoinMeApplyController {
             return new ResponseEntity<>(joinMeApplyService.insert(joinMeApplyDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -65,10 +72,10 @@ public class JoinMeApplyController {
             @RequestParam int joinMeApplyId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeApplyService.setSelectedTrue(joinMeApplyId, Integer.parseInt(userId)),HttpStatus.OK);
+            return new ResponseEntity<>(joinMeApplyService.setSelectedTrue(joinMeApplyId, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

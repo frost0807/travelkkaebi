@@ -23,7 +23,7 @@ public class ImageController {
             return new ResponseEntity<>(imageService.selectAll(imageDTO), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ public class ImageController {
             return new ResponseEntity<>(imageService.insert(multipartFileList, imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ public class ImageController {
             return new ResponseEntity<>(imageService.update(multipartFileList, imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class ImageController {
             return new ResponseEntity<>(imageService.delete(imageIdList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

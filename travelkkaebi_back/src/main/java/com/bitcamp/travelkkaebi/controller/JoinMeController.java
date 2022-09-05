@@ -1,6 +1,5 @@
 package com.bitcamp.travelkkaebi.controller;
 
-import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
 import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/joinme")
@@ -28,7 +25,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.selectAllByPage(pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -40,7 +37,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo, keyword), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -53,7 +50,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndTitle(pageNo, searchword), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -66,7 +63,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndNickname(pageNo, searchword), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -77,7 +74,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.selectOne(joinMeId), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -89,7 +86,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.insert(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -101,7 +98,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.update(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -113,7 +110,7 @@ public class JoinMeController {
             return new ResponseEntity<>(joinMeService.delete(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
