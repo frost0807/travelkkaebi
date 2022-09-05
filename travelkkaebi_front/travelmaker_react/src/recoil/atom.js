@@ -1,9 +1,9 @@
 import { atom } from "recoil";
 
-export const showJoinMeDetailState = atom({
-  key: "showJoinMeDetail",
-  default: false,
-});
+// export const showJoinMeDetailState = atom({
+//   key: "showJoinMeDetail",
+//   default: false,
+// });
 
 export const isLoginModalState = atom({
   key: "IsLoginModalOpen",

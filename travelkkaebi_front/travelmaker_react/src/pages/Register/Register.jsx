@@ -4,8 +4,9 @@ import RegisterForm from './RegisterForm';
 const Register = () => {
 
   return (
-
+<div className='register-bg'>
 <RegisterForm />
+</div>
   )
 }
 

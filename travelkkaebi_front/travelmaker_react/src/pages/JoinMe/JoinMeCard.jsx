@@ -4,18 +4,36 @@ import HeartImg from "../../images/heart.png";
 import Logo from "../../images/basicLogo.png";
 import "./JoinMe.css";
 import { useParams } from "react-router";
-import Modal from "../../components/Modal/Modal";
 import JoinMeDetail from "./JoinMeDetail";
 import { useRecoilState } from "recoil";
 import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
+import { Link } from "react-router-dom";
+import { display } from "@mui/system";
 
 function JoinMeCard(props) {
   const [post, setPosts] = useState(props.post);
+  const [closed] = useState(props.post);
   const { id } = useParams();
+  let profile_img = post.profileImageUrl;
+  let sDate = new Date(post.startDate);
+  const startDate = sDate.getMonth()+1 + "." + sDate.getDate();
+  let eDate = new Date(post.endDate);
+  const endDate = eDate.getMonth()+1+ "." + eDate.getDate();
+
+  const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
+
+  const openJoinMeDetail =() => {
+    setShowJoinMeDetail(true);
+  }
+  const close = () => {
+    setShowJoinMeDetail(false);
+  }
 
   return (
-    <CardSection>
+    <>
+    <div onClick={openJoinMeDetail}>
+    <CardSection key={post.joinMeId}>
       <CardTop>
         <CardTitle>
           {post.title.length < 20
@@ -26,36 +44,56 @@ function JoinMeCard(props) {
           <CardsubList>
             <div className="joinme-subtitle">
               <dt className="joinme-sublabel">지역</dt>
-              <dt className="joinme-subdata">지역data</dt>
+              <dt className="joinme-subdata">{post.region}</dt>
             </div>
             <div className="joinme-subtitle2">
               <dt className="joinme-sublabel"> 날짜</dt>
-              <dt className="joinme-subdata">22.8.12</dt>
+              <dt className="joinme-subdata">{startDate} ~ {endDate}</dt>
             </div>
             <div className="joinme-subtitle3">
               <dt className="joinme-sublabel">인원</dt>
-              <dt className="joinme-subdata">5명</dt>
+              <dt className="joinme-subdata">{post.currentMemberCount} / {post.capacity}</dt>
+            </div>
+
+            <br />
+            <div className="joinme-content">
+            <p>{post.content.length < 15 ? post.content : post.content.slice(0,14)+"..."}</p>
             </div>
           </CardsubList>
           <figure className="card_profileimg">
-            <img src={Logo} alt="유저프로필" loading="lazy"></img>
+            <img src={profile_img ? profile_img : Logo} alt="유저프로필" loading="lazy"></img>
           </figure>
         </CardsubTitle>
       </CardTop>
       <CardBottom>
         <div className="card_username">
-          <span>{post.userId}</span>
+          <span>{post.nickname}</span>
           <div className="like-btn">
             <Heart src={HeartImg} />
-            <span>300</span>
+            <span>{post.likeCount}</span>
           </div>
         </div>
       </CardBottom>
     </CardSection>
+    <div>
+    {showJoinMeDetail && 
+    <JoinMeDetail 
+      joinMeId={post.joinMeId}
+      isLoggedIn={props.isLoggedIn}
+      showJoinMeDetail={showJoinMeDetail}
+      setShowJoinMeDetail={setShowJoinMeDetail}
+      close={close} 
+      profile_img={profile_img} 
+      likeCount={post.likeCount}
+      />}
+    </div>
+    </div>
+    </>
   );
 }
 
 export default JoinMeCard;
+
 
 const CardSection = styled.section`
   position: relative;
@@ -66,8 +104,7 @@ const CardSection = styled.section`
   min-height: 280px;
   height: 100%;
   padding: 24px;
-  border-radius: 8px;s
-  cursor: pointer;
+  border-radius: 8px;
   box-sizing: inherit;
   border: 1px solid #e9ebee;
   background-color: #fff;
@@ -75,6 +112,7 @@ const CardSection = styled.section`
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
   }
 `;
 const CardTop = styled.div`
@@ -82,11 +120,13 @@ const CardTop = styled.div`
   height: 100%;
   box-sizing: inherit;
   display: block;
+  cursor: pointer;
 `;
 const CardTitle = styled.h3`
   margin: 0;
   padding: 0;
   font-weight: 400;
+  font-family: 'Poor Story', cursive;
   letter-spacing: -0.3px;
   font-size: 16px;
   overflow: hidden;

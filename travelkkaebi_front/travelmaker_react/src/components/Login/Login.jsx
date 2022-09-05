@@ -20,10 +20,12 @@ import { Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { KAKAO_AUTH_URL } from "./KakaoAuth";
 import { useRecoilState } from "recoil";
-import { isLoginModalState } from "../../recoil/atom";
+import { isLoginModalState, isLoginState } from "../../recoil/atom";
 
 function Login() {
   const navi = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoginState);
 
   const [isLoginModalOpen, setIsLoginModalOpen] =
     useRecoilState(isLoginModalState);
@@ -56,13 +58,17 @@ function Login() {
   // 일반 로그인
   function login(userDTO) {
     axios
-      .post(API_BASE_URL + "/signin", userDTO)
+      .post(API_BASE_URL + "/travelkkaebi/signin", userDTO) //API_BASE_URL + "/travelkkaebi/signin"
       .then((res) => {
         console.log(res.data);
         localStorage.setItem("ACCESS_TOKEN", res.data.token);
+        localStorage.setItem("userId", res.data.userId);
         localStorage.setItem("username", res.data.username);
+        localStorage.setItem("profileImageUrl", res.data.profileImageUrl);
+        localStorage.setItem("manner", res.data.mannerDegree);
         localStorage.setItem("nickname", res.data.nickname);
         localStorage.setItem("role", res.data.role);
+        setIsLoggedIn(true);
         // role
         alert("👹 로그인 되었습니다. ");
         window.location.reload();
@@ -75,7 +81,7 @@ function Login() {
       });
   }
 
-  /** Block (정지) 된 User 로그인 못하게 함 */
+  /** Block (정지) 된 User 로그인 못하게 함? */
 
   // 관리자 로그인시 ? ?
 

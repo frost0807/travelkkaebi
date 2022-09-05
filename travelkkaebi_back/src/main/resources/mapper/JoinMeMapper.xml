@@ -44,7 +44,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE region = #{keyword}
+        WHERE region = #{word}
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -52,7 +52,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE title LIKE CONCAT('%', #{searchword}, '%')
+        WHERE title LIKE CONCAT('%', #{word}, '%')
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
@@ -60,7 +60,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN user AS u ON b.user_id = u.user_id
-        WHERE nickname LIKE CONCAT('%', #{searchword}, '%')
+        WHERE nickname LIKE CONCAT('%', #{word}, '%')
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 

@@ -1,8 +1,26 @@
+import axios, { Axios } from "axios";
+
 export const bearerToken = {
   headers: {
     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
   },
 };
+
+export const headerConfig = {
+  Headers: {
+    "content-type": "multipart/form-data",
+  },
+};
+
+
+export const headerImg_tk = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+    "content-type": "application/json; charset = utf-8",
+  },
+}
+
+export const isLoginFc = () =>  !localStorage.getItem('ACCESS_Token');
 
 export const setUsername = (username) => {
   return localStorage.setItem("username", username);
@@ -36,3 +54,4 @@ export const removeAuthority = () => {
 export const clearLocal = () => {
   return localStorage.clear();
 };
+

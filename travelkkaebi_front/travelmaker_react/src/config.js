@@ -16,3 +16,7 @@ if (hostname == "localhost") {
 host = url_4;
 
 export const API_BASE_URL = `${host}`;
+
+export const userconfig = API_BASE_URL+"/travelkkaebi"
+export const joinmeurl = API_BASE_URL+"/joinme";
+export const pickupurl = API_BASE_URL+"/pickupme";

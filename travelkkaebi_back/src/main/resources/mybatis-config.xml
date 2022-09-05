@@ -24,7 +24,6 @@
         <typeAlias type="com.bitcamp.travelkkaebi.model.EditorChoiceDTO" alias="EditorChoiceDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.model.MannerDegreeDTO" alias="MannerDegreeDTO"/>
 
-
         <typeAlias type="com.bitcamp.travelkkaebi.dto.UpdateMemberCountDTO" alias="UpdateMemberCountDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ListResponseDTO" alias="ListResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO" alias="PrimaryIdAndUserIdDTO"/>
