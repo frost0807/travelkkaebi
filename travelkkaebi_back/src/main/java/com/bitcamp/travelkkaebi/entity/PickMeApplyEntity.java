@@ -32,15 +32,14 @@ public class PickMeApplyEntity {
     private boolean picked = false;
 
     public static PickMeApplyEntity toEntity(int userId, PickMeApplyDTO pickMeApplyDTO) {
-        System.out.println(pickMeApplyDTO.getComment());
         return PickMeApplyEntity.builder()
+                .comment(pickMeApplyDTO.getComment())
                 .userEntity(UserEntity.builder()
                         .id(userId)
                         .build())
                 .pickMeEntity(PickMeEntity.builder()
                         .id(pickMeApplyDTO.getBoardId())
                         .build())
-                .comment(pickMeApplyDTO.getComment())
                 .build();
     }
 

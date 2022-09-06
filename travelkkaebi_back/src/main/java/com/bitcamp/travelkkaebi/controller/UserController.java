@@ -8,6 +8,7 @@ import com.bitcamp.travelkkaebi.service.AwsS3service;
 import com.bitcamp.travelkkaebi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,9 +64,10 @@ public class UserController {
      */
     @PutMapping("/update")
     public ResponseEntity<Void> userUpdate(
+            @AuthenticationPrincipal String userId,
             @RequestPart(value = "image", required = false) MultipartFile image,
             @RequestPart UserUpdateDTO userUpdateDTO) throws IOException {
-        userService.update(userUpdateDTO, awsS3service.upload(image, "static"));
+        userService.update(Integer.parseInt(userId), userUpdateDTO, awsS3service.upload(image, "static"));
         return ResponseEntity.ok().build();
     }
 
@@ -73,8 +75,8 @@ public class UserController {
      * 회원 delete
      */
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> userDelete(@RequestBody DeleteUserDTO deleteUserDTO) {
-        userService.delete(deleteUserDTO);
+    public ResponseEntity<Void> userDelete(@AuthenticationPrincipal String userId, @RequestBody DeleteUserDTO deleteUserDTO) {
+        userService.delete(Integer.parseInt(userId), deleteUserDTO);
         return ResponseEntity.ok().build();
     }
 

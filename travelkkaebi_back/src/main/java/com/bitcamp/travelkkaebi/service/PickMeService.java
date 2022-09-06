@@ -48,7 +48,7 @@ public class PickMeService {
         if (pickMeDTO == null)
             throw new RuntimeException("입력 정보가 없습니다.");
 
-        if (pickMeDTO.getUserId() != userId)
+        if (findUser.getId() != userId)
             throw new RuntimeException("회원정보가 일치하지 앖습니다.");
 
         return findUser;
@@ -60,7 +60,7 @@ public class PickMeService {
     @Transactional
     public PickMeDTO update(int userId, PickMeDTO pickMeDTO) {
         validate(userId, pickMeDTO);
-        PickMeEntity findPickMe = pickMeRepository.findById(pickMeDTO.getId()).orElseThrow(() -> new RuntimeException("게시물이 없습니다."));
+        PickMeEntity findPickMe = pickMeRepository.findById(pickMeDTO.getBoardId()).orElseThrow(() -> new RuntimeException("게시물이 없습니다."));
         findPickMe.change(pickMeDTO);
 
         return PickMeDTO.toDto(findPickMe);
@@ -101,7 +101,7 @@ public class PickMeService {
     }
 
     /**
-     * keyword search logic
+     * keyword search logic  %like%
      */
     public List<PickMeDTO> findByRegion(String keyword, Pageable pageable) {
         List<PickMeEntity> findByRegion = pickMeRepository.findAllByRegion(keyword, pageable).getContent();

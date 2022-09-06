@@ -70,21 +70,32 @@ public class UserService {
      * 회원정보 update logic
      */
     @Transactional
-    public void update(UserUpdateDTO userUpdateDTO, String uploadImageUrl) {
+    public void update(int userId, UserUpdateDTO userUpdateDTO, String uploadImageUrl) {
         UserEntity findUser = userRepository.findById(userUpdateDTO.getUserid()).orElseThrow(() -> new RuntimeException("update exception"));
+        validateUserId(userId, findUser);
+
         userUpdateDTO.setProfileImageUrl(uploadImageUrl);
         findUser.change(userUpdateDTO);
     }
+
 
     /**
      * 회원정보 delete logic
      */
     @Transactional
-    public void delete(DeleteUserDTO deleteUserDTO) {
+    public void delete(int userId, DeleteUserDTO deleteUserDTO) {
         UserEntity deleteUser = userRepository.findById(deleteUserDTO.getUserid()).orElseThrow(() -> new RuntimeException("delete exception"));
-        if (Password.passwordMatch(deleteUserDTO.getPassword(), deleteUser.getPassword())) {
-            userRepository.delete(deleteUser);
-        }
+        validateUserId(userId, deleteUser);
+
+        if (!Password.passwordMatch(deleteUserDTO.getPassword(), deleteUser.getPassword()))
+            throw new RuntimeException("비밀번호가 일치하지않씁니다");
+
+        userRepository.delete(deleteUser);
+    }
+
+    private void validateUserId(int userId, UserEntity findUser) {
+        if (userId != findUser.getId())
+            throw new RuntimeException("회원정보가 일치하지 않습니다");
     }
 
 }

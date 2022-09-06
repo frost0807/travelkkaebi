@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegionEventDTO {
-    private int id;
+    private int regionId;
     private int userId;
     private int categoryId = 4;
     private String posterImageUrl;
@@ -18,7 +18,7 @@ public class RegionEventDTO {
     private int view;
 
     public RegionEventDTO(RegionalEventEntity regionalEventEntity) {
-        this.id = regionalEventEntity.getId();
+        this.regionId = regionalEventEntity.getId();
         this.categoryId = regionalEventEntity.getBaseWrite().getCategoryId();
         this.posterImageUrl = regionalEventEntity.getPosterImageUrl();
         this.title = regionalEventEntity.getBaseWrite().getTitle();
@@ -30,7 +30,7 @@ public class RegionEventDTO {
 
     public static RegionEventDTO toDto(RegionalEventEntity regionalEventEntity) {
         return RegionEventDTO.builder()
-                .id(regionalEventEntity.getId())
+                .regionId(regionalEventEntity.getId())
                 .userId(regionalEventEntity.getId())
                 .categoryId(regionalEventEntity.getBaseWrite().getCategoryId())
                 .nickname(regionalEventEntity.getUserEntity().getNickname())
@@ -51,7 +51,7 @@ public class RegionEventDTO {
         this.posterImageUrl = posterImageUrl;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRegionId(int regionId) {
+        this.regionId = regionId;
     }
 }

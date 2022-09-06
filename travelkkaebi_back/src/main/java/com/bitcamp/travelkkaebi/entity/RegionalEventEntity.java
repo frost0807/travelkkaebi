@@ -34,6 +34,7 @@ public class RegionalEventEntity extends BaseEntity {
 
     public static RegionalEventEntity toEntity(RegionEventDTO regionEventDTO) {
         return RegionalEventEntity.builder()
+                .posterImageUrl(regionEventDTO.getPosterImageUrl())
                 .userEntity(UserEntity.builder()
                         .id(regionEventDTO.getUserId())
                         .nickname(regionEventDTO.getNickname())
@@ -44,7 +45,6 @@ public class RegionalEventEntity extends BaseEntity {
                         .title(regionEventDTO.getTitle())
                         .view(regionEventDTO.getView())
                         .build())
-                .posterImageUrl(regionEventDTO.getPosterImageUrl())
                 .build();
     }
 
@@ -52,7 +52,6 @@ public class RegionalEventEntity extends BaseEntity {
         this.baseWrite.changeTitleAndContent(regionEventDTO.getContent(), regionEventDTO.getTitle());
         this.posterImageUrl = regionEventDTO.getPosterImageUrl();
     }
-
 
     public void updateView(int view) {
         this.baseWrite.increaseView(view);

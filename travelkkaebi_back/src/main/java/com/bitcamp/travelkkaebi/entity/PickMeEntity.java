@@ -49,6 +49,9 @@ public class PickMeEntity {
 
     public static PickMeEntity toEntity(PickMeDTO pickMeDTO, int userId) {
         return PickMeEntity.builder()
+                .region(pickMeDTO.getPreferredRegion())
+                .closed(pickMeDTO.isClosed())
+                .company(pickMeDTO.isCompany())
                 .userEntity(UserEntity.builder()
                         .id(userId)
                         .build())
@@ -59,17 +62,16 @@ public class PickMeEntity {
                         .view(pickMeDTO.getView())
                         .build())
                 .dateInfo(DateInfo.builder()
-                        .startDate(pickMeDTO.getPreferredStartDate())
-                        .endDate(pickMeDTO.getPreferredEndDate()).build())
-                .region(pickMeDTO.getPreferredRegion())
-                .closed(pickMeDTO.isClosed())
-                .company(pickMeDTO.isCompany())
+                        .startDate(pickMeDTO.getDateInfo().getStartDate())
+                        .endDate(pickMeDTO.getDateInfo().getEndDate())
+                        .build())
                 .build();
     }
 
     public void change(PickMeDTO pickMeDTO) {
+        this.region = pickMeDTO.getPreferredRegion();
         this.writeInfo.changeTitleAndContent(pickMeDTO.getTitle(), pickMeDTO.getContent());
-        this.dateInfo.changeDate(pickMeDTO.getPreferredStartDate(), pickMeDTO.getPreferredEndDate());
+        this.dateInfo.changeDate(pickMeDTO.getDateInfo().getStartDate(), pickMeDTO.getDateInfo().getEndDate());
     }
 
 }

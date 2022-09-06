@@ -31,7 +31,7 @@ public class RegionEventService {
 
         regionEventDTO.setUserInfo(findUser.getId(), findUser.getNickname(), image);
         RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
-        regionEventDTO.setId(saveRegionEvent.getId());
+        regionEventDTO.setRegionId(saveRegionEvent.getId());
 
         return regionEventDTO;
     }
@@ -59,7 +59,7 @@ public class RegionEventService {
     public void edit(int userId, RegionEventDTO regionEventDTO, String image) {
         validate(userId, regionEventDTO);
 
-        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionEventDTO.getId()).orElseThrow(() -> new RuntimeException("edit exception"));
+        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionEventDTO.getRegionId()).orElseThrow(() -> new RuntimeException("edit exception"));
 
         regionEventDTO.setPosterImageUrl(image);
         findRegionEvent.change(regionEventDTO);
