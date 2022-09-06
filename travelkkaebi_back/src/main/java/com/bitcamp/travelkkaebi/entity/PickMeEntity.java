@@ -67,4 +67,5 @@ public class PickMeEntity {
         this.startDate = pickMeDTO.getPreferredStartDate();
         this.endDate = pickMeDTO.getPreferredEndDate();
     }
+
 }

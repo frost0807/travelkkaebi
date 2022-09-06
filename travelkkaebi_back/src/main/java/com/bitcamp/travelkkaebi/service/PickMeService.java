@@ -84,7 +84,7 @@ public class PickMeService {
     public List<PickMeDTO> findByNickname(String nickname, Pageable pageable) {
         List<PickMeEntity> findPickMeList = pickMeRepository.findAllByUserEntityNicknameContainingOrderByIdDesc(nickname, pageable).getContent();
         if (findPickMeList.isEmpty())
-            throw new RuntimeException("해당 게시물이 없습니다.");
+            throw new RuntimeException("해당 닉네임으로 검색된 게시물이 없습니다.");
 
         return findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList());
     }
@@ -94,11 +94,21 @@ public class PickMeService {
      */
     public List<PickMeDTO> findByTitle(String title, Pageable pageable) {
         List<PickMeEntity> findByTitleList = pickMeRepository.findAllByBaseWriteTitleContainingOrderByIdDesc(title, pageable).getContent();
-        if (findByTitleList.isEmpty()) {
-            throw new RuntimeException("해당 게시물이 없습니다.");
-        }
+        if (findByTitleList.isEmpty())
+            throw new RuntimeException("해당 제목으로 검색된 게시물이 없습니다.");
 
         return findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList());
+    }
+
+    /**
+     * keyword search logic
+     */
+    public List<PickMeDTO> findByRegion(String keyword, Pageable pageable) {
+        List<PickMeEntity> findByRegion = pickMeRepository.findAllByRegion(keyword, pageable).getContent();
+        if (findByRegion.isEmpty())
+            throw new RuntimeException("해당 지역으로 검색된 게시글이 없습니다.");
+
+        return findByRegion.stream().map(PickMeDTO::new).collect(Collectors.toList());
     }
 
 }

@@ -67,13 +67,19 @@ public class PickMeController {
      * pickMe search by title 20개 씩
      */
     @GetMapping("/search/title")
-    public ResponseEntity<List<PickMeDTO>> findByKeyword(
+    public ResponseEntity<List<PickMeDTO>> findByTitle(
             @PageableDefault(size = PAGE_SIZE) Pageable pageable,
             @RequestParam String title) {
         return ResponseEntity.ok().body(pickMeService.findByTitle(title, pageable));
     }
 
     /**
-     * pickMe
+     * pickMe search by keyword 20개 씩
      */
+    @GetMapping("/search/region")
+    public ResponseEntity<List<PickMeDTO>> findByKeyword(
+            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @RequestParam String keyword) {
+        return ResponseEntity.ok().body(pickMeService.findByRegion(keyword, pageable));
+    }
 }
