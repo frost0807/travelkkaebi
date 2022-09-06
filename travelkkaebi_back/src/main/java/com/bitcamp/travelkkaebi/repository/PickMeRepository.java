@@ -11,7 +11,7 @@ public interface PickMeRepository extends JpaRepository<PickMeEntity, Integer> {
 
     Page<PickMeEntity> findAllByUserEntityNicknameContainingOrderByIdDesc(String nickname, Pageable pageable);
 
-    Page<PickMeEntity> findAllByBaseWriteTitleContainingOrderByIdDesc(String title, Pageable pageable);
+    Page<PickMeEntity> findAllByWriteInfoTitleContainingOrderByIdDesc(String title, Pageable pageable);
 
     Page<PickMeEntity> findAllByRegion(String region, Pageable pageable);
 }

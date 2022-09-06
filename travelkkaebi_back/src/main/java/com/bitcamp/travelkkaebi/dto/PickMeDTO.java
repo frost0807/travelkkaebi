@@ -30,13 +30,13 @@ public class PickMeDTO {
         this.id = pickMeEntity.getId();
         this.userId = pickMeEntity.getUserEntity().getId();
         this.nickname = pickMeEntity.getUserEntity().getNickname();
-        this.categoryId = pickMeEntity.getBaseWrite().getCategoryId();
+        this.categoryId = pickMeEntity.getWriteInfo().getCategoryId();
         this.profileImageUrl = pickMeEntity.getUserEntity().getProfileImageUrl();
-        this.title = pickMeEntity.getBaseWrite().getTitle();
-        this.content = pickMeEntity.getBaseWrite().getContent();
+        this.title = pickMeEntity.getWriteInfo().getTitle();
+        this.content = pickMeEntity.getWriteInfo().getContent();
         this.preferredRegion = pickMeEntity.getRegion();
-        this.preferredStartDate = pickMeEntity.getStartDate();
-        this.preferredEndDate = pickMeEntity.getEndDate();
+        this.preferredStartDate = pickMeEntity.getDateInfo().getStartDate();
+        this.preferredEndDate = pickMeEntity.getDateInfo().getEndDate();
         this.company = pickMeEntity.isCompany();
         this.closed = pickMeEntity.isClosed();
     }
@@ -54,12 +54,12 @@ public class PickMeDTO {
                 .mannerDegree(findPickMe.getUserEntity().getMannerDegree())
                 .nickname(findPickMe.getUserEntity().getNickname())
                 .preferredRegion(findPickMe.getRegion())
-                .preferredStartDate(findPickMe.getStartDate())
-                .preferredEndDate(findPickMe.getEndDate())
-                .content(findPickMe.getBaseWrite().getContent())
-                .title(findPickMe.getBaseWrite().getTitle())
-                .view(findPickMe.getBaseWrite().getView())
-                .categoryId(findPickMe.getBaseWrite().getCategoryId())
+                .preferredStartDate(findPickMe.getDateInfo().getStartDate())
+                .preferredEndDate(findPickMe.getDateInfo().getEndDate())
+                .content(findPickMe.getWriteInfo().getContent())
+                .title(findPickMe.getWriteInfo().getTitle())
+                .view(findPickMe.getWriteInfo().getView())
+                .categoryId(findPickMe.getWriteInfo().getCategoryId())
                 .build();
     }
 

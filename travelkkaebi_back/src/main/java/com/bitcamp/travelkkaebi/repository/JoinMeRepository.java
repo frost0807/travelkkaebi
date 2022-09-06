@@ -7,6 +7,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface JoinMeRepository extends JpaRepository<JoinMeEntity, Integer> {
-//    List<JoinMeEntity> findAllByUserEntityId(int userId);
-    List<JoinMeEntity> findAllByUserEntityIdAndStartDateLessThan(int userUd, LocalDateTime localDateTime);
+    List<JoinMeEntity> findAllByUserEntityIdAndDateInfoStartDateLessThan(int userUd, LocalDateTime localDateTime);
 }

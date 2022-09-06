@@ -24,7 +24,7 @@ public class PickMeApplyService {
     public void pickUp(int userId, PickMeApplyDTO pickMeApplyDTO) {
         pickMeRepository.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new RuntimeException("데려가줘 게시물이 존재하지 않습니다."));
         //joinMe 에 게시물이 등록되어있는지 check 하는 logic
-        List<JoinMeEntity> findJoinMeEntity = joinMeRepository.findAllByUserEntityIdAndStartDateLessThan(userId, LocalDateTime.now());
+        List<JoinMeEntity> findJoinMeEntity = joinMeRepository.findAllByUserEntityIdAndDateInfoStartDateLessThan(userId, LocalDateTime.now());
         if (findJoinMeEntity.isEmpty())
             throw new RuntimeException("같이 여행가요 게시물이 존재하지 않으므로 픽업을 할 수 없습니다.");
 

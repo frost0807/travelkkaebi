@@ -93,7 +93,7 @@ public class PickMeService {
      * title search logic
      */
     public List<PickMeDTO> findByTitle(String title, Pageable pageable) {
-        List<PickMeEntity> findByTitleList = pickMeRepository.findAllByBaseWriteTitleContainingOrderByIdDesc(title, pageable).getContent();
+        List<PickMeEntity> findByTitleList = pickMeRepository.findAllByWriteInfoTitleContainingOrderByIdDesc(title, pageable).getContent();
         if (findByTitleList.isEmpty())
             throw new RuntimeException("해당 제목으로 검색된 게시물이 없습니다.");
 

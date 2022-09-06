@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
-
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -17,8 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "board_join_me")
 public class JoinMeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "join_me_id")
     private int id;
 
@@ -27,16 +24,19 @@ public class JoinMeEntity {
     private UserEntity userEntity;
 
     @Embedded
-    private BaseWrite baseWrite;
+    private WriteInfo writeInfo;
 
     @Column(name = "current_member_count")
     private int currentMemberCount;
 
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-
-    @Column(name = "end_date")
-    private LocalDateTime endDate;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "startDate",
+                    column = @Column(name = "start_date")),
+            @AttributeOverride(name = "endDate",
+                    column = @Column(name = "end_date"))
+    })
+    private DateInfo dateInfo;
 
     private int charge;
     private String region;

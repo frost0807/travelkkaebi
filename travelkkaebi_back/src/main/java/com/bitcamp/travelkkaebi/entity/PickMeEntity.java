@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -29,43 +28,48 @@ public class PickMeEntity {
     private UserEntity userEntity;
 
     @Embedded
-    private BaseWrite baseWrite;
+    private WriteInfo writeInfo;
 
-    private boolean company;
-    private boolean closed;
 
     @Column(name = "preferred_region")
     private String region;
 
-    @Column(name = "preferred_start_date")
-    private LocalDateTime startDate;
+    private boolean company;
+    private boolean closed;
 
-    @Column(name = "preferred_end_date")
-    private LocalDateTime endDate;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "startDate",
+                    column = @Column(name = "preferred_start_date")),
+            @AttributeOverride(name = "endDate",
+                    column = @Column(name = "preferred_end_date"))
+    })
+    private DateInfo dateInfo;
+
 
     public static PickMeEntity toEntity(PickMeDTO pickMeDTO, int userId) {
         return PickMeEntity.builder()
                 .userEntity(UserEntity.builder()
                         .id(userId)
                         .build())
-                .baseWrite(BaseWrite.builder()
+                .writeInfo(WriteInfo.builder()
                         .categoryId(pickMeDTO.getCategoryId())
                         .content(pickMeDTO.getContent())
                         .title(pickMeDTO.getTitle())
                         .view(pickMeDTO.getView())
                         .build())
+                .dateInfo(DateInfo.builder()
+                        .startDate(pickMeDTO.getPreferredStartDate())
+                        .endDate(pickMeDTO.getPreferredEndDate()).build())
                 .region(pickMeDTO.getPreferredRegion())
-                .startDate(pickMeDTO.getPreferredStartDate())
-                .endDate(pickMeDTO.getPreferredEndDate())
                 .closed(pickMeDTO.isClosed())
                 .company(pickMeDTO.isCompany())
                 .build();
     }
 
     public void change(PickMeDTO pickMeDTO) {
-        this.baseWrite.changeTitleAndContent(pickMeDTO.getTitle(), pickMeDTO.getContent());
-        this.startDate = pickMeDTO.getPreferredStartDate();
-        this.endDate = pickMeDTO.getPreferredEndDate();
+        this.writeInfo.changeTitleAndContent(pickMeDTO.getTitle(), pickMeDTO.getContent());
+        this.dateInfo.changeDate(pickMeDTO.getPreferredStartDate(), pickMeDTO.getPreferredEndDate());
     }
 
 }
