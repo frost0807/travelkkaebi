@@ -47,7 +47,7 @@ public class RegionEventService {
         if (findUser.getRole() != UserRole.EDITOR)
             throw new RuntimeException("not an editor");
 
-        if (regionEventDTO.getUserId() != userId)
+        if (findUser.getId() != userId)
             throw new RuntimeException("회원정보가 일치하지 앖습니다.");
         return findUser;
     }

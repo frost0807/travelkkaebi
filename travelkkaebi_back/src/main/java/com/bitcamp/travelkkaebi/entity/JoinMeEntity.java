@@ -1,5 +1,9 @@
 package com.bitcamp.travelkkaebi.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
@@ -7,10 +11,15 @@ import java.time.LocalDateTime;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "board_join_me")
 public class JoinMeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "join_me_id")
     private int id;
 
     @ManyToOne(fetch = LAZY)
