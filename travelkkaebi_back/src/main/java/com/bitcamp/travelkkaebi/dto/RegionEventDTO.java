@@ -41,7 +41,7 @@ public class RegionEventDTO {
                 .build();
     }
 
-    public void setUserIdAndNicknameAndPosterImageUrl(int userId, String nickname, String posterImageUrl) {
+    public void setUserInfo(int userId, String nickname, String posterImageUrl) {
         this.userId = userId;
         this.nickname = nickname;
         this.posterImageUrl = posterImageUrl;

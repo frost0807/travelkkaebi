@@ -1,12 +1,10 @@
 package com.bitcamp.travelkkaebi.entity;
 
 import com.bitcamp.travelkkaebi.dto.PickMeDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -40,13 +38,9 @@ public class PickMeEntity {
     private String region;
 
     @Column(name = "preferred_start_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime startDate;
 
     @Column(name = "preferred_end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime endDate;
 
     public static PickMeEntity toEntity(PickMeDTO pickMeDTO, int userId) {
@@ -60,6 +54,7 @@ public class PickMeEntity {
                         .title(pickMeDTO.getTitle())
                         .view(pickMeDTO.getView())
                         .build())
+                .region(pickMeDTO.getPreferredRegion())
                 .startDate(pickMeDTO.getPreferredStartDate())
                 .endDate(pickMeDTO.getPreferredEndDate())
                 .closed(pickMeDTO.isClosed())
@@ -69,5 +64,7 @@ public class PickMeEntity {
 
     public void change(PickMeDTO pickMeDTO) {
         this.baseWrite.changeTitleAndContent(pickMeDTO.getTitle(), pickMeDTO.getContent());
+        this.startDate = pickMeDTO.getPreferredStartDate();
+        this.endDate = pickMeDTO.getPreferredEndDate();
     }
 }

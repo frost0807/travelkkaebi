@@ -29,8 +29,7 @@ public class RegionEventService {
     public RegionEventDTO write(int userId, RegionEventDTO regionEventDTO, String image) {
         UserEntity findUser = validate(userId, regionEventDTO);
 
-        regionEventDTO.setUserIdAndNicknameAndPosterImageUrl(findUser.getId(), findUser.getNickname(), image);
-
+        regionEventDTO.setUserInfo(findUser.getId(), findUser.getNickname(), image);
         RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
         regionEventDTO.setId(saveRegionEvent.getId());
 

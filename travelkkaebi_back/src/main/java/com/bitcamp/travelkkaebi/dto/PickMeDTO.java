@@ -1,14 +1,11 @@
 package com.bitcamp.travelkkaebi.dto;
 
 import com.bitcamp.travelkkaebi.entity.PickMeEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +23,7 @@ public class PickMeDTO {
     private boolean company = false;
     private boolean closed = false;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime preferredStartDate;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime preferredEndDate;
 
     public PickMeDTO(PickMeEntity pickMeEntity) {
@@ -39,6 +31,7 @@ public class PickMeDTO {
         this.userId = pickMeEntity.getUserEntity().getId();
         this.nickname = pickMeEntity.getUserEntity().getNickname();
         this.categoryId = pickMeEntity.getBaseWrite().getCategoryId();
+        this.profileImageUrl = pickMeEntity.getUserEntity().getProfileImageUrl();
         this.title = pickMeEntity.getBaseWrite().getTitle();
         this.content = pickMeEntity.getBaseWrite().getContent();
         this.preferredRegion = pickMeEntity.getRegion();
@@ -48,10 +41,26 @@ public class PickMeDTO {
         this.closed = pickMeEntity.isClosed();
     }
 
-    public void setImageAndMannerDegreeAndUserId(String profileImageUrl, int mannerDegree, int userId) {
+    public void setUserInfo(String profileImageUrl, int mannerDegree, int userId, int id, String nickname) {
         this.userId = userId;
         this.mannerDegree = mannerDegree;
         this.profileImageUrl = profileImageUrl;
+        this.id = id;
+        this.nickname = nickname;
+    }
+
+    public static PickMeDTO toDto(PickMeEntity findPickMe) {
+        return PickMeDTO.builder()
+                .mannerDegree(findPickMe.getUserEntity().getMannerDegree())
+                .nickname(findPickMe.getUserEntity().getNickname())
+                .preferredRegion(findPickMe.getRegion())
+                .preferredStartDate(findPickMe.getStartDate())
+                .preferredEndDate(findPickMe.getEndDate())
+                .content(findPickMe.getBaseWrite().getContent())
+                .title(findPickMe.getBaseWrite().getTitle())
+                .view(findPickMe.getBaseWrite().getView())
+                .categoryId(findPickMe.getBaseWrite().getCategoryId())
+                .build();
     }
 
 }

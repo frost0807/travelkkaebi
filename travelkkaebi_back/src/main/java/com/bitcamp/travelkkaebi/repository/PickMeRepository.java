@@ -6,5 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PickMeRepository extends JpaRepository<PickMeEntity, Integer> {
+
     Page<PickMeEntity> findByOrderByIdDesc(Pageable pageable);
+
+    Page<PickMeEntity> findAllByUserEntityNicknameContainingOrderByIdDesc(String nickname, Pageable pageable);
+
+    Page<PickMeEntity> findAllByBaseWriteTitleContainingOrderByIdDesc(String title, Pageable pageable);
 }
