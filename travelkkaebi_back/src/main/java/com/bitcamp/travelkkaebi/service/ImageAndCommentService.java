@@ -43,6 +43,19 @@ public class ImageAndCommentService {
         return (successCount == commentList.size() ? true : false);
     }
 
+    public void test(List<MultipartFile> imageList, int userId) throws Exception {
+        System.out.println("imageList.size() = " + imageList.size());
+
+
+        for(int i = 0; i < imageList.size(); i++) {
+            ImageAndCommentDTO imageAndCommentDTO = null;
+
+            imageAndCommentDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
+            imageAndCommentDTO.setUserId(userId);
+            imageAndCommentMapper.test(imageAndCommentDTO);
+        }
+    }
+
     /**
      * 사진 및 코멘트 수정
      * @param imageList
@@ -86,7 +99,7 @@ public class ImageAndCommentService {
         for(ImageAndCommentDTO imageAndCommentDTO : imageIdList) {
             // 로그인한 유저가 글의 작성자인지 확인
             if(userId == imageAndCommentDTO.getUserId()) {
-                deleteId = imageAndCommentMapper.delete(imageAndCommentDTO.getImageAndCommentId());
+                return imageAndCommentMapper.delete(imageAndCommentDTO.getImageAndCommentId());
             } else {
                 return 0;
             }
@@ -102,11 +115,6 @@ public class ImageAndCommentService {
     public List<ImageAndCommentDTO> selectAll(ImageAndCommentDTO imageAndCommentDTO) {
         return imageAndCommentMapper.selectAll(imageAndCommentDTO);
     }
-
-
-
-
-
 
 
 }

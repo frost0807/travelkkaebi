@@ -37,6 +37,21 @@ public class ImageAndCommentController {
         }
     }
 
+    @PostMapping("/test")
+    public void test(@RequestPart List<MultipartFile> imageList,
+                     @AuthenticationPrincipal String userId) {
+        System.out.println("사진 테스트 컨트롤러");
+        System.out.println("imageList.size() = " + imageList.size());
+        System.out.println(imageList.get(0).getOriginalFilename());
+        System.out.println(imageList.get(1).getOriginalFilename());
+        try {
+            imageAndCommentService.test(imageList, Integer.parseInt(userId));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     /**
      * 사진 및 코멘트 수정
      */
@@ -71,7 +86,7 @@ public class ImageAndCommentController {
     /**
      * 게시글 상세보기
      */
-    @GetMapping("/selectAll")
+    @GetMapping("/selectall")
     public ResponseEntity<List> selectAll (@RequestBody ImageAndCommentDTO imageAndCommentDTO) {
         try {
             return new ResponseEntity<>(imageAndCommentService.selectAll(imageAndCommentDTO), HttpStatus.OK);
@@ -80,8 +95,17 @@ public class ImageAndCommentController {
             throw new RuntimeException(e.getMessage());
         }
 
-
     }
+
+    /**
+     * 에디터 게시물 리스트 (신규)
+     */
+   // @GetMapping("/selectnew")
+   // public ResponseEntity<List> selectMain (int pageNo)
+
+    /**
+     * 에디터 게시물 리스트 (추천)
+     */
 
 
 

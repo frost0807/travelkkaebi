@@ -8,7 +8,6 @@ import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
@@ -33,14 +32,12 @@ public class EditorChoiceService {
     public int write(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
         System.out.println("게시글 작성 서비스");
 
-        int writtenId;
-
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
 
         // 로그인 된 유저가 에디터 인지 확인하는 코드
         if (findUser.getRole().equals(UserRole.EDITOR)) {
             editorChoiceDTO.setUserId(userId);
-            return writtenId = editorChoiceMapper.insert(editorChoiceDTO);
+            return editorChoiceMapper.insert(editorChoiceDTO);
 
         } else {
             return 0;
@@ -84,25 +81,22 @@ public class EditorChoiceService {
 
     @Transactional
     public int delete(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
-        int deletedId;
 
         if (userId == editorChoiceDTO.getUserId()) {
-            // 리턴 값 수정하기 ! ! ! !
-            return deletedId = editorChoiceMapper.delete(editorChoiceDTO.getEditorChoiceId());
+            return editorChoiceMapper.delete(editorChoiceDTO.getEditorChoiceId());
         } else {
             return 0;
         }
     }
 
     /**
-     * 게시글 리스트 출력
+     * 게시글 리스트
      * @param pageNo
      * @return list
      * @throws Exception
      */
 
     public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception {
-        List<EditorChoiceResponseDTO> list;
 
         HashMap<String, Integer> pageMap = new HashMap<>();
         int startNum = (pageNo - 1) * PAGE_SIZE;
@@ -110,21 +104,29 @@ public class EditorChoiceService {
         pageMap.put("startNum", startNum);
         pageMap.put("PAGE_SIZE", PAGE_SIZE);
 
-        return list = editorChoiceMapper.selectAllByPage(pageMap);
+        return editorChoiceMapper.selectAllByPage(pageMap);
     }
 
     /**
+     * 게시글 리스트 (신규)
+     * @return
+     * @throws Exception
+     */
+
+    public List<EditorChoiceResponseDTO> selectAllNew() throws Exception {
+        return editorChoiceMapper.selectAllNew();
+    }
+
+
+    /**
      * 게시글 상세보기
-     *
      * @param editorChoiceId
      * @return editorChoiceResponseDTO
      */
     public EditorChoiceResponseDTO selectOne(int editorChoiceId) {
         // 조회수 더해주는 코드
         editorChoiceMapper.viewPlus(editorChoiceId);
-
-        EditorChoiceResponseDTO editorChoiceResponseDTO = editorChoiceMapper.selectOne(editorChoiceId);
-        return editorChoiceResponseDTO;
+        return editorChoiceMapper.selectOne(editorChoiceId);
     }
 
     /**
@@ -149,7 +151,6 @@ public class EditorChoiceService {
 
     /**
      * 특정 제목으로 검색
-     *
      * @param title
      * @return titleList
      * @throws Exception
@@ -157,20 +158,15 @@ public class EditorChoiceService {
 
     public List<EditorChoiceResponseDTO> searchByTitle(String title) throws Exception {
 
-        List<EditorChoiceResponseDTO> titleList;
-
         if (title != null) {
-            titleList = editorChoiceMapper.searchByTitle(title);
+            return editorChoiceMapper.searchByTitle(title);
         } else {
             return null;
         }
-
-        return titleList;
     }
 
     /**
      * 특정 내용으로 검색
-     *
      * @param content
      * @return contentList
      * @throws Exception
@@ -178,20 +174,15 @@ public class EditorChoiceService {
 
     public List<EditorChoiceResponseDTO> searchByContent(String content) throws Exception {
 
-        List<EditorChoiceResponseDTO> contentList;
-
         if (content != null) {
-            contentList = editorChoiceMapper.searchByContent(content);
+            return editorChoiceMapper.searchByContent(content);
         } else {
             return null;
         }
-
-        return contentList;
     }
 
     /**
      * 특정 작성자로 검색
-     *
      * @param writer
      * @return writerList
      * @throws Exception
@@ -199,20 +190,16 @@ public class EditorChoiceService {
 
     public List<EditorChoiceResponseDTO> searchByWriter(String writer) throws Exception {
 
-        List<EditorChoiceResponseDTO> writerList;
-
         if (writer != null) {
-            writerList = editorChoiceMapper.searchByWriter(writer);
+            return editorChoiceMapper.searchByWriter(writer);
         } else {
             return null;
         }
-
-        return writerList;
     }
+
 
     /**
      * (지역) 키워드로 검색
-     *
      * @param region
      * @return
      * @throws Exception
@@ -220,15 +207,10 @@ public class EditorChoiceService {
 
     public List<EditorChoiceResponseDTO> keywordByRegion(String region) throws Exception {
 
-        List<EditorChoiceResponseDTO> regionList;
-
         if (region != null) {
-            regionList = editorChoiceMapper.keywordByRegion(region);
+            return editorChoiceMapper.keywordByRegion(region);
         } else {
             return null;
         }
-        return regionList;
     }
-
-
 }

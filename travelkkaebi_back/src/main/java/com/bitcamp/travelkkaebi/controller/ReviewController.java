@@ -2,7 +2,6 @@ package com.bitcamp.travelkkaebi.controller;
 // 후기 게시판
 
 
-import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/review")
@@ -29,8 +27,8 @@ public class ReviewController {
     public ResponseEntity write(@RequestBody ReviewDTO reviewDTO,
                                 @AuthenticationPrincipal String userId) {
         try {
-            int reviewId = reviewService.writeReview(reviewDTO, Integer.parseInt(userId));
-            return new ResponseEntity(reviewId, HttpStatus.OK);
+            return new ResponseEntity(reviewService.writeReview(reviewDTO,
+                    Integer.parseInt(userId)), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,8 +42,7 @@ public class ReviewController {
     @PutMapping("/update")
     private ResponseEntity update(@RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal String userId) {
         try {
-            int updatedId = reviewService.update(reviewDTO, Integer.parseInt(userId));
-            return new ResponseEntity(updatedId, HttpStatus.OK);
+            return new ResponseEntity(reviewService.update(reviewDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -57,10 +54,8 @@ public class ReviewController {
      */
     @DeleteMapping("/delete")
     private ResponseEntity delete(@RequestBody ReviewDTO review, @AuthenticationPrincipal String userId) {
-        System.out.println("게시글 삭제 컨트롤러 도착");
         try {
-            int deletedId = reviewService.delete(review, Integer.parseInt(userId));
-            return new ResponseEntity(deletedId, HttpStatus.OK);
+            return new ResponseEntity(reviewService.delete(review, Integer.parseInt(userId)), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,16 +68,14 @@ public class ReviewController {
      */
     @GetMapping("/selectallbypage")
     private ResponseEntity selectAll(@RequestParam int pageNo) {
-        List<ReviewResponseDTO> reviewList;
-        System.out.println("게시글 리스트 컨트롤러 들어왔어요");
 
         try {
-            reviewList = reviewService.selectAllByPage(pageNo);
+            return new ResponseEntity(reviewService.selectAllByPage(pageNo), HttpStatus.OK);
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return new ResponseEntity(reviewList, HttpStatus.OK);
     }
 
     /**
@@ -90,17 +83,14 @@ public class ReviewController {
      */
     @GetMapping("/selectone")
     private ResponseEntity selectOne(@RequestParam int reviewId) {
-        ReviewResponseDTO review;
-        System.out.println("게시물 상세보기 컨트롤러 도착");
 
         try {
-            review = reviewService.selectOne(reviewId);
+            return new ResponseEntity(reviewService.selectOne(reviewId), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return new ResponseEntity(review, HttpStatus.OK);
     }
 
     /**
@@ -108,14 +98,12 @@ public class ReviewController {
      */
     @GetMapping("/count")
     private ResponseEntity count() {
-        int reviewCount;
         try {
-            reviewCount = reviewService.count();
+            return new ResponseEntity(reviewService.count(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return new ResponseEntity(reviewCount, HttpStatus.OK);
     }
 
     /**
@@ -123,16 +111,14 @@ public class ReviewController {
      */
     @GetMapping("/searchbytitle")
     private ResponseEntity searchByTitle(@RequestParam("title") String title) {
-        List<ReviewResponseDTO> titleList;
 
         try {
-            titleList = reviewService.searchByTitle(title);
+            return new ResponseEntity(reviewService.searchByTitle(title), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
-        return new ResponseEntity(titleList, HttpStatus.OK);
     }
 
     /**
@@ -140,16 +126,14 @@ public class ReviewController {
      */
     @GetMapping("/searchbycontent")
     private ResponseEntity searchByContent(@RequestParam("content") String content) {
-        List<ReviewResponseDTO> contentList;
 
         try {
-            contentList = reviewService.searchByContent(content);
+            return new ResponseEntity(reviewService.searchByContent(content), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
-        return new ResponseEntity(contentList, HttpStatus.OK);
     }
 
     /**
@@ -157,16 +141,13 @@ public class ReviewController {
      */
     @GetMapping("/searchbywriter")
     private ResponseEntity searchByWriter(@RequestParam("writer") String writer) {
-        List<ReviewResponseDTO> writerList;
-
         try {
-            writerList = reviewService.searchByWriter(writer);
+            return new ResponseEntity(reviewService.searchByWriter(writer), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
-        return new ResponseEntity(writerList, HttpStatus.OK);
     }
 
     /**
@@ -174,15 +155,13 @@ public class ReviewController {
      */
     @GetMapping("/keywordbyregion")
     private ResponseEntity keywordByRegion (@RequestParam("region") String region) {
-        List <ReviewResponseDTO> regionList;
 
         try {
-            regionList = reviewService.keywordByRegion(region);
+            return new ResponseEntity(reviewService.keywordByRegion(region), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return new ResponseEntity(regionList, HttpStatus.OK);
     }
 
 }

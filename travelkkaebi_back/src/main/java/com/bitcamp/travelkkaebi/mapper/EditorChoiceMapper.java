@@ -34,8 +34,5 @@ public interface EditorChoiceMapper {
 
     List<EditorChoiceResponseDTO> keywordByRegion(String region);
 
-
-
-
-
+    List<EditorChoiceResponseDTO> selectAllNew();
 }

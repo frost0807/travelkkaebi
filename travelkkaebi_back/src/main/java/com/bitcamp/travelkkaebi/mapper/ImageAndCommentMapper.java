@@ -15,4 +15,6 @@ public interface ImageAndCommentMapper {
     int delete(int imageId);
 
     List<ImageAndCommentDTO> selectAll(ImageAndCommentDTO imageAndCommentDTO);
+
+    void test(ImageAndCommentDTO imageAndCommentDTO);
 }
