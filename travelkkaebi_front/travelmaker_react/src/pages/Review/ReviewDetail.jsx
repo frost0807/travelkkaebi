@@ -28,7 +28,14 @@ function ReviewDetail(){
         console.log("detail"+res.data);
       })
     }
-
+    const reviewReplyInsert=(e)=>{
+      e.preventDefault();
+  
+      axios.post(API_BASE_URL+"/review/reply/write", {/*reviewReplyDTO, reviewDTO, userId*/})
+      .then(res=>{
+        navi("/review/1");
+      })
+    }
 
       // 멀티 액시오스 시도한거
 
@@ -55,7 +62,8 @@ function ReviewDetail(){
           console.log(response.data);
         })
       }
-    
+      const [subject, setSubject] = useState('');
+      const [content, setContent] = useState('');
   
     useEffect(()=>{
       getDetail();
@@ -108,11 +116,17 @@ function ReviewDetail(){
             </div>
         </div>
         <div style={{margin: "10px 0", display: "flex"}}>
-          <button type='button' className='btn btn-info'
+              <button type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
                 navi("/review/form");
               }}>수정</button>
+
+              <button type='button' className='btn btn-info'
+              style={{width:'100px', marginRight:'10px'}}
+              onClick={()=>{
+                navi("/review/form");
+              }}>삭제</button>
 
               <button type='button' className='btn btn-success'
               style={{width:'100px', marginRight:'10px'}}
@@ -147,6 +161,49 @@ function ReviewDetail(){
               
 
         </div>
+
+        <div>
+      {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
+      <form onSubmit={reviewReplyInsert}>
+        <table className='table table-bordered' style={{width:'400px'}}>
+          <caption><h3>댓글쓰기</h3></caption>
+          <tbody>
+            <tr>
+              <th style={{backgroundColor:'#ddd'}} width='100'>댓글쓰기</th>
+              <td>{id}</td>
+            </tr>
+            {/* <tr>
+              <th style={{backgroundColor:'#ddd'}} width='100'>대표 이미지</th>
+              <td>
+                <input type='file' className='form-control'll
+                style={{width:'250px'}} 
+                onChange={imageUpload} required/>
+              </td>
+            </tr> */}
+
+            <tr>
+              <td colSpan={2}>
+                <textarea className='form-control' required
+                style={{width:'400px', height:'120px'}}
+                onChange={(e)=>{
+                  setContent(e.target.value);
+                }}></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={2} align='center'>
+                <button type="submit" className='btn btn-info'>댓글 작성</button>
+                <button type="button" className='btn btn-success'
+                style={{marginLeft:'10px'}}
+                onClick={()=>{
+                  navi("/review/1");
+                }}>돌아가기</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
         <div className="voc-view-reply" style={{marginTop:"100px"}}>
             <label style={{height:"100%", margin:"auto"}}>댓글</label>
             <label>

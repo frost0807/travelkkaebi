@@ -23,6 +23,7 @@
         <typeAlias type="com.bitcamp.travelkkaebi.model.ReviewReplyDTO" alias="ReviewReplyDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.model.EditorChoiceDTO" alias="EditorChoiceDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.model.MannerDegreeDTO" alias="MannerDegreeDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.ImageAndCommentDTO" alias="ImageAndCommentDTO"/>
 
         <typeAlias type="com.bitcamp.travelkkaebi.dto.UpdateMemberCountDTO" alias="UpdateMemberCountDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ListResponseDTO" alias="ListResponseDTO"/>
@@ -36,5 +37,6 @@
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewResponseDTO" alias="ReviewResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewReplyResponseDTO" alias="ReviewReplyResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO" alias="EditorChoiceResponseDTO"/>
+
     </typeAliases>
 </configuration>

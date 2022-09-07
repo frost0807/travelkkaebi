@@ -55,8 +55,14 @@ function RegionEvent() {
     <CardImgGet D="tomImage1" topImage2="topImage2" topImage3="tomImage3" topImage4="topImage4" />
     {/* <div style={{height:'100px'}}></div> */}
     {/* <CardImg bottomImage1="bottomImage1" bottomImage2="bottomImage2" bottomImage3="bottomImage3"  bottomImage4="bottomImage4" /> */}
+    <button type='button' className='btn btn-info'
+          style={{ width:'110px', marginTop:'10px' }}
+          onClick={()=>{
+            navi("/regionevent/createform");
+          }}>글쓰기</button>
     </>
   )
 }
 
 export default RegionEvent;
+

@@ -11,8 +11,8 @@ import styled from "styled-components"; // styled-components
 
 const Logo = styled.img`
   // 로고 이미지
-  width: 100px;
-  height: 114px;
+  width: 326px;
+  height: 107px;
   margin-right: 30px;
 `;
 
@@ -22,19 +22,18 @@ function Header() {
 
   return (
     <Navbar
-      bg="light"
+      bg="white"
       expand="lg"
       style={{
-        marginBottom: "100px",
+        marginBottom: "50px",
         position: "sticky",
         top: "0px",
         zIndex: "3",
       }}
     >
       <Container>
-        <Logo href="/home" src={LogoSrc} />
-        <Navbar.Brand href="/">전국팔도 깨비</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <a href="/"><Logo src={LogoSrc} /></a>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/contact">Contact</Nav.Link>

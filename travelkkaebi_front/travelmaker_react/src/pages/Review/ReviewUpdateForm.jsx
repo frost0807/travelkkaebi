@@ -4,56 +4,53 @@
 // import {useNavigate} from 'react-router-dom';
 // import { useEffect } from 'react';
 // import { useState } from 'react';
+// import { API_BASE_URL } from '../../config';
 
-// const ReviewForm = () => {
+
+// const ReviewUpdateForm = () => {
 //   const [photo, setPhoto] = useState('');
 //   const [subject, setSubject] = useState('');
 //   const [content, setContent] = useState('');
 
-//   // url선언
-//   let uploadUrl = process.env.REACT_APP_SPRING_URL + 'board/upload';
-//   let insertUrl = process.env.REACT_APP_SPRING_URL + 'board/insert';
-//   let photoUrl  = process.env.REACT_APP_SPRING_URL + 'save/';
-
 //   // loginStatus 추후에 맞춰서 변경
 //   const navi = useNavigate();
-//   let loginStatus = localStorage.loginStatus;
-//   loginStatus = 1;
-//   let id = localStorage.myid;
+//   // let loginStatus = localStorage.loginStatus;
+//   // loginStatus = 1;
+//   // let id = localStorage.myid;
 
-//   const initFunc=()=>{
-//     if(loginStatus==null){
-//       alert("먼저 로그인한 후 글을 작성해주세요");
-//       navi("/login");
-//     }
-//   }
+//   // const initFunc=()=>{
+//   //   if(loginStatus==null){
+//   //     alert("먼저 로그인한 후 글을 작성해주세요");
+//   //     navi("/login");
+//   //   }
+//   // }
 
 //   // 이미지 업로드 이벤트
-//   const imageUpload=(e)=>{
-//     const uploadFile = e.target.files[0];
-//     const imageFile = new FormData();
-//     imageFile.append("uploadFile", uploadFile);
+//   // const imageUpload=(e)=>{
+//   //   const uploadFile = e.target.files[0];
+//   //   const imageFile = new FormData();
+//   //   imageFile.append("uploadFile", uploadFile);
 
-//     axios({
-//       method:'post',
-//       url:uploadUrl,
-//       data:imageFile,
-//       headers:{'Content-Type':'multipart/form-data'}
-//     }).then(res=>{
-//       setPhoto(res.data);
-//     })
-//     }
+//   //   axios({
+//   //     method:'post',
+//   //     url:API_BASE_URL,
+//   //     data:imageFile,
+//   //     headers:{'Content-Type':'multipart/form-data'}
+//   //   }).then(res=>{
+//   //     setPhoto(res.data);
+//   //   })
+//   //   }
 
 //     // 시작시 호출되는 함수
-//     const posting=()=>{
-//       axios.post(API_BASE_URL+"/review/write",
-//       {params : {
-//         pageNo : currentPage }
-//       })
-//       .then(res=>{
-//         setData(res.data);
-//       })
-//     }
+//     // const posting=()=>{
+//     //   axios.post(API_BASE_URL+"/review/write",
+//     //   {params : {
+//     //     pageNo : currentPage }
+//     //   })
+//     //   .then(res=>{
+//     //     setData(res.data);
+//     //   })
+//     // }
 
 //   // submit 이벤트
 //   const onBoardInsert=(e)=>{
@@ -124,4 +121,4 @@
 //   );
 // };
 
-// export default ReviewForm;
+// export default ReviewUpdateForm;

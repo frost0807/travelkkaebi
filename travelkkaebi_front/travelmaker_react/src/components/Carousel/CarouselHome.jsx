@@ -5,50 +5,49 @@ import Img2 from './/CardImg2.jpg';
 import Img3 from './/CardImg3.jpg';
 import Img4 from './/CardImg4.jpg';
 
+// import "./CarouselHome.css";
+
 function CarouselHome() {
   return (
     <Carousel>
       <Carousel.Item>
         <img
-          height={600}
-          width={"60%"}
-        
+          
+          // style={{height:"400px", width:"600px"}}
           className="d-block w-100"
           src={Img1}
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>보령 머드 축제</h3>
+          <p>2022.07 ~ 2022.08</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
-          height={600}
-          width={"60%"}
+          
           className="d-block w-100"
           src={Img2}
           alt="Second slide"
         />
 
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>부산 조선통신사 축제</h3>
+          <p>2022.08 ~ 2022.09</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
-          height={600}
-          width={"60%"}
+          
           className="d-block w-100"
           src={Img3}
           alt="Third slide"
         />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>서울 가요축제</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            2022.08 ~ 2022.09
           </p>
         </Carousel.Caption>
       </Carousel.Item>
