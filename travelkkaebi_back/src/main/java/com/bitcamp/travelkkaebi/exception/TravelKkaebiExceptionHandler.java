@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class TravelKkaebiExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleException(RuntimeException e) {
-        System.out.println("11");
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 e.getMessage(),

@@ -1,10 +1,12 @@
 package com.bitcamp.travelkkaebi.mapper;
 
+import com.bitcamp.travelkkaebi.dto.CategoryIdAndBoardCountDTO;
 import com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -14,6 +16,8 @@ public interface LikeOrDislikeMapper {
 
     //테이블 상태 리턴하는 메소드
     Optional<LikeOrDislikeResponseDTO> selectOneById(int likeOrDislikeId);
+
+    List<Integer> getBoardIdListMostLiked(CategoryIdAndBoardCountDTO categoryIdAndBoardCountDTO);
 
     //테이블 생성하는 메소드
     int insert(LikeOrDislikeDTO likeOrDislikeDTO);

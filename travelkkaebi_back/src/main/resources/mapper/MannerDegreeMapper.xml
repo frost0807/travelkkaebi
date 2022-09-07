@@ -2,4 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.MannerDegreeMapper">
 
+    <select id="getPlusDegree" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM manner_degree
+        WHERE to_user_id = #{toUserId}
+          AND degree_change = 1
+    </select>
+
+    <select id="getMinusDegree" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM manner_degree
+        WHERE to_user_id = #{toUserId}
+          AND degree_change = -1
+    </select>
+
+    <select id="selectOneByDTO" parameterType="MannerDegreeDTO" resultType="MannerDegreeResponseDTO">
+        SELECT *
+        FROM manner_degree
+        WHERE to_user_id = #{toUserId}
+          AND from_user_id = #{fromUserId}
+    </select>
+
+    <select id="selectOneById" parameterType="int" resultType="MannerDegreeResponseDTO">
+        SELECT *
+        FROM manner_degree
+        WHERE manner_degree_id = #{mannerDegreeId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="mannerDegreeId" parameterType="MannerDegreeDTO">
+        INSERT INTO manner_degree (to_user_id, from_user_id)
+        VALUES (#{toUserId}, #{fromUserId})
+    </insert>
+
+    <update id="update" parameterType="MannerDegreeDTO">
+        UPDATE manner_degree
+        SET degree_change = #{degreeChange}
+        WHERE to_user_id = #{toUserId}
+          AND from_user_id = #{fromUserId}
+    </update>
+
 </mapper>
