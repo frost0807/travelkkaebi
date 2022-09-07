@@ -12,15 +12,16 @@ export const headerConfig = {
   },
 };
 
-
 export const headerImg_tk = {
   headers: {
-    Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     "content-type": "application/json; charset = utf-8",
+    Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
   },
-}
+};
 
-export const isLoginFc = () =>  !localStorage.getItem('ACCESS_Token');
+const token = localStorage.getItem("ACCESS_TOKEN");
+export const is_logged = token ? true : false;
+export const getUserNickname = localStorage.getItem("nickname");
 
 export const setUsername = (username) => {
   return localStorage.setItem("username", username);
@@ -54,4 +55,3 @@ export const removeAuthority = () => {
 export const clearLocal = () => {
   return localStorage.clear();
 };
-

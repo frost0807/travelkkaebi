@@ -73,14 +73,14 @@ const RegisterForm = () => {
         new Blob([userDTO], { type: "application/json" })
       );
       console.log("FormData", formData);
-      
+
       await axios
         .post(userconfig + "/signup", formData, headerConfig)
         .then((res) => {
           console.log(res.data);
           alert("👹회원가입이 완료되었습니다.");
           setProfile({ image_file: "", preview_URL: Logo });
-          navi('/');
+          navi("/");
         });
     }
   };

@@ -25,6 +25,7 @@
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.2",
+    "react-js-pagination": "^3.0.3",
     "react-material-ui-carousel": "^3.4.2",
     "react-naver-maps": "^0.0.13",
     "react-quill": "^2.0.0",

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, Route, useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import { API_BASE_URL, joinmeurl, likedislike } from "../../config";
 import axios from "axios";
@@ -14,8 +14,7 @@ import {
   JDFooter,
   JoinContainerWrapper,
   JoinIntroWrapper,
-} from "./joinme.style";
-import JoinMeEditForm from "./JoinMeEditForm";
+} from "./pickupme.style";
 import LikeBtn from "../../components/Like/LikeBtn";
 import Login from "../../components/Login/Login";
 import { useState } from "react";
@@ -25,30 +24,28 @@ import {
   getNickname,
   getToken,
   getUsername,
-  getUserNickname,
   headerConfig,
   headerImg_tk,
 } from "../../util";
-import { AllInbox, PostAddSharp } from "@mui/icons-material";
+import { AllInbox } from "@mui/icons-material";
 
 const CATEGORY_ID = 1;
 
-function JoinMeDetail(props) {
+function PickUpMeDetail(props) {
   const [post, setPost] = useState([]);
   const {
-    showJoinMeDetail,
+    showPickMeDetail,
     close,
     joinMeId,
     profile_img,
     likeCount,
-    setShowJoinMeDetail,
+    setShowPickMeDetail,
   } = props;
   const [likeState, setLikeState] = useState(likeCount);
   const [like, setLike] = useState(false);
   const [likeordislikeid, setLikeordislikeid] = useState(0);
 
   const { id } = useParams();
-  const navigate = useNavigate();
 
   // const getJoinMeList = () => {
   //   const reslist = axios.get(joinmeurl + "/selectone", {
@@ -75,7 +72,7 @@ function JoinMeDetail(props) {
   //     setLikeordislike_id(reslike.data.likeOrDislikeId);
   //     console.log("likeordisliked : ", likeordislike_id);
   //   }
-  // };gx
+  // };
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -90,49 +87,29 @@ function JoinMeDetail(props) {
           console.log("Like axios req boardId : ", joinMeId);
           console.log("Like axios req categoryId : ", CATEGORY_ID);
 
-          //{likeOrDislikeDTO : {
-          //categoryId:CATEGORY_ID
-          //boardId:boardId
-          const reslikefc = axios
-            .get(
-              likedislike +
-                "/selectone?boardId=" +
-                joinMeId +
-                "&categoryId=" +
-                CATEGORY_ID,
-              {
-                headers: {
-                  Authorization:
-                    "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-                },
-              }
-            )
+          const reslikefc = (axios.defaults.headers = {
+            "Content-Type": "application/json; charset = utf-8",
+            Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+          });
+          axios
+            .post(likedislike + "/selectone", {
+              data: {
+                boardId: joinMeId,
+                categoryId: CATEGORY_ID,
+              },
+            })
             .then((reslike) => {
-              console.log("reslike : ", reslike);
+              console.log("reslike : ", reslike.data);
               setLikeordislikeid(reslike.data.likeOrDislikeId);
               if (reslike.data.liked === "true") {
                 setLike(true);
                 console.log("like? : ", like);
               }
-            })
-            .catch((error) => {
-              if (error.res) {
-                console.log(error.res);
-                console.log("server responded");
-                alert("axios 에러");
-              } else if (error.request) {
-                console.log("network error");
-                alert("server 에러");
-              } else {
-                console.log(error);
-              }
             });
         });
+      console.log("likeordislikeid first : ", likeordislikeid);
     };
-    return () => {
-      fetchAPI();
-      console.log("likeordislikeid", likeordislikeid);
-    };
+    return () => fetchAPI();
   }, []);
 
   // 신청하기
@@ -183,25 +160,16 @@ function JoinMeDetail(props) {
     sendServerApply({ comment: comment, joinMeId: joinMeId });
   };
 
-  // 수정
-  const upDateHandler = () => {
-    if (post.nickname != getUserNickname) {
-      // 애초에 수정버튼이 안 보이겠지만
-      alert("수정할 수 없습니다.");
-    } else {
-      navigate("/joinmeedit", { state: post });
-    }
-  };
-
   // 삭제
   const deleteHandler = () => {
     console.log(joinMeId);
-    if (post.nickname != getUserNickname) {
-      alert("작성자가 아닙니다.");
-      return;
-    } else if (post.nickname === getUserNickname) {
+    if (post.nickname === getNickname) {
+      axios.defaults.headers = {
+        "Content-Type": "application/json; charset = utf-8",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
       axios
-        .delete(joinmeurl + "/delete?joinMeId=" + joinMeId, bearerToken)
+        .delete(joinmeurl + "/delete", joinMeId)
         .then((res) => {
           console.log(res);
           window.location.reload();
@@ -220,17 +188,15 @@ function JoinMeDetail(props) {
         });
     }
   };
-
   console.log("likeordislikeid second : ", likeordislikeid);
   // 좋아요
   const LikeToggleBtn = async (e) => {
     console.log("likeordislikeid active : ", likeordislikeid);
-    const res = (axios.defaults.headers = {
-      "Content-Type": "application/json; charset = utf-8",
-      Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-    });
-    await axios
-      .put(likedislike + "/clicklike?likeOrDislikeId=" + likeordislikeid)
+    const res = await axios
+      .put(likedislike + "/clicklike", {
+        params: { likeOrDislikeId: likeordislikeid },
+        headerImg_tk,
+      })
       .then((res) => {
         console.log("resdata", res);
         setLike(!like);
@@ -239,7 +205,7 @@ function JoinMeDetail(props) {
 
   return (
     <>
-      {showJoinMeDetail && (
+      {showPickMeDetail ? (
         <Background>
           <DImmedd> </DImmedd>
           <ModalContainer>
@@ -316,7 +282,7 @@ function JoinMeDetail(props) {
                     <TextField label="코멘트" id="comment" name="comment" />
                     <FooterButton type="submit">신청하기</FooterButton>
                     <div>
-                      <Button onClick={upDateHandler}>수정하기</Button>
+                      <Button>수정하기</Button>
                       <Button onClick={deleteHandler}>삭제하기</Button>
                     </div>
                   </div>
@@ -325,12 +291,14 @@ function JoinMeDetail(props) {
             </div>
           </ModalContainer>
         </Background>
+      ) : (
+        alert("잘못된 방식입니다.")
       )}
     </>
   );
 }
 
-export default JoinMeDetail;
+export default PickUpMeDetail;
 
 const Background = styled.div`
   position: fixed;

@@ -5,6 +5,7 @@ import com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

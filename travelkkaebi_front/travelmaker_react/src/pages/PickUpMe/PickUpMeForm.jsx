@@ -6,7 +6,7 @@ import DatePicker from "../../components/DatePick/DatePicker";
 import { addDays } from "date-fns";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { API_BASE_URL, imgurl, joinmeurl } from "../../config";
+import { API_BASE_URL, joinmeurl } from "../../config";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import {
@@ -21,7 +21,7 @@ import { quill } from "quill";
 import QuillEditor from "../../components/QuillEditor/QuillEditor";
 import { bearerToken, headerConfig, headerImg_tk } from "../../util";
 
-function JoinMeForm() {
+function PickUpMeForm() {
   const navigate = useNavigate();
 
   const [htmlContent, setHtmlContent] = useState("");
@@ -89,6 +89,7 @@ function JoinMeForm() {
     console.log(e.tartget);
     //태그를 제외한 순수 text만을 받아온다. 검색기능을 구현하지 않을 거라면 굳이 text만 따로 저장할 필요는 없다.
     const description = quillRef.current.getEditor().getText();
+
     const formData = new FormData(e.target);
     console.log("formData: ", formData);
     const title = e.target.title.value;
@@ -124,22 +125,7 @@ function JoinMeForm() {
       await axios
         .post(joinmeurl + "/insert", joinmeDTO) //joinmeurl + "/insert", joinmeDTO
         .then((res) => {
-          console.log("작성완료 후 결과 ", res);
-
-          const headerConfig = {
-            Headers: {
-              "content-type": "multipart/form-data",
-              Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-            },
-          };
-
-          // 수정 전
-          axios
-            .post(imgurl + "/insert", joinmeDTO, headerConfig)
-            .then((resImg) => {
-              console.log("resimg : ", resImg);
-            });
-
+          console.log(res);
           alert("글 작성 완료");
           navigate("/joinme/1");
         })
@@ -204,7 +190,7 @@ function JoinMeForm() {
   );
 }
 
-export default JoinMeForm;
+export default PickUpMeForm;
 
 // style
 const JoinTitle = styled.div`
