@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseWrite {
+public class WriteInfo {
 
     @Column(name = "category_id")
     private int categoryId;

@@ -1,6 +1,6 @@
 package com.bitcamp.travelkkaebi.regex;
 
-public class Regex {
+public class  Regex {
     /**
      * username 정규식 -> 시작은 영문+숫자 조합에, 첫 글자 영문, 6~16자리
      * password 정규식 -> 알파벳+숫자+특수문자 중 2개 이상 조합해서 8-16자리

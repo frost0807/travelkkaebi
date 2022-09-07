@@ -17,4 +17,5 @@ public class ImageAndCommentDTO {
     private String comment;
     private Timestamp createTime;
     private Timestamp updateTime;
+
 }

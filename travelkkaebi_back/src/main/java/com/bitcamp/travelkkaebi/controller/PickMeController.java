@@ -13,18 +13,17 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/travelkkaebi")
+@RequestMapping("/travelkkaebi/pickme")
 @RequiredArgsConstructor
 public class PickMeController {
 
     private final PickMeService pickMeService;
-
     private final int PAGE_SIZE = 20;
 
     /**
      * pickMe 게시글 20개씩 pagination return
      */
-    @GetMapping("/pickme")
+    @GetMapping("/list")
     public ResponseEntity<List<PickMeDTO>> showPickMeList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
@@ -32,7 +31,7 @@ public class PickMeController {
     /**
      * pickMe write
      */
-    @PostMapping("/pickme/write")
+    @PostMapping("/write")
     public ResponseEntity<PickMeDTO> pickMeWrite(@AuthenticationPrincipal String userId, @RequestBody PickMeDTO pickMeDTO) {
         return ResponseEntity.ok().body(pickMeService.write(Integer.parseInt(userId), pickMeDTO));
     }
@@ -40,18 +39,47 @@ public class PickMeController {
     /**
      * pickMe update
      */
-    @PutMapping("/pickme/update")
-    public ResponseEntity<Void> pickMeUpdate(@AuthenticationPrincipal String userId, @RequestBody PickMeDTO pickMeDTO) {
-        pickMeService.update(Integer.parseInt(userId), pickMeDTO);
-        return ResponseEntity.ok().build();
+    @PutMapping("/update")
+    public ResponseEntity<PickMeDTO> pickMeUpdate(@AuthenticationPrincipal String userId, @RequestBody PickMeDTO pickMeDTO) {
+        return ResponseEntity.ok().body(pickMeService.update(Integer.parseInt(userId), pickMeDTO));
     }
 
     /**
      * pickMe delete
      */
-    @DeleteMapping("/pickme/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> pickMeDelete(@AuthenticationPrincipal String userId, @RequestParam int pickMeId) {
         pickMeService.delete(Integer.parseInt(userId), pickMeId);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * pickMe search by nickname 20개 씩
+     */
+    @GetMapping("/search/nickname")
+    public ResponseEntity<List<PickMeDTO>> findByNickname(
+            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @RequestParam String nickname) {
+        return ResponseEntity.ok().body(pickMeService.findByNickname(nickname, pageable));
+    }
+
+    /**
+     * pickMe search by title 20개 씩
+     */
+    @GetMapping("/search/title")
+    public ResponseEntity<List<PickMeDTO>> findByTitle(
+            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @RequestParam String title) {
+        return ResponseEntity.ok().body(pickMeService.findByTitle(title, pageable));
+    }
+
+    /**
+     * pickMe search by keyword 20개 씩
+     */
+    @GetMapping("/search/region")
+    public ResponseEntity<List<PickMeDTO>> findByKeyword(
+            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @RequestParam String keyword) {
+        return ResponseEntity.ok().body(pickMeService.findByRegion(keyword, pageable));
     }
 }

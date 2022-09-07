@@ -34,21 +34,38 @@
         SELECT COUNT(*) FROM board_review
     </select>
 
-    <select id="searchByTitle" parameterType="String" resultType="ReviewResponseDTO">
+    <select id="searchByTitle" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
         SELECT * FROM board_review WHERE title LIKE CONCAT('%', #{title}, '%')
     </select>
 
-    <select id="searchByContent" parameterType="String" resultType="ReviewResponseDTO">
+    <select id="countByTitle" parameterType="String" resultType="ReviewResponseDTO">
+        SELECT COUNT(*) FROM board_review WHERE title LIKE CONCAT('%', #{title}, '%')
+    </select>
+
+    <select id="searchByContent" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
         SELECT * FROM board_review WHERE content LIKE  CONCAT('%',#{content},'%')
     </select>
 
-    <select id="searchByWriter" parameterType="String" resultType="ReviewResponseDTO">
+    <select id="countByContent" parameterType="String" resultType="ReviewResponseDTO">
+        SELECT COUNT(*) FROM board_review WHERE content LIKE  CONCAT('%',#{content},'%')
+    </select>
+
+    <select id="searchByWriter" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
         SELECT * FROM board_review JOIN user On board_review.user_id = user.user_id
                  WHERE nickname LIKE CONCAT('%',#{writer},'%')
     </select>
 
-    <select id="keywordByRegion" parameterType="String" resultType="ReviewResponseDTO">
+    <select id="countByWriter" parameterType="String" resultType="ReviewResponseDTO">
+        SELECT COUNT(*) FROM board_review JOIN user On board_review.user_id = user.user_id
+                 WHERE nickname LIKE CONCAT('%',#{writer},'%')
+    </select>
+
+    <select id="keywordByRegion" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
         SELECT * FROM board_review WHERE region = #{region}
+    </select>
+
+    <select id="countByRegion" parameterType="String" resultType="ReviewResponseDTO">
+        SELECT COUNT(*) FROM board_review WHERE region = #{region}
     </select>
 
 

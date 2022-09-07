@@ -25,6 +25,7 @@ public class AwsS3service {
     private String bucket;
 
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+        System.out.println("uploadimagename" + multipartFile.getOriginalFilename());
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 로 전환이 실패했습니다."));
         return upload(uploadFile, dirName);
@@ -33,7 +34,7 @@ public class AwsS3service {
     private String upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
-        removeNewFile(uploadFile);
+        //removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
