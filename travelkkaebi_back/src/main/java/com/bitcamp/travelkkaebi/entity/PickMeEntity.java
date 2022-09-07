@@ -1,15 +1,12 @@
 package com.bitcamp.travelkkaebi.entity;
 
 import com.bitcamp.travelkkaebi.dto.PickMeDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -31,43 +28,50 @@ public class PickMeEntity {
     private UserEntity userEntity;
 
     @Embedded
-    private BaseWrite baseWrite;
+    private WriteInfo writeInfo;
 
-    private boolean company;
-    private boolean closed;
 
     @Column(name = "preferred_region")
     private String region;
 
-    @Column(name = "preferred_start_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime startDate;
+    private boolean company;
+    private boolean closed;
 
-    @Column(name = "preferred_end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime endDate;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "startDate",
+                    column = @Column(name = "preferred_start_date")),
+            @AttributeOverride(name = "endDate",
+                    column = @Column(name = "preferred_end_date"))
+    })
+    private DateInfo dateInfo;
+
 
     public static PickMeEntity toEntity(PickMeDTO pickMeDTO, int userId) {
         return PickMeEntity.builder()
+                .region(pickMeDTO.getPreferredRegion())
+                .closed(pickMeDTO.isClosed())
+                .company(pickMeDTO.isCompany())
                 .userEntity(UserEntity.builder()
                         .id(userId)
                         .build())
-                .baseWrite(BaseWrite.builder()
+                .writeInfo(WriteInfo.builder()
                         .categoryId(pickMeDTO.getCategoryId())
                         .content(pickMeDTO.getContent())
                         .title(pickMeDTO.getTitle())
                         .view(pickMeDTO.getView())
                         .build())
-                .startDate(pickMeDTO.getPreferredStartDate())
-                .endDate(pickMeDTO.getPreferredEndDate())
-                .closed(pickMeDTO.isClosed())
-                .company(pickMeDTO.isCompany())
+                .dateInfo(DateInfo.builder()
+                        .startDate(pickMeDTO.getDateInfo().getStartDate())
+                        .endDate(pickMeDTO.getDateInfo().getEndDate())
+                        .build())
                 .build();
     }
 
     public void change(PickMeDTO pickMeDTO) {
-        this.baseWrite.changeTitleAndContent(pickMeDTO.getTitle(), pickMeDTO.getContent());
+        this.region = pickMeDTO.getPreferredRegion();
+        this.writeInfo.changeTitleAndContent(pickMeDTO.getTitle(), pickMeDTO.getContent());
+        this.dateInfo.changeDate(pickMeDTO.getDateInfo().getStartDate(), pickMeDTO.getDateInfo().getEndDate());
     }
+
 }
