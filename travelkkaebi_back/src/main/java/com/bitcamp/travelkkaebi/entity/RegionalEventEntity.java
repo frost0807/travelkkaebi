@@ -18,8 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "board_regional_event")
 public class RegionalEventEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "regional_event_id")
     private int id;
 
@@ -31,21 +30,21 @@ public class RegionalEventEntity extends BaseEntity {
     private String posterImageUrl;
 
     @Embedded
-    private BaseWrite baseWrite;
+    private WriteInfo baseWrite;
 
     public static RegionalEventEntity toEntity(RegionEventDTO regionEventDTO) {
         return RegionalEventEntity.builder()
+                .posterImageUrl(regionEventDTO.getPosterImageUrl())
                 .userEntity(UserEntity.builder()
                         .id(regionEventDTO.getUserId())
                         .nickname(regionEventDTO.getNickname())
                         .build())
-                .baseWrite(BaseWrite.builder()
+                .baseWrite(WriteInfo.builder()
                         .categoryId(regionEventDTO.getCategoryId())
                         .content(regionEventDTO.getContent())
                         .title(regionEventDTO.getTitle())
                         .view(regionEventDTO.getView())
                         .build())
-                .posterImageUrl(regionEventDTO.getPosterImageUrl())
                 .build();
     }
 
@@ -53,7 +52,6 @@ public class RegionalEventEntity extends BaseEntity {
         this.baseWrite.changeTitleAndContent(regionEventDTO.getContent(), regionEventDTO.getTitle());
         this.posterImageUrl = regionEventDTO.getPosterImageUrl();
     }
-
 
     public void updateView(int view) {
         this.baseWrite.increaseView(view);
