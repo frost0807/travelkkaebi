@@ -64,6 +64,7 @@ public class EditorChoiceController {
     /**
      * 게시글 리스트
      */
+    /*
     @GetMapping("/selectallbypage")
     private ResponseEntity selectAllByPage(@RequestParam int pageNo) {
 
@@ -74,7 +75,7 @@ public class EditorChoiceController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     /**
      * 게시글 리스트 (신규)
@@ -141,6 +142,8 @@ public class EditorChoiceController {
     /**
      * 특정 제목으로 검색
      */
+
+    /*
     @GetMapping("/searchbytitle")
     private ResponseEntity searchByTitle(@RequestParam("title") String title) {
 
@@ -153,9 +156,9 @@ public class EditorChoiceController {
         }
     }
 
-    /**
+    *//**
      * 특정 내용으로 검색
-     */
+     *//*
     @GetMapping("/searchbycontent")
     private ResponseEntity searchByContent(@RequestParam("content") String content) {
 
@@ -168,9 +171,9 @@ public class EditorChoiceController {
         }
     }
 
-    /**
+    *//**
      * 특정 작성자로 검색
-     */
+     *//*
     @GetMapping("/searchbywriter")
     private ResponseEntity searchByWriter(@RequestParam("writer") String writer) {
 
@@ -183,9 +186,9 @@ public class EditorChoiceController {
         }
     }
 
-    /**
+    *//**
      * (지역) 키워드로 검색
-     */
+     *//*
 
     @GetMapping("keywordbyregion")
     private ResponseEntity keywordByRegion (@RequestParam("region") String region) {
@@ -197,5 +200,5 @@ public class EditorChoiceController {
             return null;
         }
     }
-
+*/
 }

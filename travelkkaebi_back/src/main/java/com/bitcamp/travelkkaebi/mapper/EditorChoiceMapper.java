@@ -1,18 +1,20 @@
 package com.bitcamp.travelkkaebi.mapper;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
+import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface EditorChoiceMapper {
 
-    List<EditorChoiceResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
+    List<EditorChoiceResponseDTO> selectAllByPage(PageAndWordDTO pageAndWordDTO);
 
-    EditorChoiceResponseDTO selectOne (int editorChoiceId);
+    Optional<EditorChoiceResponseDTO> selectOne (int editorChoiceId);
 
     String selectRole (int editorChoiceId);
 
@@ -26,13 +28,13 @@ public interface EditorChoiceMapper {
 
     int editorChoiceCount();
 
-    List<EditorChoiceResponseDTO> searchByTitle(String title);
+    List<EditorChoiceResponseDTO> searchByTitle(PageAndWordDTO pageAndWordDTO);
 
-    List<EditorChoiceResponseDTO> searchByContent(String content);
+    List<EditorChoiceResponseDTO> searchByContent(PageAndWordDTO pageAndWordDTO);
 
-    List<EditorChoiceResponseDTO> searchByWriter(String writer);
+    List<EditorChoiceResponseDTO> searchByWriter(PageAndWordDTO pageAndWordDTO);
 
-    List<EditorChoiceResponseDTO> keywordByRegion(String region);
+    List<EditorChoiceResponseDTO> keywordByRegion(PageAndWordDTO pageAndWordDTO);
 
     List<EditorChoiceResponseDTO> selectAllNew();
 }

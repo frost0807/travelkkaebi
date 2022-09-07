@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper">
 
-    <select id="selectAllByPage" parameterType="hashMap" resultType="EditorChoiceResponseDTO">
+    <select id="selectAllByPage" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice JOIN user on board_editor_choice.user_id = user.user_id
         ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
@@ -44,22 +44,35 @@
         SELECT COUNT(*) FROM board_editor_choice
     </select>
 
-    <select id="selectByTitle" parameterType="String" resultType="EditorChoiceResponseDTO">
-        SELECT * FROM board_editor_choice WHERE title LIKE CONCAT('%', #{title}, '%')
+    <select id="selectByTitle" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
+        SELECT * FROM board_editor_choice
+        JOIN user On board_editor_choice.user_id = user.user_id
+        WHERE title LIKE CONCAT('%', #{title}, '%')
+        ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
-    <select id="selectByContent" parameterType="String" resultType="EditorChoiceResponseDTO">
-        SELECT * FROM board_editor_choice WHERE content LIKE CONCAT('%', #{content}, '%')
+    <select id="selectByContent" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
+        SELECT * FROM board_editor_choice
+        JOIN user On board_editor_choice.user_id = user.user_id
+        WHERE content LIKE CONCAT('%', #{content}, '%')
+        ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
-    <select id="searchByWriter" parameterType="String" resultType="EditorChoiceResponseDTO">
-        SELECT * FROM board_editor_choice JOIN user On board_editor_choice.user_id = user.user_id
+    <select id="searchByWriter" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
+        SELECT * FROM board_editor_choice
+        JOIN user On board_editor_choice.user_id = user.user_id
         WHERE nickname LIKE CONCAT('%',#{writer},'%')
+        ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
-    <select id="keywordByRegion" parameterType="String" resultType="EditorChoiceResponseDTO">
-        SELECT * FROM board_editor_choice WHERE region = #{region}
+    <select id="keywordByRegion" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
+        SELECT * FROM board_editor_choice
+        JOIN user On board_editor_choice.user_id = user.user_id
+        WHERE region = #{region}
+        ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
+
+
 
 
 

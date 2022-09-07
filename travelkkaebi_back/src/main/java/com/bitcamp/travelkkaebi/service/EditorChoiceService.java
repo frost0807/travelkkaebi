@@ -1,6 +1,8 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
+import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper;
@@ -29,27 +31,20 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
-    public int write(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
-        System.out.println("게시글 작성 서비스");
-
+    public EditorChoiceResponseDTO write(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
 
         // 로그인 된 유저가 에디터 인지 확인하는 코드
         if (findUser.getRole().equals(UserRole.EDITOR)) {
             editorChoiceDTO.setUserId(userId);
-            return editorChoiceMapper.insert(editorChoiceDTO);
+            editorChoiceMapper.insert(editorChoiceDTO);
+
+            return editorChoiceMapper.selectOne(editorChoiceDTO.getEditorChoiceId())
+                    .orElseThrow(()-> new NullPointerException("작성한 게시물이 존재하지 않음"));
 
         } else {
-            return 0;
+            throw new RuntimeException("글 작성 권한이 없습니다.");
         }
-
-        /**
-         if(글쓴회원의 role이 에디터면){
-         insert
-         } else{
-         에디터가 아닙니다}
-         */
-
     }
 
     /**
@@ -61,13 +56,13 @@ public class EditorChoiceService {
      */
 
     @Transactional
-    public int update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
+    public EditorChoiceResponseDTO update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
 
         if (userId == editorChoiceDTO.getUserId()) {
-            // 리턴 값 바꾸기 **********
-            return editorChoiceMapper.update(editorChoiceDTO) * editorChoiceDTO.getEditorChoiceId();
+            editorChoiceMapper.update(editorChoiceDTO);
+            return selectOne(editorChoiceDTO.getEditorChoiceId());
         } else {
-            return 0;
+            throw new RuntimeException("글 수정 권한이 없습니다.");
         }
     }
 
@@ -96,17 +91,11 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
+    /*
     public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception {
-
-        HashMap<String, Integer> pageMap = new HashMap<>();
-        int startNum = (pageNo - 1) * PAGE_SIZE;
-
-        pageMap.put("startNum", startNum);
-        pageMap.put("PAGE_SIZE", PAGE_SIZE);
-
-        return editorChoiceMapper.selectAllByPage(pageMap);
+        return editorChoiceMapper.selectAllByPage(setPageAndWord(pageNo, null));
     }
-
+*/
     /**
      * 게시글 리스트 (신규)
      * @return
@@ -123,10 +112,14 @@ public class EditorChoiceService {
      * @param editorChoiceId
      * @return editorChoiceResponseDTO
      */
-    public EditorChoiceResponseDTO selectOne(int editorChoiceId) {
+    public EditorChoiceResponseDTO selectOne(int editorChoiceId) throws Exception {
         // 조회수 더해주는 코드
-        editorChoiceMapper.viewPlus(editorChoiceId);
-        return editorChoiceMapper.selectOne(editorChoiceId);
+        if (editorChoiceMapper.viewPlus(editorChoiceId) != 0) {
+            return editorChoiceMapper.selectOne(editorChoiceId)
+                    .orElseThrow(()-> new NullPointerException("선택한 게시물이 존재하지 않습니다."));
+        } else {
+            throw new RuntimeException("게시물 조회수 갱신 실패");
+        }
     }
 
     /**
@@ -156,61 +149,97 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
-    public List<EditorChoiceResponseDTO> searchByTitle(String title) throws Exception {
+//
+//    public List<EditorChoiceResponseDTO> searchByTitle(String title, int pageNo) throws Exception {
+//        List<EditorChoiceResponseDTO> list = editorChoiceMapper.searchByTitle(setPageAndWord(pageNo, title));
+//        return setListResponse(editorChoiceMapper.)
+//    }
+//
+//
+//    /**
+//     * 특정 내용으로 검색
+//     * @param content
+//     * @return contentList
+//     * @throws Exception
+//     */
+//
+//    public List<EditorChoiceResponseDTO> searchByContent(String content, int pageNo) throws Exception {
+//
+//        if (content != null) {
+//            return editorChoiceMapper.searchByContent(content);
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     * 특정 작성자로 검색
+//     * @param writer
+//     * @return writerList
+//     * @throws Exception
+//     */
+//
+//    public List<EditorChoiceResponseDTO> searchByWriter(String writer, int pageNo) throws Exception {
+//
+//        if (writer != null) {
+//            return editorChoiceMapper.searchByWriter(writer);
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     * (지역) 키워드로 검색
+//     * @param region
+//     * @return
+//     * @throws Exception
+//     */
+//
+//    public List<EditorChoiceResponseDTO> keywordByRegion(String region, int pageNo) throws Exception {
+//
+//        if (region != null) {
+//            return editorChoiceMapper.keywordByRegion(region);
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     * 페이지 번호 및 키워드 세팅
+//     */
+//    public PageAndWordDTO setPageAndWord(int pageNo, String word) {
+//        return PageAndWordDTO.builder()
+//                .startNum((pageNo - 1) * PAGE_SIZE)
+//                .pageSize(PAGE_SIZE)
+//                .word(word)
+//                .build();
+//    }
+//
+//    /**
+//     * 검색 및 키워드 게시물 리스트와 총 페이지수 세팅
+//     */
+//    public ListResponseDTO setListResponse(int totalPageCount, List<EditorChoiceResponseDTO> list) {
+//        return ListResponseDTO.builder()
+//                .totalBoardCount(totalPageCount)
+//                .list(list)
+//                .build();
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-        if (title != null) {
-            return editorChoiceMapper.searchByTitle(title);
-        } else {
-            return null;
-        }
-    }
 
-    /**
-     * 특정 내용으로 검색
-     * @param content
-     * @return contentList
-     * @throws Exception
-     */
-
-    public List<EditorChoiceResponseDTO> searchByContent(String content) throws Exception {
-
-        if (content != null) {
-            return editorChoiceMapper.searchByContent(content);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 특정 작성자로 검색
-     * @param writer
-     * @return writerList
-     * @throws Exception
-     */
-
-    public List<EditorChoiceResponseDTO> searchByWriter(String writer) throws Exception {
-
-        if (writer != null) {
-            return editorChoiceMapper.searchByWriter(writer);
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * (지역) 키워드로 검색
-     * @param region
-     * @return
-     * @throws Exception
-     */
-
-    public List<EditorChoiceResponseDTO> keywordByRegion(String region) throws Exception {
-
-        if (region != null) {
-            return editorChoiceMapper.keywordByRegion(region);
-        } else {
-            return null;
-        }
-    }
 }
+

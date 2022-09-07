@@ -25,22 +25,20 @@ public class ImageAndCommentService {
      * @throws Exception
      */
     public boolean insert(List<MultipartFile> imageList,
-      List<ImageAndCommentDTO> commentList, int userId) throws Exception {
+      ImageAndCommentDTO imageAndCommentDTO, int userId) throws Exception {
         System.out.println("이미지 AND 코멘트 서비스 도착");
+        // 로그인 한 유저의 식별자 set
+        imageAndCommentDTO.setUserId(userId);
 
         int successCount = 0;
-        for(int i = 0; i < commentList.size(); i++) {
-            ImageAndCommentDTO imageAndCommentDTO = commentList.get(i);
-
-            // 로그인 한 유저의 식별자 set
-            imageAndCommentDTO.setUserId(userId);
+        for(int i = 0; i < imageList.size(); i++) {
 
             // 아마존 s3에 이미지 저장 및 url set
             imageAndCommentDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
 
             successCount += imageAndCommentMapper.insert(imageAndCommentDTO);
         }
-        return (successCount == commentList.size() ? true : false);
+        return (successCount == imageList.size() ? true : false);
     }
 
     public void test(List<MultipartFile> imageList, int userId) throws Exception {

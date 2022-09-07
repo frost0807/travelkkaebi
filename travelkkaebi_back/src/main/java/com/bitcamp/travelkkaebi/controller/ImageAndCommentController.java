@@ -24,16 +24,16 @@ public class ImageAndCommentController {
 
     @PostMapping("/insert")
     public ResponseEntity<Boolean> insert(
-            @RequestPart(value = "image") List<MultipartFile> imageList,
-            @RequestPart(value = "comment") List<ImageAndCommentDTO> commentList,
+            @RequestPart(value = "file") List<MultipartFile> multipartFileList,
+            @RequestPart(value = "comment") ImageAndCommentDTO comment,
             @AuthenticationPrincipal String userId) {
         System.out.println("imageAndComment 컨트롤러 도착");
         try {
-            return new ResponseEntity<>(imageAndCommentService.insert(imageList, commentList,
+            return new ResponseEntity<>(imageAndCommentService.insert(multipartFileList, comment,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 

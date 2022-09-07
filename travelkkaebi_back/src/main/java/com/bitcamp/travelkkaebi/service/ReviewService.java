@@ -2,9 +2,7 @@ package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
-import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
-import com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +23,15 @@ public class ReviewService {
      * @param userId
      * @return writtenReviewId
      */
-    public int writeReview(ReviewDTO reviewDTO, int userId) {
+    public ReviewResponseDTO writeReview(ReviewDTO reviewDTO, int userId) throws Exception {
+        reviewDTO.setUserId(userId);
 
-        try {
-            reviewDTO.setUserId(userId);
-            return reviewMapper.insert(reviewDTO);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+        if(reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
+            // userGenerateKeys에 의해 생성된 Id값으로 selectOne 해서 리턴
+            return reviewMapper.selectOne(reviewDTO.getReviewId())
+                    .orElseThrow(() -> new NullPointerException("입력한 게시물이 존재하지 않습니다."));
+        } else { // insert 실패 시
+            throw new RuntimeException("게시물이 등록되지 않았습니다.");
         }
     }
 
@@ -44,19 +42,18 @@ public class ReviewService {
      * @return updatedReviewId
      */
     @Transactional
-    public int update(ReviewDTO review, int userId) {
+    public ReviewResponseDTO update(ReviewDTO review, int userId) throws Exception {
 
+        // 로그인 한 유저가 글의 작성자인지 확인
         if (userId == review.getUserId()) {
-            try {
-                return reviewMapper.update(review);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return 0;
+            if (reviewMapper.update(review) != 0) {
+                return selectOne(review.getReviewId());
+            } else {
+                throw new RuntimeException("게시물 수정 실패");
             }
         } else {
-            return 0;
+            throw new RuntimeException("작성자가 아닙니다.");
         }
-        // 성공했을 경우 updatedReviewid 리턴, 실패 시 0 리턴
     }
 
     /**
@@ -66,27 +63,21 @@ public class ReviewService {
      * @return deletedReviewId;
      */
     @Transactional
-    public int delete(ReviewDTO review, int userId) {
+    public int delete(ReviewDTO review, int userId) throws Exception {
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
         if (review.getUserId() == userId) {
-            try {
-                return reviewMapper.delete(review.getReviewId());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return 0;
-            }
+            return reviewMapper.delete(review.getReviewId());
         } else {
-            System.out.println("작성자와 다름");
-            return -1;
+            throw new RuntimeException("작성자가 아닙니다.");
         }
     }
 
     /**
      * 게시글 리스트 출력
      */
-    public List<ReviewResponseDTO> selectAllByPage(int pageNo) {
+    public List<ReviewResponseDTO> selectAllByPage(int pageNo) throws Exception {
 
-        try {
+        if (pageNo <= pageCount()) {
             HashMap<String, Integer> pageMap = new HashMap<>();
             int startNum = (pageNo - 1) * PAGE_SIZE;
 
@@ -94,12 +85,9 @@ public class ReviewService {
             pageMap.put("PAGE_SIZE", PAGE_SIZE);
 
             return reviewMapper.selectAllByPage(pageMap);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } else {
+            throw new RuntimeException("요청한 페이지의 크기가 게시글 리스트보다 많습니다.");
         }
-
     }
 
     /**
@@ -108,10 +96,14 @@ public class ReviewService {
      * @return review
      */
 
-    public ReviewResponseDTO selectOne(int reviewId) {
+    public ReviewResponseDTO selectOne(int reviewId) throws Exception {
         // 조회수 +1 시켜주는 코드
-        reviewMapper.viewPlus(reviewId);
-        return reviewMapper.selectOne(reviewId);
+        if(reviewMapper.viewPlus(reviewId) != 0)  {
+            return reviewMapper.selectOne(reviewId)
+                    .orElseThrow(() -> new NullPointerException("선택한 게시물이 존재하지 않습니다."));
+        } else {
+            throw new RuntimeException("게시물 조회수 갱신 실패");
+        }
     }
 
     /**
@@ -141,7 +133,7 @@ public class ReviewService {
      * @return titleList
      * @throws Exception
      */
-    public List<ReviewResponseDTO> searchByTitle(String title) throws Exception {
+    public List<ReviewResponseDTO> searchByTitle(String title, int pageNo) throws Exception {
         if (title != null) {
             return reviewMapper.searchByTitle(title);
         } else {
