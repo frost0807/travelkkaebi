@@ -29,10 +29,9 @@ public class RegionEventService {
     public RegionEventDTO write(int userId, RegionEventDTO regionEventDTO, String image) {
         UserEntity findUser = validate(userId, regionEventDTO);
 
-        regionEventDTO.setUserIdAndNicknameAndPosterImageUrl(findUser.getId(), findUser.getNickname(), image);
-
+        regionEventDTO.setUserInfo(findUser.getId(), findUser.getNickname(), image);
         RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
-        regionEventDTO.setId(saveRegionEvent.getId());
+        regionEventDTO.setRegionId(saveRegionEvent.getId());
 
         return regionEventDTO;
     }
@@ -48,7 +47,7 @@ public class RegionEventService {
         if (findUser.getRole() != UserRole.EDITOR)
             throw new RuntimeException("not an editor");
 
-        if (regionEventDTO.getUserId() != userId)
+        if (findUser.getId() != userId)
             throw new RuntimeException("회원정보가 일치하지 앖습니다.");
         return findUser;
     }
@@ -60,7 +59,7 @@ public class RegionEventService {
     public void edit(int userId, RegionEventDTO regionEventDTO, String image) {
         validate(userId, regionEventDTO);
 
-        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionEventDTO.getId()).orElseThrow(() -> new RuntimeException("edit exception"));
+        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionEventDTO.getRegionId()).orElseThrow(() -> new RuntimeException("edit exception"));
 
         regionEventDTO.setPosterImageUrl(image);
         findRegionEvent.change(regionEventDTO);

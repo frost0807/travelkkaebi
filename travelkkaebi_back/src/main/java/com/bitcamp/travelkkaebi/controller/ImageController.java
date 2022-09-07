@@ -17,10 +17,11 @@ import java.util.List;
 public class ImageController {
     private final ImageService imageService;
 
-    @PostMapping("/selectall")
-    public ResponseEntity<List> selectAll(@RequestBody ImageDTO imageDTO) {
+    @GetMapping("/selectall")
+    public ResponseEntity<List> selectAll(@RequestParam int categoryId,
+                                          @RequestParam int boardId) {
         try {
-            return new ResponseEntity<>(imageService.selectAll(imageDTO), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.selectAll(categoryId, boardId), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -43,10 +44,10 @@ public class ImageController {
     @PutMapping("/update")
     public ResponseEntity<Boolean> update(
             @RequestPart(value = "file") List<MultipartFile> multipartFileList,
-            @RequestPart(value = "imageDTO") List<ImageDTO> imageDTOList,
+            @RequestPart(value = "imageDTO") ImageDTO imageDTO,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(imageService.update(multipartFileList, imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.update(multipartFileList, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

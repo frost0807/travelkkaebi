@@ -96,7 +96,7 @@ public class JoinMeService {
 
     @Transactional
     public boolean delete(int joinMeId, int userId) throws Exception {
-        //CSRF방어
+        JoinMeDTO joinMeDTO = JoinMeDTO.builder().joinMeId(joinMeId).userId(userId).build();
 
         return (joinMeMapper.delete(JoinMeDTO.builder().joinMeId(joinMeId).userId(userId).build()) != 0);
     }

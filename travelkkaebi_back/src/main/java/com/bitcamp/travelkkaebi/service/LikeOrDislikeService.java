@@ -1,6 +1,6 @@
 package com.bitcamp.travelkkaebi.service;
 
-// import com.bitcamp.travelkkaebi.dto.CategoryIdAndBoardCountDTO;
+import com.bitcamp.travelkkaebi.dto.CategoryIdAndBoardCountDTO;
 import com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
@@ -9,11 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
-
 
 @Service
 @RequiredArgsConstructor
@@ -107,9 +103,17 @@ public class LikeOrDislikeService {
         }
     }
 
-//    public List<Integer> getBoardIdListMostLiked(int categoryId, int boardCount) {
-//        return likeOrDislikeMapper.getBoardIdListMostLiked(setCategoryIdAndBoardCountDTO(categoryId, boardCount));
-//    }
+    public List<Integer> getBoardIdListMostLiked(int categoryId, int boardCount) {
+        return likeOrDislikeMapper.getBoardIdListMostLiked(setCategoryIdAndBoardCountDTO(categoryId, boardCount));
+    }
+
+    public LikeOrDislikeDTO setLikeOrDislikeDTO(int categoryId, int boardId, int userId){
+        return LikeOrDislikeDTO.builder()
+                .categoryId(categoryId)
+                .boardId(boardId)
+                .userId(userId)
+                .build();
+    }
 
     public LikeOrDislikeResponseDTO setCounts(LikeOrDislikeResponseDTO likeOrDislikeResponseDTO) throws Exception {
         likeOrDislikeResponseDTO.setLikeCount(getLikeCount(likeOrDislikeResponseDTO));
@@ -118,11 +122,10 @@ public class LikeOrDislikeService {
         return likeOrDislikeResponseDTO;
     }
 
-    public LikeOrDislikeDTO setLikeOrDislikeDTO(int categoryId, int boardId, int userId){
-        return LikeOrDislikeDTO.builder()
+    public CategoryIdAndBoardCountDTO setCategoryIdAndBoardCountDTO(int categoryId, int boardCount) {
+        return CategoryIdAndBoardCountDTO.builder()
                 .categoryId(categoryId)
-                .boardId(boardId)
-                .userId(userId)
+                .boardCount(boardCount)
                 .build();
     }
 }

@@ -13,7 +13,7 @@ const Paging = (count) => {
   const handlePageChange = page => {
     // setPage(page);
     navi(`/review/${page}`)
-    
+    console.log(count);
   };
 
   return (
@@ -28,7 +28,7 @@ const Paging = (count) => {
       onChange={handlePageChange}
     />
     {/* {count} */}
-    33
+    
     
     </div>
   );

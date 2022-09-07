@@ -49,14 +49,14 @@ public class KaKaoService {
         // kakao 유저정보 JSON -> String parsing
         JsonElement element = JsonParser.parseString(userInfoByAccessToken);
         String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
-        String profile_image = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
+        String profileImage = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
         String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 
         if (userRepository.existsByEmail(email)) {
             throw new RuntimeException("이미 존재하는 이메일입니다.");
         }
 
-        UserDTO userDTO = new UserDTO(email, profile_image, nickname);
+        UserDTO userDTO = new UserDTO(email, profileImage, nickname);
         UserEntity kaKaoLoginUser = UserDTO.kaKaoInfoToUserEntity(userDTO);
 
         // travelkkaebi db에 save

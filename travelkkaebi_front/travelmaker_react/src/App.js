@@ -8,6 +8,7 @@ import Review from "./pages/Review/Review";
 import Footer from "./components/Footer/Footer";
 import ReviewDetail from "./pages/Review/ReviewDetail";
 import Contact from "./pages/Contact/Contact";
+import RegionEventCreateForm from "./pages/RegionEvent/RegionEventCreateForm";
 
 // test용 페이지 임포트 등
 import TestPage from "./pages/Test/TestPage";
@@ -16,7 +17,8 @@ import TestReviewDetail from "./pages/Test/TestReviewDetail";
 import TestResponse from "./pages/Test/TestResponse";
 
 import TestPost from "./pages/Test/TestPost";
-import ReviewForm from "./pages/Review/ReviewForm";
+import ReviewUpdateForm from "./pages/Review/ReviewUpdateForm";
+import ReviewCreateForm from "./pages/Review/ReviewCreateForm";
 import RegionEvent from "./pages/RegionEvent/RegionEvent";
 import PickUpMe from "./pages/PickUpMe/PickUpMe";
 
@@ -50,10 +52,11 @@ function Main() {
         {/* Review Page */}
         <Route path="/review/:currentPage" element={<Review />} />
         <Route path="/review/detail/:id" element={<ReviewDetail />} />
-        {/* <Route path="/review/form" element={<ReviewForm />} /> */}
+        <Route path="/review/createform" element={<ReviewCreateForm />} />
 
         {/* RegionEvent Page */}
         <Route path="/regionevent" element={<RegionEvent />} />
+        <Route path="/regionevent/createform" element={<RegionEventCreateForm />} />
 
         {/* test용 페이지*/}
         <Route path="/testpage" element={<TestPage />} />

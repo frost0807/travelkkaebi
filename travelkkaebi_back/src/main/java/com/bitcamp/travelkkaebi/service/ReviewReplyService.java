@@ -24,8 +24,6 @@ public class ReviewReplyService {
      * @return
      */
     public int writeReply(ReviewReplyDTO reply, ReviewDTO review, @AuthenticationPrincipal int userId) {
-        int writtenReplyId;
-
         try {
             reply.setBoardId(review.getReviewId());
             reply.setCategoryId(review.getCategoryId());
@@ -33,14 +31,13 @@ public class ReviewReplyService {
             reply.setComment(reply.getComment());
 
             // 댓글 등록 성공 시
-            writtenReplyId = replyMapper.insert(reply);
+            return replyMapper.insert(reply);
 
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
 
-        return writtenReplyId;
     }
 
     /**
@@ -51,12 +48,10 @@ public class ReviewReplyService {
      */
     @Transactional
     public int update(ReviewReplyDTO reply, int userId) {
-        int updatedReplyId;
-
         if (userId == reply.getUserId()) {
             try {
                 reply.setComment(reply.getComment());
-                updatedReplyId = replyMapper.update(reply);
+                return replyMapper.update(reply);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,7 +60,6 @@ public class ReviewReplyService {
         } else {
             return 0;
         }
-        return updatedReplyId;
     }
 
     /**
@@ -76,11 +70,9 @@ public class ReviewReplyService {
      */
     @Transactional
     public int deleteByReview(ReviewReplyDTO reply, ReviewDTO review, int userId) {
-        int deletedReplyId;
-
         if(userId == reply.getUserId()) {
             try {
-                deletedReplyId = replyMapper.deleteByBoardId(review.getReviewId());
+                return replyMapper.deleteByBoardId(review.getReviewId());
             } catch (Exception e) {
                 e.printStackTrace();
                 return 0;
@@ -89,7 +81,6 @@ public class ReviewReplyService {
             return 0;
         }
 
-        return deletedReplyId;
     }
 
     /**
@@ -100,11 +91,9 @@ public class ReviewReplyService {
      */
     @Transactional
     public int delete(ReviewReplyDTO reply, int userId) {
-        int deletedReplyId;
-
         if(userId == reply.getUserId()) {
             try {
-                deletedReplyId = replyMapper.delete(reply.getReviewReplyId());
+                return replyMapper.delete(reply.getReviewReplyId());
             } catch (Exception e) {
                 e.printStackTrace();
                 return 0;
@@ -112,8 +101,6 @@ public class ReviewReplyService {
         } else {
             return 0;
         }
-
-        return deletedReplyId;
     }
 
 
@@ -123,11 +110,10 @@ public class ReviewReplyService {
      * @return list
      */
     public List<ReviewReplyResponseDTO> selectOne(int boardId) {
-        List<ReviewReplyResponseDTO> list;
 
         if(boardId != 0) {
             try {
-                list = replyMapper.selectAllByBoardId(boardId);
+                return replyMapper.selectAllByBoardId(boardId);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,6 +122,5 @@ public class ReviewReplyService {
         } else {
             return null;
         }
-        return list;
     }
 }

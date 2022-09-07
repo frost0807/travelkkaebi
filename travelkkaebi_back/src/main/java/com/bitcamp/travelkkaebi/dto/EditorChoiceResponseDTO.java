@@ -19,6 +19,7 @@ public class EditorChoiceResponseDTO {
     private String title;
     private String content;
     private int view;
+    private int likeCount;
     private String region;
     private Timestamp createTime;
     private Timestamp updateTime;

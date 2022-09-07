@@ -5,12 +5,13 @@ import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ReviewMapper {
 
     List<ReviewResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
-    ReviewResponseDTO selectOne(int reviewId);
+    Optional<ReviewResponseDTO> selectOne(int reviewId);
 
     int insert(ReviewDTO reviewDTO);
 
