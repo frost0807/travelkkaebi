@@ -23,11 +23,16 @@ public class PickMeApplyService {
     @Transactional
     public void pickUp(int userId, PickMeApplyDTO pickMeApplyDTO) {
         pickMeRepository.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new RuntimeException("데려가줘 게시물이 존재하지 않습니다."));
-        //joinMe 에 게시물이 등록되어있는지 check 하는 logic
+
+        //joinMe 에 게시물이 등록되어있는지 check 하는 logic 게시물이 있더라도 그 게시물 유효한 게시물인지 체크
         List<JoinMeEntity> findJoinMeEntity = joinMeRepository.findAllByUserEntityIdAndDateInfoStartDateLessThan(userId, LocalDateTime.now());
         if (findJoinMeEntity.isEmpty())
             throw new RuntimeException("같이 여행가요 게시물이 존재하지 않으므로 픽업을 할 수 없습니다.");
+        //이미 해당게시물을 pick 을 하였는지 check
+        if (pickMeApplyRepository.existsByUserEntityIdAndPickMeEntityId(userId, pickMeApplyDTO.getBoardId()))
+            throw new RuntimeException("해당 게시물에 이미 신청을 하였습니다.");
 
         pickMeApplyRepository.save(PickMeApplyEntity.toEntity(userId, pickMeApplyDTO));
     }
+
 }
