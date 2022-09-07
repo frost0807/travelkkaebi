@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/travelkkaebi/pickme")
+@RequestMapping("/pickme")
 @RequiredArgsConstructor
 public class PickMeController {
 
@@ -24,7 +25,7 @@ public class PickMeController {
      * pickMe 게시글 20개씩 pagination return
      */
     @GetMapping("/list")
-    public ResponseEntity<List<PickMeDTO>> showPickMeList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity<HashMap<Integer, List<PickMeDTO>>> showPickMeList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
 
@@ -76,10 +77,10 @@ public class PickMeController {
     /**
      * pickMe search by keyword 20개 씩
      */
-    @GetMapping("/search/region")
+    @GetMapping("/search/keyword")
     public ResponseEntity<List<PickMeDTO>> findByKeyword(
             @PageableDefault(size = PAGE_SIZE) Pageable pageable,
             @RequestParam String keyword) {
-        return ResponseEntity.ok().body(pickMeService.findByRegion(keyword, pageable));
+        return ResponseEntity.ok().body(pickMeService.findByKeyword(keyword, pageable));
     }
 }
