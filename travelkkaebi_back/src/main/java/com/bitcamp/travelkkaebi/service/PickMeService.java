@@ -26,7 +26,7 @@ public class PickMeService {
      */
     public HashMap<Integer, List<PickMeDTO>> findAll(Pageable pageable) {
         HashMap<Integer, List<PickMeDTO>> pickMeList = new HashMap<>();
-        pickMeList.put(pickMeDB.countPickMe(), pickMeDB.pickMeList(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        pickMeList.put(pickMeDB.countPickMe(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
         return pickMeList;
     }
 
@@ -82,7 +82,7 @@ public class PickMeService {
      * nickName search logic
      */
     public List<PickMeDTO> findByNickname(String nickname, Pageable pageable) {
-        List<PickMeEntity> findPickMeList = pickMeDB.searchByNickname(nickname, pageable).getContent();
+        List<PickMeEntity> findPickMeList = pickMeDB.findAllByUserEntityNicknameContainingOrderByIdDesc(nickname, pageable).getContent();
         if (findPickMeList.isEmpty()) throw new RuntimeException("해당 닉네임으로 검색된 게시물이 없습니다.");
 
         return findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList());
@@ -92,7 +92,7 @@ public class PickMeService {
      * title search logic
      */
     public List<PickMeDTO> findByTitle(String title, Pageable pageable) {
-        List<PickMeEntity> findByTitleList = pickMeDB.searchByTitle(title, pageable).getContent();
+        List<PickMeEntity> findByTitleList = pickMeDB.findAllByWriteInfoTitleContainingOrderByIdDesc(title, pageable).getContent();
         if (findByTitleList.isEmpty()) throw new RuntimeException("해당 제목으로 검색된 게시물이 없습니다.");
 
         return findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList());
@@ -102,7 +102,7 @@ public class PickMeService {
      * keyword search logic  %like%
      */
     public List<PickMeDTO> findByKeyword(String keyword, Pageable pageable) {
-        List<PickMeEntity> findByKeyword = pickMeDB.searchByKeyword(keyword, pageable).getContent();
+        List<PickMeEntity> findByKeyword = pickMeDB.findAllByRegion(keyword, pageable).getContent();
         if (findByKeyword.isEmpty()) throw new RuntimeException("해당 지역으로 검색된 게시글이 없습니다.");
 
         return findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList());
