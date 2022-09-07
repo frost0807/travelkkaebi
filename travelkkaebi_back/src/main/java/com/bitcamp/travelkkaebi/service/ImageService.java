@@ -20,18 +20,17 @@ public class ImageService {
         return imageMapper.selectAll(imageDTO);
     }
 
-    public boolean insert(List<MultipartFile> imageList, List<ImageDTO> imageDTOList, int userId) throws Exception {
+    public boolean insert(List<MultipartFile> imageList, ImageDTO imageDTO, int userId) throws Exception {
         int successCount = 0;
-        for (int i = 0; i < imageDTOList.size(); i++) {
-            ImageDTO imageDTO = imageDTOList.get(i);
-            //로그인한 유저의 식별자set
-            imageDTO.setUserId(userId);
+        //로그인한 유저의 식별자set
+        imageDTO.setUserId(userId);
+        for (int i = 0; i < imageList.size(); i++) {
             //아마존s3에 이미지저장하고 url Set해주는 부분
             imageDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
             successCount += imageMapper.insert(imageDTO);
         }
         //이미지파일 저장과 경로삽입이 모두 다 성공적으로 끝나면 true리턴
-        return (successCount == imageDTOList.size());
+        return (successCount == imageList.size());
     }
 
     @Transactional

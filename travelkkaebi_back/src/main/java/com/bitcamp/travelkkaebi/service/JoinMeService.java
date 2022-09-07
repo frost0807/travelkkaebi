@@ -95,11 +95,10 @@ public class JoinMeService {
     }
 
     @Transactional
-    public boolean delete(JoinMeDTO joinMeDTO, int userId) throws Exception {
+    public boolean delete(int joinMeId, int userId) throws Exception {
         //CSRF방어
-        joinMeDTO.setUserId(userId);
 
-        return (joinMeMapper.delete(joinMeDTO) != 0);
+        return (joinMeMapper.delete(JoinMeDTO.builder().joinMeId(joinMeId).userId(userId).build()) != 0);
     }
 
     //페이지번호와 키워드를 객체에 세팅해주는 메소드

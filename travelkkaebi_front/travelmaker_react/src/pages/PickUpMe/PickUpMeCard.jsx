@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HeartImg from "../../images/heart.png";
 import Logo from "../../images/basicLogo.png";
-import "./JoinMe.css";
+import "./PickUpMe.css";
 import { useParams } from "react-router";
-import JoinMeDetail from "./JoinMeDetail";
+import PickUpMeDetail from "./PickUpMeDetail";
 import { useRecoilState } from "recoil";
 import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
-import { Link } from "react-router-dom";
-import { display } from "@mui/system";
 
-function JoinMeCard(props) {
+function PickUpMeCard(props) {
   const [post, setPosts] = useState(props.post);
   const [closed] = useState(props.post);
   const { id } = useParams();
@@ -21,18 +19,18 @@ function JoinMeCard(props) {
   let eDate = new Date(post.endDate);
   const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
-  const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
+  const [showPickMeDetail, setShowPickMeDetail] = useState(false);
 
-  const openJoinMeDetail = () => {
-    setShowJoinMeDetail(true);
+  const openPickMeDetail = () => {
+    setShowPickMeDetail(true);
   };
-  function close() {
-    setShowJoinMeDetail(false);
-  }
+  const close = () => {
+    setShowPickMeDetail(false);
+  };
 
   return (
     <>
-      <div onClick={openJoinMeDetail}>
+      <div onClick={openPickMeDetail}>
         <CardSection key={post.joinMeId}>
           <CardTop>
             <CardTitle>
@@ -88,24 +86,24 @@ function JoinMeCard(props) {
           </CardBottom>
         </CardSection>
         <div>
-          {showJoinMeDetail ? (
-            <JoinMeDetail
+          {showPickMeDetail && (
+            <PickUpMeDetail
               joinMeId={post.joinMeId}
               isLoggedIn={props.isLoggedIn}
-              showJoinMeDetail={showJoinMeDetail}
-              setShowJoinMeDetail={setShowJoinMeDetail}
+              showPickMeDetail={showPickMeDetail}
+              setShowPickMeDetail={setShowPickMeDetail}
               close={close}
               profile_img={profile_img}
               likeCount={post.likeCount}
             />
-          ) : null}
+          )}
         </div>
       </div>
     </>
   );
 }
 
-export default JoinMeCard;
+export default PickUpMeCard;
 
 const CardSection = styled.section`
   position: relative;

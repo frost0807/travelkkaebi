@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class LikeOrDislikeController {
     private final LikeOrDislikeService likeOrDislikeService;
 
-    @PostMapping("/selectone")
-    public ResponseEntity<LikeOrDislikeResponseDTO> selectOne(
-            @RequestBody LikeOrDislikeDTO likeOrDislikeDTO,
+    @PutMapping("/clicklike")
+    public ResponseEntity<LikeOrDislikeResponseDTO> clickLike(
+            @RequestParam int likeOrDislikeId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(likeOrDislikeService.selectOne(likeOrDislikeDTO,
+            return new ResponseEntity<>(likeOrDislikeService.clickLike(likeOrDislikeId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -28,12 +28,13 @@ public class LikeOrDislikeController {
         }
     }
 
-    @PutMapping("/clicklike")
-    public ResponseEntity<LikeOrDislikeResponseDTO> clickLike(
-            @RequestParam int likeOrDislikeId,
+    @GetMapping("/selectone")
+    public ResponseEntity<LikeOrDislikeResponseDTO> selectOne(
+            @RequestParam int categoryId,
+            @RequestParam int boardId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(likeOrDislikeService.clickLike(likeOrDislikeId,
+            return new ResponseEntity<>(likeOrDislikeService.selectOne(categoryId, boardId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,7 +11,7 @@ import Logo from "../../images/basicLogo.png";
 import JoinMeCard from "./JoinMeCard";
 import Pagination from "../../components/Pagenation/Pagination";
 import queryString from "query-string";
-import { isLoginFc } from "../../util";
+import { getToken, isLoginFc, is_logged } from "../../util";
 import styled from "styled-components";
 
 function JoinMe() {
@@ -93,6 +93,14 @@ function JoinMe() {
     setIsLoginModalOpen(true);
   };
 
+  const cardClickEvent = () => {
+    if (!is_logged) {
+      loginModal();
+    } else if (is_logged) {
+      navigate("/joinmeform");
+    }
+  };
+
   return (
     <MainContent>
       <header className="instructor_banner">
@@ -109,7 +117,11 @@ function JoinMe() {
         <ContentBody>
           <Button
             onClick={() => {
-              isLoginFc ? navigate("/joinmeform") : loginModal();
+              if (!is_logged) {
+                loginModal();
+              } else if (is_logged) {
+                navigate("/joinmeform");
+              }
             }}
           >
             글쓰기

@@ -30,10 +30,10 @@ public class ImageController {
     @PostMapping("/insert")
     public ResponseEntity<Boolean> insert(
             @RequestPart(value = "file") List<MultipartFile> multipartFileList,
-            @RequestPart(value = "imageDTO") List<ImageDTO> imageDTOList,
+            @RequestPart(value = "imageDTO") ImageDTO imageDTO,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(imageService.insert(multipartFileList, imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.insert(multipartFileList, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

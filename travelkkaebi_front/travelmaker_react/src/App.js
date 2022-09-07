@@ -26,16 +26,18 @@ import JoinMeForm from "./pages/JoinMe/JoinMeForm";
 import JoinMeCard from "./pages/JoinMe/JoinMeCard";
 import { useRecoilState } from "recoil";
 import { isLoginState, showJoinMeDetailState } from "./recoil/atom";
+import JoinMeEditForm from "./pages/JoinMe/JoinMeEditForm";
 
 function Main() {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route 
-        // path="/"
-        index
-         element={<Home />} />
+        <Route
+          // path="/"
+          index
+          element={<Home />}
+        />
         <Route path="/login" element={<Login />} />
 
         {/*<Route path="/oauth/kakao/callback" element={<KakaoLogin />} />*/}
@@ -48,7 +50,7 @@ function Main() {
         {/* Review Page */}
         <Route path="/review/:currentPage" element={<Review />} />
         <Route path="/review/detail/:id" element={<ReviewDetail />} />
-        <Route path="/review/form" element={<ReviewForm />} />
+        {/* <Route path="/review/form" element={<ReviewForm />} /> */}
 
         {/* RegionEvent Page */}
         <Route path="/regionevent" element={<RegionEvent />} />
@@ -61,13 +63,11 @@ function Main() {
         {/* <Route path='/testpost' element={<TestPost />}/> */}
 
         <Route path="/joinme/:pageNo" element={<JoinMe />} />
-        <Route path="/joinme/:page/:joinme_id" element={<JoinMeDetail />} />
+        <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
-        <Route path="/pickupme" element={<PickUpMe />}/>
-
+        <Route path="joinmeedit" element={<JoinMeEditForm />} />
+        <Route path="/pickupme" element={<PickUpMe />} />
       </Routes>
-
-
 
       {/* //=================================== */}
       <Footer />
@@ -77,7 +77,7 @@ function Main() {
 
 function App() {
   return (
-    <Main/>
+    <Main />
     // <BrowserRouter>
     //   <Routes>
     //     <Route path="/" element={<JoinMe />} />
