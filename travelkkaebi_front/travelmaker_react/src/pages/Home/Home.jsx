@@ -1,6 +1,9 @@
 import React from "react";
 import CardImg from "../../components/CardImg/CardImg";
 import CarouselHome from "../../components/Carousel/CarouselHome";
+import PopularBoard from "../../components/PopularBoard/PopularBoard";
+
+import "./Home.css";
 
 // 백엔드에서 메인 홈화면의 상단 정보/후기 부분 핫 게시물 사진과 작성자
 // 게시물 번호등 보내줌 (위의 CardImg에서 props로 보내서 컴포넌트에서 처리)
@@ -13,9 +16,28 @@ import CarouselHome from "../../components/Carousel/CarouselHome";
 function Home() {
   return(
     <>
-    <div style={{}}>
+    <div style={{ height:"30%", width:"50%", margin:"auto"}}>
     <CarouselHome/>
     </div>
+    {/* <PopularBoard/> */}
+    <div style={{padding:"20px", margin : "33px auto 62px", maxWidth:"1200px", width:"85%", height:"410px", borderRadius:"20px", backgroundColor:"#F4F1FF"}}>
+      <div style={{height:"20%", margin:"30px 0 10px 30px"}}>
+        <div style={{fontFamily:"SUIT ExtraBold", fontSize:"1.875em"}}>베스트 게시물</div>
+        <div style={{marginTop:"10px"}}>깨비들이 가장 많이 추천한 게시물!</div>
+        
+      </div>
+      <div className="container" style={{height:"60%", width:"100%"}}>
+        <div className="1slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>
+          <div className="1img"></div>
+          <div className="1content"></div>
+        </div>
+        <div className="2slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>b</div>
+        <div className="3slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>c</div>
+        <div className="4slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>d</div>
+
+      </div>
+    </div>
+
     <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
     <CardImg topImage1="topImage1" topImage2="topImage2" topImage3="topImage3"  topImage4="topImage4" />
     {/* <div style={{height:'100px'}}></div> */}

@@ -56,7 +56,7 @@ const RegisterForm = () => {
     };
   }, []);
 
-  // 회원가입
+  // 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@
   const onSubmit = async (data) => {
     //console.log('data', data);
     const headerConfig = {

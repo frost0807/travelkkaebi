@@ -47,6 +47,33 @@ function Review() {
     })
   }
 
+  const onWriterSearch=(e)=>{
+    e.preventDefault();
+
+    axios.get(API_BASE_URL+"/review/searchbywriter", {})
+    .then(res=>{
+      navi("/review/1");
+    })
+  }
+
+  const onTitleSearch=(e)=>{
+    e.preventDefault();
+
+    axios.post(API_BASE_URL+"/review/searchbytitle", {})
+    .then(res=>{
+      navi("/review/1");
+    })
+  }
+
+  const onContentSearch=(e)=>{
+    e.preventDefault();
+
+    axios.post(API_BASE_URL+"/review/searchbycontent", {})
+    .then(res=>{
+      navi("/review/1");
+    })
+  }
+
 
         // 멀티 액시오스 시도한거
 
@@ -138,7 +165,7 @@ function Review() {
           }
           </ul> */}
 
-          <Paging count={count/10+1} />
+          <Paging count={count} />
           
         </div>
 
@@ -157,9 +184,9 @@ function Review() {
               id="segmented-button-dropdown-2"
               alignRight
             >
-              <Dropdown.Item href="#">글쓴이 검색</Dropdown.Item>
-              <Dropdown.Item href="#">제목 검색</Dropdown.Item>
-              <Dropdown.Item href="#">내용 검색</Dropdown.Item>
+              <Dropdown.Item onSubmit={onWriterSearch} href="#">글쓴이 검색</Dropdown.Item>
+              <Dropdown.Item onSubmit={onTitleSearch} href="#">제목 검색</Dropdown.Item>
+              <Dropdown.Item onSubmit={onContentSearch} href="#">내용 검색</Dropdown.Item>
               {/* <Dropdown.Divider />
               <Dropdown.Item href="#">Separated link</Dropdown.Item> */}
             </SplitButton>
@@ -170,7 +197,7 @@ function Review() {
           <button type='button' className='btn btn-info'
           style={{ width:'110px', marginTop:'10px' }}
           onClick={()=>{
-            navi("/review/form");
+            navi("/review/createform");
           }}>글쓰기</button>
 
           <div className='list-icon'>
