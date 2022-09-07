@@ -7,12 +7,22 @@
         VALUES (#{categoryId}, #{boardId}, #{userId}, #{imageUrl}, #{comment})
     </insert>
 
+    <update id="update" parameterType="ImageAndCommentDTO" useGeneratedKeys="true" keyProperty="imageAndCommentId">
+        UPDATE image_and_comment SET image_url = #{imageUrl}, comment = #{comment}
+        WHERE image_and_comment_id = #{imageAndCommentId}
+    </update>
 
+    <delete id="delete">
+        DELETE FROM image_and_comment WHERE image_and_comment_id = #{imageAndCommentId}
+    </delete>
 
+    <select id="selectAll" parameterType="ImageAndCommentDTO" resultType="ImageAndCommentDTO">
+        SELECT * FROM image_and_comment WHERE category_id = #{categoryId} AND board_id = #{boardId}
+    </select>
 
-
-
-
-
+    <insert id="test">
+        INSERT INTO image_and_comment (caterogy_id, board_id, user_id, image_url)
+        VALUES (3, 10, #{userId}, #{imageUrl})
+    </insert>
 
 </mapper>
