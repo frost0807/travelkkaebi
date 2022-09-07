@@ -106,10 +106,10 @@ public class JoinMeController {
     //유저가 글을 삭제했을 때 삭제할 글의 joinMeId를 받아서 Service로 넘겨준다.
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> delete(
-            @RequestBody JoinMeDTO joinMeDTO,
+            @RequestParam int joinMeId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeService.delete(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.delete(joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

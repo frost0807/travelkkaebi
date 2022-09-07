@@ -1,0 +1,14 @@
+package com.bitcamp.travelkkaebi.dto;
+
+import com.bitcamp.travelkkaebi.model.MyTravelDTO;
+import com.bitcamp.travelkkaebi.model.MyTravelReplyDTO;
+
+import java.util.List;
+
+public class MyTravelResponseDTO extends MyTravelDTO {
+    private String nickname;
+    private String title;
+    private String content;
+
+    private List<MyTravelReplyDTO> myTravelReplyList;
+}

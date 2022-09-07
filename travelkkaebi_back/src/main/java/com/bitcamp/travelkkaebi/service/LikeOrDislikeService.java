@@ -5,9 +5,10 @@ import com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.LikeOrDislikeMapper;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,8 +16,9 @@ public class LikeOrDislikeService {
     private final LikeOrDislikeMapper likeOrDislikeMapper;
 
     //게시물 상세보기를 했을 때 좋아요, 싫어요의 체크상태 리턴해주는 메소드
-    public LikeOrDislikeResponseDTO selectOne(LikeOrDislikeDTO likeOrDislikeDTO, int userId) throws Exception {
-        likeOrDislikeDTO.setUserId(userId);
+    public LikeOrDislikeResponseDTO selectOne(int categoryId, int boardId, int userId) throws Exception {
+        //Id 3개를 DTO에 세팅
+        LikeOrDislikeDTO likeOrDislikeDTO = setLikeOrDislikeDTO(categoryId, boardId, userId);
         //로그인한 유저의 해당 게시물에 대한 좋-싫 테이블이 존재하는지 확인후 없으면 생성(게시물을 본적 있는지)
         LikeOrDislikeResponseDTO likeOrDislikeResponseDTO
                 = likeOrDislikeMapper.selectOneByDTO(likeOrDislikeDTO).orElse(null);
@@ -100,9 +102,17 @@ public class LikeOrDislikeService {
         }
     }
 
-//    public List<Integer> getBoardIdListMostLiked(int categoryId, int boardCount) {
-//        return likeOrDislikeMapper.getBoardIdListMostLiked(setCategoryIdAndBoardCountDTO(categoryId, boardCount));
-//    }
+    public List<Integer> getBoardIdListMostLiked(int categoryId, int boardCount) {
+        return likeOrDislikeMapper.getBoardIdListMostLiked(setCategoryIdAndBoardCountDTO(categoryId, boardCount));
+    }
+
+    public LikeOrDislikeDTO setLikeOrDislikeDTO(int categoryId, int boardId, int userId){
+        return LikeOrDislikeDTO.builder()
+                .categoryId(categoryId)
+                .boardId(boardId)
+                .userId(userId)
+                .build();
+    }
 
     public LikeOrDislikeResponseDTO setCounts(LikeOrDislikeResponseDTO likeOrDislikeResponseDTO) throws Exception {
         likeOrDislikeResponseDTO.setLikeCount(getLikeCount(likeOrDislikeResponseDTO));
@@ -111,10 +121,10 @@ public class LikeOrDislikeService {
         return likeOrDislikeResponseDTO;
     }
 
-//    public CategoryIdAndBoardCountDTO setCategoryIdAndBoardCountDTO(int categoryId, int boardCount) {
-//        return CategoryIdAndBoardCountDTO.builder()
-//                .categoryId(categoryId)
-//                .boardCount(boardCount)
-//                .build();
-//    }
+    public CategoryIdAndBoardCountDTO setCategoryIdAndBoardCountDTO(int categoryId, int boardCount) {
+        return CategoryIdAndBoardCountDTO.builder()
+                .categoryId(categoryId)
+                .boardCount(boardCount)
+                .build();
+    }
 }

@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class LikeOrDislikeController {
     private final LikeOrDislikeService likeOrDislikeService;
 
-    @PostMapping("/selectone")
+    @GetMapping("/selectone")
     public ResponseEntity<LikeOrDislikeResponseDTO> selectOne(
-            @RequestBody LikeOrDislikeDTO likeOrDislikeDTO,
+            @RequestParam int categoryId,
+            @RequestParam int boardId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(likeOrDislikeService.selectOne(likeOrDislikeDTO,
+            return new ResponseEntity<>(likeOrDislikeService.selectOne(categoryId, boardId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
