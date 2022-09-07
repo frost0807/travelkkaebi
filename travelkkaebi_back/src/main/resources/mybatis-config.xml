@@ -24,10 +24,15 @@
         <typeAlias type="com.bitcamp.travelkkaebi.model.EditorChoiceDTO" alias="EditorChoiceDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.model.MannerDegreeDTO" alias="MannerDegreeDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.model.ImageAndCommentDTO" alias="ImageAndCommentDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.MyTravelDTO" alias="MyTravelDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.MyTravelUserDTO" alias="MyTravelUserDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.model.MyTravelReplyDTO" alias="MyTravelReplyDTO"/>
 
         <typeAlias type="com.bitcamp.travelkkaebi.dto.UpdateMemberCountDTO" alias="UpdateMemberCountDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelReplyResponseDTO" alias="MyTravelReplyResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ListResponseDTO" alias="ListResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO" alias="PrimaryIdAndUserIdDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.CategoryIdAndBoardCountDTO" alias="CategoryIdAndBoardCountDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndWordDTO" alias="PageAndWordDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndUserIdDTO" alias="PageAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTO" alias="JoinMeListDTO"/>
@@ -37,5 +42,6 @@
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewResponseDTO" alias="ReviewResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewReplyResponseDTO" alias="ReviewReplyResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO" alias="EditorChoiceResponseDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.MannerDegreeResponseDTO" alias="MannerDegreeResponseDTO"/>
     </typeAliases>
 </configuration>
