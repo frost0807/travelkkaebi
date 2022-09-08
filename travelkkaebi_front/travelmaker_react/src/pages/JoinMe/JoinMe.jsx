@@ -59,9 +59,9 @@ function JoinMe() {
           }
         });
   };
-
+  
   let selectAllUrl = joinmeurl + "/selectallbypage";
-
+  
   useEffect(() => {
     const fetchPost = async () => {
       setCurrentPage();
@@ -77,13 +77,14 @@ function JoinMe() {
     };
     return () => fetchPost();
   }, [pageNo]);
-
+  
   //pagenation
   const pageNate = (pageNum) => pageNo(pageNum);
-
+  
   // modal
   const [isLoginModalOpen, setIsLoginModalOpen] =
     useRecoilState(isLoginModalState);
   const loginModal = () => {
     setIsLoginModalOpen(true);
-  };
+  }
+}

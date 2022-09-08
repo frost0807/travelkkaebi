@@ -17,16 +17,16 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/travelkkaebi/region/event")
+@RequestMapping("/region/event")
 @RequiredArgsConstructor
 public class RegionEventController {
 
-    private final int PAGE_SIZE = 4;
+    private final int PAGE_SIZE = 7;
     private final RegionEventService regionEventService;
     private final AwsS3service awsS3service;
 
     @GetMapping("/main")
-    public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> shoRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> show(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(regionEventService.findAll(pageable));
     }
 
