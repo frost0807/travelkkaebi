@@ -23,6 +23,8 @@ function CarouselHome() {
           <p>2022.07 ~ 2022.08</p>
         </Carousel.Caption>
       </Carousel.Item>
+
+
       <Carousel.Item>
         <img
           
@@ -36,6 +38,8 @@ function CarouselHome() {
           <p>2022.08 ~ 2022.09</p>
         </Carousel.Caption>
       </Carousel.Item>
+
+      
       <Carousel.Item>
         <img
           

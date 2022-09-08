@@ -21,12 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegionEventController {
 
-    private final int PAGE_SIZE = 4;
+    private final int PAGE_SIZE = 7;
     private final RegionEventService regionEventService;
     private final AwsS3service awsS3service;
 
     @GetMapping("/main")
     public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> shoRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+        System.out.println("Main 실행");
         return ResponseEntity.ok().body(regionEventService.findAll(pageable));
     }
 
@@ -35,6 +36,10 @@ public class RegionEventController {
             @AuthenticationPrincipal String userId,
             @RequestPart(value = "regionEventDTO") RegionEventDTO regionEventDTO,
             @RequestPart(value = "file", required = false) MultipartFile image) throws IOException {
+        System.out.println(userId);//token
+        System.out.println(regionEventDTO.getTitle());
+        System.out.println(regionEventDTO.getContent());
+        System.out.println(image.getOriginalFilename());
         return ResponseEntity.ok().body(regionEventService.write(Integer.parseInt(userId), regionEventDTO, awsS3service.upload(image, "static")));
     }
 

@@ -36,6 +36,7 @@ function Review() {
     })
     .then(res=>{
       setData(res.data);
+      console.log(res.data);
     })
   }
 
@@ -44,7 +45,6 @@ function Review() {
     )
     .then(response=>{
       setCount(response.data);
-      console.log("total : "+ response.data);
     })
   }
 
@@ -123,7 +123,7 @@ function Review() {
             */
             data && data.map((row, idx)=>(
               <tr>
-                <td key={row.revieId}>{row.reviewId}</td>
+                <td key={row.reviewId}>{row.reviewId}</td>
                 <td onClick={()=>{
                   navi(`/review/detail/${row.reviewId}`)
                 }} style={{ cursor:'pointer' }}>
