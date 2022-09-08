@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class JoinMeIdAndClosedDTO {
+public class JoinMeIdAndUserIdDTO {
     private int joinMeId;
-    private boolean closed;
+    private int userId;
 }

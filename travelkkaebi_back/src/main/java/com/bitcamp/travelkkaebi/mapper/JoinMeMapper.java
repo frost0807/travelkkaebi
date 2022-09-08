@@ -18,10 +18,11 @@ public interface JoinMeMapper {
     List<JoinMeListDTO> selectAllByPageAndTitle(PageAndWordDTO pageAndWordDTO);
     List<JoinMeListDTO> selectAllByPageAndNickname(PageAndWordDTO pageAndWordDTO);
     Optional<JoinMeOneDTO> selectOne(int joinMeId);
+    List<Integer> getAppliedUserList(int joinMeId);
     int insert(JoinMeDTO joinMeDTO);
     int update(JoinMeDTO joinMeDTO);
     int updateView(int joinMeId);
     int updateMemberCount(UpdateMemberCountDTO updateMemberCountDTO);
-    int updateClosed(JoinMeListDTO joinMeListDTO);
+    int updateClosed(JoinMeIdAndClosedDTO joinMeIdAndClosedDTO);
     int delete(JoinMeDTO joinMeDTO);
 }

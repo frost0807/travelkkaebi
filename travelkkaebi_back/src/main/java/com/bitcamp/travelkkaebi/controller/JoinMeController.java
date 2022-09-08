@@ -79,17 +79,16 @@ public class JoinMeController {
         }
     }
 
-
-    @GetMapping("/setclosed")
-    public ResponseEntity<Boolean> setClosed(@RequestParam int joinMeId,
-                                             @AuthenticationPrincipal String userId) {
-        try {
-            return new ResponseEntity<>(joinMeService.setClosed(joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+//    @GetMapping("/setclosed")
+//    public ResponseEntity<Boolean> setClosed(@RequestParam int joinMeId,
+//                                             @AuthenticationPrincipal String userId) {
+//        try {
+//            return new ResponseEntity<>(joinMeService.setClosed(joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e.getMessage());
+//        }
+//    }
 
     //유저가 글을 썼을 때 들어온 객체를 Service로 보내고 삽입된 객체 리턴
     @PostMapping("/insert")

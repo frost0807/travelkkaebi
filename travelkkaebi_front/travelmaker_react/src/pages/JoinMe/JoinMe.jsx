@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./JoinMe.css";
@@ -37,6 +38,10 @@ import styled from "styled-components";
     e.preventDefault();
     setSearchKeyword(e.target.value);
   };
+  //    let stringKwd = e.target.value.toLowerCase()
+  //    const filterdpost = posts.filter((post) => {
+  //      return post.name.toLowerCase().includes(searchKeyword.toLowerCase()) !== -1;
+  //    });
 
   const selectChange = (e) => {
     e.preventDefault();

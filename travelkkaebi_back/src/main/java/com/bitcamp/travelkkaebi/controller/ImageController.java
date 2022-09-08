@@ -17,6 +17,17 @@ import java.util.List;
 public class ImageController {
     private final ImageService imageService;
 
+    @PostMapping("/temporaryinsert")
+    public ResponseEntity<List<String>> temporaryInsert(
+            @RequestPart(value = "file") List<MultipartFile> multipartFileList) {
+        try {
+            return new ResponseEntity<>(imageService.temporaryInsert(multipartFileList), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     @GetMapping("/selectall")
     public ResponseEntity<List> selectAll(@RequestParam int categoryId,
                                           @RequestParam int boardId) {
@@ -30,16 +41,28 @@ public class ImageController {
 
     @PostMapping("/insert")
     public ResponseEntity<Boolean> insert(
-            @RequestPart(value = "file") List<MultipartFile> multipartFileList,
-            @RequestPart(value = "imageDTO") ImageDTO imageDTO,
+            @RequestBody List<ImageDTO> imageDTOList,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(imageService.insert(multipartFileList, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(imageService.insert(imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
+
+//    @PostMapping("/insert")
+//    public ResponseEntity<Boolean> insert(
+//            @RequestPart(value = "file") List<MultipartFile> multipartFileList,
+//            @RequestPart(value = "imageDTO") ImageDTO imageDTO,
+//            @AuthenticationPrincipal String userId) {
+//        try {
+//            return new ResponseEntity<>(imageService.insert(multipartFileList, imageDTO, Integer.parseInt(userId)), HttpStatus.OK);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e.getMessage());
+//        }
+//    }
 
     @PutMapping("/update")
     public ResponseEntity<Boolean> update(
