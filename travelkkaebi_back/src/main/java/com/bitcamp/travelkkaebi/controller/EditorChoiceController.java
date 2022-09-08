@@ -1,9 +1,7 @@
 package com.bitcamp.travelkkaebi.controller;
 
-import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.service.EditorChoiceService;
-import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +34,8 @@ public class EditorChoiceController {
     /**
      * 게시글 수정
      */
-    @PutMapping("/update")
+
+/*    @PutMapping("/update")
     private ResponseEntity update(@RequestBody EditorChoiceDTO editorChoiceDTO, @AuthenticationPrincipal String userId) {
         try {
             return new ResponseEntity(editorChoiceService.update(editorChoiceDTO,
@@ -45,7 +44,7 @@ public class EditorChoiceController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     /**
      * 게시글 삭제
@@ -80,16 +79,16 @@ public class EditorChoiceController {
     /**
      * 게시글 리스트 (신규)
      */
-    @GetMapping("/selectallnew")
-    private ResponseEntity selectAllNew() {
-        try {
-            return new ResponseEntity(editorChoiceService.selectAllNew(), HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    @GetMapping("/selectallnew")
+//    private ResponseEntity selectAllNew() {
+//        try {
+//            return new ResponseEntity(editorChoiceService.selectAllNew(), HttpStatus.OK);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     /**
      * 게시글 리스트 (추천)
@@ -112,32 +111,32 @@ public class EditorChoiceController {
     /**
      * 게시글 상세보기
      */
-    @GetMapping("/selectone")
-    private ResponseEntity selectOne(@RequestParam int editorChoiceId) {
-
-        try {
-            return new ResponseEntity(editorChoiceService.selectOne(editorChoiceId), HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    @GetMapping("/selectone")
+//    private ResponseEntity selectOne(@RequestParam int editorChoiceId) {
+//
+//        try {
+//            return new ResponseEntity(editorChoiceService.selectOne(editorChoiceId), HttpStatus.OK);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     /**
      * 게시물 갯수 반환
      */
-    @GetMapping("/count")
-    private ResponseEntity count() {
-
-        try {
-            return new ResponseEntity(editorChoiceService.count(), HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    @GetMapping("/count")
+//    private ResponseEntity count() {
+//
+//        try {
+//            return new ResponseEntity(editorChoiceService.count(), HttpStatus.OK);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     /**
      * 특정 제목으로 검색
