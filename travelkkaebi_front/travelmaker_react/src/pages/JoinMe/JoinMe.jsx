@@ -122,7 +122,6 @@ function JoinMe() {
             글쓰기
           </Button>
           {isLoginModalOpen && <Login />}
-
           <input
             type="text"
             placeholder="Search..."
