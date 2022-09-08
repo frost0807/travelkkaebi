@@ -68,6 +68,25 @@ public class JoinMeService {
         }
     }
 
+    //인원이 다 모였거나 기타사유로 글을 마감처리하고 MyTravel게시판으로 넘어가는 메소드
+    public boolean setClosed(int joinMeId, int userId) {
+        //게시물 가져오기
+        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId)
+                .orElseThrow(() -> new NullPointerException("게시물이 존재하지 않음"));
+        //게시물의 작성자가 현재 로그인한 사용자인지 확인
+        if(joinMeOneDTO.getUserId()==userId){
+            //게시물이 이미 마감되었는지 확인
+            if(joinMeOneDTO.isClosed()==false){
+                joinMeOneDTO.setClosed(true);
+                return true;
+            } else{
+                throw new RuntimeException("이미 마감된 게시물입니다.");
+            }
+        } else{
+            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+        }
+    }
+
     //게시물 삽입
     public JoinMeOneDTO insert(JoinMeDTO joinMeDTO, int userId) throws Exception {
         joinMeDTO.setUserId(userId);
