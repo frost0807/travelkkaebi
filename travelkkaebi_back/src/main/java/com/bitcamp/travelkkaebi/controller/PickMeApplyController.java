@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/travelkkaebi/pickme")
+@RequestMapping("/pickme")
 public class PickMeApplyController {
 
     private final PickMeApplyService pickMeApplyService;

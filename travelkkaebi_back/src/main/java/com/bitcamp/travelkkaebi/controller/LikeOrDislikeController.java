@@ -1,7 +1,6 @@
 package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO;
-import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,6 @@ public class LikeOrDislikeController {
             throw new RuntimeException(e.getMessage());
         }
     }
-
 
     @PutMapping("/clickdislike")
     public ResponseEntity<LikeOrDislikeResponseDTO> clickDislike(

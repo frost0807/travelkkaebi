@@ -34,7 +34,7 @@ public class AwsS3service {
     private String upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + System.currentTimeMillis() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
-        //removeNewFile(uploadFile);
+        removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
