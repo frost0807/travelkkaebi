@@ -14,6 +14,7 @@ import Paging from '../../components/Pagination/Paging';
 
 function Review() {
 
+  
   const [show, setShow] = useState(1);
   const [count, setCount] = useState(0);
 
@@ -137,29 +138,8 @@ function Review() {
         </table>
 
         {/* 페이징 */}
-        <div style={{ width:'700px', margin:'auto', backgroundColor:'skyblue' }}>
-          {/* <ul className='pagination'>
-          {
-            (currentPage > 1 ? <li>
-              <Link to={ `/review/${currentPage-1}` }>이전</Link></li>:'')
-          }  
-          {
-            data.parr && data.parr.map(n=>{
-              const url = '/review/' + n;
-              return (
-                <li>
-                  <Link to={url}>
-                    <b style={{ color: n == currentPage?'red':'black' }}>{n}</b>
-                  </Link>
-                </li>
-              )
-            })
-          }
-          {
-            (currentPage < 500? 
-            <li><Link to={ `/review/${currentPage+1}` }>다음</Link></li>:'')
-          }
-          </ul> */}
+        <div style={{ width:'700px', margin:'auto' }}>
+          {}
 
           <Paging count={count} />
           
