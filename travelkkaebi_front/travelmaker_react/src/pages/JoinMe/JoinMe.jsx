@@ -17,7 +17,6 @@ import styled from "styled-components";
 function JoinMe() {
   const navigate = useNavigate();
 
-  //  const query = queryString.parse(window.location.search);
   const { pageNo } = useParams();
 
   const [posts, setPosts] = useState([]);
@@ -60,10 +59,6 @@ function JoinMe() {
           }
         });
   };
-  //    let stringKwd = e.target.value.toLowerCase()
-  //    const filterdpost = posts.filter((post) => {
-  //      return post.name.toLowerCase().includes(searchKeyword.toLowerCase()) !== -1;
-  //    });
 
   let selectAllUrl = joinmeurl + "/selectallbypage";
 
@@ -127,7 +122,7 @@ function JoinMe() {
             글쓰기
           </Button>
           {isLoginModalOpen && <Login />}
-           <input
+          <input
             type="text"
             placeholder="Search..."
             name="SearchKeyword"
