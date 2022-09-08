@@ -4,6 +4,7 @@ import com.bitcamp.travelkkaebi.dto.RegionEventDTO;
 import com.bitcamp.travelkkaebi.entity.RegionalEventEntity;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
+import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.repository.RegionEventRepository;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,16 +12,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
 public class RegionEventService {
 
-    private final RegionEventRepository regionEventRepository;
-    private final UserRepository userRepository;
+    private final RegionEventRepository regionDB;
+    private final UserRepository userDB;
 
     /**
      * 글 작성 logic
@@ -30,7 +34,7 @@ public class RegionEventService {
         UserEntity findUser = validate(userId, regionEventDTO);
 
         regionEventDTO.setUserInfo(findUser.getId(), findUser.getNickname(), image);
-        RegionalEventEntity saveRegionEvent = regionEventRepository.save(RegionalEventEntity.toEntity(regionEventDTO));
+        RegionalEventEntity saveRegionEvent = regionDB.save(RegionalEventEntity.toEntity(regionEventDTO));
         regionEventDTO.setRegionId(saveRegionEvent.getId());
 
         return regionEventDTO;
@@ -40,15 +44,15 @@ public class RegionEventService {
      * 유효성 검사 logic
      */
     private UserEntity validate(int userId, RegionEventDTO regionEventDTO) {
-        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("does not exist"));
+        UserEntity findUser = userDB.findById(userId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_USER));
         if (regionEventDTO == null)
-            throw new RuntimeException("입력 정보가 없습니다.");
+            throw new KkaebiException(NO_INPUT_INFORMATION);
 
         if (findUser.getRole() != UserRole.EDITOR)
-            throw new RuntimeException("not an editor");
+            throw new KkaebiException(DOES_NOT_EDIT_USER);
 
         if (findUser.getId() != userId)
-            throw new RuntimeException("회원정보가 일치하지 앖습니다.");
+            throw new KkaebiException(DOES_NOT_MATCH_USER);
         return findUser;
     }
 
@@ -59,7 +63,7 @@ public class RegionEventService {
     public void edit(int userId, RegionEventDTO regionEventDTO, String image) {
         validate(userId, regionEventDTO);
 
-        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionEventDTO.getRegionId()).orElseThrow(() -> new RuntimeException("edit exception"));
+        RegionalEventEntity findRegionEvent = regionDB.findById(regionEventDTO.getRegionId()).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
 
         regionEventDTO.setPosterImageUrl(image);
         findRegionEvent.change(regionEventDTO);
@@ -70,17 +74,17 @@ public class RegionEventService {
      */
     @Transactional
     public void delete(int userId, int regionBoardId) {
-        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("does not exist"));
+        UserEntity findUser = userDB.findById(userId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_USER));
         if (findUser.getRole() != UserRole.EDITOR)
-            throw new RuntimeException("not an editor");
-        regionEventRepository.deleteById(regionBoardId);
+            throw  new KkaebiException(EDIT_EXCEPTION);
+        regionDB.deleteById(regionBoardId);
     }
 
     /**
      * 지역축제 상세보기 logic
      */
     public RegionEventDTO showRegionEvent(int regionBoardId) {
-        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionBoardId).orElseThrow(() -> new RuntimeException("edit exception"));
+        RegionalEventEntity findRegionEvent = regionDB.findById(regionBoardId).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
         return RegionEventDTO.toDto(findRegionEvent);
     }
 
@@ -89,18 +93,32 @@ public class RegionEventService {
      */
     @Transactional
     public void updateView(int regionBoardId) {
-        RegionalEventEntity findRegionEvent = regionEventRepository.findById(regionBoardId).orElseThrow(() -> new RuntimeException("edit exception"));
+        RegionalEventEntity findRegionEvent = regionDB.findById(regionBoardId).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
         findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
     }
 
     /**
-     * 게시물 전체, 최신순 게시물 4개씩 pagination
+     * 최신순 게시물 3개, 4개 return
      */
     public HashMap<Integer, List<RegionEventDTO>> findAll(Pageable pageable) {
         HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
-        regionList.put(1, regionEventRepository.findAll().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
-        regionList.put(2, regionEventRepository.findByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+        List<RegionEventDTO> regionLists = regionDB.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList());
+        List<RegionEventDTO> firstRegionEvent = new ArrayList<>();
+        List<RegionEventDTO> secondRegionEvent = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            firstRegionEvent.add(regionLists.get(i));
+        }
+        for (int i = 3; i < 7; i++) {
+            secondRegionEvent.add(regionLists.get(i));
+        }
+        regionList.put(1, firstRegionEvent);
+        regionList.put(2, secondRegionEvent);
         return regionList;
     }
 
+
+//    HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
+//        regionList.put(1, regionEventRepository.findAll().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+//        regionList.put(2, regionEventRepository.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+//        return regionList;
 }

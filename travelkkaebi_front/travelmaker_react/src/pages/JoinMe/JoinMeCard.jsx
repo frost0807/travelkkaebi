@@ -26,9 +26,9 @@ function JoinMeCard(props) {
   const openJoinMeDetail = () => {
     setShowJoinMeDetail(true);
   };
-  function close() {
-    setShowJoinMeDetail(false);
-  }
+  const close = () => {
+    setShowJoinMeDetail(!showJoinMeDetail);
+  };
 
   return (
     <>
@@ -91,12 +91,9 @@ function JoinMeCard(props) {
           {showJoinMeDetail ? (
             <JoinMeDetail
               joinMeId={post.joinMeId}
-              isLoggedIn={props.isLoggedIn}
               showJoinMeDetail={showJoinMeDetail}
-              setShowJoinMeDetail={setShowJoinMeDetail}
               close={close}
               profile_img={profile_img}
-              likeCount={post.likeCount}
             />
           ) : null}
         </div>

@@ -4,6 +4,7 @@ import com.bitcamp.travelkkaebi.dto.LogInDTO;
 import com.bitcamp.travelkkaebi.dto.UserDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
+import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import com.bitcamp.travelkkaebi.security.TokenProvider;
 import com.google.gson.JsonElement;
@@ -20,11 +21,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.ALREADY_EXIST_USERNAME;
+
 @Service
 @RequiredArgsConstructor
 public class KaKaoService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userDB;
     private final TokenProvider tokenProvider;
 
     private final String GRANT_TYPE = "authorization_code";
@@ -52,15 +55,15 @@ public class KaKaoService {
         String profileImage = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
         String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 
-        if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("이미 존재하는 이메일입니다.");
+        if (userDB.existsByEmail(email)) {
+            throw new KkaebiException(ALREADY_EXIST_USERNAME);
         }
 
         UserDTO userDTO = new UserDTO(email, profileImage, nickname);
         UserEntity kaKaoLoginUser = UserDTO.kaKaoInfoToUserEntity(userDTO);
 
         // travelkkaebi db에 save
-        userRepository.save(kaKaoLoginUser);
+        userDB.save(kaKaoLoginUser);
         // token 생성
         String token = tokenProvider.create(kaKaoLoginUser);
 

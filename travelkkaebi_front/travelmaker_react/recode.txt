@@ -99,3 +99,9 @@
 
 * 0831
  - 신청 / 채택하기 -> Mypage에 page로 구현 ( transfer list )
+
+
+ joinme 마무리 할 것들
+ search 마무리
+ 이미지
+ 닫기 창 오류 

@@ -4,6 +4,9 @@ import axios from 'axios';
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Button, IconButton } from "@mui/material";
+import Logo from ".//basicLogo.png";
+import { PhotoCamera } from "@mui/icons-material";
 import React, { useMemo, useRef, useState } from "react";
 import { API_BASE_URL } from '../../config';
 import { useForm } from "react-hook-form";
@@ -13,6 +16,20 @@ const RegionEventCreateForm = () => {
   const [photo, setPhoto] = useState('');
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
+
+
+  const imageUpload = (e) => {
+    e.preventDefault();
+    if (e.target.files[0]) {
+      // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
+      URL.revokeObjectURL(profile.preview_URL);
+      const preview_URL = URL.createObjectURL(e.target.files[0]);
+      setProfile(() => ({
+        image_file: e.target.files[0],
+        preview_URL: preview_URL,
+      }));
+    }
+  };
 
   // loginStatus 추후에 맞춰서 변경
   const navi = useNavigate();
@@ -36,36 +53,6 @@ const RegionEventCreateForm = () => {
       navi("/login");
     }
   }
-
-  // 이미지 업로드 이벤트
-  // const imageUpload=(e)=>{
-  //   const uploadFile = e.target.files[0];
-  //   const imageFile = new FormData();
-  //   imageFile.append("uploadFile", uploadFile);
-
-  //   axios({
-  //     method:'post',
-  //     url:API_BASE_URL,
-  //     data:imageFile,
-  //     headers:{'Content-Type':'multipart/form-data'}
-  //   }).then(res=>{
-  //     setPhoto(res.data);
-  //   })
-  
-  //   }
-
-    // 시작시 호출되는 함수
-    // const posting=()=>{
-    //   axios.post(API_BASE_URL+"/review/write",
-    //   {params : {
-    //     pageNo : currentPage }
-    //   })
-    //   .then(res=>{
-    //     setData(res.data);
-    //   })
-    // }
-
-  // submit 이벤트
   
   let reviewId =1;
   let categoryId =1;
@@ -77,22 +64,27 @@ const RegionEventCreateForm = () => {
   let updateTime="2022.06.06";
 
 
+  // profile 이미지 상태
+  const [profile, setProfile] = useState({
+    image_file: "",
+    preview_URL: Logo,
+  });
+  let inputRef;
+
   const onSubmit= async (data)=>{
-    // const headerConfig = {
-    //   Headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
+    const headerConfig = {
+      Headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
     // data.preventDefault();
+    console.log(data);
     
     const formData = new FormData();
+    console.log(formData);
     const regionEventDTO = JSON.stringify(data);
     // regionEventDTO.id =1;
-    // regionEventDTO.categoryId=4;
-    // regionEventDTO.userId='tempUserId';
-    // regionEventDTO.nickname='tempNickname';
-    
-    // regionEventDTO.view=1;
+    formData.append("file", profile.image_file);
     formData.append(
       "regionEventDTO",
       new Blob([regionEventDTO], { type: "application/json" })
@@ -104,7 +96,7 @@ const RegionEventCreateForm = () => {
       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     };
     await axios
-    .post(API_BASE_URL + "/travelkkaebi/region/event/write", formData)
+    .post(API_BASE_URL + "/travelkkaebi/region/event/write", formData, headerConfig)
     .then((res) => {
       console.log(res.data);
       alert("👹지역축제 작성이 완료되었습니다.");
@@ -179,15 +171,50 @@ const RegionEventCreateForm = () => {
                 </colgroup>
 
                 <tbody>
-
-                
-
                   
-
-                  
-
                   <tr>
                     <th scope="row">
+                      <label htmlFor="photo" className="req">
+                        👹사진 첨부 부분
+                      </label>
+                    </th>
+
+
+                    <div className="profileimg">
+              <img
+                alt="basicimg"
+                src={profile.preview_URL}
+                className="user_profile"
+              />
+            </div>
+            <div className="photo_icon">
+              <input
+                type="file"
+                accept="image/*"
+                name="profile_img_url"
+                hidden
+                style={{ display: "none" }}
+                onChange={imageUpload}
+                ref={(refParam) => (inputRef = refParam)}
+                onClick={(e) => (e.target.value = null)}
+              />
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                onClick={() => inputRef.click()}
+              >
+                <PhotoCamera />
+              </IconButton>
+            </div>
+            <br />
+
+
+
+                  </tr>
+                  <tr>
+                    <th scope="row">
+
+
                       <label htmlFor="title" className="req">
                         🔸제목
                       </label>
@@ -266,7 +293,7 @@ const RegionEventCreateForm = () => {
               <input
                 type="submit"
                 disabled={isSubmitting}
-                value="가입하기"
+                value="글 작성"
                 id="btn_submit"
                 className="btn_submit"
                 accessKey="s"

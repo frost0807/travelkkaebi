@@ -56,7 +56,10 @@ function Main() {
 
         {/* RegionEvent Page */}
         <Route path="/regionevent" element={<RegionEvent />} />
-        <Route path="/regionevent/createform" element={<RegionEventCreateForm />} />
+        <Route
+          path="/regionevent/createform"
+          element={<RegionEventCreateForm />}
+        />
 
         {/* test용 페이지*/}
         <Route path="/testpage" element={<TestPage />} />
@@ -79,17 +82,7 @@ function Main() {
 }
 
 function App() {
-  return (
-    <Main />
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<JoinMe />} />
-    //     <Route path="/login" element={<Login />} />
-    //     <Route path="/joinmedetail/:joinid" element={<JoinMeDetail />} />
-    //     <Route path="/joinmeform" element={<JoinMeForm />} />
-    //   </Routes>
-    // </BrowserRouter>
-  );
+  return <Main />;
 }
 
 export default App;

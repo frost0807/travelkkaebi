@@ -1,19 +1,25 @@
 package com.bitcamp.travelkkaebi.service;
 
-import com.bitcamp.travelkkaebi.dto.*;
+import com.bitcamp.travelkkaebi.dto.DeleteUserDTO;
+import com.bitcamp.travelkkaebi.dto.LogInDTO;
+import com.bitcamp.travelkkaebi.dto.UserDTO;
+import com.bitcamp.travelkkaebi.dto.UserUpdateDTO;
 import com.bitcamp.travelkkaebi.encode.Password;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
+import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import com.bitcamp.travelkkaebi.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userDB;
     private final TokenProvider tokenProvider;
 
     /**
@@ -28,34 +34,35 @@ public class UserService {
         UserEntity userEntity = UserDTO.toUserEntity(userDTO);
         userEntity.setProfileImageUrl(uploadImageUrl);
 
-        userRepository.save(userEntity);
+        userDB.save(userEntity);
     }
 
     /**
      * username, email, nickname 중복체크 logic 존재 -> true, 존재x -> false
      */
     public boolean usernameCheck(String username) {
-        return userRepository.existsByUsername(username);
+        return userDB.existsByUsername(username);
     }
 
     private boolean emailCheck(String email) {
-        return userRepository.existsByEmail(email);
+        return userDB.existsByEmail(email);
     }
 
     public boolean nicknameCheck(String nickname) {
-        return userRepository.existsByNickname(nickname);
+        return userDB.existsByNickname(nickname);
     }
 
     private void validate(String username, String email) {
         if (usernameCheck(username) || emailCheck(email))
-            throw new RuntimeException("already exist username...");
+            throw new KkaebiException(ALREADY_EXIST_USERNAME);
     }
 
     /**
      * 로그인 logic
      */
     public LogInDTO auth(String username, String password) {
-        UserEntity findUser = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("does not exist"));
+        UserEntity findUser = userDB.findByUsername(username)
+                .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_USER));
         //password 일치 check
         if (Password.passwordMatch(password, findUser.getPassword())) {
             // create token
@@ -71,7 +78,7 @@ public class UserService {
      */
     @Transactional
     public void update(int userId, UserUpdateDTO userUpdateDTO, String uploadImageUrl) {
-        UserEntity findUser = userRepository.findById(userUpdateDTO.getUserid()).orElseThrow(() -> new RuntimeException("update exception"));
+        UserEntity findUser = userDB.findById(userUpdateDTO.getUserid()).orElseThrow(() -> new KkaebiException(USER_UPDATE_EXCEPTION));
         validateUserId(userId, findUser);
 
         userUpdateDTO.setProfileImageUrl(uploadImageUrl);
@@ -84,18 +91,18 @@ public class UserService {
      */
     @Transactional
     public void delete(int userId, DeleteUserDTO deleteUserDTO) {
-        UserEntity deleteUser = userRepository.findById(deleteUserDTO.getUserid()).orElseThrow(() -> new RuntimeException("delete exception"));
+        UserEntity deleteUser = userDB.findById(deleteUserDTO.getUserid()).orElseThrow(() -> new KkaebiException(USER_DELETE_EXCEPTION));
         validateUserId(userId, deleteUser);
 
         if (!Password.passwordMatch(deleteUserDTO.getPassword(), deleteUser.getPassword()))
-            throw new RuntimeException("비밀번호가 일치하지않씁니다");
+            throw new KkaebiException(DOES_NOT_MATCH_PASSWORD);
 
-        userRepository.delete(deleteUser);
+        userDB.delete(deleteUser);
     }
 
     private void validateUserId(int userId, UserEntity findUser) {
         if (userId != findUser.getId())
-            throw new RuntimeException("회원정보가 일치하지 않습니다");
+            throw new KkaebiException(DOES_NOT_EXIST_USER);
     }
 
 }
