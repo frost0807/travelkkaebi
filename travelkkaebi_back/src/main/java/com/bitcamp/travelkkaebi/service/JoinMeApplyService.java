@@ -23,12 +23,17 @@ public class JoinMeApplyService {
         //해당 신청서의 게시물 가져오기
         JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeApplyDTO.getJoinMeId())
                 .orElseThrow(() -> new NullPointerException("게시물이 존재하지 않음"));
-        //게시물의 신청가능 인원이 가득 찼는지 검사
-        if (joinMeOneDTO.getCapacity() > joinMeOneDTO.getCurrentMemberCount()) {
-            return joinMeApplyMapper.insert(joinMeApplyDTO) == 1 ? true : false;
+        //게시물의 신청가능 인원이 가득 찼는지 검사 && 마감된 글인지 검사
+        if (joinMeOneDTO.isClosed() == false) {
+            if (joinMeOneDTO.getCapacity() > joinMeOneDTO.getCurrentMemberCount()) {
+                return joinMeApplyMapper.insert(joinMeApplyDTO) == 1 ? true : false;
+            } else {
+                throw new RuntimeException("신청가능인원이 가득참");
+            }
         } else {
-            throw new RuntimeException("신청가능인원이 가득참");
+            throw new RuntimeException("이미 마감된 글");
         }
+
     }
 
     //로그인한 유저가 신청한 신청서들
@@ -54,7 +59,7 @@ public class JoinMeApplyService {
     //신청서 채택하는 메소드
     @Transactional
     public boolean setSelectedTrue(int joinMeApplyId, int userId) throws Exception {
-        int isMemberUpdated=0;
+        int isMemberUpdated = 0;
         //로그인한유저의 게시물인지 판별하고 joinMeId 리턴
         int joinMeId = joinMeApplyMapper.checkValidUserAndGetJoinMeId(setJoinMeIdAndUserIdDTO(userId, joinMeApplyId))
                 .orElseThrow(() -> new NullPointerException("신청서의 대상이 로그인한 유저가 아니거나 게시물이 존재하지 않음"));
@@ -82,7 +87,7 @@ public class JoinMeApplyService {
     }
 
     //joinMeApplyId와 userId를 객체에 세팅해주는 매소드
-    private PrimaryIdAndUserIdDTO setJoinMeIdAndUserIdDTO(int userId, int joinMeApplyId){
+    private PrimaryIdAndUserIdDTO setJoinMeIdAndUserIdDTO(int userId, int joinMeApplyId) {
         return PrimaryIdAndUserIdDTO.builder()
                 .primaryId(joinMeApplyId)
                 .userId(userId)
