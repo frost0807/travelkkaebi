@@ -116,4 +116,9 @@ public class RegionEventService {
         return regionList;
     }
 
+
+//    HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
+//        regionList.put(1, regionEventRepository.findAll().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+//        regionList.put(2, regionEventRepository.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+//        return regionList;
 }

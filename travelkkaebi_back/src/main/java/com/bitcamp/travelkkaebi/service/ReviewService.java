@@ -1,10 +1,14 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
+import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
@@ -14,8 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewMapper reviewMapper;
+    private final AwsS3service awsS3service;
 
-    private final int PAGE_SIZE = 10;
+    private final int PAGE_SIZE = 20;
 
     /**
      * 게시글 등록
@@ -23,16 +28,28 @@ public class ReviewService {
      * @param userId
      * @return writtenReviewId
      */
-    public ReviewResponseDTO writeReview(ReviewDTO reviewDTO, int userId) throws Exception {
+    public boolean writeReview(ReviewDTO reviewDTO, MultipartFile image, int userId) throws Exception {
+
+        // 로그인 한 유저의 식별자 set
         reviewDTO.setUserId(userId);
 
-        if(reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
-            // userGenerateKeys에 의해 생성된 Id값으로 selectOne 해서 리턴
-            return reviewMapper.selectOne(reviewDTO.getReviewId())
-                    .orElseThrow(() -> new NullPointerException("입력한 게시물이 존재하지 않습니다."));
-        } else { // insert 실패 시
-            throw new RuntimeException("게시물이 등록되지 않았습니다.");
+        if (image != null) {
+            reviewDTO.setReviewImgUrl(awsS3service.upload(image, "static"));
+
+            if (reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
+                return true;
+            } else { // insert 실패 시
+                throw new RuntimeException("게시물이 등록되지 않았습니다.");
+            }
+        } else {
+            reviewDTO.setReviewImgUrl(" ");
+            if(reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
+                return true;
+            } else { // insert 실패 시
+                throw new RuntimeException("게시물이 등록되지 않았습니다.");
+            }
         }
+
     }
 
     /**
@@ -47,7 +64,9 @@ public class ReviewService {
         // 로그인 한 유저가 글의 작성자인지 확인
         if (userId == review.getUserId()) {
             if (reviewMapper.update(review) != 0) {
-                return selectOne(review.getReviewId());
+                return reviewMapper.selectOne(review.getReviewId())
+                        .orElseThrow(()-> new NullPointerException("해당 게시물이 존재하지 않습니다."));
+
             } else {
                 throw new RuntimeException("게시물 수정 실패");
             }
@@ -95,7 +114,6 @@ public class ReviewService {
      * @param reviewId
      * @return review
      */
-
     public ReviewResponseDTO selectOne(int reviewId) throws Exception {
         // 조회수 +1 시켜주는 코드
         if(reviewMapper.viewPlus(reviewId) != 0)  {
@@ -126,65 +144,71 @@ public class ReviewService {
         }
     }
 
-
     /**
      * 특정 제목으로 검색
-     * @param title
+     * @param word (= title)
      * @return titleList
      * @throws Exception
      */
-    public List<ReviewResponseDTO> searchByTitle(String title, int pageNo) throws Exception {
-        if (title != null) {
-            return reviewMapper.searchByTitle(title);
-        } else {
-            return null;
-        }
+    public ListResponseDTO searchByTitle(String word, int pageNo) throws Exception {
+        List<ReviewResponseDTO> list = reviewMapper.searchByTitle(setPageAndWord(pageNo, word));
+        return setListResponse(reviewMapper.countByTitle(word), list);
     }
 
     /**
      * 특정 내용으로 검색
-     * @param content
+     * @param word (= content)
      * @return contentList
      * @throws Exception
      */
-    public List<ReviewResponseDTO> searchByContent(String content) throws Exception {
-
-        if (content != null) {
-            return reviewMapper.searchByContent(content);
-        } else {
-            return null;
-        }
+    public ListResponseDTO searchByContent(String word, int pageNo) throws Exception {
+        List<ReviewResponseDTO> list = reviewMapper.searchByContent(setPageAndWord(pageNo, word));
+        return setListResponse(reviewMapper.countByContent(word), list);
     }
 
     /**
      * 특정 작성자로 검색
-     * @param writer
+     * @param word (= writer)
      * @return writerList
      * @throws Exception
      */
 
-    public List<ReviewResponseDTO> searchByWriter(String writer) throws Exception {
-
-        if(writer != null) {
-            return reviewMapper.searchByWriter(writer);
-        } else {
-            return null;
-        }
+    public ListResponseDTO searchByWriter(String word, int pageNo) throws Exception {
+        List<ReviewResponseDTO> list = reviewMapper.searchByWriter(setPageAndWord(pageNo, word));
+        return setListResponse(reviewMapper.countByWriter(word), list);
     }
 
     /**
      * (지역) 키워드로 검색
-     * @param region
+     * @param word (= region)
      * @return
      * @throws Exception
      */
 
-    public List<ReviewResponseDTO> keywordByRegion(String region) throws Exception {
-
-        if(region != null) {
-            return reviewMapper.keywordByRegion(region);
-        } else {
-            return null;
-        }
+    public ListResponseDTO keywordByRegion(String word, int pageNo) throws Exception {
+        List<ReviewResponseDTO> list = reviewMapper.keywordByRegion(setPageAndWord(pageNo, word));
+        return setListResponse(reviewMapper.countByRegion(word), list);
     }
+
+    /**
+     * 페이지 번호 및 키워드 세팅
+     */
+    public PageAndWordDTO setPageAndWord(int pageNo, String word) {
+        return PageAndWordDTO.builder()
+                .startNum((pageNo - 1) * PAGE_SIZE)
+                .pageSize(PAGE_SIZE)
+                .word(word)
+                .build();
+    }
+
+    /**
+     * 검색 및 키워드 게시물 리스트와 총 페이지수 세팅
+     */
+    public ListResponseDTO setListResponse(int totalPageCount, List<ReviewResponseDTO> list) {
+        return ListResponseDTO.builder()
+                .totalBoardCount(totalPageCount)
+                .list(list)
+                .build();
+    }
+
 }

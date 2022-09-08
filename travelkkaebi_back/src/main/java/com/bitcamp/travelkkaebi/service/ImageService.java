@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -54,5 +55,12 @@ public class ImageService {
             successCount += imageMapper.delete(imageDTO);
         }
         return (successCount == imageIdList.size());
+    }
+    public List<String> temporaryInsert(List<MultipartFile> imageList) throws Exception {
+        List<String> resultImageUrlList = new ArrayList<>();
+        for (MultipartFile image : imageList) {
+            resultImageUrlList.add(awsS3service.upload(image, "static"));
+        }
+        return resultImageUrlList;
     }
 }

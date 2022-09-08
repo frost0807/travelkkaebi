@@ -26,64 +26,25 @@ import {
   getToken,
   getUsername,
   getUserNickname,
-  headerConfig,
-  headerImg_tk,
   is_logged,
 } from "../../util";
-import { AllInbox, PostAddSharp } from "@mui/icons-material";
 
 const CATEGORY_ID = 1;
 
 function JoinMeDetail(props) {
   const [post, setPost] = useState([]);
-  const {
-    showJoinMeDetail,
-    close,
-    joinMeId,
-    profile_img,
-    likeCount,
-    setShowJoinMeDetail,
-  } = props;
-  const [likeState, setLikeState] = useState(likeCount);
+  const { showJoinMeDetail, close, joinMeId, profile_img } = props;
+  const [likeState, setLikeState] = useState();
   const [like, setLike] = useState(false);
   const [likeordislikeid, setLikeordislikeid] = useState(0);
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // const getJoinMeList = () => {
-  //   const reslist = axios.get(joinmeurl + "/selectone", {
-  //     params: { joinMeId: joinMeId },
-  //   });
-  //   console.log("resList : ", reslist);
-  //   setPost(reslist.data);
-  // };
-
-  // const postLikeState = () => {
-  //   const reslike = (axios.defaults.headers = {
-  //     "Content-Type": "application/json; charset = utf-8",
-  //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-  //   });
-  //   axios.post(likedislike + "/selectone", {
-  //     data: {
-  //       boardId: joinMeId,
-  //       categoryId: CATEGORY_ID,
-  //     },
-  //   });
-  //   if (reslike.data.liked === "true") {
-  //     setLike(true);
-  //     console.log("like : ", like);
-  //     setLikeordislike_id(reslike.data.likeOrDislikeId);
-  //     console.log("likeordisliked : ", likeordislike_id);
-  //   }
-  // };gx
-
   useEffect(() => {
     const fetchAPI = async () => {
       axios
-        .get(joinmeurl + "/selectone", {
-          params: { joinMeId: joinMeId },
-        })
+        .get(joinmeurl + "/selectone", { params: { joinMeId: joinMeId } })
         .then((reslist) => {
           console.log("resList : ", reslist);
           setPost(reslist.data);
@@ -111,7 +72,8 @@ function JoinMeDetail(props) {
             .then((reslike) => {
               console.log("reslike : ", reslike);
               setLikeordislikeid(reslike.data.likeOrDislikeId);
-              if (reslike.data.liked === "true") {
+              setLikeState(reslike.data.likeCount);
+              if (reslike.data.liked === true) {
                 setLike(true);
                 console.log("like? : ", like);
               }
@@ -130,11 +92,9 @@ function JoinMeDetail(props) {
             });
         });
     };
-    return () => {
-      fetchAPI();
-      console.log("likeordislikeid", likeordislikeid);
-    };
-  }, []);
+
+    return () => fetchAPI();
+  }, [setLike]);
 
   // 신청하기
   // http 200 뜸 -> DB엔 안 들어감
@@ -203,6 +163,7 @@ function JoinMeDetail(props) {
       alert("작성자가 아닙니다.");
       return;
     } else if (post.nickname === getUserNickname) {
+      alert("정말 삭제하시겠습니까 ? ");
       axios
         .delete(joinmeurl + "/delete?joinMeId=" + joinMeId, bearerToken)
         .then((res) => {
@@ -237,7 +198,7 @@ function JoinMeDetail(props) {
       .then((res) => {
         console.log("resdata", res);
         setLike(!like);
-        setLikeState(likeCount);
+        setLikeState(res.data.likeCount);
       });
   };
 
@@ -247,7 +208,7 @@ function JoinMeDetail(props) {
         <Background>
           <DImmedd> </DImmedd>
           <ModalContainer>
-            <Closebtn onClick={close} />
+            <Closebtn onClick={() => close} />
             <div className="jd-container">
               <DetailHeader>
                 <header>JOIN ME</header>
@@ -319,10 +280,14 @@ function JoinMeDetail(props) {
                   <div>
                     <TextField label="코멘트" id="comment" name="comment" />
                     <FooterButton type="submit">신청하기</FooterButton>
-                    <div>
-                      <Button onClick={upDateHandler}>수정하기</Button>
-                      <Button onClick={deleteHandler}>삭제하기</Button>
-                    </div>
+                    {post.nickname === getUserNickname ? (
+                      <div
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                      >
+                        <Button onClick={upDateHandler}>수정하기</Button>
+                        <Button onClick={deleteHandler}>삭제하기</Button>
+                      </div>
+                    ) : null}
                   </div>
                 </Box>
               </JDFooter>

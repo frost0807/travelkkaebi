@@ -19,7 +19,7 @@ public class ImageAndCommentService {
     /**
      * 사진 및 코멘트 업로드
      * @param imageList
-     * @param commentList
+     * @param imageAndCommentDTO
      * @param userId
      * @return
      * @throws Exception
