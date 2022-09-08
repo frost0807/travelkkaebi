@@ -4,17 +4,17 @@
 
     <select id="selectAllByPage" parameterType="hashMap" resultType="ReviewResponseDTO">
         SELECT * FROM board_review JOIN user on board_review.user_id = user.user_id
-                 ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
+        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
     <select id="selectOne" parameterType="int" resultType="ReviewResponseDTO">
         SELECT * FROM board_review JOIN user On board_review.user_id = user.user_id
-            WHERE review_id = #{reviewId}
+        WHERE review_id = #{reviewId}
     </select>
 
     <insert id="insert" parameterType="ReviewDTO" useGeneratedKeys="true" keyProperty="reviewId">
-        INSERT INTO board_review (user_id, title, content, region)
-        VALUES ( #{userId}, #{title}, #{content}, #{region})
+        INSERT INTO board_review (category_id, user_id, title, content, region, review_img_url)
+        VALUES (5, #{userId}, #{title}, #{content}, #{region}, #{reviewImgUrl})
     </insert>
 
     <update id="update" parameterType="ReviewDTO" useGeneratedKeys="true" keyProperty="reviewId">
@@ -35,47 +35,48 @@
     </select>
 
     <select id="searchByTitle" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review WHERE title LIKE CONCAT('%', #{title}, '%')
+        SELECT * FROM board_review
+        JOIN user On board_review.user_id = user.user_id
+        WHERE title LIKE CONCAT('%', #{word}, '%')
+        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
-    <select id="countByTitle" parameterType="String" resultType="ReviewResponseDTO">
-        SELECT COUNT(*) FROM board_review WHERE title LIKE CONCAT('%', #{title}, '%')
+    <select id="countByTitle" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_review WHERE title LIKE CONCAT('%', #{word}, '%')
     </select>
 
     <select id="searchByContent" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review WHERE content LIKE  CONCAT('%',#{content},'%')
+        SELECT * FROM board_review
+        JOIN user On board_review.user_id = user.user_id
+        WHERE content LIKE CONCAT('%',#{word},'%')
+        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
-    <select id="countByContent" parameterType="String" resultType="ReviewResponseDTO">
-        SELECT COUNT(*) FROM board_review WHERE content LIKE  CONCAT('%',#{content},'%')
+    <select id="countByContent" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_review WHERE content LIKE  CONCAT('%',#{word},'%')
     </select>
 
     <select id="searchByWriter" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review JOIN user On board_review.user_id = user.user_id
-                 WHERE nickname LIKE CONCAT('%',#{writer},'%')
+        SELECT * FROM board_review
+        JOIN user On board_review.user_id = user.user_id
+        WHERE nickname LIKE CONCAT('%',#{word},'%')
+        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
-    <select id="countByWriter" parameterType="String" resultType="ReviewResponseDTO">
-        SELECT COUNT(*) FROM board_review JOIN user On board_review.user_id = user.user_id
-                 WHERE nickname LIKE CONCAT('%',#{writer},'%')
+    <select id="countByWriter" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_review
+        WHERE nickname LIKE CONCAT('%',#{word},'%')
     </select>
 
     <select id="keywordByRegion" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review WHERE region = #{region}
+        SELECT * FROM board_review
+        JOIN user On board_review.user_id = user.user_id
+        WHERE region = #{word}
+        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
-    <select id="countByRegion" parameterType="String" resultType="ReviewResponseDTO">
-        SELECT COUNT(*) FROM board_review WHERE region = #{region}
+    <select id="countByRegion" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_review WHERE region = #{word}
     </select>
-
-
-
-
-
-
-
-
-
-
 
 </mapper>

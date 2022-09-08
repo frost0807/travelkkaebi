@@ -12,7 +12,7 @@ import java.util.Optional;
 @Mapper
 public interface EditorChoiceMapper {
 
-    List<EditorChoiceResponseDTO> selectAllByPage(PageAndWordDTO pageAndWordDTO);
+    List<EditorChoiceResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
 
     Optional<EditorChoiceResponseDTO> selectOne (int editorChoiceId);
 
@@ -35,6 +35,14 @@ public interface EditorChoiceMapper {
     List<EditorChoiceResponseDTO> searchByWriter(PageAndWordDTO pageAndWordDTO);
 
     List<EditorChoiceResponseDTO> keywordByRegion(PageAndWordDTO pageAndWordDTO);
+
+    int countByTitle(String word);
+
+    int countByContent(String word);
+
+    int countByWriter(String word);
+
+    int countByRegion(String word);
 
     List<EditorChoiceResponseDTO> selectAllNew();
 }

@@ -112,17 +112,4 @@ public class ImageAndCommentController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
