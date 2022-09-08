@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,14 +18,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PickMeService {
 
-    private final PickMeRepository pickMeRepository;
-    private final UserRepository userRepository;
+    private final PickMeRepository pickMeDB;
+    private final UserRepository userDB;
 
     /**
-     * entity -> dto 반환후 page 20개씩 return logic
+     * entity -> dto 반환후 total 게시글 수와 page 20개씩 return logic
      */
-    public List<PickMeDTO> findAll(Pageable pageable) {
-        return pickMeRepository.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList());
+    public HashMap<Integer, List<PickMeDTO>> findAll(Pageable pageable) {
+        HashMap<Integer, List<PickMeDTO>> pickMeList = new HashMap<>();
+        pickMeList.put(pickMeDB.countPickMe(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        return pickMeList;
     }
 
     /**
@@ -34,7 +37,7 @@ public class PickMeService {
     @Transactional
     public PickMeDTO write(int userId, PickMeDTO pickMeDTO) {
         UserEntity findUser = validate(userId, pickMeDTO);
-        PickMeEntity savePickMe = pickMeRepository.save(PickMeEntity.toEntity(pickMeDTO, userId));
+        PickMeEntity savePickMe = pickMeDB.save(PickMeEntity.toEntity(pickMeDTO, userId));
         pickMeDTO.setUserInfo(findUser.getProfileImageUrl(), findUser.getMannerDegree(), userId, savePickMe.getId(), findUser.getNickname());
 
         return pickMeDTO;
@@ -44,12 +47,10 @@ public class PickMeService {
      * userInfo, null -> validate
      */
     private UserEntity validate(int userId, PickMeDTO pickMeDTO) {
-        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("does not exist"));
-        if (pickMeDTO == null)
-            throw new RuntimeException("입력 정보가 없습니다.");
+        UserEntity findUser = userDB.findById(userId).orElseThrow(() -> new RuntimeException("does not exist"));
+        if (pickMeDTO == null) throw new RuntimeException("입력 정보가 없습니다.");
 
-        if (findUser.getId() != userId)
-            throw new RuntimeException("회원정보가 일치하지 앖습니다.");
+        if (findUser.getId() != userId) throw new RuntimeException("회원정보가 일치하지 앖습니다.");
 
         return findUser;
     }
@@ -60,7 +61,7 @@ public class PickMeService {
     @Transactional
     public PickMeDTO update(int userId, PickMeDTO pickMeDTO) {
         validate(userId, pickMeDTO);
-        PickMeEntity findPickMe = pickMeRepository.findById(pickMeDTO.getBoardId()).orElseThrow(() -> new RuntimeException("게시물이 없습니다."));
+        PickMeEntity findPickMe = pickMeDB.findById(pickMeDTO.getBoardId()).orElseThrow(() -> new RuntimeException("게시물이 없습니다."));
         findPickMe.change(pickMeDTO);
 
         return PickMeDTO.toDto(findPickMe);
@@ -71,20 +72,18 @@ public class PickMeService {
      */
     @Transactional
     public void delete(int userId, int pickMeId) {
-        PickMeEntity findPickMe = pickMeRepository.findById(pickMeId).orElseThrow(() -> new RuntimeException("게시물이 없습니다"));
-        if (findPickMe.getUserEntity().getId() != userId)
-            throw new RuntimeException("작성자와 회원정보가 일치하지 앖습니다.");
+        PickMeEntity findPickMe = pickMeDB.findById(pickMeId).orElseThrow(() -> new RuntimeException("게시물이 없습니다"));
+        if (findPickMe.getUserEntity().getId() != userId) throw new RuntimeException("작성자와 회원정보가 일치하지 앖습니다.");
 
-        pickMeRepository.delete(findPickMe);
+        pickMeDB.delete(findPickMe);
     }
 
     /**
      * nickName search logic
      */
     public List<PickMeDTO> findByNickname(String nickname, Pageable pageable) {
-        List<PickMeEntity> findPickMeList = pickMeRepository.findAllByUserEntityNicknameContainingOrderByIdDesc(nickname, pageable).getContent();
-        if (findPickMeList.isEmpty())
-            throw new RuntimeException("해당 닉네임으로 검색된 게시물이 없습니다.");
+        List<PickMeEntity> findPickMeList = pickMeDB.findAllByUserEntityNicknameContainingOrderByIdDesc(nickname, pageable).getContent();
+        if (findPickMeList.isEmpty()) throw new RuntimeException("해당 닉네임으로 검색된 게시물이 없습니다.");
 
         return findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList());
     }
@@ -93,9 +92,8 @@ public class PickMeService {
      * title search logic
      */
     public List<PickMeDTO> findByTitle(String title, Pageable pageable) {
-        List<PickMeEntity> findByTitleList = pickMeRepository.findAllByWriteInfoTitleContainingOrderByIdDesc(title, pageable).getContent();
-        if (findByTitleList.isEmpty())
-            throw new RuntimeException("해당 제목으로 검색된 게시물이 없습니다.");
+        List<PickMeEntity> findByTitleList = pickMeDB.findAllByWriteInfoTitleContainingOrderByIdDesc(title, pageable).getContent();
+        if (findByTitleList.isEmpty()) throw new RuntimeException("해당 제목으로 검색된 게시물이 없습니다.");
 
         return findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList());
     }
@@ -103,12 +101,11 @@ public class PickMeService {
     /**
      * keyword search logic  %like%
      */
-    public List<PickMeDTO> findByRegion(String keyword, Pageable pageable) {
-        List<PickMeEntity> findByRegion = pickMeRepository.findAllByRegion(keyword, pageable).getContent();
-        if (findByRegion.isEmpty())
-            throw new RuntimeException("해당 지역으로 검색된 게시글이 없습니다.");
+    public List<PickMeDTO> findByKeyword(String keyword, Pageable pageable) {
+        List<PickMeEntity> findByKeyword = pickMeDB.findAllByRegion(keyword, pageable).getContent();
+        if (findByKeyword.isEmpty()) throw new RuntimeException("해당 지역으로 검색된 게시글이 없습니다.");
 
-        return findByRegion.stream().map(PickMeDTO::new).collect(Collectors.toList());
+        return findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList());
     }
 
 }

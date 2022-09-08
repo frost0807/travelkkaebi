@@ -1,8 +1,6 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
-import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper;
@@ -55,16 +53,16 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
-    @Transactional
-    public EditorChoiceResponseDTO update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
-
-        if (userId == editorChoiceDTO.getUserId()) {
-            editorChoiceMapper.update(editorChoiceDTO);
-            return selectOne(editorChoiceDTO.getEditorChoiceId());
-        } else {
-            throw new RuntimeException("글 수정 권한이 없습니다.");
-        }
-    }
+//    @Transactional
+//    public EditorChoiceResponseDTO update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
+//
+//        if (userId == editorChoiceDTO.getUserId()) {
+//            editorChoiceMapper.update(editorChoiceDTO);
+//            return selectOne(editorChoiceDTO.getEditorChoiceId());
+//        } else {
+//            throw new RuntimeException("글 수정 권한이 없습니다.");
+//        }
+//    }
 
     /**
      * 게시글 삭제
@@ -91,64 +89,65 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
-    /*
-    public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception {
-        return editorChoiceMapper.selectAllByPage(setPageAndWord(pageNo, null));
-    }
-*/
-    /**
-     * 게시글 리스트 (신규)
-     * @return
-     * @throws Exception
-     */
-
-    public List<EditorChoiceResponseDTO> selectAllNew() throws Exception {
-        return editorChoiceMapper.selectAllNew();
-    }
 
 
-    /**
-     * 게시글 상세보기
-     * @param editorChoiceId
-     * @return editorChoiceResponseDTO
-     */
-    public EditorChoiceResponseDTO selectOne(int editorChoiceId) throws Exception {
-        // 조회수 더해주는 코드
-        if (editorChoiceMapper.viewPlus(editorChoiceId) != 0) {
-            return editorChoiceMapper.selectOne(editorChoiceId)
-                    .orElseThrow(()-> new NullPointerException("선택한 게시물이 존재하지 않습니다."));
-        } else {
-            throw new RuntimeException("게시물 조회수 갱신 실패");
-        }
-    }
-
-    /**
-     * 전체 게시글 갯수 리턴
-     */
-    public int count() throws Exception {
-        return editorChoiceMapper.editorChoiceCount();
-    }
-
-    /**
-     * selectAll 할 때 페이지 수 리턴
-     */
-    public int pageCount() throws Exception {
-        int total = count();
-
-        if (total % PAGE_SIZE == 0) {
-            return total / PAGE_SIZE;
-        } else {
-            return (total / PAGE_SIZE) + 1;
-        }
-    }
-
-    /**
-     * 특정 제목으로 검색
-     * @param title
-     * @return titleList
-     * @throws Exception
-     */
-
+//    public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception {
+//        return editorChoiceMapper.selectAllByPage(setPageAndWord(pageNo, null));
+//    }
+//
+//    /**
+//     * 게시글 리스트 (신규)
+//     * @return
+//     * @throws Exception
+//     */
+//
+//    public List<EditorChoiceResponseDTO> selectAllNew() throws Exception {
+//        return editorChoiceMapper.selectAllNew();
+//    }
+//
+//
+//    /**
+//     * 게시글 상세보기
+//     * @param editorChoiceId
+//     * @return editorChoiceResponseDTO
+//     */
+//    public EditorChoiceResponseDTO selectOne(int editorChoiceId) throws Exception {
+//        // 조회수 더해주는 코드
+//        if (editorChoiceMapper.viewPlus(editorChoiceId) != 0) {
+//            return editorChoiceMapper.selectOne(editorChoiceId)
+//                    .orElseThrow(()-> new NullPointerException("선택한 게시물이 존재하지 않습니다."));
+//        } else {
+//            throw new RuntimeException("게시물 조회수 갱신 실패");
+//        }
+//    }
+//
+//    /**
+//     * 전체 게시글 갯수 리턴
+//     */
+//    public int count() throws Exception {
+//        return editorChoiceMapper.editorChoiceCount();
+//    }
+//
+//    /**
+//     * selectAll 할 때 페이지 수 리턴
+//     */
+//    public int pageCount() throws Exception {
+//        int total = count();
+//
+//        if (total % PAGE_SIZE == 0) {
+//            return total / PAGE_SIZE;
+//        } else {
+//            return (total / PAGE_SIZE) + 1;
+//        }
+//    }
+//
+//    /**
+//     * 특정 제목으로 검색
+//     * @param title
+//     * @return titleList
+//     * @throws Exception
+//     */
+//
 //
 //    public List<EditorChoiceResponseDTO> searchByTitle(String title, int pageNo) throws Exception {
 //        List<EditorChoiceResponseDTO> list = editorChoiceMapper.searchByTitle(setPageAndWord(pageNo, title));
@@ -224,21 +223,21 @@ public class EditorChoiceService {
 //                .list(list)
 //                .build();
 //    }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

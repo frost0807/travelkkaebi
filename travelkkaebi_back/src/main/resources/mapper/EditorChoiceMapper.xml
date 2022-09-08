@@ -47,29 +47,49 @@
     <select id="selectByTitle" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice
         JOIN user On board_editor_choice.user_id = user.user_id
-        WHERE title LIKE CONCAT('%', #{title}, '%')
+        WHERE title LIKE CONCAT('%', #{word}, '%')
         ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="selectByContent" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice
         JOIN user On board_editor_choice.user_id = user.user_id
-        WHERE content LIKE CONCAT('%', #{content}, '%')
+        WHERE content LIKE CONCAT('%', #{word}, '%')
         ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="searchByWriter" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice
         JOIN user On board_editor_choice.user_id = user.user_id
-        WHERE nickname LIKE CONCAT('%',#{writer},'%')
+        WHERE nickname LIKE CONCAT('%',#{word},'%')
         ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="keywordByRegion" parameterType="PageAndWordDTO" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice
         JOIN user On board_editor_choice.user_id = user.user_id
-        WHERE region = #{region}
+        WHERE region = #{word}
         ORDER BY editor_choice_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="countByTitle" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_editor_choice
+        WHERE title LIKE CONCAT('%', #{word}, '%')
+    </select>
+
+    <select id="countByContent" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_editor_choice
+        WHERE content LIKE CONCAT('%', #{word}, '%')
+    </select>
+
+    <select id="countByWriter" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_editor_choice
+        WHERE nickname LIKE CONCAT('%',#{word},'%')
+    </select>
+
+    <select id="countByRegion" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM board_editor_choice
+        WHERE region = #{word}
     </select>
 
 

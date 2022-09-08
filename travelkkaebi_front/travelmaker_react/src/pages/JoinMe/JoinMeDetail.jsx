@@ -28,6 +28,7 @@ import {
   getUserNickname,
   headerConfig,
   headerImg_tk,
+  is_logged,
 } from "../../util";
 import { AllInbox, PostAddSharp } from "@mui/icons-material";
 
@@ -143,6 +144,8 @@ function JoinMeDetail(props) {
       return;
     } else if (data.comment === "") {
       alert("코멘트를 입력해주세요.");
+    } else if (!is_logged) {
+      alert("로그인이 필요합니다.");
     } else {
       axios.defaults.headers = {
         "Content-Type": "application/json; charset = utf-8",
@@ -234,6 +237,7 @@ function JoinMeDetail(props) {
       .then((res) => {
         console.log("resdata", res);
         setLike(!like);
+        setLikeState(likeCount);
       });
   };
 
