@@ -16,6 +16,8 @@ public class ReviewDTO {
     private String content;
     private String region;
     private int view;
+    private String profileImageUrl;
+    private String reviewImgUrl;
     private Timestamp createTime;
     private Timestamp updateTime;
 

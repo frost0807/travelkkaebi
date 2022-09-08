@@ -79,6 +79,7 @@ public class JoinMeController {
         }
     }
 
+
     @GetMapping("/setclosed")
     public ResponseEntity<Boolean> setClosed(@RequestParam int joinMeId,
                                              @AuthenticationPrincipal String userId) {

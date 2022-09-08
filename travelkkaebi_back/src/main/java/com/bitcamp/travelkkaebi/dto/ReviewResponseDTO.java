@@ -19,6 +19,7 @@ public class ReviewResponseDTO {
     private String content;
     private String region;
     private int view;
+    private String reviewImgUrl;
     private Timestamp createTime;
     private Timestamp updateTime;
 
