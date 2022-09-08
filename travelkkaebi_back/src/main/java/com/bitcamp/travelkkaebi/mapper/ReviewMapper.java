@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.mapper;
 
+import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,10 +23,15 @@ public interface ReviewMapper {
     int viewPlus(int reviewId);
 
     int reviewCount();
-    List<ReviewResponseDTO> searchByTitle(String title);
-    List<ReviewResponseDTO> searchByContent(String content);
-    List<ReviewResponseDTO> searchByWriter(String writer);
-    List<ReviewResponseDTO> keywordByRegion(String region);
+    List<ReviewResponseDTO> searchByTitle(PageAndWordDTO pageAndWordDTO);
+    List<ReviewResponseDTO> searchByContent(PageAndWordDTO pageAndWordDTO);
+    List<ReviewResponseDTO> searchByWriter(PageAndWordDTO pageAndWordDTO);
+    List<ReviewResponseDTO> keywordByRegion(PageAndWordDTO pageAndWordDTO);
+    int countByTitle(String word);
+    int countByContent(String word);
+    int countByWriter(String word);
+    int countByRegion(String word);
+
 
 
 
