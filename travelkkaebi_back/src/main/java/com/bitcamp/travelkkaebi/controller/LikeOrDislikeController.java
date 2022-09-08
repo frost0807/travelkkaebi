@@ -28,6 +28,19 @@ public class LikeOrDislikeController {
         }
     }
 
+    @PutMapping("/clicklike")
+    public ResponseEntity<LikeOrDislikeResponseDTO> clickLike(
+            @RequestParam int likeOrDislikeId,
+            @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(likeOrDislikeService.clickLike(
+                    likeOrDislikeId, Integer.parseInt(userId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 
 
     @PutMapping("/clickdislike")

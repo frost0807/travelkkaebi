@@ -4,11 +4,8 @@ import styled from "styled-components";
 import axios from "axios";
 import DatePicker from "../../components/DatePick/DatePicker";
 import { addDays } from "date-fns";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { API_BASE_URL, imgurl, joinmeurl } from "../../config";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import {
   Button,
   FormControl,
@@ -18,10 +15,18 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import { quill } from "quill";
+import "./joinmeform.css";
 import QuillEditor from "../../components/QuillEditor/QuillEditor";
-import { bearerToken, headerConfig, headerImg_tk } from "../../util";
 
-function JoinMeForm() {
+// style
+const JoinTitle = styled.div`
+  max-height: 3rem;
+  height: 3rem;
+  margin-top: 4px;
+  justify-content: center;
+`;
+
+export default function JoinMeForm() {
   const navigate = useNavigate();
 
   const [htmlContent, setHtmlContent] = useState("");
@@ -57,7 +62,11 @@ function JoinMeForm() {
     "10",
   ];
   const options = capacityCount.map((selectcapacity, idx) => {
-    return <option value={selectcapacity}>{selectcapacity}</option>;
+    return (
+      <option value={selectcapacity} key={idx}>
+        {selectcapacity}
+      </option>
+    );
   });
   const handleCapacity = (event) => {
     setCapacity(event.target.value);
@@ -77,7 +86,11 @@ function JoinMeForm() {
     "하와이",
   ];
   const regionOptions = regionKey.map((selectregion) => {
-    return <option value={selectregion}>{selectregion}</option>;
+    return (
+      <option value={selectregion} key={selectregion}>
+        {selectregion}
+      </option>
+    );
   });
   const handleRegion = (event) => {
     setSelectRegion(event.target.value);
@@ -89,7 +102,7 @@ function JoinMeForm() {
     console.log(e.tartget);
     //태그를 제외한 순수 text만을 받아온다. 검색기능을 구현하지 않을 거라면 굳이 text만 따로 저장할 필요는 없다.
     const description = quillRef.current.getEditor().getText();
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target.value);
     console.log("formData: ", formData);
     const title = e.target.title.value;
 
@@ -103,8 +116,6 @@ function JoinMeForm() {
       categoryId: 1,
     });
   };
-  //       start_Date: start_Date,
-  //       end_Date: end_Date,
 
   // joinme mapper에 start/end date 추가
   // http 200 성공 -> DB 생성 X title null
@@ -126,22 +137,22 @@ function JoinMeForm() {
         .then((res) => {
           console.log("작성완료 후 결과 ", res);
 
-          const headerConfig = {
-            Headers: {
-              "content-type": "multipart/form-data",
-              Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-            },
-          };
+          // const headerConfig = {
+          //   Headers: {
+          //     "content-type": "multipart/form-data",
+          //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+          //   },
+          // };
 
-          // 수정 전
-          axios
-            .post(imgurl + "/insert", joinmeDTO, headerConfig)
-            .then((resImg) => {
-              console.log("resimg : ", resImg);
-            });
+          // // 수정 전
+          // axios
+          //   .post(imgurl + "/insert", joinmeDTO, headerConfig)
+          //   .then((resImg) => {
+          //     console.log("resimg : ", resImg);
+          //   });
 
-          alert("글 작성 완료");
-          navigate("/joinme/1");
+          // alert("글 작성 완료");
+          // navigate("/joinme/1");
         })
         .catch((error) => {
           if (error.res) {
@@ -158,58 +169,114 @@ function JoinMeForm() {
     }
   };
 
-  return (
-    <Container>
-      <form className="join-form-container" onSubmit={handleSubmit}>
-        <label>🔸제목</label>
-        <JoinTitle>
-          <input id="title" name="title" required />
-        </JoinTitle>
+  const backList = () => {
+    navigate(-1);
+  };
 
-        <div style={{ display: "flex" }}>
-          <div className="select-charge">
-            <h3>🔸모집인원 : {capacity} 명</h3>
-            <select id="capacity" name="capacity" onChange={handleCapacity}>
-              {options}
-            </select>
+  return (
+    <>
+      <div className="containors">
+        <form className="ccform" onSubmit={handleSubmit}>
+          <header className="ccheader">
+            <h1>같이가요 글쓰기 수정해보자</h1>
+          </header>
+
+          <div>
+            <label>🔸기간</label>
+            <DatePicker
+              selectDate={selectDate}
+              setSelectDate={setSelectDate}
+              dateOnChange={dateOnChange}
+            />
           </div>
-          <div className="select-charge">
-            <h3>🔸지역 : {selectRegion} </h3>
-            <select id="region" name="region" onChange={handleRegion}>
-              {regionOptions}
-            </select>
+
+          <div>
+            <div className="ccfield-prepend">
+              <span className="ccform-addon">
+                <i className="fa fa-info fa-2x"></i>
+              </span>
+              <input
+                className="ccformfield"
+                type="text"
+                placeholder="제목을 입력해주세요"
+                required
+              />
+            </div>
+
+            <div
+              className="ccfield-prepend"
+              style={{ display: "flex", textAlign: "center" }}
+            >
+              <span className="ccform-addon">
+                <i className="fa-solid fa-people-line fa-2x"></i>
+              </span>
+              <div className="select-charge">
+                <h3>🔸 모집인원 : {capacity} 명 </h3>
+                <select
+                  className="selectbox"
+                  id="capacity"
+                  name="capacity"
+                  onChange={handleCapacity}
+                >
+                  {options}
+                </select>
+              </div>
+            </div>
+
+            <div className="ccfield-prepend" style={{ display: "flex" }}>
+              <span className="ccform-addon">
+                <i className="fa-solid fa-people-line fa-2x"></i>
+              </span>
+              <div className="select-charge">
+                <h3>🔸지역 : {selectRegion} </h3>
+                <select
+                  className="selectbox"
+                  id="region"
+                  name="region"
+                  onChange={handleRegion}
+                >
+                  {regionOptions}
+                </select>
+              </div>
+            </div>
+
+            <div className="ccfield-prepend">
+              <span className="ccform-addon">
+                <i className="fa fa-comment fa-2x"></i>
+              </span>
+              <textarea
+                className="ccformfield-content"
+                name="comments"
+                rows="8"
+                placeholder="Message"
+                required
+              />
+            </div>
+            <div
+              className="ccfield-prepend"
+              style={{ display: "block", position: "relative" }}
+            >
+              <span
+                className="ccform-addon-img"
+                style={{ transform: "translate(0px, -330px)" }}
+              >
+                <i className="fa-regular fa-image fa-2x"></i>
+              </span>
+            </div>
+
+            <QuillEditor
+              quillRef={quillRef}
+              htmlContent={htmlContent}
+              setHtmlContent={setHtmlContent}
+            />
+
+            <div className="ccfield-prependbtn">
+              <input className="ccbtn1" onClick={backList} value="목록으로" />
+              <input className="ccbtn" type="submit" value="작성완료" />
+            </div>
           </div>
-        </div>
-        <div>
-          <label>🔸기간</label>
-          <DatePicker
-            selectDate={selectDate}
-            setSelectDate={setSelectDate}
-            dateOnChange={dateOnChange}
-          />
-        </div>
-        <div>
-          <QuillEditor
-            quillRef={quillRef}
-            htmlContent={htmlContent}
-            setHtmlContent={setHtmlContent}
-          />
-        </div>
-        <div className="join-btn">
-          <Button onClick={() => navigate(-1)}>목록으로</Button>
-          <Button type="submit">작성완료</Button>
-        </div>
-      </form>
-    </Container>
+        </form>
+      </div>
+    </>
   );
 }
-
-export default JoinMeForm;
-
-// style
-const JoinTitle = styled.div`
-  max-height: 3rem;
-  height: 3rem;
-  margin-top: 4px;
-  justify-content: center;
-`;
