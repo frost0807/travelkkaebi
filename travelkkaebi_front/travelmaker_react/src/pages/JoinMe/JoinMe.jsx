@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
-import axios from "axios";
-import "./JoinMe.css";
-import { Button } from "@mui/material";
-import { useLocation, useNavigate, useParams } from "react-router";
-import { API_BASE_URL, joinmeurl } from "../../config";
-import { useRecoilState } from "recoil";
-import { isLoginModalState, isLoginState } from "../../recoil/atom";
-import Login from "../../components/Login/Login";
-import Logo from "../../images/basicLogo.png";
-import JoinMeCard from "./JoinMeCard";
-import Pagination from "../../components/Pagenation/Pagination";
-import queryString from "query-string";
-import { getToken, isLoginFc, is_logged } from "../../util";
-import styled from "styled-components";
+// import React, { useEffect, useState, useCallback } from "react";
+// import axios from "axios";
+// import "./JoinMe.css";
+// import { Button } from "@mui/material";
+// import { useLocation, useNavigate, useParams } from "react-router";
+// import { API_BASE_URL, joinmeurl } from "../../config";
+// import { useRecoilState } from "recoil";
+// import { isLoginModalState, isLoginState } from "../../recoil/atom";
+// import Login from "../../components/Login/Login";
+// import Logo from "../../images/basicLogo.png";
+// import JoinMeCard from "./JoinMeCard";
+// import Pagination from "../../components/Pagenation/Pagination";
+// import queryString from "query-string";
+// import { getToken, isLoginFc, is_logged } from "../../util";
+// import styled from "styled-components";
 
 // function JoinMe() {
 //   const navigate = useNavigate();
@@ -93,40 +93,40 @@ import styled from "styled-components";
 //     setIsLoginModalOpen(true);
 //   };
 
-  const cardClickEvent = () => {
-    if (!is_logged) {
-      loginModal();
-    } else if (is_logged) {
-      navigate("/joinmeform");
-    }
-  };
+  // const cardClickEvent = () => {
+  //   if (!is_logged) {
+  //     loginModal();
+  //   } else if (is_logged) {
+  //     navigate("/joinmeform");
+  //   }
+  // };
 
-  return (
-    <MainContent>
-      <header className="instructor_banner">
-        <div className="header-bncontainer">
-          <div className="ins-banner-cover">
-            <h1 className="bannername"> 같이 가요 !</h1>
-            <p> 꿈같은 여행에 같이 떠날 친구들을 만나보세요.</p>
-            <br />
-            <p>더 행복한 여행이 될 거예요 !</p>
-          </div>
-        </div>
-      </header>
-      <Content>
-        <ContentBody>
-          <Button
-            onClick={() => {
-              if (!is_logged) {
-                loginModal();
-              } else if (is_logged) {
-                navigate("/joinmeform");
-              }
-            }}
-          >
-            글쓰기
-          </Button>
-          {isLoginModalOpen && <Login />}
+  // return (
+  //   <MainContent>
+  //     <header className="instructor_banner">
+  //       <div className="header-bncontainer">
+  //         <div className="ins-banner-cover">
+  //           <h1 className="bannername"> 같이 가요 !</h1>
+  //           <p> 꿈같은 여행에 같이 떠날 친구들을 만나보세요.</p>
+  //           <br />
+  //           <p>더 행복한 여행이 될 거예요 !</p>
+  //         </div>
+  //       </div>
+  //     </header>
+  //     <Content>
+  //       <ContentBody>
+  //         <Button
+  //           onClick={() => {
+  //             if (!is_logged) {
+  //               loginModal();
+  //             } else if (is_logged) {
+  //               navigate("/joinmeform");
+  //             }
+  //           }}
+  //         >
+  //           글쓰기
+  //         </Button>
+  //         {isLoginModalOpen && <Login />}
 
 //           <input
 //             type="text"
