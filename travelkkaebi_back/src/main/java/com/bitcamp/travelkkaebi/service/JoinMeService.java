@@ -1,10 +1,8 @@
 package com.bitcamp.travelkkaebi.service;
 
-import com.bitcamp.travelkkaebi.dto.JoinMeListDTO;
-import com.bitcamp.travelkkaebi.dto.JoinMeOneDTO;
-import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
+import com.bitcamp.travelkkaebi.dto.*;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
+import com.bitcamp.travelkkaebi.mapper.MyTravelMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +16,7 @@ import java.util.List;
 public class JoinMeService {
     private final int PAGE_SIZE = 20;
     private final LikeOrDislikeService likeOrDislikeService;
+//    private final MyTravelService myTravelService;
     private final JoinMeMapper joinMeMapper;
 
     //전체보기 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
@@ -68,23 +67,37 @@ public class JoinMeService {
         }
     }
 
-    //인원이 다 모였거나 기타사유로 글을 마감처리하고 MyTravel게시판으로 넘어가는 메소드
-    public boolean setClosed(int joinMeId, int userId) {
-        //게시물 가져오기
-        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId)
-                .orElseThrow(() -> new NullPointerException("게시물이 존재하지 않음"));
-        //게시물의 작성자가 현재 로그인한 사용자인지 확인
-        if(joinMeOneDTO.getUserId()==userId){
-            //게시물이 이미 마감되었는지 확인
-            if(joinMeOneDTO.isClosed()==false){
-                joinMeOneDTO.setClosed(true);
-                return true;
-            } else{
-                throw new RuntimeException("이미 마감된 게시물입니다.");
-            }
-        } else{
-            throw new RuntimeException("게시물의 작성자가 아닙니다.");
-        }
+//    @Transactional
+//    //인원이 다 모였거나 기타사유로 글을 마감처리하고 MyTravel게시판으로 넘어가는 메소드
+//    public boolean setClosed(int joinMeId, int userId) throws Exception{
+//        //게시물 가져오기
+//        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId)
+//                .orElseThrow(() -> new NullPointerException("게시물이 존재하지 않음"));
+//        //게시물의 작성자가 현재 로그인한 사용자인지 확인 && 게시물이 이미 마감되었는지 확인
+//        if (joinMeOneDTO.getUserId() == userId && joinMeOneDTO.isClosed() == false) {
+//            joinMeOneDTO.setClosed(true);
+//            //업데이트 성공하면 MyTravel게시판에 게시물 생성
+//            if (joinMeMapper.updateClosed(
+//                    setJoinMeIdAndClosedDTO(
+//                            joinMeId, joinMeOneDTO.isClosed())) == 1) {
+//                return myTravelService.insert(joinMeId);
+//            } else{
+//                throw new RuntimeException("게시물 마감처리에 실패함");
+//            }
+//        } else if (joinMeOneDTO.getUserId() != userId) {
+//            throw new RuntimeException("게시물의 작성자가 아닙니다.");
+//        } else {
+//            throw new RuntimeException("이미 마감된 게시물입니다.");
+//        }
+//    }
+
+    //joinMe글에 신청되어있는 userId+게시물 작성자의 userId를 리스트로 리턴
+    public List<Integer> getAppliedAndWriterList(int joinMeId) {
+        List<Integer> appliedUserList = joinMeMapper.getAppliedUserList(joinMeId);
+        //신청자들의 userIdList에 게시물 작성자의 userId도 추가
+        appliedUserList.add(joinMeMapper.selectOne(joinMeId)
+                .orElseThrow(() -> new NullPointerException("해당 게시물이 존재하지 않음")).getUserId());
+        return appliedUserList;
     }
 
     //게시물 삽입
@@ -115,26 +128,7 @@ public class JoinMeService {
 
     @Transactional
     public boolean delete(int joinMeId, int userId) throws Exception {
-        JoinMeDTO joinMeDTO = JoinMeDTO.builder().joinMeId(joinMeId).userId(userId).build();
-
         return (joinMeMapper.delete(JoinMeDTO.builder().joinMeId(joinMeId).userId(userId).build()) != 0);
-    }
-
-    //페이지번호와 키워드를 객체에 세팅해주는 메소드
-    public PageAndWordDTO setPageAndWord(int pageNo, String word) {
-        return PageAndWordDTO.builder()
-                .startNum((pageNo - 1) * PAGE_SIZE)
-                .pageSize(PAGE_SIZE)
-                .word(word)
-                .build();
-    }
-
-    //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
-    public ListResponseDTO setListResponse(int totalPageCount, List<JoinMeListDTO> joinMeListDTOList) {
-        return ListResponseDTO.builder()
-                .totalBoardCount(totalPageCount)
-                .list(joinMeListDTOList)
-                .build();
     }
 
     //여행 끝나는날을 기준으로 글을 마감처리하는 메소드
@@ -147,7 +141,9 @@ public class JoinMeService {
                 //글을 마감처리하고
                 joinMeListDTO.setClosed(true);
                 //마감처리된 글을 update
-                if (joinMeMapper.updateClosed(joinMeListDTO) == 0) {
+                if (joinMeMapper.updateClosed(
+                        setJoinMeIdAndClosedDTO(
+                                joinMeListDTO.getJoinMeId(), joinMeListDTO.isClosed())) == 0) {
                     throw new RuntimeException("마감처리 업데이트 실패");
                 }
             }
@@ -166,5 +162,29 @@ public class JoinMeService {
             joinMeListDTO.setLikeCount(likeOrDislikeService.getLikeCount(likeOrDislikeDTO));
         }
         return joinMeList;
+    }
+
+    public JoinMeIdAndClosedDTO setJoinMeIdAndClosedDTO(int joinMeId, boolean closed) {
+        return JoinMeIdAndClosedDTO.builder()
+                .joinMeId(joinMeId)
+                .closed(closed)
+                .build();
+    }
+
+    //페이지번호와 키워드를 객체에 세팅해주는 메소드
+    public PageAndWordDTO setPageAndWord(int pageNo, String word) {
+        return PageAndWordDTO.builder()
+                .startNum((pageNo - 1) * PAGE_SIZE)
+                .pageSize(PAGE_SIZE)
+                .word(word)
+                .build();
+    }
+
+    //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
+    public ListResponseDTO setListResponse(int totalPageCount, List<JoinMeListDTO> joinMeListDTOList) {
+        return ListResponseDTO.builder()
+                .totalBoardCount(totalPageCount)
+                .list(joinMeListDTOList)
+                .build();
     }
 }

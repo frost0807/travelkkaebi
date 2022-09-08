@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,22 +16,41 @@ public class ImageService {
     private final AwsS3service awsS3service;
     private final ImageMapper imageMapper;
 
+    public List<String> temporaryInsert(List<MultipartFile> imageList) throws Exception {
+        List<String> resultImageUrlList = new ArrayList<>();
+        for (MultipartFile image : imageList) {
+            resultImageUrlList.add(awsS3service.upload(image, "static"));
+        }
+        return resultImageUrlList;
+    }
+
     public List<ImageDTO> selectAll(int categoryId, int boardId) {
         return imageMapper.selectAll(ImageDTO.builder().categoryId(categoryId).boardId(boardId).build());
     }
 
-    public boolean insert(List<MultipartFile> imageList, ImageDTO imageDTO, int userId) throws Exception {
+    public boolean insert(List<ImageDTO> imageDTOList, int userId) throws Exception {
         int successCount = 0;
         //로그인한 유저의 식별자set
-        imageDTO.setUserId(userId);
-        for (int i = 0; i < imageList.size(); i++) {
-            //아마존s3에 이미지저장하고 url Set해주는 부분
-            imageDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
+        for (ImageDTO imageDTO : imageDTOList) {
+            imageDTO.setUserId(userId);
             successCount += imageMapper.insert(imageDTO);
         }
-        //이미지파일 저장과 경로삽입이 모두 다 성공적으로 끝나면 true리턴
-        return (successCount == imageList.size());
+        //이미지파일
+        return (successCount == imageDTOList.size());
     }
+
+//    public boolean insert(List<MultipartFile> imageList, ImageDTO imageDTO, int userId) throws Exception {
+//        int successCount = 0;
+//        //로그인한 유저의 식별자set
+//        imageDTO.setUserId(userId);
+//        for (int i = 0; i < imageList.size(); i++) {
+//            //아마존s3에 이미지저장하고 url Set해주는 부분
+//            imageDTO.setImageUrl(awsS3service.upload(imageList.get(i), "static"));
+//            successCount += imageMapper.insert(imageDTO);
+//        }
+//        //이미지파일 저장과 경로삽입이 모두 다 성공적으로 끝나면 true리턴
+//        return (successCount == imageList.size());
+//    }
 
     @Transactional
     public boolean update(List<MultipartFile> imageList, ImageDTO imageDTO, int userId) throws Exception {

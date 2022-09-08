@@ -64,6 +64,13 @@
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
+    <select id="getAppliedUserList" parameterType="int">
+        SELECT j.user_id
+        FROM board_join_me AS b
+                 JOIN join_me_apply AS j ON b.join_me_id = j.join_me_id
+        WHERE j.join_me_id = #{joinMeId}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeDTO">
         INSERT INTO board_join_me (category_id, user_id, title, content, region, charge, capacity)
         VALUES (#{categoryId}, #{userId}, #{title}, #{content}, #{region}, #{charge}, #{capacity})
@@ -88,7 +95,7 @@
         WHERE join_me_id=#{joinMeId}
     </update>
 
-    <update id="updateClosed" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="joinMeListDTO">
+    <update id="updateClosed" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeIdAndClosedDTO">
         UPDATE board_join_me
         SET closed=#{closed}
         WHERE join_me_id = #{joinMeId}
@@ -97,7 +104,8 @@
     <update id="updateMemberCount" parameterType="UpdateMemberCountDTO">
         UPDATE board_join_me
         SET current_member_count = #{currentMemberCount}
-        WHERE join_me_id=#{joinMeId} AND user_id=#{userId}
+        WHERE join_me_id = #{joinMeId}
+          AND user_id = #{userId}
     </update>
 
     <delete id="delete" parameterType="JoinMeDTO">
