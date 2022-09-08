@@ -17,7 +17,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/travelkkaebi/region/event")
+@RequestMapping("/region/event")
 @RequiredArgsConstructor
 public class RegionEventController {
 
@@ -26,8 +26,7 @@ public class RegionEventController {
     private final AwsS3service awsS3service;
 
     @GetMapping("/main")
-    public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> shoRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
-        System.out.println("Main 실행");
+    public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> showRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(regionEventService.findAll(pageable));
     }
 
