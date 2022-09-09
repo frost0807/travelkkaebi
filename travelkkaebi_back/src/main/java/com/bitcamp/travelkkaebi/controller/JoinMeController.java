@@ -95,6 +95,9 @@ public class JoinMeController {
     public ResponseEntity<JoinMeOneDTO> insert(@RequestBody JoinMeDTO joinMeDTO,
                                                @AuthenticationPrincipal String userId) {
         try {
+            System.out.println("a----------------------------------------------------------a");
+            System.out.println(joinMeDTO.toString());
+            System.out.println("a----------------------------------------------------------a");
             return new ResponseEntity<>(joinMeService.insert(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
