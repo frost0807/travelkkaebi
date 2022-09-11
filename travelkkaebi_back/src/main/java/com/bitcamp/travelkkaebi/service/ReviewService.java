@@ -1,9 +1,9 @@
 package com.bitcamp.travelkkaebi.service;
 
-import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
+import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -59,27 +61,36 @@ public class ReviewService {
      * @return updatedReviewId
      */
     @Transactional
-    public ReviewResponseDTO update(ReviewDTO review, int userId) throws Exception {
-
+    public ReviewResponseDTO update(ReviewDTO review, MultipartFile image, int userId) throws Exception {
+        System.out.println(userId);
+        System.out.println(review.getUserId());
         // 로그인 한 유저가 글의 작성자인지 확인
         if (userId == review.getUserId()) {
-            if (reviewMapper.update(review) != 0) {
-                return reviewMapper.selectOne(review.getReviewId())
-                        .orElseThrow(()-> new NullPointerException("해당 게시물이 존재하지 않습니다."));
-
+            if (image != null) {
+                review.setReviewImgUrl(awsS3service.upload(image, "static"));
+                if (reviewMapper.update(review) != 0) {
+                    return reviewMapper.selectOne(review.getReviewId())
+                            .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
+                }
             } else {
-                throw new RuntimeException("게시물 수정 실패");
-            }
+                review.setReviewImgUrl(" ");
+                    if (reviewMapper.update(review) != 0) {
+                        return reviewMapper.selectOne(review.getReviewId())
+                                .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
+                    }
+                }
         } else {
-            throw new RuntimeException("작성자가 아닙니다.");
+            throw new KkaebiException(DOES_NOT_MATCH_USER);
         }
+
+        return null;
     }
 
     /**
      * 게시글 삭제
      * @param review
      * @param userId
-     * @return deletedReviewId;
+     * @return deletedReviewId
      */
     @Transactional
     public int delete(ReviewDTO review, int userId) throws Exception {
@@ -87,7 +98,7 @@ public class ReviewService {
         if (review.getUserId() == userId) {
             return reviewMapper.delete(review.getReviewId());
         } else {
-            throw new RuntimeException("작성자가 아닙니다.");
+            throw new KkaebiException(DOES_NOT_MATCH_USER);
         }
     }
 
@@ -118,9 +129,9 @@ public class ReviewService {
         // 조회수 +1 시켜주는 코드
         if(reviewMapper.viewPlus(reviewId) != 0)  {
             return reviewMapper.selectOne(reviewId)
-                    .orElseThrow(() -> new NullPointerException("선택한 게시물이 존재하지 않습니다."));
+                    .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         } else {
-            throw new RuntimeException("게시물 조회수 갱신 실패");
+            throw new KkaebiException(FAILED_TO_UPDATE_VIEW);
         }
     }
 

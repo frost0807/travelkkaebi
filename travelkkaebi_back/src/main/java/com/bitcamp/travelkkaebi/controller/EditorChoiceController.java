@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,12 +26,17 @@ public class EditorChoiceController {
      * 게시글 작성
      */
     @PostMapping("/write")
-    public ResponseEntity write(@RequestBody EditorChoiceDTO editorChoiceDTO,
+    public ResponseEntity<Boolean> write(@RequestPart(value = "editorchoice") EditorChoiceDTO editorChoiceDTO,
+                                @RequestPart(value = "file1", required = false) MultipartFile image1,
+                                @RequestPart(value = "file2", required = false) MultipartFile image2,
+                                @RequestPart(value = "file3", required = false) MultipartFile image3,
                                 @AuthenticationPrincipal String userId) {
+
+        System.out.println("에디터 write 컨트롤러 도착");
 
        try {
             return new ResponseEntity(editorChoiceService.write(editorChoiceDTO,
-                    Integer.parseInt(userId)), HttpStatus.OK);
+                    image1, image2, image3, Integer.parseInt(userId)), HttpStatus.OK);
 
        } catch (Exception e) {
             e.printStackTrace();
@@ -43,11 +49,14 @@ public class EditorChoiceController {
      */
 
     @PutMapping("/update")
-    private ResponseEntity update(@RequestBody EditorChoiceDTO editorChoiceDTO,
+    private ResponseEntity update(@RequestPart(value = "editorchoice") EditorChoiceDTO editorChoiceDTO,
+                                  @RequestPart(value = "file1", required = false) MultipartFile image1,
+                                  @RequestPart(value = "file2", required = false) MultipartFile image2,
+                                  @RequestPart(value = "file3", required = false) MultipartFile image3,
                                   @AuthenticationPrincipal String userId) {
         try {
             return new ResponseEntity(editorChoiceService.update(editorChoiceDTO,
-                    Integer.parseInt(userId)), HttpStatus.OK);
+                    image1, image2, image3, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

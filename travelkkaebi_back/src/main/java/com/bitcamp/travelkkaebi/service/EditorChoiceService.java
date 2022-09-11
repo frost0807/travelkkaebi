@@ -5,11 +5,14 @@ import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
+import com.bitcamp.travelkkaebi.exception.ErrorCode;
+import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
@@ -21,6 +24,7 @@ public class EditorChoiceService {
 
     private final EditorChoiceMapper editorChoiceMapper;
     private final UserRepository userRepository;
+    private final AwsS3service awsS3service;
     private final int PAGE_SIZE = 20;
 
     /**
@@ -31,19 +35,39 @@ public class EditorChoiceService {
      * @throws Exception
      */
 
-    public EditorChoiceResponseDTO write(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
+    public boolean write(EditorChoiceDTO editorChoiceDTO, MultipartFile image1,
+                                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
+        System.out.println("에디터 write 서비스 도착");
+
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
 
         // 로그인 된 유저가 에디터 인지 확인하는 코드
         if (findUser.getRole().equals(UserRole.EDITOR)) {
             editorChoiceDTO.setUserId(userId);
-            editorChoiceMapper.insert(editorChoiceDTO);
 
-            return editorChoiceMapper.selectOne(editorChoiceDTO.getEditorChoiceId())
-                    .orElseThrow(()-> new NullPointerException("작성한 게시물이 존재하지 않음"));
+            if (image1 != null) {
+                editorChoiceDTO.setEditorImgUrl1(awsS3service.upload(image1, "static"));
+            } else {
+                editorChoiceDTO.setEditorImgUrl1(" ");
+            }
+
+            if (image2 != null) {
+                editorChoiceDTO.setEditorImgUrl2(awsS3service.upload(image2, "static"));
+            } else {
+                editorChoiceDTO.setEditorImgUrl2(" ");
+            }
+
+            if (image3 != null) {
+                editorChoiceDTO.setEditorImgUrl3(awsS3service.upload(image3, "static"));
+            } else {
+                editorChoiceDTO.setEditorImgUrl3(" ");
+            }
+
+            editorChoiceMapper.insert(editorChoiceDTO);
+            return true;
 
         } else {
-            throw new RuntimeException("글 작성 권한이 없습니다.");
+            throw new KkaebiException(ErrorCode.DOES_NOT_EDIT_USER);
         }
     }
 
@@ -56,9 +80,28 @@ public class EditorChoiceService {
      */
 
     @Transactional
-    public EditorChoiceResponseDTO update(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
+    public EditorChoiceResponseDTO update(EditorChoiceDTO editorChoiceDTO, MultipartFile image1,
+                                          MultipartFile image2, MultipartFile image3, int userId) throws Exception {
 
         if (userId == editorChoiceDTO.getUserId()) {
+
+            if (image1 != null) {
+                editorChoiceDTO.setEditorImgUrl1(awsS3service.upload(image1, "static"));
+            } else {
+                editorChoiceDTO.setEditorImgUrl1(" ");
+            }
+
+            if (image2 != null) {
+                editorChoiceDTO.setEditorImgUrl2(awsS3service.upload(image2, "static"));
+            } else {
+                editorChoiceDTO.setEditorImgUrl2(" ");
+            }
+
+            if (image3 != null) {
+                editorChoiceDTO.setEditorImgUrl3(awsS3service.upload(image3, "static"));
+            } else {
+                editorChoiceDTO.setEditorImgUrl3(" ");
+            }
             editorChoiceMapper.update(editorChoiceDTO);
             return selectOne(editorChoiceDTO.getEditorChoiceId());
         } else {

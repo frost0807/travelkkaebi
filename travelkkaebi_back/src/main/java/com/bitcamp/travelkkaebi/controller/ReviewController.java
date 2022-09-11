@@ -13,6 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/review")
@@ -25,8 +27,8 @@ public class ReviewController {
      */
     @PostMapping("/write")
     public ResponseEntity<Boolean> write(@RequestPart(value = "review") ReviewDTO reviewDTO,
-                                @RequestPart(value = "file", required = false) MultipartFile image,
-                                @AuthenticationPrincipal String userId) throws IOException {
+                                         @RequestPart(value = "file", required = false) MultipartFile image,
+                                         @AuthenticationPrincipal String userId) throws IOException {
         try {
             return new ResponseEntity(reviewService.writeReview(reviewDTO, image,
                     Integer.parseInt(userId)), HttpStatus.OK);
@@ -40,9 +42,12 @@ public class ReviewController {
      * 게시글 수정 Ok
      */
     @PutMapping("/update")
-    private ResponseEntity<Integer> update(@RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal String userId) {
+    private ResponseEntity<Integer> update(
+            @RequestPart(value = "review") ReviewDTO reviewDTO,
+            @RequestPart(value = "file", required = false) MultipartFile image,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(reviewService.update(reviewDTO, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity(reviewService.update(reviewDTO, image, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -67,7 +72,7 @@ public class ReviewController {
      * 게시글 리스트 출력
      */
     @GetMapping("/selectallbypage")
-    private ResponseEntity<ReviewResponseDTO> selectAll(@RequestParam int pageNo) {
+    private ResponseEntity<List<ReviewResponseDTO>> selectAll(@RequestParam int pageNo) {
 
         try {
             return new ResponseEntity(reviewService.selectAllByPage(pageNo), HttpStatus.OK);
@@ -154,7 +159,7 @@ public class ReviewController {
      * (지역) 키워드로 검색
      */
     @GetMapping("/selectallbypage/keywordbyregion")
-    private ResponseEntity<ReviewResponseDTO> keywordByRegion (@RequestParam("region") String word, int pageNo) {
+    private ResponseEntity<ReviewResponseDTO> keywordByRegion(@RequestParam("region") String word, int pageNo) {
 
         try {
             return new ResponseEntity(reviewService.keywordByRegion(word, pageNo), HttpStatus.OK);

@@ -88,15 +88,4 @@ public class ImageController {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    @PostMapping("/temporaryinsert")
-    public ResponseEntity<List<String>> temporaryInsert(
-            @RequestPart(value = "file") List<MultipartFile> multipartFileList) {
-        try {
-            return new ResponseEntity<>(imageService.temporaryInsert(multipartFileList), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 }
