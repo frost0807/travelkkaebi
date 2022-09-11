@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Setter
 @Getter
 public class JoinMeDTO {

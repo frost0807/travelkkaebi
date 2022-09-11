@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { Navigate, Route, useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { API_BASE_URL, joinmeurl, likedislike } from "../../config";
+import {
+  API_BASE_URL,
+  imgurl,
+  joinmeurl,
+  likedislike,
+  mytravel,
+} from "../../config";
 import axios from "axios";
 import { Button, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,10 +39,12 @@ const CATEGORY_ID = 1;
 
 function JoinMeDetail(props) {
   const [post, setPost] = useState([]);
-  const { showJoinMeDetail, close, joinMeId, profile_img } = props;
+  const { showJoinMeDetail, closeModal, joinMeId, profile_img } = props;
   const [likeState, setLikeState] = useState();
   const [like, setLike] = useState(false);
   const [likeordislikeid, setLikeordislikeid] = useState(0);
+  const [imageArr, setImageArr] = useState([]);
+  const [render, setRender] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -89,6 +97,25 @@ function JoinMeDetail(props) {
               } else {
                 console.log(error);
               }
+            });
+
+          const getimage = axios
+            .get(
+              imgurl +
+                "/selectall?categoryId=" +
+                CATEGORY_ID +
+                "&boardId=" +
+                joinMeId,
+              {
+                headers: {
+                  Authorization:
+                    "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+                },
+              }
+            )
+            .then((resImage) => {
+              console.log("resImage", resImage.data);
+              setImageArr(resImage.data);
             });
         });
     };
@@ -184,6 +211,47 @@ function JoinMeDetail(props) {
         });
     }
   };
+  //글 마감
+  const closedHandler = () => {
+    if (post.nickname != getUserNickname) {
+      alert("작성자가 아닙니다.");
+      return;
+    } else {
+      axios
+        .get(joinmeurl + "/setclosed?joinMeId=" + joinMeId, bearerToken)
+        .then((res) => {
+          window.location.reload();
+          if (res.data === true) {
+            const mytravelDTO = {
+              joinMeId: joinMeId,
+            };
+            alert("마감 되었습니다!");
+            axios
+              .post(mytravel + "/insert", mytravelDTO)
+              .then((res) => {
+                console.log("mytravel아이디", res.data);
+                res.data === true
+                  ? alert("내 여행 게시물을 생성했습니다.")
+                  : alert("내 여행 게시물 생성에 실패했습니다.");
+              })
+              .catch((error) => {
+                if (error.res) {
+                  console.log(error.res);
+                  console.log("server responded");
+                  alert("axios 에러");
+                } else if (error.request) {
+                  console.log("network error");
+                  alert("server 에러");
+                } else {
+                  console.log(error);
+                }
+              });
+          } else {
+            alert("마감에 실패했습니다!");
+          }
+        });
+    }
+  };
 
   console.log("likeordislikeid second : ", likeordislikeid);
   // 좋아요
@@ -204,97 +272,98 @@ function JoinMeDetail(props) {
 
   return (
     <>
-      {showJoinMeDetail && (
-        <Background>
-          <DImmedd> </DImmedd>
-          <ModalContainer>
-            <Closebtn onClick={() => close} />
-            <div className="jd-container">
-              <DetailHeader>
-                <header>JOIN ME</header>
-                <p style={{ fontSize: "0.75rem" }}>
-                  <i className="fa-solid fa-eye">&nbsp;{post.view}</i>
-                </p>
-              </DetailHeader>
-              <JoinContainerWrapper>
-                <JoinIntroWrapper>
-                  <IntroHeaders>
-                    <div className="joinme-userinfo">
-                      <img src={profile_img} alt="" />
-                      {/** get user_profile_img / onclick event*/}
-                      <span className="joinme-usernickname">
-                        {post.nickname}
-                      </span>
-                      <div style={{ marginLeft: "30px" }}>
-                        🔅 {post.mannerDegree}
-                      </div>
+      <Background>
+        <DImmedd> </DImmedd>
+        <ModalContainer>
+          {console.log("show view on detail", post.view)}
+          <Closebtn onClick={closeModal} />
+          <div className="jd-container">
+            <DetailHeader>
+              <header>JOIN ME</header>
+              <p style={{ fontSize: "0.75rem" }}>
+                <i className="fa-solid fa-eye">&nbsp;{post.view}</i>
+              </p>
+            </DetailHeader>
+            <JoinContainerWrapper>
+              <JoinIntroWrapper>
+                <IntroHeaders>
+                  <div className="joinme-userinfo">
+                    <img src={profile_img} alt="" />
+                    {/** get user_profile_img / onclick event*/}
+                    <span className="joinme-usernickname">{post.nickname}</span>
+                    <div style={{ marginLeft: "30px" }}>
+                      🔅 {post.mannerDegree}
                     </div>
-                    <h2 className="joinme-dtitle">{post.title}</h2>
-                    <h3 className="joinme-ereion">{post.region}</h3>
-                    <div>출발일 : 09-17 </div>
-                    <div>도착일 : 09-23 </div>
-                  </IntroHeaders>
-                  <IntroBodys>
-                    <div>{post.content}</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <p className="joinme-nbspspace">&nbsp;</p>
-                  </IntroBodys>
-                </JoinIntroWrapper>
-                <div className="joinme-charge">
-                  <p className="pcharge">
-                    {" "}
-                    현재 신청인원 : {post.currentMemberCount} / {post.capacity}{" "}
-                    명
-                  </p>
-                </div>
-              </JoinContainerWrapper>
-              <div className="jd-likebtn">
-                <LikeBtn like={like} onClick={LikeToggleBtn} />{" "}
-                <span> {likeState} </span>
-              </div>
-              <JDFooter>
-                <Box
-                  component="form"
-                  onSubmit={joinMeApply}
-                  sx={{
-                    "& .MuiTextField-root": { m: 2, width: "35ch" },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
+                  </div>
+                  <h2 className="joinme-dtitle">{post.title}</h2>
+                  <h3 className="joinme-ereion">{post.region}</h3>
+                  <div>출발일 : {post?.startDate?.split("T")[0]} </div>
+                  <div>도착일 : {post?.endDate?.split("T")[0]} </div>
+                </IntroHeaders>
+                <IntroBodys>
+                  <div>{post.content}</div>
                   <div>
-                    <TextField label="코멘트" id="comment" name="comment" />
-                    <FooterButton type="submit">신청하기</FooterButton>
-                    {post.nickname === getUserNickname ? (
-                      <div
-                        style={{ display: "flex", justifyContent: "flex-end" }}
-                      >
+                    {imageArr.map((imgelement, index) => (
+                      <img key={index} src={imgelement.imageUrl} alt="" />
+                    ))}
+                  </div>
+                  <p className="joinme-nbspspace">&nbsp;</p>
+                </IntroBodys>
+              </JoinIntroWrapper>
+              <div className="joinme-charge">
+                <p className="pcharge">
+                  {" "}
+                  현재 선택된 인원 : {post.currentMemberCount} / {post.capacity}{" "}
+                  명
+                </p>
+              </div>
+            </JoinContainerWrapper>
+            <div className="jd-likebtn">
+              <LikeBtn like={like} onClick={LikeToggleBtn} />{" "}
+              <span> {likeState} </span>
+            </div>
+            <JDFooter>
+              <Box
+                component="form"
+                onSubmit={joinMeApply}
+                sx={{
+                  "& .MuiTextField-root": { m: 2, width: "35ch" },
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <div>
+                  <TextField label="코멘트" id="comment" name="comment" />
+                  <FooterButton type="submit">신청하기</FooterButton>
+                  {post.nickname === getUserNickname ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>
+                        <Button
+                          color="warning"
+                          variant="contained"
+                          onClick={closedHandler}
+                        >
+                          마감하기
+                        </Button>
+                      </span>
+                      <span>
                         <Button onClick={upDateHandler}>수정하기</Button>
                         <Button onClick={deleteHandler}>삭제하기</Button>
-                      </div>
-                    ) : null}
-                  </div>
-                </Box>
-              </JDFooter>
-            </div>
-          </ModalContainer>
-        </Background>
-      )}
+                      </span>
+                    </div>
+                  ) : null}
+                </div>
+              </Box>
+            </JDFooter>
+          </div>
+        </ModalContainer>
+      </Background>
+      )
     </>
   );
 }

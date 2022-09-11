@@ -23,59 +23,63 @@ function JoinMeCard(props) {
 
   const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
 
-  const openJoinMeDetail = () => {
-    setShowJoinMeDetail(true);
+  const openModal = () => {
+    post.closed === false
+      ? setShowJoinMeDetail(true)
+      : alert("이미 마감된 글입니다.");
   };
-  const close = () => {
-    setShowJoinMeDetail(!showJoinMeDetail);
+  const closeModal = () => {
+    setShowJoinMeDetail(false);
   };
 
   return (
     <>
-      <div onClick={openJoinMeDetail}>
+      <div>
         <CardSection key={post.joinMeId}>
           <CardTop>
-            <CardTitle>
-              {post.title.length < 20
-                ? post.title
-                : post.title.slice(0, 20) + "..."}
-            </CardTitle>
-            <CardsubTitle>
-              <CardsubList>
-                <div className="joinme-subtitle">
-                  <dt className="joinme-sublabel">지역</dt>
-                  <dt className="joinme-subdata">{post.region}</dt>
-                </div>
-                <div className="joinme-subtitle2">
-                  <dt className="joinme-sublabel"> 날짜</dt>
-                  <dt className="joinme-subdata">
-                    {startDate} ~ {endDate}
-                  </dt>
-                </div>
-                <div className="joinme-subtitle3">
-                  <dt className="joinme-sublabel">인원</dt>
-                  <dt className="joinme-subdata">
-                    {post.currentMemberCount} / {post.capacity}
-                  </dt>
-                </div>
+            <div onClick={openModal}>
+              <CardTitle>
+                {post.title.length < 20
+                  ? post.title
+                  : post.title.slice(0, 20) + "..."}
+              </CardTitle>
+              <CardsubTitle>
+                <CardsubList>
+                  <div className="joinme-subtitle">
+                    <dt className="joinme-sublabel">지역</dt>
+                    <dt className="joinme-subdata">{post.region}</dt>
+                  </div>
+                  <div className="joinme-subtitle2">
+                    <dt className="joinme-sublabel"> 날짜</dt>
+                    <dt className="joinme-subdata">
+                      {startDate} ~ {endDate}
+                    </dt>
+                  </div>
+                  <div className="joinme-subtitle3">
+                    <dt className="joinme-sublabel">인원</dt>
+                    <dt className="joinme-subdata">
+                      {post.currentMemberCount} / {post.capacity}
+                    </dt>
+                  </div>
 
-                <br />
-                <div className="joinme-content">
-                  <p>
-                    {post.content.length < 15
-                      ? post.content
-                      : post.content.slice(0, 14) + "..."}
-                  </p>
-                </div>
-              </CardsubList>
-              <figure className="card_profileimg">
-                <img
-                  src={profile_img ? profile_img : Logo}
-                  alt="유저프로필"
-                  loading="lazy"
-                ></img>
-              </figure>
-            </CardsubTitle>
+                  <br />
+                  <div className="joinme-content">
+                    <p>
+                      {post.content.length < 15
+                        ? post.content
+                        : post.content.slice(0, 14) + "..."}
+                    </p>
+                  </div>
+                </CardsubList>
+                <figure className="card_profileimg">
+                  <img
+                    src={profile_img ? profile_img : Logo}
+                    alt="유저프로필"
+                    loading="lazy"
+                  ></img>
+                </figure>
+              </CardsubTitle>
+            </div>
           </CardTop>
           <CardBottom>
             <div className="card_username">
@@ -92,7 +96,7 @@ function JoinMeCard(props) {
             <JoinMeDetail
               joinMeId={post.joinMeId}
               showJoinMeDetail={showJoinMeDetail}
-              close={close}
+              closeModal={closeModal}
               profile_img={profile_img}
             />
           ) : null}

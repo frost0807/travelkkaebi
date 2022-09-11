@@ -16,7 +16,6 @@ import java.util.List;
 public class JoinMeService {
     private final int PAGE_SIZE = 20;
     private final LikeOrDislikeService likeOrDislikeService;
-//    private final MyTravelService myTravelService;
     private final JoinMeMapper joinMeMapper;
 
     //전체보기 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
@@ -67,29 +66,23 @@ public class JoinMeService {
         }
     }
 
-//    @Transactional
-//    //인원이 다 모였거나 기타사유로 글을 마감처리하고 MyTravel게시판으로 넘어가는 메소드
-//    public boolean setClosed(int joinMeId, int userId) throws Exception{
-//        //게시물 가져오기
-//        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId)
-//                .orElseThrow(() -> new NullPointerException("게시물이 존재하지 않음"));
-//        //게시물의 작성자가 현재 로그인한 사용자인지 확인 && 게시물이 이미 마감되었는지 확인
-//        if (joinMeOneDTO.getUserId() == userId && joinMeOneDTO.isClosed() == false) {
-//            joinMeOneDTO.setClosed(true);
-//            //업데이트 성공하면 MyTravel게시판에 게시물 생성
-//            if (joinMeMapper.updateClosed(
-//                    setJoinMeIdAndClosedDTO(
-//                            joinMeId, joinMeOneDTO.isClosed())) == 1) {
-//                return myTravelService.insert(joinMeId);
-//            } else{
-//                throw new RuntimeException("게시물 마감처리에 실패함");
-//            }
-//        } else if (joinMeOneDTO.getUserId() != userId) {
-//            throw new RuntimeException("게시물의 작성자가 아닙니다.");
-//        } else {
-//            throw new RuntimeException("이미 마감된 게시물입니다.");
-//        }
-//    }
+    @Transactional
+    //인원이 다 모였거나 기타사유로 글을 마감처리하고 MyTravel게시판으로 넘어가는 메소드
+    public boolean setClosed(int joinMeId, int userId) throws Exception {
+        //게시물 가져오기
+        JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId)
+                .orElseThrow(() -> new NullPointerException("게시물이 존재하지 않음"));
+        //게시물의 작성자가 현재 로그인한 사용자인지 확인 && 게시물이 이미 마감되었는지 확인
+        if (joinMeOneDTO.getUserId() == userId && joinMeOneDTO.isClosed() == false) {
+            joinMeOneDTO.setClosed(true);
+            //업데이트 성공여부 리턴
+            return (joinMeMapper.updateClosed(setJoinMeIdAndClosedDTO(joinMeId, joinMeOneDTO.isClosed())) == 1);
+        } else if (joinMeOneDTO.getUserId() != userId) {
+            throw new RuntimeException("게시물의 작성자가 아님");
+        } else {
+            throw new RuntimeException("이미 마감된 게시물");
+        }
+    }
 
     //joinMe글에 신청되어있는 userId+게시물 작성자의 userId를 리스트로 리턴
     public List<Integer> getAppliedAndWriterList(int joinMeId) {
@@ -103,6 +96,7 @@ public class JoinMeService {
     //게시물 삽입
     public JoinMeOneDTO insert(JoinMeDTO joinMeDTO, int userId) throws Exception {
         joinMeDTO.setUserId(userId);
+        System.out.println(joinMeDTO.toString());
 
         if (joinMeMapper.insert(joinMeDTO) != 0) { //insert가 성공했으면
             //useGenerateKeys에 의해 생성된 Id값으로 selectOne해서 리턴

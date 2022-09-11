@@ -11,9 +11,13 @@ import ImageUploader from "quill-image-uploader";
 
 Quill.register("modules/imageUploader", ImageUploader);
 
-const QuillEditor = memo(({ quillRef, htmlContent, setHtmlContent }) => {
-  const [resImgUrl, setResImgUrl] = useState();
-
+const QuillEditor = ({
+  quillRef,
+  htmlContent,
+  setHtmlContent,
+  reqImageUrl,
+  setReqImageUrl,
+}) => {
   // imgUrl
   function imageUrlHandler() {
     const range = this.quill.getSelection();
@@ -43,9 +47,9 @@ const QuillEditor = memo(({ quillRef, htmlContent, setHtmlContent }) => {
         .post(imgurl + "/temporaryinsert", formData, headerConfig)
         .then((res) => {
           console.log("이미지 핸들러 : ", res);
-          console.log(res.payload);
+          const url = res.data[0];
+          setReqImageUrl((prev) => [...prev, url]);
 
-          const url = res.data;
           const quill = quillRef.current.getEditor();
           /* ReactQuill 노드에 대한 Ref가 있어야 메서드들을 호출할 수 있으므로
           useRef()로 ReactQuill에 ref를 걸어주자.
@@ -66,6 +70,7 @@ const QuillEditor = memo(({ quillRef, htmlContent, setHtmlContent }) => {
             `<img src=${url} alt="image" />`
           );
         });
+      console.log("req출력 - 밖", reqImageUrl);
     };
   };
 
@@ -128,7 +133,7 @@ const QuillEditor = memo(({ quillRef, htmlContent, setHtmlContent }) => {
       />
     </>
   );
-});
+};
 
 export default QuillEditor;
 

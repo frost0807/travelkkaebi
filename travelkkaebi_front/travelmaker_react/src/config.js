@@ -22,3 +22,4 @@ export const userconfig = API_BASE_URL + "/travelkkaebi";
 export const joinmeurl = API_BASE_URL + "/joinme";
 export const pickupurl = API_BASE_URL + "/pickupme";
 export const imgurl = API_BASE_URL + "/image";
+export const mytravel = API_BASE_URL + "/mytravel";
