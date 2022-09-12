@@ -19,14 +19,12 @@ public class ReviewReplyService {
     /**
      * 댓글 작성
      * @param reply
-     * @param review
      * @param userId
      * @return
      */
-    public int writeReply(ReviewReplyDTO reply, ReviewDTO review, @AuthenticationPrincipal int userId) {
+    public int writeReply(ReviewReplyDTO reply, @AuthenticationPrincipal int userId) {
         try {
-            reply.setBoardId(review.getReviewId());
-            reply.setCategoryId(review.getCategoryId());
+            reply.setBoardId(reply.getBoardId());
             reply.setUserId(userId);
             reply.setComment(reply.getComment());
 
