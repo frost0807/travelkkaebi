@@ -2,9 +2,7 @@ package com.bitcamp.travelkkaebi.model;
 
 import lombok.*;
 
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Builder
 @Setter
 @Getter

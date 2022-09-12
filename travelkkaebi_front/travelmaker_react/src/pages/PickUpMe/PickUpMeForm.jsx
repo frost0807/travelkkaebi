@@ -5,7 +5,7 @@ import axios from "axios";
 import DatePicker from "../../components/DatePick/DatePicker";
 import { addDays } from "date-fns";
 import "react-quill/dist/quill.snow.css";
-import { API_BASE_URL, imgurl, joinmeurl } from "../../config";
+import { API_BASE_URL, imgurl, joinmeurl, pickurl } from "../../config";
 import {
   Button,
   FormControl,
@@ -13,9 +13,9 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { quill } from "quill";
-import "./joinmeform.css";
+import "./pickupmeform.css";
 import QuillEditor from "../../components/QuillEditor/QuillEditor";
 
 // style
@@ -26,7 +26,7 @@ const JoinTitle = styled.div`
   justify-content: center;
 `;
 
-export default function PickUpMeForm() {
+function PickUpMeForm() {
   const navigate = useNavigate();
 
   const [htmlContent, setHtmlContent] = useState("");
@@ -78,15 +78,15 @@ export default function PickUpMeForm() {
   const regionKey = [
     "강원",
     "경기",
-    "인천",
-    "서울",
-    "충북",
-    "충남",
-    "전남",
-    "전북",
     "제주",
-    "괌",
-    "하와이",
+    "서울",
+    "인천",
+    "충남",
+    "충북",
+    "전북",
+    "전남",
+    "경북",
+    "경남",
   ];
   const regionOptions = regionKey.map((selectregion) => {
     return (
@@ -111,21 +111,18 @@ export default function PickUpMeForm() {
 
     res({
       title: title,
-      capacity: capacity,
-      region: selectRegion,
-      startDate: start_Date,
-      endDate: end_Date,
+      preferredRegion: selectRegion,
+      dateInfo: { startDate: start_Date, endDate: end_Date },
       content: description,
-      categoryId: 1,
+      categoryId: 2,
     });
   };
 
   // joinme mapper에 start/end date 추가
   // http 200 성공 -> DB 생성 X title null
-  const res = async (joinmeDTO) => {
-    console.log("뭔 데이터바인드가 안된거야 ? ", joinmeDTO);
-    console.log(joinmeDTO.title, joinmeDTO.content);
-    if (joinmeDTO.content.trim() === "") {
+  const res = async (pickmeDTO) => {
+    console.log(pickmeDTO.title, pickmeDTO.content);
+    if (pickmeDTO.content.trim() === "") {
       alert("내용을 입력해주세요.");
       return;
     } else {
@@ -138,34 +135,34 @@ export default function PickUpMeForm() {
         Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
       };
       axios
-        .post(joinmeurl + "/insert", joinmeDTO) //joinmeurl + "/insert", joinmeDTO
+        .post(pickurl + "/write", pickmeDTO) //joinmeurl + "/insert", joinmeDTO
         .then((res) => {
           console.log("작성완료 후 결과 ", res);
 
-          const joinMeId = res.data.joinMeId;
-          const imageDTO = [
-            {
-              boardId: joinMeId,
-              categoryId: 1,
-              imageUrl: reqImageUrl,
-            },
-            {
-              boardId: joinMeId,
-              categoryId: 1,
-              imageUrl: reqImageUrl,
-            },
-          ];
-          console.log("글쓰기 후 id ", joinMeId);
-          axios.defaults.headers = {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-          };
-          axios.post(imgurl + "/insert", imageDTO).then((resImg) => {
-            console.log("resimg : ", resImg);
-          });
+          //   const boardId = res.data.boardId;
+          //   const imageDTO = [
+          //     {
+          //       boardId: boardId,
+          //       categoryId: 1,
+          //       imageUrl: reqImageUrl,
+          //     },
+          //     {
+          //       boardId: boardId,
+          //       categoryId: 1,
+          //       imageUrl: reqImageUrl,
+          //     },
+          //   ];
+          //   console.log("글쓰기 후 id ", boardId);
+          //   axios.defaults.headers = {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+          //   };
+          //   axios.post(imgurl + "/insert", imageDTO).then((resImg) => {
+          //     console.log("resimg : ", resImg);
+          //   });
 
           alert("글 작성 완료");
-          navigate("/joinme/1");
+          navigate("/pickme/0");
         })
         .catch((error) => {
           if (error.res) {
@@ -285,3 +282,5 @@ export default function PickUpMeForm() {
     </>
   );
 }
+
+export default PickUpMeForm;

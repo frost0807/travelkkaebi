@@ -3,7 +3,7 @@ import axios from "axios";
 import "./PickUpMe.css";
 import { Button } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { API_BASE_URL, joinmeurl } from "../../config";
+import { API_BASE_URL, joinmeurl, pickurl } from "../../config";
 import { useRecoilState } from "recoil";
 import { isLoginModalState, isLoginState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
@@ -11,7 +11,7 @@ import Logo from "../../images/basicLogo.png";
 import PickUpMeCard from "./PickUpMeCard";
 import Pagination from "../../components/Pagenation/Pagination";
 import queryString from "query-string";
-import { getToken, isLoginFc, is_logged } from "../../util";
+import { buttons, getToken, isLoginFc, is_logged } from "../../util";
 import styled from "styled-components";
 
 function PickUpMe() {
@@ -28,6 +28,24 @@ function PickUpMe() {
   // search
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectKeyword, setSelectKeyword] = useState("");
+
+  // 마운트
+  const fetchPost = async () => {
+    setCurrentPage();
+    const fetchAxios = await axios
+      .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
+      .then((res) => {
+        console.log(res.data);
+        console.log(res.data.list);
+        setPosts(res.data.list);
+        setTotalCount(res.data.totalBoardCount);
+        console.log("totalBoardCount", res.data.totalBoardCount);
+      });
+  };
+  useEffect(() => {
+    fetchPost();
+    return () => fetchPost();
+  }, []);
 
   // 이슈 service, DTO의 변수 이름이 mapper랑 다름
   // onChange 렌더링 한글자 때문에 리스트 오는 갯수랑 totalcount 갯수가 다름
@@ -52,7 +70,7 @@ function PickUpMe() {
         const fetchPost = async () => {
           setCurrentPage();
           const fetchAxios = await axios
-            .get(selectAllUrl + "?pageNo=" + pageNo) //,{params:{pageNo:currentPage}}
+            .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
             .then((res) => {
               console.log(res.data);
               setPosts(res.data.list);
@@ -74,8 +92,8 @@ function PickUpMe() {
 
   const searchTitle = async () => {
     await axios
-      .get(selectAllUrl + "/searchbytitle", {
-        params: { pageNo: pageNo, searchword: searchKeyword },
+      .get(pickurl + "/search/title", {
+        params: { pageNo: pageNo, title: searchKeyword },
       })
       .then((res) => {
         if (searchKeyword == null) {
@@ -90,8 +108,8 @@ function PickUpMe() {
 
   const searchName = async () => {
     await axios
-      .get(selectAllUrl + "/searchbynickname", {
-        params: { pageNo: pageNo, searchword: searchKeyword },
+      .get(pickurl + "/search/nickname", {
+        params: { pageNo: pageNo, nickname: searchKeyword },
       })
       .then((res) => {
         console.log(res);
@@ -101,24 +119,11 @@ function PickUpMe() {
       });
   };
 
-  //    setSearchKeyword("");
-
-  let selectAllUrl = joinmeurl + "/selectallbypage";
-  useEffect(() => {
-    const fetchPost = async () => {
-      setCurrentPage();
-      const fetchAxios = await axios
-        .get(selectAllUrl + "?pageNo=" + pageNo) //,{params:{pageNo:currentPage}}
-        .then((res) => {
-          console.log(res.data);
-          setPosts(res.data.list);
-          console.log("list : ", res.data.list);
-          setTotalCount(res.data.totalBoardCount);
-          console.log("totalBoardCount", res.data.totalBoardCount);
-        });
-    };
-    return () => fetchPost();
-  }, []);
+  // Keyword
+  function handleButtonKeyword(e) {
+    let typepost = e.target.value;
+    typepost !== "전체" ? setPosts(posts(typepost)) : setPosts(fetchPost());
+  }
 
   //pagenation
   const pageNate = (pageNum) => pageNo(pageNum);
@@ -149,14 +154,13 @@ function PickUpMe() {
               if (!is_logged) {
                 loginModal();
               } else if (is_logged) {
-                navigate("/joinmeform");
+                navigate("/pickmeform");
               }
             }}
           >
             글쓰기
           </Button>
           {isLoginModalOpen && <Login />}
-
           <div>
             <select id="searchKey" name="searchKey" onChange={selectChange}>
               <option value="선택하기🎇">--</option>
@@ -172,12 +176,26 @@ function PickUpMe() {
             />
             <button onClick={onSearch}>검색</button>
           </div>
+          <>
+            {buttons &&
+              buttons.map((type, index) => (
+                <>
+                  <button
+                    key={index}
+                    value={type.value}
+                    onClick={handleButtonKeyword}
+                  >
+                    {type.name}
+                  </button>
+                </>
+              ))}
+          </>
 
           <View>
             {posts &&
               posts.map((post) => (
                 <PickUpMeCard
-                  key={post.joinMeId}
+                  key={post.boardId}
                   post={post}
                   isLoginState={isLoginState}
                 />
@@ -201,7 +219,7 @@ function PickUpMe() {
 export default PickUpMe;
 
 const MainContent = styled.main`
-  min-height: 800px;
+  min-height: 900px;
   box-sizing: inherit;
   display: block;
   font-size: 1rem;
@@ -210,9 +228,9 @@ const MainContent = styled.main`
 `;
 
 const Content = styled.div`
-  max-width: 1100px;
+  max-width: 1200px;
   margin: auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   flex-grow: 1;
   position: relative;
   width: auto;

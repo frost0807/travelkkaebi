@@ -22,7 +22,6 @@ import ReviewCreateForm from "./pages/Review/ReviewCreateForm";
 import RegionEvent from "./pages/RegionEvent/RegionEvent";
 import PickUpMe from "./pages/PickUpMe/PickUpMe";
 
-
 import JoinMe from "./pages/JoinMe/JoinMe";
 import JoinMeDetail from "./pages/JoinMe/JoinMeDetail";
 import JoinMeForm from "./pages/JoinMe/JoinMeForm";
@@ -32,6 +31,9 @@ import { isLoginState, showJoinMeDetailState } from "./recoil/atom";
 import JoinMeEditForm from "./pages/JoinMe/JoinMeEditForm";
 import Editor from "./pages/Editor/Editor";
 import EditorCreateForm from "./pages/Editor/EditorCreateForm";
+import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
+import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
+import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
 
 function Main() {
   return (
@@ -80,7 +82,11 @@ function Main() {
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="joinmeedit" element={<JoinMeEditForm />} />
-        <Route path="/pickupme" element={<PickUpMe />} />
+
+        <Route path="/pickme/:pageNo" element={<PickUpMe />} />
+        <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
+        <Route path="/pickmeform" element={<PickUpMeForm />} />
+        <Route path="pickmeedit" element={<PickUpMeEditForm />} />
       </Routes>
 
       {/* //=================================== */}
