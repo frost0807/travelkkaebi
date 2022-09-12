@@ -2,7 +2,6 @@ package com.bitcamp.travelkkaebi.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @ToString

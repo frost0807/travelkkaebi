@@ -83,19 +83,13 @@ public class RegionEventService {
     /**
      * 지역축제 상세보기 logic
      */
+    @Transactional
     public RegionEventDTO showRegionEvent(int regionBoardId) {
         RegionalEventEntity findRegionEvent = regionDB.findById(regionBoardId).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
+        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
         return RegionEventDTO.toDto(findRegionEvent);
     }
 
-    /**
-     * 조회수 증가 logic
-     */
-    @Transactional
-    public void updateView(int regionBoardId) {
-        RegionalEventEntity findRegionEvent = regionDB.findById(regionBoardId).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
-        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
-    }
 
     /**
      * 최신순 게시물 3개, 4개 return
@@ -103,15 +97,11 @@ public class RegionEventService {
     public HashMap<Integer, List<RegionEventDTO>> findAll(Pageable pageable) {
         HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
         List<RegionEventDTO> regionLists = regionDB.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList());
-        List<RegionEventDTO> firstRegionEvent = new ArrayList<>();
         List<RegionEventDTO> secondRegionEvent = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            firstRegionEvent.add(regionLists.get(i));
-        }
         for (int i = 3; i < 7; i++) {
             secondRegionEvent.add(regionLists.get(i));
         }
-        regionList.put(1, firstRegionEvent);
+        regionList.put(1, regionDB.findTop3ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
         regionList.put(2, secondRegionEvent);
         return regionList;
     }

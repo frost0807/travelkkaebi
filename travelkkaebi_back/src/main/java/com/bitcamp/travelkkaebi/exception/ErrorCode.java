@@ -14,9 +14,7 @@ public enum ErrorCode {
     ALREADY_APPLIED("이미 신청한 글입니다"),
     NO_SEARCH("검색된 게시물이 없습니다"),
     FAILED_TO_UPDATE_VIEW("조회수 갱신 실패"),
-
     BOARD_UPDATE_EXCEPTION("게시물 수정 갱신 실패"),
-
     FAILED_TO_SELECT_BOARD("게시물 조회 실패");
 
 
