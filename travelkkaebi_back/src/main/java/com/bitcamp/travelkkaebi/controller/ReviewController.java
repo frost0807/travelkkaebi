@@ -88,14 +88,14 @@ public class ReviewController {
 
     /**
      * 게시글 리스트 (추천)
+     * 메인에 쓸 것! Because 리뷰게시판엔 추천 리스트가 없어요.
      */
     @GetMapping("selectallgood")
-    private ResponseEntity<ListResponseDTO> selectAllGood(@RequestParam int pageNo) {
+    private ResponseEntity<ListResponseDTO> selectAllGood() {
         try {
-            // 메인에 쓸 것! Because 리뷰게시판엔 추천 리스트가 없어요.
-            List<Integer> list = likeOrDislikeService.getBoardIdListMostLiked(5, 4);
-            reviewService.selectAllGood(list);
-            return new ResponseEntity(list, HttpStatus.OK);
+            List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(5, 6);
+            return new ResponseEntity(reviewService.selectAllGood(boardIdList), HttpStatus.OK);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

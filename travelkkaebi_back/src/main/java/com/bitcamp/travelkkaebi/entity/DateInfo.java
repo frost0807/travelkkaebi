@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 @Getter
 @Builder

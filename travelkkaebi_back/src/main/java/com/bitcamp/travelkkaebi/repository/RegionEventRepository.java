@@ -10,5 +10,5 @@ import java.util.List;
 public interface RegionEventRepository extends JpaRepository<RegionalEventEntity, Integer> {
     Page<RegionalEventEntity> findAllByOrderByIdDesc(Pageable pageable);
 
-    List<RegionalEventEntity> findTop3ByOrderByIdDesc();
+    List<RegionalEventEntity> findTop4ByOrderByIdDesc();
 }
