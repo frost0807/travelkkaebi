@@ -38,9 +38,8 @@ function CarouselHome() {
   return (
     <Carousel>
       {latestRegionEvnetArr.map((element, index) => (
-        <Carousel.Item>
+        <Carousel.Item key={index}>
           <img
-            key={index}
             style={{ width: "500px", height: "800px" }}
             className="d-block w-100"
             src={element.posterImageUrl}

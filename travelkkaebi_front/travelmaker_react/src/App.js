@@ -79,7 +79,7 @@ function Main() {
         <Route path="/testreview" element={<TestReview />} />
         <Route path="/testdetail/:id" element={<TestReviewDetail />} />
         <Route path="/testresponse" element={<TestResponse />} />
-        {/* <Route path='/testpost' element={<TestPost />}/> */}
+        <Route path="/testpost" element={<TestPost />} />
 
         <Route path="/joinme/:pageNo" element={<JoinMe />} />
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
