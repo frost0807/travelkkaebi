@@ -12,7 +12,12 @@ public enum ErrorCode {
     NO_INPUT_INFORMATION("입력정보가 없습니다."),
     DOES_NOT_EXIST_BOARD("해당 게시물이 존재하지 않습니다."),
     ALREADY_APPLIED("이미 신청한 글입니다"),
-    NO_SEARCH("검색된 게시물이 없습니다");
+    NO_SEARCH("검색된 게시물이 없습니다"),
+    FAILED_TO_UPDATE_VIEW("조회수 갱신 실패"),
+
+    BOARD_UPDATE_EXCEPTION("게시물 수정 갱신 실패");
+
+
 
     public final String message;
 
