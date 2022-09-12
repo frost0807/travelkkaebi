@@ -47,9 +47,9 @@ const QuillEditor = ({
         .post(imgurl + "/temporaryinsert", formData, headerConfig)
         .then((res) => {
           console.log("이미지 핸들러 : ", res);
+
           const url = res.data[0];
           setReqImageUrl((prev) => [...prev, url]);
-
           const quill = quillRef.current.getEditor();
           /* ReactQuill 노드에 대한 Ref가 있어야 메서드들을 호출할 수 있으므로
           useRef()로 ReactQuill에 ref를 걸어주자.

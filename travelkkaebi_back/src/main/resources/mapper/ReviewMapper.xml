@@ -18,7 +18,8 @@
     </insert>
 
     <update id="update" parameterType="ReviewDTO" useGeneratedKeys="true" keyProperty="reviewId">
-        UPDATE board_review SET title = #{title}, content = #{content}, region = #{region}
+        UPDATE board_review
+        SET title = #{title}, content = #{content}, region = #{region}, review_img_url = #{reviewImgUrl}
         WHERE review_id = #{reviewId}
     </update>
 
