@@ -9,9 +9,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 @Setter
 @Getter
 public class JoinMeDTO {

@@ -8,9 +8,8 @@ import React from 'react';
 import { textAlign } from "@mui/system";
 import banner from './/regionevent_banner.jpg';
 
-import CardImg from "../../components/CardImg/CardImg";
-import CardImgGet from "../../components/CardImg/CardImgGet";
-import CarouselHome from "../../components/Carousel/CarouselHome";
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
 
 // 백엔드에서 메인 홈화면의 상단 정보/후기 부분 핫 게시물 사진과 작성자
 // 게시물 번호등 보내줌 (위의 CardImg에서 props로 보내서 컴포넌트에서 처리)
@@ -25,18 +24,20 @@ function Editor() {
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
   const navi = useNavigate();
 
-  const {page} = useParams()
+  const {currentPage} = useParams()
 
     // 시작시 호출되는 함수
     const getDetail=()=>{
-      axios.get(API_BASE_URL+"/editorchoice/selectallbypage")
-      .then(response=>{
-        setData(response.data[1]);
-        setData2(response.data[2]);
-        console.log(response.data);
-
+      axios.get(API_BASE_URL+"/editorchoice/selectallbypage",
+      {params : {
+        pageNo : currentPage }
+      })
+      .then(res=>{
+        setData(res.data);
+        console.log(res.data);
       })
     }
   
@@ -45,47 +46,15 @@ function Editor() {
     },[]);// currentPage가 변경될 때마다 다시 호출
 
 
+    const pageCount=()=>{
+      axios.get(API_BASE_URL+"/editorchoice/count",
+      )
+      .then(response=>{
+        setCount(response.data);
+      })
+    }
   return(
     <>
-      <div>
-        {/* <div style={{backgroundImage:{banner}}}></div> */}
-      {
-        
-        data && data.map((row, idx)=>(
-        <tr>
-          <td key={row.regionId}>{row.title}</td>
-          <td onClick={()=>{
-            navi(`/regionevent`)
-            }} style={{ cursor:'pointer' }}>
-            {row.content}
-            {row.nickname}
-          </td>
-          <td>{row.posterImageUrl}</td>
-          
-        </tr>
-      ))
-      }
-      ////////////
-      {
-        
-        data2 && data2.map((row, idx)=>(
-        <tr>
-          <td key={row.regionId}>{row.title}</td>
-          <td onClick={()=>{
-            navi(`/editor`)
-            }} style={{ cursor:'pointer' }}>
-            {row.content}
-            {row.nickname}
-          </td>
-          <td>{row.posterImageUrl}</td>
-          
-        </tr>
-      ))
-      }
-      </div>
-
-
-
 
     <div style={{ height:"30%", width:"50%", margin:"auto" }}>
       <Carousel>
@@ -108,11 +77,36 @@ function Editor() {
     </div>
 
     <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
-    <CardImg topImage1="topImage1" topImage2="topImage2" topImage3="topImage3"  topImage4="topImage4" />
+
+    <div>
+      
+    <CardGroup style={{marginLeft:'100px', marginRight:'100px'}}>
+      {
+        data2 && data2.map((row, idx)=>(
+
+      <Card >
+        <Card.Img variant="top"  src={row.posterImageUrl} />
+        <Card.Body>
+          <Card.Title as="a" href= "/regionevent/detail/${row.regionId}" >{row.title}</Card.Title>
+          <Card.Text>
+            {row.nickname}
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
+          <small className="text-muted">{row.view}</small>
+        </Card.Footer>
+      </Card>
+      ))
+      }
+    </CardGroup>
+
+
+    </div>
+
     <button type='button' className='btn btn-info'
           style={{ width:'110px', marginTop:'10px' }}
           onClick={()=>{
-            navi("/editor/createform");
+            navi("/regionevent/createform");
           }}>글쓰기</button>
     </>
   )

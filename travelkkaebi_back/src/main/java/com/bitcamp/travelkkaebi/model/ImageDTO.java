@@ -6,9 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 @Setter
 @Getter
 public class ImageDTO {

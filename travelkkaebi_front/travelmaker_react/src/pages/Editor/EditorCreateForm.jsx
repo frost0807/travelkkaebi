@@ -43,12 +43,12 @@ const EditorCreateForm = () => {
   } = useForm({
     mode: "onChange",
   });
-  let loginStatus = localStorage.loginStatus;
-  loginStatus = 1; // 로그인 상태 임시로 켜둔거
-  let id = "temporaryId" //localStorage.myid;
+  //let loginStatus = localStorage.loginStatus;
+  //loginStatus = 1;  로그인 상태 임시로 켜둔거
+  // let id = localStorage.myid; //localStorage.myid;
 
   const logInStatus=()=>{
-    if(loginStatus==null){
+    if(localStorage.username==null){
       alert("먼저 로그인한 후 글을 작성해주세요");
       navi("/login");
     }
@@ -72,6 +72,7 @@ const EditorCreateForm = () => {
   let inputRef;
 
   const onSubmit= async (data)=>{
+    console.log("check");
     const headerConfig = {
       Headers: {
         "content-type": "multipart/form-data",
@@ -82,12 +83,12 @@ const EditorCreateForm = () => {
     
     const formData = new FormData();
     console.log(formData);
-    const regionEventDTO = JSON.stringify(data);
-    // regionEventDTO.id =1;
+    const EditorChoiceDTO = JSON.stringify(data);
+    // EditorChoiceDTO.id =1;
     formData.append("file", profile.image_file);
     formData.append(
-      "regionEventDTO",
-      new Blob([regionEventDTO], { type: "application/json" })
+      "EditorChoiceDTO",
+      new Blob([EditorChoiceDTO], { type: "application/json" })
     );
     console.log(formData);
 
@@ -96,23 +97,13 @@ const EditorCreateForm = () => {
       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     };
     await axios
-    .post(API_BASE_URL + "/travelkkaebi/region/event/write", formData, headerConfig)
+    .post(API_BASE_URL + "/editorchoice/write", formData, headerConfig)
     .then((res) => {
       console.log(res.data);
-      alert("👹에디터초이스 작성이 완료되었습니다.");
+      alert("👹에디터 글 작성이 완료되었습니다.");
       navi('/editor');
     });
 
-
-  
-
-
-    
-
-    // axios.post(API_BASE_URL+"/travelkkaebi/region/event/write", {RegionEventDTO})
-    // .then(res=>{
-    //   navi("/regionevent");
-    // })
   }
 
   useEffect(()=>{
@@ -122,7 +113,9 @@ const EditorCreateForm = () => {
 
   return (
     <div>
-
+{/* 에디터 글쓰기 DTO 필요한것
+title, content, region, img url 1~3
+*/}
 <Wrapper>
       <ContainerWrapper>
         <form
@@ -135,52 +128,24 @@ const EditorCreateForm = () => {
               에디터 글쓰기
               <p className="must">필수입력사항 </p>
             </FormTitle>
-            {/* <div className="profileimg">
-              <img
-                alt="basicimg"
-                src={profile.preview_URL}
-                className="user_profile"
-              />
-            </div> */}
-            {/* <div className="photo_icon">
-              <input
-                type="file"
-                accept="image/*"
-                name="profile_img_url"
-                hidden
-                style={{ display: "none" }}
-                onChange={imageUpload}
-                ref={(refParam) => (inputRef = refParam)}
-                onClick={(e) => (e.target.value = null)}
-              />
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                onClick={() => inputRef.click()}
-              >
-                <PhotoCamera />
-              </IconButton>
-            </div> */}
             <br />
-
             <div className="reg_table" style={{ margin: 0, display: "block" }}>
               <table className="register_table">
                 <colgroup style={{ display: "table-column-group" }}>
                   <col style={{ width: 130, display: "table-column" }} />
                   <col style={{ width: "*", display: "table-column" }} />
                 </colgroup>
-
                 <tbody>
-                  
                   <tr>
-                    <th scope="row">
+                    <td scope="row">
                       <label htmlFor="photo" className="req">
                         👹사진 첨부 부분
                       </label>
-                    </th>
+                    </td>
 
-
+                    
                     <div className="profileimg">
+                    
               <img
                 alt="basicimg"
                 src={profile.preview_URL}
@@ -208,13 +173,9 @@ const EditorCreateForm = () => {
             </div>
             <br />
 
-
-
                   </tr>
                   <tr>
                     <th scope="row">
-
-
                       <label htmlFor="title" className="req">
                         🔸제목
                       </label>
@@ -273,12 +234,6 @@ const EditorCreateForm = () => {
                             
                           })}
                         />
-                        {/* {errors.email && (
-                          <div className="reg-error3">
-                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
-                            {errors.email.message}
-                          </div>
-                        )} */}
                       </div>
                     </td>
                   </tr>
@@ -287,7 +242,7 @@ const EditorCreateForm = () => {
             </div>
 
             <BtnConfirm>
-              <a href="/editor/1" className="btn_cancel">
+              <a href="/regionevent" className="btn_cancel">
                 취소
               </a>
               <input

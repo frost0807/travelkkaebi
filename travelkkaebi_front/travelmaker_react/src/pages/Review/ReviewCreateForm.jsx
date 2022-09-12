@@ -43,12 +43,10 @@ const ReviewCreateForm = () => {
   } = useForm({
     mode: "onChange",
   });
-  let loginStatus = localStorage.loginStatus;
-  loginStatus = 1; // 로그인 상태 임시로 켜둔거
-  let id = "temporaryId" //localStorage.myid;
+  let userId = localStorage.userId;
 
   const logInStatus=()=>{
-    if(loginStatus==null){
+    if(userId==null){
       alert("먼저 로그인한 후 글을 작성해주세요");
       navi("/login");
     }
@@ -82,12 +80,12 @@ const ReviewCreateForm = () => {
     
     const formData = new FormData();
     console.log(formData);
-    const regionEventDTO = JSON.stringify(data);
+    const reviewDTO = JSON.stringify(data);
     // regionEventDTO.id =1;
     formData.append("file", profile.image_file);
     formData.append(
-      "regionEventDTO",
-      new Blob([regionEventDTO], { type: "application/json" })
+      "reviewDTO",
+      new Blob([reviewDTO], { type: "application/json" })
     );
     console.log(formData);
 
@@ -269,6 +267,38 @@ const ReviewCreateForm = () => {
                             maxLength: {
                               value: 500,
                               message: "최대 500글자까지 입력 가능합니다.",
+                            },
+                            
+                          })}
+                        />
+                        {/* {errors.email && (
+                          <div className="reg-error3">
+                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
+                            {errors.email.message}
+                          </div>
+                        )} */}
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">
+                      <label htmlFor="content" className="req">
+                        🔸지역
+                      </label>
+                    </th>
+                    <td>
+                      <div className="content_wrap">
+                        <input
+                          type="region"
+                          className="reg_input"
+                          name="region"
+                          required
+                          
+                          {...register("region", {
+                            maxLength: {
+                              value: 20,
+                              message: "최대 20글자까지 입력 가능합니다.",
                             },
                             
                           })}

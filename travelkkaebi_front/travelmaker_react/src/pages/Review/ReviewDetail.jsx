@@ -7,6 +7,8 @@ import axios from 'axios';
 import React from 'react';
 import { textAlign } from "@mui/system";
 import { SettingsCellOutlined } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
+
 
 function ReviewDetail(){
 
@@ -14,9 +16,21 @@ function ReviewDetail(){
   const [reply, setReply] = useState([])
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([])
-  const navi = useNavigate();
 
   const {id} = useParams()
+
+
+  const navi = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    watch,
+    getValues,
+    formState: { isSubmitting, isDirty, errors },
+  } = useForm({
+    mode: "onChange",
+  });
 
     // 시작시 호출되는 함수
 
@@ -25,34 +39,37 @@ function ReviewDetail(){
       .get(API_BASE_URL+"/review/selectone",{params : {reviewId : id }})
       .then(res=>{
         setData(res.data);
-        console.log("detail"+res.data);
+        console.log(res.data);
       })
     }
-    const reviewReplyInsert=(e)=>{
-      e.preventDefault();
-  
-      axios.post(API_BASE_URL+"/review/reply/write", {/*reviewReplyDTO, reviewDTO, userId*/})
+    const reviewReplyInsert= async (replyData)=>{
+      console.log("reviewReplyInsert console.log");
+      replyData.preventDefault();
+
+      const formData = new FormData();
+      console.log(replyData);
+      const reviewReplyDTO = JSON.stringify(replyData);
+      formData.append(
+        "reviewReplyDTO",
+        new Blob([reviewReplyDTO], { type: "application/json" })
+      );
+      axios.defaults.headers = {
+        "Content-Type": "application/json; charset = utf-8",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
+      {/*reviewReplyDTO (comment만), reviewDTO(boardid{reviewid}), userId*/}
+      // data.preventDefault();
+      
+      axios.post(API_BASE_URL+"/review/reply/write", formData
+      )
       .then(res=>{
-        navi("/review/1");
+        console.log(res.data);
+        alert("댓글 작성이 완료되었습니다.");
+        // navi(`/review/detail/${id}`);
       })
     }
 
-      // 멀티 액시오스 시도한거
 
-      // const getDetail=()=>{
-      //   axios
-      //   .all([axios.get(API_BASE_URL+"/review/selectone"),{params : { reviewId : id }}, axios.get(API_BASE_URL+"/review/reply/selectbyreview"),{params : {reviewId : id}}])
-      //   .then(
-      //     axios.spread((response1, response2)=>{
-      //       console.log(response1, response2);
-      //       setData(response1.data);
-      //       setReply(response2.data);
-      //     })
-      //   )
-      //   .catch((err)=>console.log(err));
-      // }
-
-      // 댓글받기 단일 액시오스
 
       const getReply=()=>{
         axios
@@ -94,7 +111,10 @@ function ReviewDetail(){
             <label>프로필 사진</label>
             <label><img src={data.profileImageUrl} style={{width : "100px", height : "100px"}} /></label>
         </div>
-
+        <div className="voc-view-row">
+            <label>지역</label>
+            <label>{ data.region }</label>
+        </div>
         <div className="voc-view-row">
             <label>조회수</label>
             <label>{ data.view }</label>
@@ -115,6 +135,11 @@ function ReviewDetail(){
                 }
             </div>
         </div>
+        <div className="voc-view-row">
+            <label>첨부사진</label>
+            <label><img src={data.reviewImgUrl} style={{width : "300px", height : "300px"}} /></label>
+        </div>
+
         <div style={{margin: "10px 0", display: "flex"}}>
               <button type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
@@ -172,14 +197,7 @@ function ReviewDetail(){
               <th style={{backgroundColor:'#ddd'}} width='100'>댓글쓰기</th>
               <td>{id}</td>
             </tr>
-            {/* <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>대표 이미지</th>
-              <td>
-                <input type='file' className='form-control'll
-                style={{width:'250px'}} 
-                onChange={imageUpload} required/>
-              </td>
-            </tr> */}
+
 
             <tr>
               <td colSpan={2}>
@@ -227,15 +245,7 @@ function ReviewDetail(){
                 ))
             }
             </label>
-            <label>
-            {
-                reply && reply.map((row, idx)=>(
-                  <tr>
-                    <td key={row.reviewReplyId}>{row.comment}</td>
-                  </tr>
-                ))
-            }
-            </label>
+
         </div>
 
 
