@@ -111,19 +111,17 @@ public class EditorChoiceController {
      * 게시글 리스트 (추천)
      */
     @GetMapping("/selectallgood")
-    private ResponseEntity<ListResponseDTO> selectAllGood(@RequestParam int pageNo) {
+    private ResponseEntity<ListResponseDTO> selectAllGood() {
 
         try {
-            List<Integer> list = likeOrDislikeService.getBoardIdListMostLiked(3, 6);
-            editorChoiceService.selectAllGood(list);
-            return new ResponseEntity(list, HttpStatus.OK);
+            List<Integer> BoardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 3);
+            return new ResponseEntity(BoardIdList, HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
-
 
 
     /**

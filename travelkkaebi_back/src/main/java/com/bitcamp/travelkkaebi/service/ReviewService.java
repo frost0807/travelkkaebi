@@ -3,6 +3,7 @@ package com.bitcamp.travelkkaebi.service;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
+import com.bitcamp.travelkkaebi.exception.ErrorCode;
 import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 
@@ -22,7 +24,7 @@ public class ReviewService {
     private final ReviewMapper reviewMapper;
     private final AwsS3service awsS3service;
 
-    private final int PAGE_SIZE = 20;
+    private final int PAGE_SIZE = 10;
 
     /**
      * 게시글 등록
@@ -120,14 +122,30 @@ public class ReviewService {
         }
     }
 
+    public ReviewResponseDTO selectAllGood(List<Integer> list) throws Exception {
+        for(int i : list) {
+            return reviewMapper.selectOne(i)
+                    .orElseThrow( ()-> new KkaebiException(DOES_NOT_EXIST_BOARD));
+        }
+        throw new KkaebiException(FAILED_TO_SELECT_BOARD);
+    }
+
     /**
      * 게시글 상세보기
      * @param reviewId
      * @return review
      */
     public ReviewResponseDTO selectOne(int reviewId) throws Exception {
+
+        Optional<ReviewResponseDTO> review = reviewMapper.selectOne(reviewId);
         // 조회수 +1 시켜주는 코드
         if(reviewMapper.viewPlus(reviewId) != 0)  {
+
+            if(review.get().getReviewImgUrl().equals(" ")) {
+
+            }
+
+
             return reviewMapper.selectOne(reviewId)
                     .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         } else {
