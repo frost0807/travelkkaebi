@@ -75,11 +75,4 @@ public class ImageService {
         }
         return (successCount == imageIdList.size());
     }
-    public List<String> temporaryInsert(List<MultipartFile> imageList) throws Exception {
-        List<String> resultImageUrlList = new ArrayList<>();
-        for (MultipartFile image : imageList) {
-            resultImageUrlList.add(awsS3service.upload(image, "static"));
-        }
-        return resultImageUrlList;
-    }
 }
