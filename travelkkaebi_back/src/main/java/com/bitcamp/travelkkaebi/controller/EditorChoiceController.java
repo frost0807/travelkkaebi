@@ -32,8 +32,6 @@ public class EditorChoiceController {
                                 @RequestPart(value = "file3", required = false) MultipartFile image3,
                                 @AuthenticationPrincipal String userId) {
 
-        System.out.println("에디터 write 컨트롤러 도착");
-
        try {
             return new ResponseEntity(editorChoiceService.write(editorChoiceDTO,
                     image1, image2, image3, Integer.parseInt(userId)), HttpStatus.OK);
@@ -44,10 +42,10 @@ public class EditorChoiceController {
        }
     }
 
+
     /**
      * 게시글 수정
      */
-
     @PutMapping("/update")
     private ResponseEntity update(@RequestPart(value = "editorchoice") EditorChoiceDTO editorChoiceDTO,
                                   @RequestPart(value = "file1", required = false) MultipartFile image1,
@@ -63,6 +61,7 @@ public class EditorChoiceController {
         }
     }
 
+
     /**
      * 게시글 삭제
      */
@@ -77,10 +76,10 @@ public class EditorChoiceController {
         }
     }
 
+
     /**
      * 게시글 리스트
      */
-
     @GetMapping("/selectallbypage")
     private ResponseEntity<ListResponseDTO> selectAllByPage(@RequestParam int pageNo) {
 
@@ -92,6 +91,7 @@ public class EditorChoiceController {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 
     /**
      * 게시글 리스트 (신규)
@@ -111,11 +111,29 @@ public class EditorChoiceController {
      * 게시글 리스트 (추천)
      */
     @GetMapping("/selectallgood")
-    private ResponseEntity<ListResponseDTO> selectAllGood() {
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllGood() {
 
         try {
-            List<Integer> BoardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 3);
-            return new ResponseEntity(BoardIdList, HttpStatus.OK);
+            List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 3);
+            return new ResponseEntity(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
+    /**
+     * 메인 게시글 리스트 (추천)
+     */
+    @GetMapping("/home")
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllForHome() {
+
+        try {
+            List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 6);
+
+            return new ResponseEntity(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,7 +160,6 @@ public class EditorChoiceController {
     /**
      * 게시물 갯수 반환
      */
-
     @GetMapping("/count")
     private ResponseEntity count() {
 
@@ -154,6 +171,7 @@ public class EditorChoiceController {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 
     /**
      * 특정 제목으로 검색
@@ -170,6 +188,7 @@ public class EditorChoiceController {
         }
     }
 
+
     /**
      * 특정 내용으로 검색
      */
@@ -184,6 +203,7 @@ public class EditorChoiceController {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 
     /**
      * 특정 작성자로 검색
@@ -200,10 +220,10 @@ public class EditorChoiceController {
         }
     }
 
+
     /**
      * (지역) 키워드로 검색
      */
-
     @GetMapping("/selectallbypage/keywordbyregion")
     private ResponseEntity<ListResponseDTO> keywordByRegion (@RequestParam("region") String word, int pageNo) {
 
