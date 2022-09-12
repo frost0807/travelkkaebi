@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import static com.bitcamp.travelkkaebi.page.KkaebiPage.PICK_ME_PAGE;
+import static com.bitcamp.travelkkaebi.page.KkaebiPage.PICK_ME_PAGE_SIZE;
 
 @CrossOrigin
 @RestController
@@ -25,10 +25,9 @@ public class PickMeController {
      * pickMe 게시글 20개씩 pagination return
      */
     @GetMapping("/list")
-    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PICK_ME_PAGE) Pageable pageable) {
+    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PICK_ME_PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
-
 
 
     /**
@@ -61,7 +60,7 @@ public class PickMeController {
      */
     @GetMapping("/search/nickname")
     public ResponseEntity<ListResponseDTO> findByNickname(
-            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
+            @PageableDefault(size = PICK_ME_PAGE_SIZE) Pageable pageable,
             @RequestParam String nickname) {
         return ResponseEntity.ok().body(pickMeService.findByNickname(nickname, pageable));
     }
@@ -71,7 +70,7 @@ public class PickMeController {
      */
     @GetMapping("/search/title")
     public ResponseEntity<ListResponseDTO> findByTitle(
-            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
+            @PageableDefault(size = PICK_ME_PAGE_SIZE) Pageable pageable,
             @RequestParam String title) {
         return ResponseEntity.ok().body(pickMeService.findByTitle(title, pageable));
     }
@@ -81,7 +80,7 @@ public class PickMeController {
      */
     @GetMapping("/search/keyword")
     public ResponseEntity<ListResponseDTO> findByKeyword(
-            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
+            @PageableDefault(size = PICK_ME_PAGE_SIZE) Pageable pageable,
             @RequestParam String keyword) {
         return ResponseEntity.ok().body(pickMeService.findByKeyword(keyword, pageable));
     }
