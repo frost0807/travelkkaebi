@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.DOES_NOT_EXIST_BOARD;
 
@@ -39,7 +40,7 @@ public class EditorChoiceService {
      */
 
     public boolean write(EditorChoiceDTO editorChoiceDTO, MultipartFile image1,
-                                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
+                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
         System.out.println("에디터 write 서비스 도착");
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
