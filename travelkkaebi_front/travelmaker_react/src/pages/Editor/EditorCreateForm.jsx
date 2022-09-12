@@ -1,4 +1,4 @@
-import { ContainerWrapper, FormTitle, Title, Wrapper } from "./RegionEventCreatestyle";
+import { ContainerWrapper, FormTitle, Title, Wrapper } from "./EditorCreatestyle";
 import "./RegionEventCreateForm.css";
 import axios from 'axios';
 import styled from "styled-components";
@@ -12,7 +12,7 @@ import { API_BASE_URL } from '../../config';
 import { useForm } from "react-hook-form";
 import { bearerToken, headerConfig, headerImg_tk } from "../../util";
 
-const RegionEventCreateForm = () => {
+const EditorCreateForm = () => {
   const [photo, setPhoto] = useState('');
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
@@ -99,8 +99,8 @@ const RegionEventCreateForm = () => {
     .post(API_BASE_URL + "/travelkkaebi/region/event/write", formData, headerConfig)
     .then((res) => {
       console.log(res.data);
-      alert("👹지역축제 작성이 완료되었습니다.");
-      navi('/regionevent');
+      alert("👹에디터초이스 작성이 완료되었습니다.");
+      navi('/editor');
     });
 
 
@@ -132,7 +132,7 @@ const RegionEventCreateForm = () => {
         >
           <div className="register_form">
             <FormTitle>
-              지역축제 글쓰기
+              에디터 글쓰기
               <p className="must">필수입력사항 </p>
             </FormTitle>
             {/* <div className="profileimg">
@@ -287,7 +287,7 @@ const RegionEventCreateForm = () => {
             </div>
 
             <BtnConfirm>
-              <a href="/regionevent" className="btn_cancel">
+              <a href="/editor/1" className="btn_cancel">
                 취소
               </a>
               <input
@@ -357,7 +357,7 @@ const RegionEventCreateForm = () => {
   );
 };
 
-export default RegionEventCreateForm;
+export default EditorCreateForm;
 
 const BtnConfirm = styled.div`
   text-align: "center";
