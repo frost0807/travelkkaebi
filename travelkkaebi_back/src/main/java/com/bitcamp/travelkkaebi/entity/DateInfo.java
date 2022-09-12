@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,12 +18,12 @@ import java.time.LocalDateTime;
 public class DateInfo {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDateTime startDate;
+    private Timestamp startDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDateTime endDate;
+    private Timestamp endDate;
 
-    public void changeDate(LocalDateTime startDate, LocalDateTime endDate) {
+    public void changeDate(Timestamp startDate, Timestamp endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }

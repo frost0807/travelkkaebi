@@ -118,7 +118,7 @@ function PickUpMeDetail(props) {
     } else if (post.nickname === getUserNickname) {
       alert("정말 삭제하시겠습니까 ? ");
       axios
-        .delete(joinmeurl + "/delete?boardId=" + boardId, bearerToken)
+        .delete(joinmeurl + "/delete?pickmeId=" + boardId, bearerToken)
         .then((res) => {
           console.log(res);
           window.location.reload();

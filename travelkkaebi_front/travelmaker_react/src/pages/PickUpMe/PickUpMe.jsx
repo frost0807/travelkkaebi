@@ -13,6 +13,8 @@ import Pagination from "../../components/Pagenation/Pagination";
 import queryString from "query-string";
 import { buttons, getToken, isLoginFc, is_logged } from "../../util";
 import styled from "styled-components";
+import { CheckBox } from "@mui/icons-material";
+import { Checkbox } from "antd";
 
 function PickUpMe() {
   const navigate = useNavigate();
@@ -28,24 +30,24 @@ function PickUpMe() {
   // search
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectKeyword, setSelectKeyword] = useState("");
+  const [buttonKeyword, setButtonKeyword] = useState("");
 
-  // 마운트
-  const fetchPost = async () => {
-    setCurrentPage();
-    const fetchAxios = await axios
-      .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
-      .then((res) => {
-        console.log(res.data);
-        console.log(res.data.list);
-        setPosts(res.data.list);
-        setTotalCount(res.data.totalBoardCount);
-        console.log("totalBoardCount", res.data.totalBoardCount);
-      });
-  };
   useEffect(() => {
-    fetchPost();
+    // 마운트
+    const fetchPost = async () => {
+      setCurrentPage();
+      const fetchAxios = await axios
+        .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
+        .then((res) => {
+          console.log(res.data);
+          console.log(res.data.list);
+          setPosts(res.data.list);
+          setTotalCount(res.data.totalBoardCount);
+          console.log("totalBoardCount", res.data.totalBoardCount);
+        });
+    };
     return () => fetchPost();
-  }, []);
+  }, [setPosts]);
 
   // 이슈 service, DTO의 변수 이름이 mapper랑 다름
   // onChange 렌더링 한글자 때문에 리스트 오는 갯수랑 totalcount 갯수가 다름
@@ -59,7 +61,6 @@ function PickUpMe() {
     setSelectKeyword(e.target.value);
   };
 
-  console.log("지금 셀렉트 value ", selectKeyword);
   const onSearch = (e) => {
     if (
       searchKeyword === null ||
@@ -90,8 +91,8 @@ function PickUpMe() {
     }
   };
 
-  const searchTitle = async () => {
-    await axios
+  const searchTitle = () => {
+    axios
       .get(pickurl + "/search/title", {
         params: { pageNo: pageNo, title: searchKeyword },
       })
@@ -106,8 +107,8 @@ function PickUpMe() {
       });
   };
 
-  const searchName = async () => {
-    await axios
+  const searchName = () => {
+    axios
       .get(pickurl + "/search/nickname", {
         params: { pageNo: pageNo, nickname: searchKeyword },
       })
@@ -120,10 +121,36 @@ function PickUpMe() {
   };
 
   // Keyword
-  function handleButtonKeyword(e) {
+  function handleKeywordButton(e) {
     let typepost = e.target.value;
-    typepost !== "전체" ? setPosts(posts(typepost)) : setPosts(fetchPost());
+    typepost !== "전체"
+      ? axios
+          .get(
+            pickurl + "/search/keyword?page=" + pageNo + "&keyword=" + typepost
+          )
+          .then((res) => {
+            console.log("키워드 이벤트 ", res);
+            console.log("이건 뭔데 ", res.data.list);
+            setPosts(res.data.list);
+          })
+      : axios
+          .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
+          .then((res) => {
+            console.log(res.data);
+            console.log(res.data.list);
+            setPosts(res.data.list);
+            setTotalCount(res.data.totalBoardCount);
+            console.log("totalBoardCount", res.data.totalBoardCount);
+          });
   }
+
+  const keyButton = buttons.map((keyValue, idx) => {
+    return (
+      <button key={idx} value={keyValue.value} onClick={handleKeywordButton}>
+        {keyValue.name}
+      </button>
+    );
+  });
 
   //pagenation
   const pageNate = (pageNum) => pageNo(pageNum);
@@ -176,20 +203,7 @@ function PickUpMe() {
             />
             <button onClick={onSearch}>검색</button>
           </div>
-          <>
-            {buttons &&
-              buttons.map((type, index) => (
-                <>
-                  <button
-                    key={index}
-                    value={type.value}
-                    onClick={handleButtonKeyword}
-                  >
-                    {type.name}
-                  </button>
-                </>
-              ))}
-          </>
+          <div className="keywordButton">{keyButton}</div>
 
           <View>
             {posts &&
