@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.controller;
 
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PickMeDTO;
 import com.bitcamp.travelkkaebi.service.PickMeService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin
@@ -25,7 +25,7 @@ public class PickMeController {
      * pickMe 게시글 20개씩 pagination return
      */
     @GetMapping("/list")
-    public ResponseEntity<HashMap<Integer, List<PickMeDTO>>> showPickMeList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
 
@@ -83,4 +83,13 @@ public class PickMeController {
             @RequestParam String keyword) {
         return ResponseEntity.ok().body(pickMeService.findByKeyword(keyword, pageable));
     }
+
+    /**
+     * 게시물 상세보기
+     */
+    @GetMapping("/show/{boardId}")
+    public ResponseEntity<PickMeDTO> findOne(@PathVariable int boardId) {
+        return ResponseEntity.ok().body(pickMeService.findById(boardId));
+    }
+
 }

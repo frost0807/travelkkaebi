@@ -58,12 +58,6 @@ public class RegionEventController {
         return ResponseEntity.ok().body(regionEventService.showRegionEvent(regionBoardId));
     }
 
-    @PostMapping("/show/{regionBoardId}")
-    public ResponseEntity<Void> updateView(@PathVariable int regionBoardId) {
-        regionEventService.updateView(regionBoardId);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/home")
     public ResponseEntity<List<RegionEventDTO>> homeRegionList() {
         return ResponseEntity.ok().body(regionEventService.regionList());

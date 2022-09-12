@@ -83,19 +83,13 @@ public class RegionEventService {
     /**
      * 지역축제 상세보기 logic
      */
+    @Transactional
     public RegionEventDTO showRegionEvent(int regionBoardId) {
         RegionalEventEntity findRegionEvent = regionDB.findById(regionBoardId).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
+        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
         return RegionEventDTO.toDto(findRegionEvent);
     }
 
-    /**
-     * 조회수 증가 logic
-     */
-    @Transactional
-    public void updateView(int regionBoardId) {
-        RegionalEventEntity findRegionEvent = regionDB.findById(regionBoardId).orElseThrow(() -> new KkaebiException(EDIT_EXCEPTION));
-        findRegionEvent.updateView(findRegionEvent.getBaseWrite().getView());
-    }
 
     /**
      * 최신순 게시물 3개, 4개 return
