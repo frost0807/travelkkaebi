@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router";
+import { Navigate, Route, useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { API_BASE_URL, joinmeurl, likedislike } from "../../config";
 import axios from "axios";
@@ -15,6 +15,7 @@ import {
   JoinContainerWrapper,
   JoinIntroWrapper,
 } from "./pickupme.style";
+import PickUpMeEditForm from "./PickUpMeEditForm";
 import LikeBtn from "../../components/Like/LikeBtn";
 import Login from "../../components/Login/Login";
 import { useState } from "react";
@@ -24,62 +25,26 @@ import {
   getNickname,
   getToken,
   getUsername,
-  headerConfig,
-  headerImg_tk,
+  getUserNickname,
+  is_logged,
 } from "../../util";
-import { AllInbox } from "@mui/icons-material";
 
 const CATEGORY_ID = 1;
 
 function PickUpMeDetail(props) {
   const [post, setPost] = useState([]);
-  const {
-    showPickMeDetail,
-    close,
-    joinMeId,
-    profile_img,
-    likeCount,
-    setShowPickMeDetail,
-  } = props;
-  const [likeState, setLikeState] = useState(likeCount);
+  const { showJoinMeDetail, close, joinMeId, profile_img } = props;
+  const [likeState, setLikeState] = useState();
   const [like, setLike] = useState(false);
   const [likeordislikeid, setLikeordislikeid] = useState(0);
 
   const { id } = useParams();
-
-  // const getJoinMeList = () => {
-  //   const reslist = axios.get(joinmeurl + "/selectone", {
-  //     params: { joinMeId: joinMeId },
-  //   });
-  //   console.log("resList : ", reslist);
-  //   setPost(reslist.data);
-  // };
-
-  // const postLikeState = () => {
-  //   const reslike = (axios.defaults.headers = {
-  //     "Content-Type": "application/json; charset = utf-8",
-  //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-  //   });
-  //   axios.post(likedislike + "/selectone", {
-  //     data: {
-  //       boardId: joinMeId,
-  //       categoryId: CATEGORY_ID,
-  //     },
-  //   });
-  //   if (reslike.data.liked === "true") {
-  //     setLike(true);
-  //     console.log("like : ", like);
-  //     setLikeordislike_id(reslike.data.likeOrDislikeId);
-  //     console.log("likeordisliked : ", likeordislike_id);
-  //   }
-  // };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAPI = async () => {
       axios
-        .get(joinmeurl + "/selectone", {
-          params: { joinMeId: joinMeId },
-        })
+        .get(joinmeurl + "/selectone", { params: { joinMeId: joinMeId } })
         .then((reslist) => {
           console.log("resList : ", reslist);
           setPost(reslist.data);
@@ -87,30 +52,49 @@ function PickUpMeDetail(props) {
           console.log("Like axios req boardId : ", joinMeId);
           console.log("Like axios req categoryId : ", CATEGORY_ID);
 
-          const reslikefc = (axios.defaults.headers = {
-            "Content-Type": "application/json; charset = utf-8",
-            Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-          });
-          axios
-            .post(likedislike + "/selectone", {
-              data: {
-                boardId: joinMeId,
-                categoryId: CATEGORY_ID,
-              },
-            })
+          //{likeOrDislikeDTO : {
+          //categoryId:CATEGORY_ID
+          //boardId:boardId
+          const reslikefc = axios
+            .get(
+              likedislike +
+                "/selectone?boardId=" +
+                joinMeId +
+                "&categoryId=" +
+                CATEGORY_ID,
+              {
+                headers: {
+                  Authorization:
+                    "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+                },
+              }
+            )
             .then((reslike) => {
-              console.log("reslike : ", reslike.data);
+              console.log("reslike : ", reslike);
               setLikeordislikeid(reslike.data.likeOrDislikeId);
-              if (reslike.data.liked === "true") {
+              setLikeState(reslike.data.likeCount);
+              if (reslike.data.liked === true) {
                 setLike(true);
                 console.log("like? : ", like);
               }
+            })
+            .catch((error) => {
+              if (error.res) {
+                console.log(error.res);
+                console.log("server responded");
+                alert("axios 에러");
+              } else if (error.request) {
+                console.log("network error");
+                alert("server 에러");
+              } else {
+                console.log(error);
+              }
             });
         });
-      console.log("likeordislikeid first : ", likeordislikeid);
     };
+
     return () => fetchAPI();
-  }, []);
+  }, [setLike]);
 
   // 신청하기
   // http 200 뜸 -> DB엔 안 들어감
@@ -120,6 +104,8 @@ function PickUpMeDetail(props) {
       return;
     } else if (data.comment === "") {
       alert("코멘트를 입력해주세요.");
+    } else if (!is_logged) {
+      alert("로그인이 필요합니다.");
     } else {
       axios.defaults.headers = {
         "Content-Type": "application/json; charset = utf-8",
@@ -160,16 +146,26 @@ function PickUpMeDetail(props) {
     sendServerApply({ comment: comment, joinMeId: joinMeId });
   };
 
+  // 수정
+  const upDateHandler = () => {
+    if (post.nickname != getUserNickname) {
+      // 애초에 수정버튼이 안 보이겠지만
+      alert("수정할 수 없습니다.");
+    } else {
+      navigate("/joinmeedit", { state: post });
+    }
+  };
+
   // 삭제
   const deleteHandler = () => {
     console.log(joinMeId);
-    if (post.nickname === getNickname) {
-      axios.defaults.headers = {
-        "Content-Type": "application/json; charset = utf-8",
-        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-      };
+    if (post.nickname != getUserNickname) {
+      alert("작성자가 아닙니다.");
+      return;
+    } else if (post.nickname === getUserNickname) {
+      alert("정말 삭제하시겠습니까 ? ");
       axios
-        .delete(joinmeurl + "/delete", joinMeId)
+        .delete(joinmeurl + "/delete?joinMeId=" + joinMeId, bearerToken)
         .then((res) => {
           console.log(res);
           window.location.reload();
@@ -188,28 +184,31 @@ function PickUpMeDetail(props) {
         });
     }
   };
+
   console.log("likeordislikeid second : ", likeordislikeid);
   // 좋아요
   const LikeToggleBtn = async (e) => {
     console.log("likeordislikeid active : ", likeordislikeid);
-    const res = await axios
-      .put(likedislike + "/clicklike", {
-        params: { likeOrDislikeId: likeordislikeid },
-        headerImg_tk,
-      })
+    const res = (axios.defaults.headers = {
+      "Content-Type": "application/json; charset = utf-8",
+      Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+    });
+    await axios
+      .put(likedislike + "/clicklike?likeOrDislikeId=" + likeordislikeid)
       .then((res) => {
         console.log("resdata", res);
         setLike(!like);
+        setLikeState(res.data.likeCount);
       });
   };
 
   return (
     <>
-      {showPickMeDetail ? (
+      {showJoinMeDetail && (
         <Background>
           <DImmedd> </DImmedd>
           <ModalContainer>
-            <Closebtn onClick={close} />
+            <Closebtn onClick={() => close} />
             <div className="jd-container">
               <DetailHeader>
                 <header>JOIN ME</header>
@@ -237,22 +236,6 @@ function PickUpMeDetail(props) {
                   </IntroHeaders>
                   <IntroBodys>
                     <div>{post.content}</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
                     <p className="joinme-nbspspace">&nbsp;</p>
                   </IntroBodys>
                 </JoinIntroWrapper>
@@ -281,18 +264,20 @@ function PickUpMeDetail(props) {
                   <div>
                     <TextField label="코멘트" id="comment" name="comment" />
                     <FooterButton type="submit">신청하기</FooterButton>
-                    <div>
-                      <Button>수정하기</Button>
-                      <Button onClick={deleteHandler}>삭제하기</Button>
-                    </div>
+                    {post.nickname === getUserNickname ? (
+                      <div
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                      >
+                        <Button onClick={upDateHandler}>수정하기</Button>
+                        <Button onClick={deleteHandler}>삭제하기</Button>
+                      </div>
+                    ) : null}
                   </div>
                 </Box>
               </JDFooter>
             </div>
           </ModalContainer>
         </Background>
-      ) : (
-        alert("잘못된 방식입니다.")
       )}
     </>
   );

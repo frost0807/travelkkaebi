@@ -8,6 +8,8 @@ import PickUpMeDetail from "./PickUpMeDetail";
 import { useRecoilState } from "recoil";
 import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
+import { Link } from "react-router-dom";
+import { display } from "@mui/system";
 
 function PickUpMeCard(props) {
   const [post, setPosts] = useState(props.post);
@@ -19,18 +21,18 @@ function PickUpMeCard(props) {
   let eDate = new Date(post.endDate);
   const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
-  const [showPickMeDetail, setShowPickMeDetail] = useState(false);
+  const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
 
-  const openPickMeDetail = () => {
-    setShowPickMeDetail(true);
+  const openJoinMeDetail = () => {
+    setShowJoinMeDetail(true);
   };
   const close = () => {
-    setShowPickMeDetail(false);
+    setShowJoinMeDetail(!showJoinMeDetail);
   };
 
   return (
     <>
-      <div onClick={openPickMeDetail}>
+      <div onClick={openJoinMeDetail}>
         <CardSection key={post.joinMeId}>
           <CardTop>
             <CardTitle>
@@ -86,17 +88,14 @@ function PickUpMeCard(props) {
           </CardBottom>
         </CardSection>
         <div>
-          {showPickMeDetail && (
+          {showJoinMeDetail ? (
             <PickUpMeDetail
               joinMeId={post.joinMeId}
-              isLoggedIn={props.isLoggedIn}
-              showPickMeDetail={showPickMeDetail}
-              setShowPickMeDetail={setShowPickMeDetail}
+              showJoinMeDetail={showJoinMeDetail}
               close={close}
               profile_img={profile_img}
-              likeCount={post.likeCount}
             />
-          )}
+          ) : null}
         </div>
       </div>
     </>

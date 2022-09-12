@@ -14,17 +14,16 @@ import queryString from "query-string";
 import { getToken, isLoginFc, is_logged } from "../../util";
 import styled from "styled-components";
 
-// function JoinMe() {
-//   const navigate = useNavigate();
+function JoinMe() {
+  const navigate = useNavigate();
 
   //  const query = queryString.parse(window.location.search);
   const { pageNo } = useParams();
 
-
-//   const [posts, setPosts] = useState([]);
-//   const [limits] = useState(20);
-//   const [currentPage, setCurrentPage] = useState(1); //query.page ||
-//   const [totalCount, setTotalCount] = useState();
+  const [posts, setPosts] = useState([]);
+  const [limits] = useState(20);
+  const [currentPage, setCurrentPage] = useState(1); //query.page ||
+  const [totalCount, setTotalCount] = useState();
 
   // search
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -36,10 +35,6 @@ import styled from "styled-components";
     e.preventDefault();
     setSearchKeyword(e.target.value);
   };
-  //    let stringKwd = e.target.value.toLowerCase()
-  //    const filterdpost = posts.filter((post) => {
-  //      return post.name.toLowerCase().includes(searchKeyword.toLowerCase()) !== -1;
-  //    });
 
   const selectChange = (e) => {
     e.preventDefault();
@@ -125,26 +120,8 @@ import styled from "styled-components";
     return () => fetchPost();
   }, []);
 
-//   let selectAllUrl = joinmeurl + "/selectallbypage";
-
-//   useEffect(() => {
-//     const fetchPost = async () => {
-//       setCurrentPage();
-//       const fetchAxios = await axios
-//         .get(selectAllUrl + "?pageNo=" + pageNo) //,{params:{pageNo:currentPage}}
-//         .then((res) => {
-//           console.log(res.data);
-//           setPosts(res.data.list);
-//           console.log("list : ", res.data.list);
-//           setTotalCount(res.data.totalBoardCount);
-//           console.log("totalBoardCount", res.data.totalBoardCount);
-//         });
-//     };
-//     return () => fetchPost();
-//   }, [pageNo]);
-
-//   //pagenation
-//   const pageNate = (pageNum) => pageNo(pageNum);
+  //pagenation
+  const pageNate = (pageNum) => pageNo(pageNum);
 
   // modal
   const [isLoginModalOpen, setIsLoginModalOpen] =

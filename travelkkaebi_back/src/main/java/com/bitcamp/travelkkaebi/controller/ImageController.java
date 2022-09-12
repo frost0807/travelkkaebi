@@ -44,6 +44,7 @@ public class ImageController {
             @RequestBody List<ImageDTO> imageDTOList,
             @AuthenticationPrincipal String userId) {
         try {
+            System.out.println(imageDTOList.get(0).toString());
             return new ResponseEntity<>(imageService.insert(imageDTOList, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,6 +89,4 @@ public class ImageController {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-
 }

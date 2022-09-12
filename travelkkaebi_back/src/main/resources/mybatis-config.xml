@@ -28,6 +28,7 @@
         <typeAlias type="com.bitcamp.travelkkaebi.model.MyTravelUserDTO" alias="MyTravelUserDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.model.MyTravelReplyDTO" alias="MyTravelReplyDTO"/>
 
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.TempDTO" alias="TempDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.UpdateMemberCountDTO" alias="UpdateMemberCountDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelReplyResponseDTO" alias="MyTravelReplyResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ListResponseDTO" alias="ListResponseDTO"/>

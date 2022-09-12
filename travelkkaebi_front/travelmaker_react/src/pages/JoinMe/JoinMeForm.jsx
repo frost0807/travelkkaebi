@@ -32,6 +32,9 @@ export default function JoinMeForm() {
   const [htmlContent, setHtmlContent] = useState("");
   const quillRef = useRef();
 
+  // image url
+  const [reqImageUrl, setReqImageUrl] = useState();
+
   // date
   const [selectDate, setSelectDate] = useState([
     {
@@ -96,15 +99,15 @@ export default function JoinMeForm() {
     setSelectRegion(event.target.value);
   };
 
+  console.log("부모컴포넌트의 url : ", reqImageUrl);
   // 게시글 추가하기
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.tartget);
+
     //태그를 제외한 순수 text만을 받아온다. 검색기능을 구현하지 않을 거라면 굳이 text만 따로 저장할 필요는 없다.
     const description = quillRef.current.getEditor().getText();
-    const formData = new FormData(e.target.value);
-    console.log("formData: ", formData);
     const title = e.target.title.value;
+    console.log("?? ", capacity);
 
     res({
       title: title,
@@ -120,39 +123,49 @@ export default function JoinMeForm() {
   // joinme mapper에 start/end date 추가
   // http 200 성공 -> DB 생성 X title null
   const res = async (joinmeDTO) => {
+    console.log("뭔 데이터바인드가 안된거야 ? ", joinmeDTO);
     console.log(joinmeDTO.title, joinmeDTO.content);
-    console.log(htmlContent);
     if (joinmeDTO.content.trim() === "") {
       alert("내용을 입력해주세요.");
       return;
     } else {
       //새로운 게시글 생성s
       // http://localhost:8080/travelkkaebi/pickme/write
+      // const sendDTO = new FormData();
+      // sendDTO.append("joinMeDTO", JSON.stringify(joinmeDTO));
       axios.defaults.headers = {
-        "Content-Type": "application/json; charset = utf-8",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
       };
-      await axios
+      axios
         .post(joinmeurl + "/insert", joinmeDTO) //joinmeurl + "/insert", joinmeDTO
         .then((res) => {
           console.log("작성완료 후 결과 ", res);
 
-          // const headerConfig = {
-          //   Headers: {
-          //     "content-type": "multipart/form-data",
-          //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-          //   },
-          // };
+          const joinMeId = res.data.joinMeId;
+          const imageDTO = [
+            {
+              boardId: joinMeId,
+              categoryId: 1,
+              imageUrl: reqImageUrl,
+            },
+            {
+              boardId: joinMeId,
+              categoryId: 1,
+              imageUrl: reqImageUrl,
+            },
+          ];
+          console.log("글쓰기 후 id ", joinMeId);
+          axios.defaults.headers = {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+          };
+          axios.post(imgurl + "/insert", imageDTO).then((resImg) => {
+            console.log("resimg : ", resImg);
+          });
 
-          // // 수정 전
-          // axios
-          //   .post(imgurl + "/insert", joinmeDTO, headerConfig)
-          //   .then((resImg) => {
-          //     console.log("resimg : ", resImg);
-          //   });
-
-          // alert("글 작성 완료");
-          // navigate("/joinme/1");
+          alert("글 작성 완료");
+          navigate("/joinme/1");
         })
         .catch((error) => {
           if (error.res) {
@@ -200,6 +213,8 @@ export default function JoinMeForm() {
                 type="text"
                 placeholder="제목을 입력해주세요"
                 required
+                it="title"
+                name="title"
               />
             </div>
 
@@ -240,18 +255,6 @@ export default function JoinMeForm() {
               </div>
             </div>
 
-            <div className="ccfield-prepend">
-              <span className="ccform-addon">
-                <i className="fa fa-comment fa-2x"></i>
-              </span>
-              <textarea
-                className="ccformfield-content"
-                name="comments"
-                rows="8"
-                placeholder="Message"
-                required
-              />
-            </div>
             <div
               className="ccfield-prepend"
               style={{ display: "block", position: "relative" }}
@@ -268,6 +271,8 @@ export default function JoinMeForm() {
               quillRef={quillRef}
               htmlContent={htmlContent}
               setHtmlContent={setHtmlContent}
+              reqImageUrl={reqImageUrl}
+              setReqImageUrl={setReqImageUrl}
             />
 
             <div className="ccfield-prependbtn">

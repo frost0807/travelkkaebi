@@ -236,22 +236,6 @@ function JoinMeDetail(props) {
                   </IntroHeaders>
                   <IntroBodys>
                     <div>{post.content}</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
-                    <div>content</div>
                     <p className="joinme-nbspspace">&nbsp;</p>
                   </IntroBodys>
                 </JoinIntroWrapper>

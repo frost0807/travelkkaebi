@@ -1,5 +1,5 @@
-.instructor_banner {
-  background-color: hsla(245, 79%, 59%, 0.279);
+.instructor_banner_pick {
+  background-color: hsla(170, 62%, 42%, 0.384);
   display: block;
   box-sizing: inherit;
 }
@@ -15,7 +15,7 @@
   height: 280px;
 }
 .bannername {
-  font-family: 'Poor Story', cursive;
+  font-family: "Poor Story", cursive;
   font-size: 30px;
   font-weight: 700;
   line-height: 1.5;
@@ -27,10 +27,10 @@
   margin-inline-start: 0px;
   margin-inline-end: 0px;
 }
-.ins-banner-cover p {
+.pick-banner-cover p {
   font-size: 13px;
   font-weight: 400;
-  font-family: 'Poor Story', cursive;
+  font-family: "Poor Story", cursive;
   line-height: 1;
   letter-spacing: 1.2px;
   color: #1b1c1d;
@@ -41,20 +41,20 @@
   margin-inline-end: 0px;
 }
 
-.ins-banner-cover {
+.pick-banner-cover {
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  background-image: url(../../images/banner/jm_banner.png);
+  background-image: url(../../images/banner/pick_banner.png);
   background-position: calc(100% + 80px) 30%;
   background-repeat: no-repeat;
   box-sizing: inherit;
   display: block;
 }
 .joinme-content {
-  font-family: 'Poor Story', cursive;
+  font-family: "Poor Story", cursive;
   color: #1b1c1d;
 }
 
@@ -147,7 +147,8 @@
   text-decoration: underline;
   cursor: pointer;
   box-sizing: inherit;
-} .card_username span:hover {
+}
+.card_username span:hover {
   transform: translateY(-1.5px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
@@ -164,7 +165,8 @@
   border-radius: 4px;
   background-color: rgba(255, 210, 77, 0.2);
   cursor: pointer;
-} .like-btn:hover {
+}
+.like-btn:hover {
   background-color: rgba(255, 211, 77, 0.5);
 }
 .like-btn span {
@@ -311,17 +313,16 @@ joinme-charge {
   font-size: 14px;
 }
 
+/* form ========================================================
 
-/*  form ======================================================== */
-
-.select-charge{
+.select-charge {
   display: flex;
   font-family: sans-serif;
   text-align: center;
 }
 .select-charge select {
   width: 8rem;
-  height: 3rem;
+  height: 2rem;
   margin: 10px;
   padding: 0.8em 0.5em;
   border: 1px solid#34495e;
@@ -332,4 +333,4 @@ joinme-charge {
 }
 .select-charge > h3 {
   color: #34495e;
-}
+} */
