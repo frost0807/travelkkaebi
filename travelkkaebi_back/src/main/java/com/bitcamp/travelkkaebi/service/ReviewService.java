@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -122,12 +123,15 @@ public class ReviewService {
         }
     }
 
-    public ReviewResponseDTO selectAllGood(List<Integer> list) throws Exception {
-        for(int i : list) {
-            return reviewMapper.selectOne(i)
-                    .orElseThrow( ()-> new KkaebiException(DOES_NOT_EXIST_BOARD));
+    public List<ReviewResponseDTO> selectAllGood(List<Integer> boardIdList) throws Exception {
+        List<ReviewResponseDTO> goodList = new ArrayList<>();
+
+        for(int i : boardIdList) {
+            goodList.add(reviewMapper.selectOne(i)
+                    .orElseThrow( ()-> new KkaebiException(DOES_NOT_EXIST_BOARD)));
         }
-        throw new KkaebiException(FAILED_TO_SELECT_BOARD);
+
+        return goodList;
     }
 
     /**
@@ -137,15 +141,8 @@ public class ReviewService {
      */
     public ReviewResponseDTO selectOne(int reviewId) throws Exception {
 
-        Optional<ReviewResponseDTO> review = reviewMapper.selectOne(reviewId);
         // 조회수 +1 시켜주는 코드
-        if(reviewMapper.viewPlus(reviewId) != 0)  {
-
-            if(review.get().getReviewImgUrl().equals(" ")) {
-
-            }
-
-
+        if(reviewMapper.viewPlus(reviewId) != 0) {
             return reviewMapper.selectOne(reviewId)
                     .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         } else {
