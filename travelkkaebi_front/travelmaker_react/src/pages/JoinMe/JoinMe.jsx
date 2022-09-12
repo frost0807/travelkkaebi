@@ -209,9 +209,9 @@ const MainContent = styled.main`
 `;
 
 const Content = styled.div`
-  max-width: 1100px;
+  max-width: 1200px;
   margin: auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   flex-grow: 1;
   position: relative;
   width: auto;

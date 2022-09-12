@@ -16,6 +16,13 @@ public interface PickMeRepository extends JpaRepository<PickMeEntity, Integer> {
 
     Page<PickMeEntity> findAllByRegion(String region, Pageable pageable);
 
+
     @Query("select count (p) from PickMeEntity p")
     int countPickMe();
+
+    int countByUserEntityNickname(String nickname);
+
+    int countByWriteInfoTitle(String title);
+
+    int countByRegion(String region);
 }

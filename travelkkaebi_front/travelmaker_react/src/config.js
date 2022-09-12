@@ -20,6 +20,6 @@ export const API_BASE_URL = `${host}`;
 export const likedislike = API_BASE_URL + "/likeordislike";
 export const userconfig = API_BASE_URL + "/travelkkaebi";
 export const joinmeurl = API_BASE_URL + "/joinme";
-export const pickupurl = API_BASE_URL + "/pickupme";
+export const pickurl = API_BASE_URL + "/pickme";
 export const imgurl = API_BASE_URL + "/image";
 export const mytravel = API_BASE_URL + "/mytravel";

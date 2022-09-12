@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.controller;
 
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PickMeDTO;
 import com.bitcamp.travelkkaebi.service.PickMeService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,11 @@ public class PickMeController {
      * pickMe 게시글 20개씩 pagination return
      */
     @GetMapping("/list")
-    public ResponseEntity<HashMap<Integer, List<PickMeDTO>>> showPickMeList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
+
+
 
     /**
      * pickMe write
@@ -58,7 +61,7 @@ public class PickMeController {
      * pickMe search by nickname 20개 씩
      */
     @GetMapping("/search/nickname")
-    public ResponseEntity<List<PickMeDTO>> findByNickname(
+    public ResponseEntity<ListResponseDTO> findByNickname(
             @PageableDefault(size = PAGE_SIZE) Pageable pageable,
             @RequestParam String nickname) {
         return ResponseEntity.ok().body(pickMeService.findByNickname(nickname, pageable));
@@ -68,7 +71,7 @@ public class PickMeController {
      * pickMe search by title 20개 씩
      */
     @GetMapping("/search/title")
-    public ResponseEntity<List<PickMeDTO>> findByTitle(
+    public ResponseEntity<ListResponseDTO> findByTitle(
             @PageableDefault(size = PAGE_SIZE) Pageable pageable,
             @RequestParam String title) {
         return ResponseEntity.ok().body(pickMeService.findByTitle(title, pageable));
@@ -78,9 +81,15 @@ public class PickMeController {
      * pickMe search by keyword 20개 씩
      */
     @GetMapping("/search/keyword")
-    public ResponseEntity<List<PickMeDTO>> findByKeyword(
+    public ResponseEntity<ListResponseDTO> findByKeyword(
             @PageableDefault(size = PAGE_SIZE) Pageable pageable,
             @RequestParam String keyword) {
         return ResponseEntity.ok().body(pickMeService.findByKeyword(keyword, pageable));
     }
+
+    @GetMapping("/show/{boardId}")
+    public ResponseEntity<PickMeDTO> findOne(@PathVariable int boardId) {
+        return ResponseEntity.ok().body(pickMeService.findById(boardId));
+    }
+
 }

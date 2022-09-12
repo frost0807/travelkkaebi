@@ -124,8 +124,6 @@ export default function JoinMeForm() {
   // joinme mapper에 start/end date 추가
   // http 200 성공 -> DB 생성 X title null
   const res = async (joinmeDTO) => {
-    console.log("뭔 데이터바인드가 안된거야 ? ", joinmeDTO);
-
     if (joinmeDTO.content.trim() === "") {
       alert("내용을 입력해주세요.");
       return;

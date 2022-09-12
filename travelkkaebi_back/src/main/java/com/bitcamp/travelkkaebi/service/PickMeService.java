@@ -1,5 +1,6 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PickMeDTO;
 import com.bitcamp.travelkkaebi.entity.PickMeEntity;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
@@ -27,10 +28,8 @@ public class PickMeService {
     /**
      * entity -> dto 반환후 total 게시글 수와 page 20개씩 return logic
      */
-    public HashMap<Integer, List<PickMeDTO>> findAll(Pageable pageable) {
-        HashMap<Integer, List<PickMeDTO>> pickMeList = new HashMap<>();
-        pickMeList.put(pickMeDB.countPickMe(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
-        return pickMeList;
+    public ListResponseDTO findAll(Pageable pageable) {
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countPickMe(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -84,34 +83,42 @@ public class PickMeService {
     /**
      * nickName search logic
      */
-    public List<PickMeDTO> findByNickname(String nickname, Pageable pageable) {
+    public ListResponseDTO findByNickname(String nickname, Pageable pageable) {
         List<PickMeEntity> findPickMeList = pickMeDB.findAllByUserEntityNicknameContainingOrderByIdDesc(nickname, pageable).getContent();
         if (findPickMeList.isEmpty())
             throw new KkaebiException(NO_SEARCH);
 
-        return findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList());
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByUserEntityNickname(nickname), findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
      * title search logic
      */
-    public List<PickMeDTO> findByTitle(String title, Pageable pageable) {
+    public ListResponseDTO findByTitle(String title, Pageable pageable) {
         List<PickMeEntity> findByTitleList = pickMeDB.findAllByWriteInfoTitleContainingOrderByIdDesc(title, pageable).getContent();
         if (findByTitleList.isEmpty())
             throw new KkaebiException(NO_SEARCH);
 
-        return findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList());
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByWriteInfoTitle(title), findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
      * keyword search logic  %like%
      */
-    public List<PickMeDTO> findByKeyword(String keyword, Pageable pageable) {
-        List<PickMeEntity> findByKeyword = pickMeDB.findAllByRegion(keyword, pageable).getContent();
+    public ListResponseDTO findByKeyword(String region, Pageable pageable) {
+        List<PickMeEntity> findByKeyword = pickMeDB.findAllByRegion(region, pageable).getContent();
         if (findByKeyword.isEmpty())
             throw new KkaebiException(NO_SEARCH);
 
-        return findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList());
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByRegion(region), findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
+    @Transactional
+    public PickMeDTO findById(int boardId) {
+        PickMeEntity findPickMe = pickMeDB.findById(boardId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
+        findPickMe.updateView(findPickMe.getWriteInfo().getView());
+        return PickMeDTO.toDto(findPickMe);
+    }
+
+
 
 }
