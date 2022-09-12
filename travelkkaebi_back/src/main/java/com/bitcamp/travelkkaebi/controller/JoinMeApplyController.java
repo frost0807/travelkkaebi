@@ -59,10 +59,9 @@ public class JoinMeApplyController {
     @PostMapping("/insert")
     public ResponseEntity<Boolean> insert(
             @RequestBody JoinMeApplyDTO joinMeApplyDTO,
-            @AuthenticationPrincipal Optional<String> userId) {
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeApplyService.insert(joinMeApplyDTO, Integer.parseInt(userId
-                    .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다.")))), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeApplyService.insert(joinMeApplyDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

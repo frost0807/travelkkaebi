@@ -71,7 +71,6 @@ public class JoinMeController {
     @GetMapping("/selectone")
     public ResponseEntity<JoinMeOneDTO> selectOne(@RequestParam int joinMeId) {
         try {
-            System.out.println("아이디 : " + joinMeId);
             return new ResponseEntity<>(joinMeService.selectOne(joinMeId), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,25 +78,22 @@ public class JoinMeController {
         }
     }
 
-//    @GetMapping("/setclosed")
-//    public ResponseEntity<Boolean> setClosed(@RequestParam int joinMeId,
-//                                             @AuthenticationPrincipal String userId) {
-//        try {
-//            return new ResponseEntity<>(joinMeService.setClosed(joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new RuntimeException(e.getMessage());
-//        }
-//    }
+    @GetMapping("/setclosed")
+    public ResponseEntity<Boolean> setClosed(@RequestParam int joinMeId,
+                                             @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(joinMeService.setClosed(joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     //유저가 글을 썼을 때 들어온 객체를 Service로 보내고 삽입된 객체 리턴
     @PostMapping("/insert")
     public ResponseEntity<JoinMeOneDTO> insert(@RequestBody JoinMeDTO joinMeDTO,
                                                @AuthenticationPrincipal String userId) {
         try {
-            System.out.println("a----------------------------------------------------------a");
-            System.out.println(joinMeDTO.toString());
-            System.out.println("a----------------------------------------------------------a");
             return new ResponseEntity<>(joinMeService.insert(joinMeDTO, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

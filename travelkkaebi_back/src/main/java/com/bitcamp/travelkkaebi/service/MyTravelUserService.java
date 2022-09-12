@@ -3,6 +3,7 @@ package com.bitcamp.travelkkaebi.service;
 import com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.dto.parameter.MyTravelIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.mapper.MyTravelUserMapper;
+import com.bitcamp.travelkkaebi.model.MyTravelUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,13 @@ public class MyTravelUserService {
 
     //MyTravel게시물 생성하면서 해당게시물 접근 가능한 User테이블 생성
     public int insert(int myTravelId, int userId) {
-        return myTravelUserMapper.insert(setMyTravelIdAndUserId(myTravelId, userId));
+        return myTravelUserMapper.insert(setMyTravelUserDTO(myTravelId, userId));
     }
 
-    public MyTravelIdAndUserIdDTO setMyTravelIdAndUserId(int myTravelId, int userId) {
-        return MyTravelIdAndUserIdDTO.builder()
+    public MyTravelUserDTO setMyTravelUserDTO(int myTravelId, int userId) {
+        return MyTravelUserDTO.builder()
                 .myTravelId(myTravelId)
                 .userId(userId)
                 .build();
     }
-
 }

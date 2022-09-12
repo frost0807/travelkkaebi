@@ -14,36 +14,100 @@ import "./Home.css";
 // 하단 CardImg에서 props로 컴포넌트에 보내서 처리
 
 function Home() {
-  return(
+  return (
     <>
-    <div style={{ height:"30%", width:"50%", margin:"auto"}}>
-    <CarouselHome/>
-    </div>
-    {/* <PopularBoard/> */}
-    <div style={{padding:"20px", margin : "33px auto 62px", maxWidth:"1200px", width:"85%", height:"410px", borderRadius:"20px", backgroundColor:"#F4F1FF"}}>
-      <div style={{height:"20%", margin:"30px 0 10px 30px"}}>
-        <div style={{fontFamily:"SUIT ExtraBold", fontSize:"1.875em"}}>베스트 게시물</div>
-        <div style={{marginTop:"10px"}}>깨비들이 가장 많이 추천한 게시물!</div>
-        
+      <div style={{ height: "30%", width: "50%", margin: "auto" }}>
+        <CarouselHome />
       </div>
-      <div className="container" style={{height:"60%", width:"100%"}}>
-        <div className="1slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>
-          <div className="1img"></div>
-          <div className="1content"></div>
+      {/* <PopularBoard/> */}
+      <div
+        style={{
+          padding: "20px",
+          margin: "33px auto 62px",
+          maxWidth: "1200px",
+          width: "85%",
+          height: "410px",
+          borderRadius: "20px",
+          backgroundColor: "#F4F1FF",
+        }}
+      >
+        <div style={{ height: "20%", margin: "30px 0 10px 30px" }}>
+          <div style={{ fontFamily: "SUIT ExtraBold", fontSize: "1.875em" }}>
+            베스트 게시물
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            깨비들이 가장 많이 추천한 게시물!
+          </div>
         </div>
-        <div className="2slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>b</div>
-        <div className="3slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>c</div>
-        <div className="4slide" style={{backgroundColor:"red", height:"100%", width:"22.5%"}}>d</div>
-
+        <div className="container" style={{ height: "60%", width: "100%" }}>
+          <div
+            className="1slide"
+            style={{
+              backgroundColor: "red",
+              height: "100%",
+              width: "22.5%",
+              borderRadius: "10%",
+            }}
+          >
+            <div className="1img"></div>
+            <div className="1content"></div>
+          </div>
+          <div
+            className="2slide"
+            style={{
+              backgroundColor: "red",
+              height: "100%",
+              width: "22.5%",
+              borderRadius: "10%",
+            }}
+          >
+            b
+          </div>
+          <div
+            className="3slide"
+            style={{
+              backgroundColor: "red",
+              height: "100%",
+              width: "22.5%",
+              borderRadius: "10%",
+            }}
+          >
+            c
+          </div>
+          <div
+            className="4slide"
+            style={{
+              backgroundColor: "red",
+              height: "100%",
+              width: "22.5%",
+              borderRadius: "10%",
+            }}
+          >
+            d
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
-    <CardImg topImage1="topImage1" topImage2="topImage2" topImage3="topImage3"  topImage4="topImage4" />
-    {/* <div style={{height:'100px'}}></div> */}
-    {/* <CardImg bottomImage1="bottomImage1" bottomImage2="bottomImage2" bottomImage3="bottomImage3"  bottomImage4="bottomImage4" /> */}
+      <div
+        style={{
+          marginTop: "100px",
+          marginLeft: "100px",
+          marginBottom: "20px",
+          fontSize: "25px",
+        }}
+      >
+        🚀 Hot
+      </div>
+      <CardImg
+        topImage1="topImage1"
+        topImage2="topImage2"
+        topImage3="topImage3"
+        topImage4="topImage4"
+      />
+      {/* <div style={{height:'100px'}}></div> */}
+      {/* <CardImg bottomImage1="bottomImage1" bottomImage2="bottomImage2" bottomImage3="bottomImage3"  bottomImage4="bottomImage4" /> */}
     </>
-  )
+  );
 }
 
 export default Home;

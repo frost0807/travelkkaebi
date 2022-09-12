@@ -26,16 +26,14 @@ public class MyTravelService {
         return null;
     }
 
-    public boolean insert(int joinMeId) {
-        //key리턴을 위해 DTO에 joinMeId 세팅
-        MyTravelDTO myTravelDTO = MyTravelDTO.builder().joinMeId(joinMeId).build();
+    public boolean insert(MyTravelDTO myTravelDTO) {
         //myTravel 삽입성공하면
         if (myTravelMapper.insert(myTravelDTO) == 1) {
             //삽입된 myTravelId 리턴
             int myTravelId = myTravelDTO.getMyTravelId();
             int successCount = 0;
-            List<Integer> userList = joinMeService.getAppliedAndWriterList(joinMeId);
-            //userList에 있는 userId들을 MyTravelUser
+            List<Integer> userList = joinMeService.getAppliedAndWriterList(myTravelDTO.getJoinMeId());
+            //userList에 있는 userId들을 MyTravelUser테이블에 삽입
             for (int userId : userList) {
                 successCount += myTravelUserService.insert(myTravelId, userId);
             }

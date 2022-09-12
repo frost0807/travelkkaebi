@@ -33,7 +33,7 @@ export default function JoinMeForm() {
   const quillRef = useRef();
 
   // image url
-  const [reqImageUrl, setReqImageUrl] = useState();
+  const [reqImageUrl, setReqImageUrl] = useState([]);
 
   // date
   const [selectDate, setSelectDate] = useState([
@@ -45,8 +45,8 @@ export default function JoinMeForm() {
   ]);
   const dateOnChange = (item) => setSelectDate([item.selection]);
   //////////////////////////// timestamp로 변환
-  let start_Date = Date.parse(selectDate[0].startDate) / 1000;
-  let end_Date = Date.parse(selectDate[0].endDate) / 1000;
+  let start_Date = Date.parse(selectDate[0].startDate);
+  let end_Date = Date.parse(selectDate[0].endDate);
 
   const [capacity, setCapacity] = useState("0");
   const [selectRegion, setSelectRegion] = useState("");
@@ -88,6 +88,7 @@ export default function JoinMeForm() {
     "괌",
     "하와이",
   ];
+
   const regionOptions = regionKey.map((selectregion) => {
     return (
       <option value={selectregion} key={selectregion}>
@@ -124,7 +125,7 @@ export default function JoinMeForm() {
   // http 200 성공 -> DB 생성 X title null
   const res = async (joinmeDTO) => {
     console.log("뭔 데이터바인드가 안된거야 ? ", joinmeDTO);
-    console.log(joinmeDTO.title, joinmeDTO.content);
+
     if (joinmeDTO.content.trim() === "") {
       alert("내용을 입력해주세요.");
       return;
@@ -141,21 +142,19 @@ export default function JoinMeForm() {
         .post(joinmeurl + "/insert", joinmeDTO) //joinmeurl + "/insert", joinmeDTO
         .then((res) => {
           console.log("작성완료 후 결과 ", res);
+          console.log("imageUrl:", reqImageUrl);
 
           const joinMeId = res.data.joinMeId;
-          const imageDTO = [
-            {
-              boardId: joinMeId,
+          const imageDTO = [];
+          for (let i = 0; i < reqImageUrl.length; i++) {
+            imageDTO.push({
               categoryId: 1,
-              imageUrl: reqImageUrl,
-            },
-            {
               boardId: joinMeId,
-              categoryId: 1,
-              imageUrl: reqImageUrl,
-            },
-          ];
+              imageUrl: reqImageUrl[i],
+            });
+          }
           console.log("글쓰기 후 id ", joinMeId);
+          console.log("imageDTO", imageDTO);
           axios.defaults.headers = {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),

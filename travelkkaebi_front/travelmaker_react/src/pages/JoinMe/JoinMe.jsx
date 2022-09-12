@@ -19,7 +19,6 @@ function JoinMe() {
 
   //  const query = queryString.parse(window.location.search);
   const { pageNo } = useParams();
-
   const [posts, setPosts] = useState([]);
   const [limits] = useState(20);
   const [currentPage, setCurrentPage] = useState(1); //query.page ||

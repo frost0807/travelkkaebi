@@ -72,8 +72,8 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeDTO">
-        INSERT INTO board_join_me (category_id, user_id, title, content, region, charge, capacity)
-        VALUES (#{categoryId}, #{userId}, #{title}, #{content}, #{region}, #{charge}, #{capacity})
+        INSERT INTO board_join_me (category_id, user_id, title, content, region, capacity, start_date, end_date)
+        VALUES (#{categoryId}, #{userId}, #{title}, #{content}, #{region}, #{capacity}, #{startDate}, #{endDate})
     </insert>
 
     <update id="update" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="JoinMeDTO">
@@ -83,7 +83,6 @@
             start_date=#{startDate},
             end_date=#{endDate},
             region=#{region},
-            charge=#{charge},
             capacity=#{capacity}
         WHERE join_me_id = #{joinMeId}
           AND user_id = #{userId}
