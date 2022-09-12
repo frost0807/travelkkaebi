@@ -8,7 +8,6 @@ import Review from "./pages/Review/Review";
 import Footer from "./components/Footer/Footer";
 import ReviewDetail from "./pages/Review/ReviewDetail";
 import Contact from "./pages/Contact/Contact";
-import RegionEventCreateForm from "./pages/RegionEvent/RegionEventCreateForm";
 
 // test용 페이지 임포트 등
 import TestPage from "./pages/Test/TestPage";
@@ -21,6 +20,10 @@ import ReviewUpdateForm from "./pages/Review/ReviewUpdateForm";
 import ReviewCreateForm from "./pages/Review/ReviewCreateForm";
 import RegionEvent from "./pages/RegionEvent/RegionEvent";
 import PickUpMe from "./pages/PickUpMe/PickUpMe";
+
+import RegionEventCreateForm from "./pages/RegionEvent/RegionEventCreateForm";
+import RegionEventDetail from "./pages/RegionEvent/RegionEventDetail";
+
 
 import JoinMe from "./pages/JoinMe/JoinMe";
 import JoinMeDetail from "./pages/JoinMe/JoinMeDetail";
@@ -70,6 +73,7 @@ function Main() {
           path="/regionevent/createform"
           element={<RegionEventCreateForm />}
         />
+        <Route path="/regionevent/detail/:id" element={<RegionEventDetail />} />
 
         {/* test용 페이지*/}
         <Route path="/testpage" element={<TestPage />} />
@@ -78,15 +82,19 @@ function Main() {
         <Route path="/testresponse" element={<TestResponse />} />
         {/* <Route path='/testpost' element={<TestPost />}/> */}
 
-        <Route path="/joinme/:pageNo" element={<JoinMe />} />
+        {/* <Route path="/joinme/:pageNo" element={<JoinMe />} />
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="joinmeedit" element={<JoinMeEditForm />} />
+
+        <Route path="/pickupme" element={<PickUpMe />} /> */}
+
 
         <Route path="/pickme/:pageNo" element={<PickUpMe />} />
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
         <Route path="/pickmeform" element={<PickUpMeForm />} />
         <Route path="pickmeedit" element={<PickUpMeEditForm />} />
+
       </Routes>
 
       {/* //=================================== */}
