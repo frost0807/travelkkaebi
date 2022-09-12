@@ -25,3 +25,4 @@ export const imgurl = API_BASE_URL + "/image";
 export const mytravel = API_BASE_URL + "/mytravel";
 export const regionevent = API_BASE_URL + "/region/event";
 export const editorchoice = API_BASE_URL + "/editorchoice";
+export const review = API_BASE_URL + "/review";

@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class EditorChoiceService {
      */
 
     public boolean write(EditorChoiceDTO editorChoiceDTO, MultipartFile image1,
-                                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
+                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
         System.out.println("에디터 write 서비스 도착");
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
@@ -159,14 +161,14 @@ public class EditorChoiceService {
     /**
      * 게시글 리스트 (추천)
      */
-    public EditorChoiceResponseDTO selectAllGood(List<Integer> list) throws Exception {
-        for(int i : list) {
-           editorChoiceMapper.selectOne(i);
+    public List<EditorChoiceResponseDTO> selectAllGood(List<Integer> boardIdList) throws Exception {
+        List<EditorChoiceResponseDTO> goodList = new ArrayList<>();
 
-            return editorChoiceMapper.selectOne(i)
-                    .orElseThrow( ()-> new NullPointerException("해당 게시물이 존재하지 않습니다."));
+        for (int i:boardIdList) {
+            goodList.add(editorChoiceMapper.selectOne(i)
+                    .orElseThrow(()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")));
         }
-        throw new RuntimeException("게시물 추천 리스트 조회 실패");
+        return goodList;
     }
 
 

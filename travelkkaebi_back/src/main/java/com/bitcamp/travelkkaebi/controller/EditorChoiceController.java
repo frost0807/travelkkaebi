@@ -2,6 +2,7 @@ package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
+import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.service.EditorChoiceService;
 import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/editorchoice")
@@ -27,21 +29,21 @@ public class EditorChoiceController {
      */
     @PostMapping("/write")
     public ResponseEntity<Boolean> write(@RequestPart(value = "editorchoice") EditorChoiceDTO editorChoiceDTO,
-                                @RequestPart(value = "file1", required = false) MultipartFile image1,
-                                @RequestPart(value = "file2", required = false) MultipartFile image2,
-                                @RequestPart(value = "file3", required = false) MultipartFile image3,
-                                @AuthenticationPrincipal String userId) {
+                                         @RequestPart(value = "file1", required = false) MultipartFile image1,
+                                         @RequestPart(value = "file2", required = false) MultipartFile image2,
+                                         @RequestPart(value = "file3", required = false) MultipartFile image3,
+                                         @AuthenticationPrincipal String userId) {
 
         System.out.println("에디터 write 컨트롤러 도착");
 
-       try {
+        try {
             return new ResponseEntity(editorChoiceService.write(editorChoiceDTO,
                     image1, image2, image3, Integer.parseInt(userId)), HttpStatus.OK);
 
-       } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
-       }
+        }
     }
 
     /**
@@ -111,11 +113,26 @@ public class EditorChoiceController {
      * 게시글 리스트 (추천)
      */
     @GetMapping("/selectallgood")
-    private ResponseEntity<ListResponseDTO> selectAllGood() {
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllGood() {
 
         try {
-            List<Integer> BoardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 3);
-            return new ResponseEntity(BoardIdList, HttpStatus.OK);
+            List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 3);
+
+            return new ResponseEntity(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/home")
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllForHome() {
+
+        try {
+            List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 6);
+            System.out.println(boardIdList);
+            return new ResponseEntity(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -115,7 +115,7 @@ const PopularBoard = () => {
         <Container>
           <ImageBox ref={slideRef} count={count}>
             {hotEditorArr?.map((item, index) => (
-              <img key={index} src={item.editorImgUrl2} />
+              <img width="300px" key={index} src={item.editorImgUrl2} />
             ))}
           </ImageBox>
         </Container>
@@ -127,7 +127,7 @@ const PopularBoard = () => {
 const ScWrap = styled.div`
   /* border: 1px solid black; */
   margin: 33px auto 62px;
-  max-width: 1200px;
+  max-width: 1400px;
   width: 85%;
   height: 410px;
   background-color: #f4f1ff;

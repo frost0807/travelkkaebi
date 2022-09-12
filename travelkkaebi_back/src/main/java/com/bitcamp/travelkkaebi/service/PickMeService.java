@@ -121,12 +121,6 @@ public class PickMeService {
         findPickMe.updateView(findPickMe.getWriteInfo().getView());
         return PickMeDTO.toDto(findPickMe);
     }
-    @Transactional
-    public PickMeDTO findById(int boardId) {
-        PickMeEntity findPickMe = pickMeDB.findById(boardId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
-        findPickMe.updateView(findPickMe.getWriteInfo().getView());
-        return PickMeDTO.toDto(findPickMe);
-    }
 
 
 
