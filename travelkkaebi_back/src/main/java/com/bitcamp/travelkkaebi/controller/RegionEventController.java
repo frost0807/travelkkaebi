@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.bitcamp.travelkkaebi.page.KkaebiPage.REGION_PAGE;
+import static com.bitcamp.travelkkaebi.page.KkaebiPage.REGION_PAGE_SIZE;
+import static com.bitcamp.travelkkaebi.page.KkaebiPage.REGION_START_PAGE;
 
 @CrossOrigin
 @RestController
@@ -26,9 +27,8 @@ public class RegionEventController {
     private final RegionEventService regionEventService;
     private final AwsS3service awsS3service;
 
-
     @GetMapping("/main")
-    public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> showRegionList(@PageableDefault(size = REGION_PAGE) Pageable pageable) {
+    public ResponseEntity<HashMap<Integer, List<RegionEventDTO>>> showRegionList(@PageableDefault(page = REGION_START_PAGE, size = REGION_PAGE_SIZE) Pageable pageable) {
         return ResponseEntity.ok().body(regionEventService.findAll(pageable));
     }
 
