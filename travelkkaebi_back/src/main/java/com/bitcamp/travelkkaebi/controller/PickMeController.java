@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static com.bitcamp.travelkkaebi.page.KkaebiPage.PICK_ME_PAGE;
 
 @CrossOrigin
 @RestController
@@ -19,13 +19,13 @@ import java.util.List;
 public class PickMeController {
 
     private final PickMeService pickMeService;
-    private final int PAGE_SIZE = 20;
+
 
     /**
      * pickMe 게시글 20개씩 pagination return
      */
     @GetMapping("/list")
-    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PICK_ME_PAGE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
 
@@ -58,8 +58,8 @@ public class PickMeController {
      * pickMe search by nickname 20개 씩
      */
     @GetMapping("/search/nickname")
-    public ResponseEntity<List<PickMeDTO>> findByNickname(
-            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+    public ResponseEntity<ListResponseDTO> findByNickname(
+            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
             @RequestParam String nickname) {
         return ResponseEntity.ok().body(pickMeService.findByNickname(nickname, pageable));
     }
@@ -68,8 +68,8 @@ public class PickMeController {
      * pickMe search by title 20개 씩
      */
     @GetMapping("/search/title")
-    public ResponseEntity<List<PickMeDTO>> findByTitle(
-            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+    public ResponseEntity<ListResponseDTO> findByTitle(
+            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
             @RequestParam String title) {
         return ResponseEntity.ok().body(pickMeService.findByTitle(title, pageable));
     }
@@ -78,8 +78,8 @@ public class PickMeController {
      * pickMe search by keyword 20개 씩
      */
     @GetMapping("/search/keyword")
-    public ResponseEntity<List<PickMeDTO>> findByKeyword(
-            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+    public ResponseEntity<ListResponseDTO> findByKeyword(
+            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
             @RequestParam String keyword) {
         return ResponseEntity.ok().body(pickMeService.findByKeyword(keyword, pageable));
     }

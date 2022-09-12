@@ -11,7 +11,4 @@ public interface RegionEventRepository extends JpaRepository<RegionalEventEntity
     Page<RegionalEventEntity> findAllByOrderByIdDesc(Pageable pageable);
 
     List<RegionalEventEntity> findTop3ByOrderByIdDesc();
-
-    /*@Query("select r from RegionalEventEntity r order by r.id desc limit 40")
-    RegionalEventEntity findOne();*/
 }

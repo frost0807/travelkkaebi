@@ -97,15 +97,11 @@ public class RegionEventService {
     public HashMap<Integer, List<RegionEventDTO>> findAll(Pageable pageable) {
         HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
         List<RegionEventDTO> regionLists = regionDB.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList());
-        List<RegionEventDTO> firstRegionEvent = new ArrayList<>();
         List<RegionEventDTO> secondRegionEvent = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            firstRegionEvent.add(regionLists.get(i));
-        }
         for (int i = 3; i < 7; i++) {
             secondRegionEvent.add(regionLists.get(i));
         }
-        regionList.put(1, firstRegionEvent);
+        regionList.put(1, regionDB.findTop3ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
         regionList.put(2, secondRegionEvent);
         return regionList;
     }
