@@ -40,6 +40,9 @@ function Login() {
   });
 
   const onClickModalOutSide = (e) => {
+    console.log("ref", ref.current);
+    console.log("e", e.target);
+    console.log("contain", ref.current.contains(e.target));
     if (ref.current && !ref.current.contains(e.target))
       setIsLoginModalOpen(false);
   };

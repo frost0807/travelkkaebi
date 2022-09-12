@@ -14,7 +14,7 @@ function DatePicker({ selectDate, setSelectDate, dateOnChange }) {
       moveRangeOnFirstSelection={false}
       ranges={selectDate}
       months={1}
-      direction="horizontal"
+      direction="vertical"
     />
   );
 }

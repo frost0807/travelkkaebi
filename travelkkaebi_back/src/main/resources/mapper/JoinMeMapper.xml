@@ -64,7 +64,7 @@
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
-    <select id="getAppliedUserList" parameterType="int">
+    <select id="getAppliedUserList" parameterType="int" resultType="int">
         SELECT j.user_id
         FROM board_join_me AS b
                  JOIN join_me_apply AS j ON b.join_me_id = j.join_me_id

@@ -16,11 +16,11 @@ import "./Home.css";
 function Home() {
   return (
     <>
-      <div style={{ height: "30%", width: "50%", margin: "auto" }}>
+      <div style={{ height: "40%", width: "35%", margin: "auto" }}>
         <CarouselHome />
       </div>
-      {/* <PopularBoard/> */}
-      <div
+      <PopularBoard />
+      {/* <div
         style={{
           padding: "20px",
           margin: "33px auto 62px",
@@ -33,7 +33,7 @@ function Home() {
       >
         <div style={{ height: "20%", margin: "30px 0 10px 30px" }}>
           <div style={{ fontFamily: "SUIT ExtraBold", fontSize: "1.875em" }}>
-            베스트 게시물
+            에디터 추천 Top 6
           </div>
           <div style={{ marginTop: "10px" }}>
             깨비들이 가장 많이 추천한 게시물!
@@ -86,7 +86,7 @@ function Home() {
             d
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div
         style={{

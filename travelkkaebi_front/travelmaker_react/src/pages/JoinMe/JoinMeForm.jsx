@@ -185,96 +185,86 @@ export default function JoinMeForm() {
 
   return (
     <>
-      <div className="containors">
+      <div style={{ color: "black" }} className="containors">
         <form className="ccform" onSubmit={handleSubmit}>
           <header className="ccheader">
-            <h1>같이가요 글쓰기 수정해보자</h1>
+            <div className="select-capacity">
+              <h3>🔸 모집인원</h3>
+              <select
+                className="selectbox"
+                id="capacity"
+                name="capacity"
+                onChange={handleCapacity}
+              >
+                {options}
+              </select>
+              <h3> 명 </h3>
+            </div>
+
+            <div className="select-region">
+              <h3>🔸지역 </h3>
+              <select
+                className="selectbox"
+                id="region"
+                name="region"
+                onChange={handleRegion}
+              >
+                {regionOptions}
+              </select>
+            </div>
           </header>
 
-          <div>
-            <label>🔸기간</label>
-            <DatePicker
-              selectDate={selectDate}
-              setSelectDate={setSelectDate}
-              dateOnChange={dateOnChange}
+          <div className="ccfield-prepend">
+            <input
+              className="ccformfield"
+              type="text"
+              placeholder="제목을 입력해주세요"
+              required
+              it="title"
+              name="title"
             />
           </div>
-
           <div>
-            <div className="ccfield-prepend">
-              <span className="ccform-addon">
-                <i className="fa fa-info fa-2x"></i>
-              </span>
-              <input
-                className="ccformfield"
-                type="text"
-                placeholder="제목을 입력해주세요"
-                required
-                it="title"
-                name="title"
+            <div
+              className="ccfield-prepend"
+              style={{ display: "block", position: "relative" }}
+            ></div>
+            <div>
+              <QuillEditor
+                quillRef={quillRef}
+                htmlContent={htmlContent}
+                setHtmlContent={setHtmlContent}
+                reqImageUrl={reqImageUrl}
+                setReqImageUrl={setReqImageUrl}
               />
             </div>
 
             <div
-              className="ccfield-prepend"
-              style={{ display: "flex", textAlign: "center" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "41px",
+              }}
             >
-              <span className="ccform-addon">
-                <i className="fa-solid fa-people-line fa-2x"></i>
-              </span>
-              <div className="select-charge">
-                <h3>🔸 모집인원 : {capacity} 명 </h3>
-                <select
-                  className="selectbox"
-                  id="capacity"
-                  name="capacity"
-                  onChange={handleCapacity}
-                >
-                  {options}
-                </select>
+              <div>
+                <div className="ccfield-prependbtn">
+                  <input
+                    className="ccbtn1"
+                    onClick={backList}
+                    value="목록으로"
+                  />
+                </div>
               </div>
-            </div>
-
-            <div className="ccfield-prepend" style={{ display: "flex" }}>
-              <span className="ccform-addon">
-                <i className="fa-solid fa-people-line fa-2x"></i>
-              </span>
-              <div className="select-charge">
-                <h3>🔸지역 : {selectRegion} </h3>
-                <select
-                  className="selectbox"
-                  id="region"
-                  name="region"
-                  onChange={handleRegion}
-                >
-                  {regionOptions}
-                </select>
+              <DatePicker
+                selectDate={selectDate}
+                setSelectDate={setSelectDate}
+                dateOnChange={dateOnChange}
+              />
+              <div>
+                <div className="ccfield-prependbtn">
+                  <input className="ccbtn" type="submit" value="작성완료" />
+                </div>
               </div>
-            </div>
-
-            <div
-              className="ccfield-prepend"
-              style={{ display: "block", position: "relative" }}
-            >
-              <span
-                className="ccform-addon-img"
-                style={{ transform: "translate(0px, -330px)" }}
-              >
-                <i className="fa-regular fa-image fa-2x"></i>
-              </span>
-            </div>
-
-            <QuillEditor
-              quillRef={quillRef}
-              htmlContent={htmlContent}
-              setHtmlContent={setHtmlContent}
-              reqImageUrl={reqImageUrl}
-              setReqImageUrl={setReqImageUrl}
-            />
-
-            <div className="ccfield-prependbtn">
-              <input className="ccbtn1" onClick={backList} value="목록으로" />
-              <input className="ccbtn" type="submit" value="작성완료" />
             </div>
           </div>
         </form>

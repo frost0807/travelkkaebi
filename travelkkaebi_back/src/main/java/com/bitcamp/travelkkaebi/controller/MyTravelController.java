@@ -38,6 +38,7 @@ public class MyTravelController {
     @PostMapping("/insert")
     public ResponseEntity<Boolean> insert(@RequestBody MyTravelDTO myTravelDTO){
         try{
+            System.out.println(myTravelDTO.toString());
             return new ResponseEntity<>(myTravelService.insert(myTravelDTO), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();

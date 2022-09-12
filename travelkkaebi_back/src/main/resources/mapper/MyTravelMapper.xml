@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.MyTravelMapper">
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="joinMeId" parameterType="MyTravelDTO">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="myTravelId" parameterType="MyTravelDTO">
         INSERT INTO board_my_travel (join_me_id)
-        VALUES (#{joinMeId))
+        VALUES (#{joinMeId})
     </insert>
 
 </mapper>
