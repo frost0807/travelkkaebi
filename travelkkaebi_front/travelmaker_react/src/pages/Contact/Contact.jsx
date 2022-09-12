@@ -4,7 +4,7 @@ import TeamTogether from './/TeamTogether.png';
 import TeamLeader from './/TeamLeader.png';
 import { Container, Grid, Typography } from "@mui/material";
 
-import Map from "../../components/NaverMap/MapN";
+// import Map from "../../components/NaverMap/MapN";
 
 function Contact (){
 
@@ -81,7 +81,7 @@ function Contact (){
       <Grid container>
         <Grid item xs={12} md={6}>오시는길</Grid>
         <Grid item xs={12} md={6}>
-          <Map/>
+          {/* <Map/> */}
 
         </Grid>
       </Grid>
