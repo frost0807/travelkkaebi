@@ -21,15 +21,14 @@ import static com.bitcamp.travelkkaebi.exception.ErrorCode.DOES_NOT_EXIST_BOARD;
 @RequiredArgsConstructor
 public class PickMeApplyService {
     private final PickMeApplyRepository pickMeApplyDB;
-    private final JoinMeRepository joinMeRepository;
+    private final JoinMeRepository joinMeDB;
     private final PickMeRepository pickMeDB;
 
     @Transactional
     public void pickUp(int userId, PickMeApplyDTO pickMeApplyDTO) {
         pickMeDB.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
-
         //joinMe 에 게시물이 등록되어있는지 check 하는 logic 게시물이 있더라도 그 게시물 유효한 게시물인지 체크
-        List<JoinMeEntity> findJoinMeEntity = joinMeRepository.findAllByUserEntityIdAndDateInfoStartDateLessThan(userId, LocalDateTime.now());
+        List<JoinMeEntity> findJoinMeEntity = joinMeDB.findAllByUserEntityIdAndDateInfoStartDateLessThan(userId, LocalDateTime.now());
         if (findJoinMeEntity.isEmpty())
             throw new KkaebiException(DOES_NOT_EXIST_BOARD);
         //이미 해당게시물을 pick 을 하였는지 check

@@ -76,7 +76,7 @@ public class RegionEventService {
     public void delete(int userId, int regionBoardId) {
         UserEntity findUser = userDB.findById(userId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_USER));
         if (findUser.getRole() != UserRole.EDITOR)
-            throw  new KkaebiException(EDIT_EXCEPTION);
+            throw new KkaebiException(EDIT_EXCEPTION);
         regionDB.deleteById(regionBoardId);
     }
 
@@ -116,9 +116,7 @@ public class RegionEventService {
         return regionList;
     }
 
-
-//    HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
-//        regionList.put(1, regionEventRepository.findAll().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
-//        regionList.put(2, regionEventRepository.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
-//        return regionList;
+    public List<RegionEventDTO> regionList() {
+        return regionDB.findTop3ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList());
+    }
 }
