@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class PickMeService {
      * entity -> dto 반환후 total 게시글 수와 page 20개씩 return logic
      */
     public ListResponseDTO findAll(Pageable pageable) {
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countPickMe(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countAllBy(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -63,7 +62,7 @@ public class PickMeService {
     @Transactional
     public PickMeDTO update(int userId, PickMeDTO pickMeDTO) {
         validate(userId, pickMeDTO);
-        PickMeEntity findPickMe = pickMeDB.findById(pickMeDTO.getBoardId()).orElseThrow(() ->new KkaebiException(DOES_NOT_EXIST_BOARD));
+        PickMeEntity findPickMe = pickMeDB.findById(pickMeDTO.getBoardId()).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         findPickMe.change(pickMeDTO);
 
         return PickMeDTO.toDto(findPickMe);
@@ -111,6 +110,16 @@ public class PickMeService {
             throw new KkaebiException(NO_SEARCH);
 
         return ListResponseDTO.setTotalCountAndList(pickMeDB.countByRegion(region), findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList()));
+    }
+
+    /**
+     * 게시물 상세보기 logic
+     */
+    @Transactional
+    public PickMeDTO findById(int boardId) {
+        PickMeEntity findPickMe = pickMeDB.findById(boardId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
+        findPickMe.updateView(findPickMe.getWriteInfo().getView());
+        return PickMeDTO.toDto(findPickMe);
     }
     @Transactional
     public PickMeDTO findById(int boardId) {

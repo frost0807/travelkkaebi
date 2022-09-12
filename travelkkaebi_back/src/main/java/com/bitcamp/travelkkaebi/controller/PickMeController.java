@@ -10,8 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
+import static com.bitcamp.travelkkaebi.page.KkaebiPage.PICK_ME_PAGE;
 
 @CrossOrigin
 @RestController
@@ -20,13 +19,13 @@ import java.util.List;
 public class PickMeController {
 
     private final PickMeService pickMeService;
-    private final int PAGE_SIZE = 20;
+
 
     /**
      * pickMe 게시글 20개씩 pagination return
      */
     @GetMapping("/list")
-    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity<ListResponseDTO> showRegionList(@PageableDefault(size = PICK_ME_PAGE) Pageable pageable) {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
 
@@ -62,7 +61,7 @@ public class PickMeController {
      */
     @GetMapping("/search/nickname")
     public ResponseEntity<ListResponseDTO> findByNickname(
-            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
             @RequestParam String nickname) {
         return ResponseEntity.ok().body(pickMeService.findByNickname(nickname, pageable));
     }
@@ -72,7 +71,7 @@ public class PickMeController {
      */
     @GetMapping("/search/title")
     public ResponseEntity<ListResponseDTO> findByTitle(
-            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
             @RequestParam String title) {
         return ResponseEntity.ok().body(pickMeService.findByTitle(title, pageable));
     }
@@ -82,11 +81,14 @@ public class PickMeController {
      */
     @GetMapping("/search/keyword")
     public ResponseEntity<ListResponseDTO> findByKeyword(
-            @PageableDefault(size = PAGE_SIZE) Pageable pageable,
+            @PageableDefault(size = PICK_ME_PAGE) Pageable pageable,
             @RequestParam String keyword) {
         return ResponseEntity.ok().body(pickMeService.findByKeyword(keyword, pageable));
     }
 
+    /**
+     * 게시물 상세보기
+     */
     @GetMapping("/show/{boardId}")
     public ResponseEntity<PickMeDTO> findOne(@PathVariable int boardId) {
         return ResponseEntity.ok().body(pickMeService.findById(boardId));

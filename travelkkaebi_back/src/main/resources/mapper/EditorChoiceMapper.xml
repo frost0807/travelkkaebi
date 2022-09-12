@@ -9,7 +9,7 @@
 
     <select id="selectAllNew" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice JOIN user on board_editor_choice.user_id = user.user_id
-        ORDER BY board_editor_choice.create_time DESC LIMIT 0, 16;
+        ORDER BY board_editor_choice.create_time DESC LIMIT 0, 4;
     </select>
 
     <select id="selectOne" parameterType="int" resultType="EditorChoiceResponseDTO">
@@ -25,7 +25,7 @@
     <insert id="insert" parameterType="EditorChoiceDTO" useGeneratedKeys="true" keyProperty="editorChoiceId">
         INSERT INTO board_editor_choice (user_id, category_id, title, content, region,
                                          editor_img_url1, editor_img_url2, editor_img_url3)
-        VALUES ( #{userId}, #{categoryId}, #{title}, #{content}, #{region},
+        VALUES ( #{userId}, 3, #{title}, #{content}, #{region},
                 #{editorImgUrl1}, #{editorImgUrl2}, #{editorImgUrl3})
     </insert>
 

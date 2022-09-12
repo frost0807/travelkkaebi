@@ -2,13 +2,9 @@ package com.bitcamp.travelkkaebi.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 @Setter
 @Getter
 public class JoinMeDTO {

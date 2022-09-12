@@ -77,5 +77,4 @@ public class PickMeEntity {
     public void updateView(int view) {
         this.writeInfo.increaseView(view);
     }
-
 }
