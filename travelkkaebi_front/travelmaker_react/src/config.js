@@ -23,3 +23,5 @@ export const joinmeurl = API_BASE_URL + "/joinme";
 export const pickupurl = API_BASE_URL + "/pickupme";
 export const imgurl = API_BASE_URL + "/image";
 export const mytravel = API_BASE_URL + "/mytravel";
+export const regionevent = API_BASE_URL + "/region/event";
+export const editorchoice = API_BASE_URL + "/editorchoice";
