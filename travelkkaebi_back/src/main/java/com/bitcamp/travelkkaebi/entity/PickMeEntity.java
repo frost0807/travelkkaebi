@@ -74,4 +74,7 @@ public class PickMeEntity {
         this.dateInfo.changeDate(pickMeDTO.getDateInfo().getStartDate(), pickMeDTO.getDateInfo().getEndDate());
     }
 
+    public void updateView(int view) {
+        this.writeInfo.increaseView(view);
+    }
 }

@@ -12,6 +12,7 @@ public class EditorChoiceResponseDTO {
     private int editorChoiceId;
     private int userId;
     private int categoryId;
+
     private String nickname;
     private String profileImageUrl;
     private int mannerDegree;

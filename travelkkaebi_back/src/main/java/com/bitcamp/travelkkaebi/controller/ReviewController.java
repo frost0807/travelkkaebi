@@ -2,8 +2,10 @@ package com.bitcamp.travelkkaebi.controller;
 // 후기 게시판
 
 
+import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
+import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
 import com.bitcamp.travelkkaebi.service.ReviewService;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
+    private final LikeOrDislikeService likeOrDislikeService;
 
     /**
      * 게시글 작성 Ok
      */
     @PostMapping("/write")
-    public ResponseEntity<Boolean> write(@RequestPart(value = "review") ReviewDTO reviewDTO,
-                                         @RequestPart(value = "file", required = false) MultipartFile image,
+    public ResponseEntity<Boolean> write(@RequestPart(value ="review") ReviewDTO reviewDTO,
+                                         @RequestPart(value ="file", required = false) MultipartFile image,
                                          @AuthenticationPrincipal String userId) throws IOException {
         try {
             return new ResponseEntity(reviewService.writeReview(reviewDTO, image,
@@ -77,6 +80,22 @@ public class ReviewController {
         try {
             return new ResponseEntity(reviewService.selectAllByPage(pageNo), HttpStatus.OK);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    /**
+     * 게시글 리스트 (추천)
+     */
+    @GetMapping("selectallgood")
+    private ResponseEntity<ListResponseDTO> selectAllGood(@RequestParam int pageNo) {
+        try {
+            // 메인에 쓸 것! Because 리뷰게시판엔 추천 리스트가 없어요.
+            List<Integer> list = likeOrDislikeService.getBoardIdListMostLiked(5, 4);
+            reviewService.selectAllGood(list);
+            return new ResponseEntity(list, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

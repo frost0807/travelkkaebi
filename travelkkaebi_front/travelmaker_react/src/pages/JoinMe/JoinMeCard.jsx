@@ -141,7 +141,7 @@ const CardTitle = styled.h3`
   font-weight: 400;
   font-family: "Poor Story", cursive;
   letter-spacing: -0.3px;
-  font-size: 16px;
+  font-size: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;

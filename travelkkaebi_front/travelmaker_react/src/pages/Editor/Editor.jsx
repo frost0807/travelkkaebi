@@ -56,6 +56,7 @@ function Editor() {
   return(
     <>
 
+
     <div style={{ height:"30%", width:"50%", margin:"auto" }}>
       <Carousel>
       {

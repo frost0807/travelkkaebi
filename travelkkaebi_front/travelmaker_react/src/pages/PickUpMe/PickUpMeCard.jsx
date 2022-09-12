@@ -6,7 +6,7 @@ import "./PickUpMe.css";
 import { useParams } from "react-router";
 import PickUpMeDetail from "./PickUpMeDetail";
 import { useRecoilState } from "recoil";
-import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
+import { isLoginModalState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
@@ -16,84 +16,81 @@ function PickUpMeCard(props) {
   const [closed] = useState(props.post);
   const { id } = useParams();
   let profile_img = post.profileImageUrl;
-  let sDate = new Date(post.startDate);
-  const startDate = sDate.getMonth() + 1 + "." + sDate.getDate();
-  let eDate = new Date(post.endDate);
-  const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
-  const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
+  let sDate = post.dateInfo.startDate;
+  const startDate = sDate.substr(5);
+  let eDate = post.dateInfo.endDate;
+  const endDate = eDate.substr(5);
 
-  const openJoinMeDetail = () => {
-    setShowJoinMeDetail(true);
+  const [showPickMeDetail, setShowPickMeDetail] = useState(false);
+
+  const openPickMeDetail = () => {
+    post.closed === false
+      ? setShowPickMeDetail(true)
+      : alert("이미 마감된 글입니다.");
   };
   const close = () => {
-    setShowJoinMeDetail(!showJoinMeDetail);
+    setShowPickMeDetail(false);
   };
 
   return (
     <>
-      <div onClick={openJoinMeDetail}>
-        <CardSection key={post.joinMeId}>
+      <div>
+        <CardSection key={post.boardId}>
           <CardTop>
-            <CardTitle>
-              {post.title.length < 20
-                ? post.title
-                : post.title.slice(0, 20) + "..."}
-            </CardTitle>
-            <CardsubTitle>
-              <CardsubList>
-                <div className="joinme-subtitle">
-                  <dt className="joinme-sublabel">지역</dt>
-                  <dt className="joinme-subdata">{post.region}</dt>
-                </div>
-                <div className="joinme-subtitle2">
-                  <dt className="joinme-sublabel"> 날짜</dt>
-                  <dt className="joinme-subdata">
-                    {startDate} ~ {endDate}
-                  </dt>
-                </div>
-                <div className="joinme-subtitle3">
-                  <dt className="joinme-sublabel">인원</dt>
-                  <dt className="joinme-subdata">
-                    {post.currentMemberCount} / {post.capacity}
-                  </dt>
-                </div>
+            <div onClick={openPickMeDetail}>
+              <CardTitle>
+                {post.title.length < 20
+                  ? post.title
+                  : post.title.slice(0, 20) + "..."}
+              </CardTitle>
+              <CardsubTitle>
+                <CardsubList>
+                  <div className="joinme-subtitle">
+                    <dt className="joinme-sublabel">지역</dt>
+                    <dt className="joinme-subdata">{post.preferredRegion}</dt>
+                  </div>
+                  <div className="joinme-subtitle2">
+                    <dt className="joinme-sublabel"> 날짜</dt>
+                    <dt className="joinme-subdata">
+                      {startDate} ~ {endDate}
+                    </dt>
+                  </div>
 
-                <br />
-                <div className="joinme-content">
-                  <p>
-                    {post.content.length < 15
-                      ? post.content
-                      : post.content.slice(0, 14) + "..."}
-                  </p>
-                </div>
-              </CardsubList>
-              <figure className="card_profileimg">
-                <img
-                  src={profile_img ? profile_img : Logo}
-                  alt="유저프로필"
-                  loading="lazy"
-                ></img>
-              </figure>
-            </CardsubTitle>
+                  <br />
+                  <div className="joinme-content">
+                    <p>
+                      {post.content.length < 15
+                        ? post.content
+                        : post.content.slice(0, 14) + "..."}
+                    </p>
+                  </div>
+                </CardsubList>
+                <figure className="card_profileimg">
+                  <img
+                    src={profile_img ? profile_img : Logo}
+                    alt="유저프로필"
+                    loading="lazy"
+                  />
+                </figure>
+              </CardsubTitle>
+            </div>
           </CardTop>
           <CardBottom>
             <div className="card_username">
               <span>{post.nickname}</span>
-              <div className="like-btn">
-                <Heart src={HeartImg} />
-                <span>{post.likeCount}</span>
-              </div>
             </div>
           </CardBottom>
         </CardSection>
         <div>
-          {showJoinMeDetail ? (
+          {showPickMeDetail ? (
             <PickUpMeDetail
-              joinMeId={post.joinMeId}
-              showJoinMeDetail={showJoinMeDetail}
+              boardId={post.boardId}
+              showPickMeDetail={showPickMeDetail}
               close={close}
               profile_img={profile_img}
+              startDate={startDate}
+              endDate={endDate}
             />
           ) : null}
         </div>
@@ -137,7 +134,7 @@ const CardTitle = styled.h3`
   font-weight: 400;
   font-family: "Poor Story", cursive;
   letter-spacing: -0.3px;
-  font-size: 16px;
+  font-size: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;

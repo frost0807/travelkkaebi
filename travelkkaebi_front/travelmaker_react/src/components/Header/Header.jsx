@@ -75,7 +75,7 @@ function Header() {
                 id="basic-nav-dropdown"
               >
                 <NavDropdown.Item href="/joinme/1">같이가요</NavDropdown.Item>
-                <NavDropdown.Item href="/pickupme">
+                <NavDropdown.Item href="/pickme/0">
                   데려가주세요
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

@@ -38,7 +38,6 @@ public class JoinMeEntity {
     })
     private DateInfo dateInfo;
 
-    private int charge;
     private String region;
     private int capacity;
 }

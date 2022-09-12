@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
@@ -235,3 +236,4 @@ export default RegionEventDetail;
 // 셀렉트 원 좋아요 싫어요나 할때마다 새로 받아오게
 // 셀렉트 올페이지에서 접속할때랑 상세보기에서 새로고침으로 접속할때 경우 생각해두기
 // 글이 삭제된다거나(근데 그건 리스트에서 들어갈때도 동일함)
+
