@@ -33,6 +33,7 @@ function EditorDetail(){
 
 
 
+
       const [subject, setSubject] = useState('');
       const [content, setContent] = useState('');
   

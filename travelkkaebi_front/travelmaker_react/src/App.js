@@ -86,8 +86,6 @@ function Main() {
         <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="joinmeedit" element={<JoinMeEditForm />} />
 
-        <Route path="/pickupme" element={<PickUpMe />} />
-
         <Route path="/pickme/:pageNo" element={<PickUpMe />} />
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
         <Route path="/pickmeform" element={<PickUpMeForm />} />
