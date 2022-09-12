@@ -41,14 +41,14 @@ public class EditorChoiceService {
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
 
-        // 로그인 된 유저가 에디터 인지 확인하는 코드
+        // 로그인 된 유저가 에디터인지 확인하는 코드
         if (findUser.getRole().equals(UserRole.EDITOR)) {
             editorChoiceDTO.setUserId(userId);
 
-            if (image1 != null) {
-                editorChoiceDTO.setEditorImgUrl1(awsS3service.upload(image1, "static"));
-            } else {
+            if (image1 == null) {
                 editorChoiceDTO.setEditorImgUrl1(" ");
+            } else {
+                editorChoiceDTO.setEditorImgUrl1(awsS3service.upload(image1, "static"));
             }
 
             if (image2 != null) {
@@ -161,6 +161,8 @@ public class EditorChoiceService {
      */
     public EditorChoiceResponseDTO selectAllGood(List<Integer> list) throws Exception {
         for(int i : list) {
+           editorChoiceMapper.selectOne(i);
+
             return editorChoiceMapper.selectOne(i)
                     .orElseThrow( ()-> new NullPointerException("해당 게시물이 존재하지 않습니다."));
         }

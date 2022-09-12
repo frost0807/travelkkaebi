@@ -21,10 +21,10 @@ public class ReviewReplyController {
      * 댓글 작성
      */
     @PostMapping("/write")
-    public ResponseEntity replyWrite(@RequestPart ReviewReplyDTO reviewReplyDTO, @RequestPart ReviewDTO reviewDTO,
+    public ResponseEntity replyWrite(@RequestBody ReviewReplyDTO reviewReplyDTO,
                                      @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(reviewReplyService.writeReply(reviewReplyDTO, reviewDTO,
+            return new ResponseEntity(reviewReplyService.writeReply(reviewReplyDTO,
                     Integer.parseInt(userId)), HttpStatus.OK);
 
         } catch (Exception e) {
