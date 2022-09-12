@@ -1,13 +1,11 @@
 package com.bitcamp.travelkkaebi.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
 @Getter
 public class MyTravelDTO {

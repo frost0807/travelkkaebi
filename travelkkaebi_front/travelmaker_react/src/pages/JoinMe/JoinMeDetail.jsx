@@ -220,7 +220,6 @@ function JoinMeDetail(props) {
       axios
         .get(joinmeurl + "/setclosed?joinMeId=" + joinMeId, bearerToken)
         .then((res) => {
-          window.location.reload();
           if (res.data === true) {
             const mytravelDTO = {
               joinMeId: joinMeId,
@@ -233,6 +232,7 @@ function JoinMeDetail(props) {
                 res.data === true
                   ? alert("내 여행 게시물을 생성했습니다.")
                   : alert("내 여행 게시물 생성에 실패했습니다.");
+                window.location.reload();
               })
               .catch((error) => {
                 if (error.res) {
@@ -279,7 +279,7 @@ function JoinMeDetail(props) {
           <Closebtn onClick={closeModal} />
           <div className="jd-container">
             <DetailHeader>
-              <header>JOIN ME</header>
+              <header>같이가요</header>
               <p style={{ fontSize: "0.75rem" }}>
                 <i className="fa-solid fa-eye">&nbsp;{post.view}</i>
               </p>
@@ -304,7 +304,12 @@ function JoinMeDetail(props) {
                   <div>{post.content}</div>
                   <div>
                     {imageArr.map((imgelement, index) => (
-                      <img key={index} src={imgelement.imageUrl} alt="" />
+                      <img
+                        key={index}
+                        src={imgelement.imageUrl}
+                        width="400px"
+                        alt=""
+                      />
                     ))}
                   </div>
                   <p className="joinme-nbspspace">&nbsp;</p>

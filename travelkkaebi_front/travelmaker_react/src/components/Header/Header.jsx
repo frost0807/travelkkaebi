@@ -68,19 +68,20 @@ function Header() {
               style={{ marginLeft: "30px", fontSize: "16px" }}
               className="me-auto"
             >
-              <Nav.Link href="/contact">Contact</Nav.Link>
+              <Nav.Link href="/contact">전국팔도 깨비?</Nav.Link>
               <NavDropdown
                 style={{ marginLeft: "30px", marginRight: "30px" }}
-                title="Party"
+                title="여행"
                 id="basic-nav-dropdown"
               >
                 <NavDropdown.Item href="/joinme/1">같이가요</NavDropdown.Item>
                 <NavDropdown.Item href="/pickupme">
                   데려가주세요
                 </NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item href="/mytravel">내 여행</NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Info" id="basic-nav-dropdown">
+              <NavDropdown title="정보" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/EditorPick">
                   에디터 추천
                 </NavDropdown.Item>
@@ -145,7 +146,9 @@ function Header() {
                 }
               >
                 <NavDropdown.Item>마이페이지</NavDropdown.Item>
-                <NavDropdown.Item>게시물관리</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item>내 신청서</NavDropdown.Item>
+                <NavDropdown.Item>내게 온 신청서</NavDropdown.Item>
               </NavDropdown>
             )}
           </Nav>

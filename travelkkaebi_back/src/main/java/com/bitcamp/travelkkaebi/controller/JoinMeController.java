@@ -71,7 +71,6 @@ public class JoinMeController {
     @GetMapping("/selectone")
     public ResponseEntity<JoinMeOneDTO> selectOne(@RequestParam int joinMeId) {
         try {
-            System.out.println("아이디 : " + joinMeId);
             return new ResponseEntity<>(joinMeService.selectOne(joinMeId), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
