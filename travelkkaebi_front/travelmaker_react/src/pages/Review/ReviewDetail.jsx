@@ -1,9 +1,12 @@
+import { ContainerWrapper, FormTitle, Title, Wrapper } from "./RegionEventCreatestyle";
 import { useEffect, useState } from "react";
+import { Button, IconButton } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
 
 import './ReviewDetail.css';
 import axios from 'axios';
+import styled from "styled-components";
 import React from 'react';
 import { textAlign } from "@mui/system";
 import { SettingsCellOutlined } from "@mui/icons-material";
@@ -42,10 +45,12 @@ function ReviewDetail(){
         console.log(res.data);
       })
     }
-    const reviewReplyInsert= async (replyData)=>{
+    const onSubmit= async (replyData)=>{
       console.log("reviewReplyInsert console.log");
-      replyData.preventDefault();
+      console.log(replyData);
+      // replyData.preventDefault();
 
+      
       const formData = new FormData();
       console.log(replyData);
       const reviewReplyDTO = JSON.stringify(replyData);
@@ -60,7 +65,7 @@ function ReviewDetail(){
       {/*reviewReplyDTO (comment만), reviewDTO(boardid{reviewid}), userId*/}
       // data.preventDefault();
       
-      axios.post(API_BASE_URL+"/review/reply/write", formData
+      await axios.post(API_BASE_URL+"/review/reply/write", formData
       )
       .then(res=>{
         console.log(res.data);
@@ -80,7 +85,7 @@ function ReviewDetail(){
         })
       }
       const [subject, setSubject] = useState('');
-      const [content, setContent] = useState('');
+      const [comment, setComment] = useState('');
   
     useEffect(()=>{
       getDetail();
@@ -187,9 +192,155 @@ function ReviewDetail(){
 
         </div>
 
-        <div>
+        <Wrapper>
+      <ContainerWrapper>
+        <form
+          className="reg_form"
+          id="reg_form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="register_form">
+            <FormTitle>
+              댓글 쓰기
+              <p className="must">필수입력사항 </p>
+            </FormTitle>
+
+            <br />
+
+            <div className="reg_table" style={{ margin: 0, display: "block" }}>
+              <table className="register_table">
+                <colgroup style={{ display: "table-column-group" }}>
+                  <col style={{ width: 130, display: "table-column" }} />
+                  <col style={{ width: "*", display: "table-column" }} />
+                </colgroup>
+
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <label htmlFor="title" className="req">
+                        🔸제목
+                      </label>
+                    </th>
+                    <td>
+                      <input
+                        className="reg_input"
+                        type="text"
+                        name="title"
+                        id="title"
+                        required
+                        autoComplete="off"
+                        aria-invalid={
+                          !isDirty
+                            ? undefined
+                            : errors.nickname
+                            ? "true"
+                            : " false"
+                        }
+                        {...register("title", {
+                          maxLength: {
+                            value: 30,
+                            message: "30글자까지 입력 가능합니다.",
+                          },
+                          minLength: {
+                            value: 5,
+                            message: "5글자 이상 입력 가능합니다.",
+                          },
+                        })}
+                      />
+
+                      
+                    </td>
+                  </tr>
+
+                  
+                  <tr>
+                    <th scope="row">
+                      <label htmlFor="content" className="req">
+                        🔸내용
+                      </label>
+                    </th>
+                    <td>
+                      <div className="content_wrap">
+                        <input
+                          type="content"
+                          className="reg_input"
+                          name="content"
+                          required
+                          
+                          {...register("content", {
+                            maxLength: {
+                              value: 500,
+                              message: "최대 500글자까지 입력 가능합니다.",
+                            },
+                            
+                          })}
+                        />
+                        {/* {errors.email && (
+                          <div className="reg-error3">
+                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
+                            {errors.email.message}
+                          </div>
+                        )} */}
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">
+                      <label htmlFor="content" className="req">
+                        🔸지역
+                      </label>
+                    </th>
+                    <td>
+                      <div className="content_wrap">
+                        <input
+                          type="region"
+                          className="reg_input"
+                          name="region"
+                          required
+                          
+                          {...register("region", {
+                            maxLength: {
+                              value: 20,
+                              message: "최대 20글자까지 입력 가능합니다.",
+                            },
+                            
+                          })}
+                        />
+                        {/* {errors.email && (
+                          <div className="reg-error3">
+                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
+                            {errors.email.message}
+                          </div>
+                        )} */}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <BtnConfirm>
+              <a href="/review/1" className="btn_cancel">
+                취소
+              </a>
+              <input
+                type="submit"
+                disabled={isSubmitting}
+                value="글 작성"
+                id="btn_submit"
+                className="btn_submit"
+                accessKey="s"
+              />
+            </BtnConfirm>
+          </div>
+        </form>
+      </ContainerWrapper>
+    </Wrapper>
+        {/* <div> */}
       {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
-      <form onSubmit={reviewReplyInsert}>
+      {/* 원조 댓글 삭제 */}
+      {/* <form onSubmit={handleSubmit(reviewReplyInsert)}>
         <table className='table table-bordered' style={{width:'400px'}}>
           <caption><h3>댓글쓰기</h3></caption>
           <tbody>
@@ -204,7 +355,7 @@ function ReviewDetail(){
                 <textarea className='form-control' required
                 style={{width:'400px', height:'120px'}}
                 onChange={(e)=>{
-                  setContent(e.target.value);
+                  setComment(e.target.value);
                 }}></textarea>
               </td>
             </tr>
@@ -221,7 +372,10 @@ function ReviewDetail(){
           </tbody>
         </table>
       </form>
-    </div>
+    </div> */}
+
+
+
         <div className="voc-view-reply" style={{marginTop:"100px"}}>
             <label style={{height:"100%", margin:"auto"}}>댓글</label>
             <label>
@@ -258,6 +412,12 @@ function ReviewDetail(){
 
 
 export default ReviewDetail;
+
+const BtnConfirm = styled.div`
+  text-align: "center";
+  margin: 55px auto 0 !important;
+  display: block;
+`;
 
 // 게시글 상세정보 1
 // 리플라이 상세정보 2

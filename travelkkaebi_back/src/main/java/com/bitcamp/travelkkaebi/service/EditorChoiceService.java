@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.DOES_NOT_EXIST_BOARD;
+
 @Service
 @RequiredArgsConstructor
 public class EditorChoiceService {
@@ -166,7 +168,7 @@ public class EditorChoiceService {
 
         for (int i:boardIdList) {
             goodList.add(editorChoiceMapper.selectOne(i)
-                    .orElseThrow(()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")));
+                    .orElseThrow(()-> new KkaebiException(DOES_NOT_EXIST_BOARD)));
         }
         return goodList;
     }

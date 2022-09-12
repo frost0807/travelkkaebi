@@ -121,7 +121,4 @@ public class PickMeService {
         findPickMe.updateView(findPickMe.getWriteInfo().getView());
         return PickMeDTO.toDto(findPickMe);
     }
-
-
-
 }
