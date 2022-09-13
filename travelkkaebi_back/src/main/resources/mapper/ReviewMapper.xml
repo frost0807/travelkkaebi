@@ -28,8 +28,8 @@
         WHERE review_id = #{reviewId}
     </update>
 
-    <delete id="delete" parameterType="int">
-        DELETE FROM board_review WHERE review_id = #{reviewId}
+    <delete id="delete" parameterType="ReviewDTO">
+        DELETE FROM board_review WHERE review_id = #{reviewId} AND user_id=#{userId}
     </delete>
 
     <update id="viewPlus" parameterType="int">

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
 
-import './RegionEventDetail.css';
+import './EditorDetail.css';
 import axios from 'axios';
 import React from 'react';
 import { textAlign } from "@mui/system";
@@ -28,6 +28,28 @@ function EditorDetail(){
         setData(res.data);
         console.log("detail"+res.data);
       })
+    }
+
+    const onDelete= async ()=>{
+      // const headerConfig = {
+      //   Headers: {
+      //     "content-type": "multipart/form-data",
+      //   },
+      // };
+      // data.preventDefault();
+      // regionEventDTO.id =1;
+  
+      axios.defaults.headers = {
+        "Content-Type": "application/json; charset = utf-8",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
+      await axios
+      .delete(API_BASE_URL + "/review/delete?reviewId="+id)
+      .then((res) => {
+        console.log("삭제 콘솔로그", res);
+        alert("👹삭-제.");
+        navi('/review/1');
+      });
     }
 
 
@@ -62,15 +84,15 @@ function EditorDetail(){
             <label>{ data.nickname }</label>
         </div>
         <div className="voc-view-row">
-            <label>프로필 사진</label>
+            <label>이미지1</label>
             <label><img src={data.editorImgUrl1} style={{width : "100px", height : "100px"}} /></label>
         </div>
         <div className="voc-view-row">
-            <label>프로필 사진</label>
+            <label>이미지2</label>
             <label><img src={data.editorImgUrl2} style={{width : "100px", height : "100px"}} /></label>
         </div>
         <div className="voc-view-row">
-            <label>프로필 사진</label>
+            <label>이미지3</label>
             <label><img src={data.editorImgUrl3} style={{width : "100px", height : "100px"}} /></label>
         </div>
 
@@ -112,76 +134,8 @@ function EditorDetail(){
               onClick={()=>{
                 navi(`/review/1`);
               }}>목록</button>
-
-              <button type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
-              onClick={()=>{
-                axios.get(API_BASE_URL+"/review/likeup",
-                {params : {
-                  reviewId : id }
-                })
-                .then(response=>{
-                  console.log(response);
-                })
-              }}>좋아요 : {data.likeCount}</button>
-
-              <button type='button' className='btn btn-success'
-              style={{width:'100px', marginRight:'10px'}}
-              onClick={()=>{
-                axios.get(API_BASE_URL+"/review/dislikeup",
-                {params : {
-                  reviewId : id }
-                })
-                .then(response=>{
-                  console.log(response);
-                })
-              }}>싫어요 : {data.dislikeCount}</button>
-
-              
-
         </div>
-
         <div>
-      {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
-      <form onSubmit={reviewReplyInsert}>
-        <table className='table table-bordered' style={{width:'400px'}}>
-          <caption><h3>댓글쓰기</h3></caption>
-          <tbody>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>댓글쓰기</th>
-              <td>{id}</td>
-            </tr>
-            {/* <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>대표 이미지</th>
-              <td>
-                <input type='file' className='form-control'll
-                style={{width:'250px'}} 
-                onChange={imageUpload} required/>
-              </td>
-            </tr> */}
-
-            <tr>
-              <td colSpan={2}>
-                <textarea className='form-control' required
-                style={{width:'400px', height:'120px'}}
-                onChange={(e)=>{
-                  setContent(e.target.value);
-                }}></textarea>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} align='center'>
-                <button type="submit" className='btn btn-info'>댓글 작성</button>
-                <button type="button" className='btn btn-success'
-                style={{marginLeft:'10px'}}
-                onClick={()=>{
-                  navi("/review/1");
-                }}>돌아가기</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
     </div>
         <div className="voc-view-reply" style={{marginTop:"100px"}}>
             <label style={{height:"100%", margin:"auto"}}>댓글</label>
@@ -226,7 +180,7 @@ function EditorDetail(){
 }
 
 
-export default RegionEventDetail;
+export default EditorDetail;
 
 // 게시글 상세정보 1
 // 리플라이 상세정보 2

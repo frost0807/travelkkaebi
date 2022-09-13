@@ -24,9 +24,7 @@ public class ReviewReplyService {
      */
     public int writeReply(ReviewReplyDTO reply, @AuthenticationPrincipal int userId) {
         try {
-            reply.setBoardId(reply.getBoardId());
             reply.setUserId(userId);
-            reply.setComment(reply.getComment());
 
             // 댓글 등록 성공 시
             return replyMapper.insert(reply);

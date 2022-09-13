@@ -61,9 +61,9 @@ public class ReviewController {
      * 게시글 삭제 OK
      */
     @DeleteMapping("/delete")
-    private ResponseEntity<Integer> delete(@RequestBody ReviewDTO review, @AuthenticationPrincipal String userId) {
+    private ResponseEntity<Integer> delete(@RequestParam int reviewId, @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(reviewService.delete(review, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity(reviewService.delete(reviewId, Integer.parseInt(userId)), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();

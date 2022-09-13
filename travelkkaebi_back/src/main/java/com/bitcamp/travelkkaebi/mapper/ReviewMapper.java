@@ -20,7 +20,7 @@ public interface ReviewMapper {
 
     int update(ReviewDTO reviewDTO);
 
-    int delete(int reviewId);
+    int delete(ReviewDTO reviewDTO);
 
     int viewPlus(int reviewId);
 
