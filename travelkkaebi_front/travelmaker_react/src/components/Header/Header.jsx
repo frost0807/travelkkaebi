@@ -82,7 +82,7 @@ function Header() {
                 <NavDropdown.Item href="/mytravel">내 여행</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="정보" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/EditorPick">
+                <NavDropdown.Item href="/editor/1">
                   에디터 추천
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/regionevent">

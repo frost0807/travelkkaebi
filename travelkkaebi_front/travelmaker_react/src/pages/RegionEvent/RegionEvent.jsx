@@ -78,7 +78,9 @@ function RegionEvent() {
       <Card >
         <Card.Img variant="top"  src={row.posterImageUrl} />
         <Card.Body>
-          <Card.Title as="a" href= "/regionevent/detail/${row.regionId}" >{row.title}</Card.Title>
+          <Card.Title as="a" onClick={()=>{
+                  navi(`/regionevent/detail/${row.regionId}`)
+                }} >{row.title}</Card.Title>
           <Card.Text>
             {row.nickname}
           </Card.Text>

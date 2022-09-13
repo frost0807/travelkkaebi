@@ -32,7 +32,9 @@ import { useRecoilState } from "recoil";
 import { isLoginState, showJoinMeDetailState } from "./recoil/atom";
 import JoinMeEditForm from "./pages/JoinMe/JoinMeEditForm";
 import Editor from "./pages/Editor/Editor";
+import EditorDetail from "./pages/Editor/EditorDetail";
 import EditorCreateForm from "./pages/Editor/EditorCreateForm";
+
 import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
 import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
 import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
@@ -43,7 +45,7 @@ function Main() {
       <Header />
       <Routes>
         <Route
-          // path="/"
+          path="/"
           index
           element={<Home />}
         />
@@ -63,7 +65,7 @@ function Main() {
 
         {/* Editor Page */}
         <Route path="/editor/:currentPage" element={<Editor />} />
-        {/* <Route path="/editor/detail/:id" element={<ReviewDetail />} /> */}
+        <Route path="/editor/detail/:id" element={<EditorDetail />} />
         <Route path="/editor/createform" element={<EditorCreateForm />} />
 
         {/* RegionEvent Page */}

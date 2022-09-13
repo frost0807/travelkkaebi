@@ -24,6 +24,7 @@ public class ReviewReplyController {
     public ResponseEntity replyWrite(@RequestBody ReviewReplyDTO reviewReplyDTO,
                                      @AuthenticationPrincipal String userId) {
         try {
+            System.out.println(reviewReplyDTO.toString());
             return new ResponseEntity(reviewReplyService.writeReply(reviewReplyDTO,
                     Integer.parseInt(userId)), HttpStatus.OK);
 

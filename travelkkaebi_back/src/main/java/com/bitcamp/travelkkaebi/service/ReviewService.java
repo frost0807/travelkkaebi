@@ -96,13 +96,12 @@ public class ReviewService {
      * @return deletedReviewId
      */
     @Transactional
-    public int delete(ReviewDTO review, int userId) throws Exception {
+    public int delete(int reviewId, int userId) throws Exception {
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
-        if (review.getUserId() == userId) {
-            return reviewMapper.delete(review.getReviewId());
-        } else {
-            throw new KkaebiException(DOES_NOT_MATCH_USER);
-        }
+            return reviewMapper.delete(ReviewDTO.builder()
+                    .reviewId(reviewId)
+                    .userId(userId)
+                    .build());
     }
 
     /**

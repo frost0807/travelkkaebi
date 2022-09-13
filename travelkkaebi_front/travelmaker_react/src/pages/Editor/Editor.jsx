@@ -31,7 +31,7 @@ function Editor() {
 
     // 시작시 호출되는 함수
     const getDetail=()=>{
-      axios.get(API_BASE_URL+"/editorchoice/selectallbypage",
+      axios.get(API_BASE_URL+"/editorchoice/selectallgood",
       {params : {
         pageNo : currentPage }
       })
@@ -40,9 +40,17 @@ function Editor() {
         console.log(res.data);
       })
     }
+    const getNewDetail=()=>{
+      axios.get(API_BASE_URL+"/editorchoice/selectallnew")
+      .then(response=>{
+        setData2(response.data);
+        console.log(response.data[0]);
+      })
+    }
   
     useEffect(()=>{
       getDetail();
+      getNewDetail();
     },[]);// currentPage가 변경될 때마다 다시 호출
 
 
@@ -64,8 +72,8 @@ function Editor() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={row.posterImageUrl}
-            alt="First slide"
+            src={row.editorImgUrl1}
+            alt="이미지 미첨부된 게시글"
           />
           <Carousel.Caption>
             <h3>{row.title}</h3>
@@ -86,9 +94,11 @@ function Editor() {
         data2 && data2.map((row, idx)=>(
 
       <Card >
-        <Card.Img variant="top"  src={row.posterImageUrl} />
+        <Card.Img variant="top"  src={row.editorImgUrl1} />
         <Card.Body>
-          <Card.Title as="a" href= "/regionevent/detail/${row.regionId}" >{row.title}</Card.Title>
+          <Card.Title as="a" onClick={()=>{
+                  navi(`/editor/detail/${row.editorChoiceId}`)
+                }} >{row.title}</Card.Title>
           <Card.Text>
             {row.nickname}
           </Card.Text>
