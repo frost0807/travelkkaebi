@@ -36,6 +36,7 @@ import EditorCreateForm from "./pages/Editor/EditorCreateForm";
 import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
 import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
 import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
+import JoinApplyList from "./pages/MyPage/JoinApply/joinApplyList";
 
 function Main() {
   return (
@@ -85,6 +86,8 @@ function Main() {
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="joinmeedit" element={<JoinMeEditForm />} />
+
+        <Route path="/mypage/apply/list" element={<JoinApplyList />} />
 
         <Route path="/pickme/:pageNo" element={<PickUpMe />} />
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />

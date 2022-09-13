@@ -23,7 +23,7 @@ function CardImg() {
       .get(review + "/selectallgood")
       .then((reslist) => {
         console.log("reviewArr", reslist);
-        setHotReviewArr(reslist);
+        setHotReviewArr(reslist.data);
       })
       .catch((error) => {
         if (error.res) {

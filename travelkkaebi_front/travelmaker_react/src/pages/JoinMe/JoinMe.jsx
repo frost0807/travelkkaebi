@@ -1,4 +1,4 @@
-mport React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./JoinMe.css";
 import { Button } from "@mui/material";
@@ -17,19 +17,15 @@ import styled from "styled-components";
 function JoinMe() {
   const navigate = useNavigate();
 
-  //  const query = queryString.parse(window.location.search);
-  const { pageNo } = useParams();
   const [posts, setPosts] = useState([]);
   const [limits] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1); //query.page ||
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState();
 
   // search
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectKeyword, setSelectKeyword] = useState("");
 
-  // 이슈 service, DTO의 변수 이름이 mapper랑 다름
-  // onChange 렌더링 한글자 때문에 리스트 오는 갯수랑 totalcount 갯수가 다름
   const searchHandler = (e) => {
     e.preventDefault();
     setSearchKeyword(e.target.value);
@@ -51,7 +47,7 @@ function JoinMe() {
         const fetchPost = async () => {
           setCurrentPage();
           const fetchAxios = await axios
-            .get(selectAllUrl + "?pageNo=" + pageNo) //,{params:{pageNo:currentPage}}
+            .get(selectAllUrl + "?pageNo=" + currentPage) //,{params:{pageNo:currentPage}}
             .then((res) => {
               console.log(res.data);
               setPosts(res.data.list);
@@ -74,7 +70,7 @@ function JoinMe() {
   const searchTitle = async () => {
     await axios
       .get(selectAllUrl + "/searchbytitle", {
-        params: { pageNo: pageNo, searchword: searchKeyword },
+        params: { pageNo: currentPage, searchword: searchKeyword },
       })
       .then((res) => {
         if (searchKeyword == null) {
@@ -90,7 +86,7 @@ function JoinMe() {
   const searchName = async () => {
     await axios
       .get(selectAllUrl + "/searchbynickname", {
-        params: { pageNo: pageNo, searchword: searchKeyword },
+        params: { pageNo: currentPage, searchword: searchKeyword },
       })
       .then((res) => {
         console.log(res);
@@ -104,9 +100,8 @@ function JoinMe() {
   let selectAllUrl = joinmeurl + "/selectallbypage";
   useEffect(() => {
     const fetchPost = async () => {
-      setCurrentPage();
       const fetchAxios = await axios
-        .get(selectAllUrl + "?pageNo=" + pageNo) //,{params:{pageNo:currentPage}}
+        .get(selectAllUrl + "?pageNo=" + currentPage) //,{params:{pageNo:currentPage}}
         .then((res) => {
           console.log(res.data);
           setPosts(res.data.list);
@@ -116,10 +111,7 @@ function JoinMe() {
         });
     };
     return () => fetchPost();
-  }, []);
-
-  //pagenation
-  const pageNate = (pageNum) => pageNo(pageNum);
+  }, [currentPage]);
 
   // modal
   const [isLoginModalOpen, setIsLoginModalOpen] =
@@ -187,7 +179,6 @@ function JoinMe() {
               setCurrentPage={setCurrentPage}
               limits={limits}
               totalCount={totalCount}
-              pageNate={pageNate}
             />
           </footer>
         </ContentBody>
