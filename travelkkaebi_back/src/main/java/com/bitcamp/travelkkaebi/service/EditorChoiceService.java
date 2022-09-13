@@ -5,7 +5,6 @@ import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
-import com.bitcamp.travelkkaebi.exception.ErrorCode;
 import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.mapper.EditorChoiceMapper;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
@@ -19,7 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.DOES_NOT_EXIST_BOARD;
+import static com.bitcamp.travelkkaebi.exception.ErrorCode.FAILED_TO_UPDATE_VIEW;
 
 @Service
 @RequiredArgsConstructor
@@ -40,9 +41,8 @@ public class EditorChoiceService {
 
     public boolean write(EditorChoiceDTO editorChoiceDTO, MultipartFile image1,
                                          MultipartFile image2, MultipartFile image3, int userId) throws Exception {
-        System.out.println("에디터 write 서비스 도착");
 
-        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("없습니다"));
+        UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_USER));
 
         // 로그인 된 유저가 에디터인지 확인하는 코드
         if (findUser.getRole().equals(UserRole.EDITOR)) {
@@ -70,7 +70,7 @@ public class EditorChoiceService {
             return true;
 
         } else {
-            throw new KkaebiException(ErrorCode.DOES_NOT_EDIT_USER);
+            throw new KkaebiException(DOES_NOT_EDIT_USER);
         }
     }
 
@@ -108,7 +108,7 @@ public class EditorChoiceService {
             editorChoiceMapper.update(editorChoiceDTO);
             return selectOne(editorChoiceDTO.getEditorChoiceId());
         } else {
-            throw new RuntimeException("글 수정 권한이 없습니다.");
+            throw new KkaebiException(DOES_NOT_MATCH_USER);
         }
     }
 
@@ -126,7 +126,7 @@ public class EditorChoiceService {
         if (userId == editorChoiceDTO.getUserId()) {
             return editorChoiceMapper.delete(editorChoiceDTO.getEditorChoiceId());
         } else {
-            throw new RuntimeException("작성자가 아닙니다.");
+            throw new KkaebiException(DOES_NOT_MATCH_USER);
         }
     }
 
@@ -182,9 +182,9 @@ public class EditorChoiceService {
         // 조회수 더해주는 코드
         if (editorChoiceMapper.viewPlus(editorChoiceId) != 0) {
             return editorChoiceMapper.selectOne(editorChoiceId)
-                    .orElseThrow(()-> new NullPointerException("선택한 게시물이 존재하지 않습니다."));
+                    .orElseThrow(()-> new KkaebiException(DOES_NOT_EXIST_BOARD));
         } else {
-            throw new RuntimeException("게시물 조회수 갱신 실패");
+            throw new KkaebiException(FAILED_TO_UPDATE_VIEW);
         }
     }
 
