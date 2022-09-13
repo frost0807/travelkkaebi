@@ -26,6 +26,19 @@
         WHERE nickname LIKE CONCAT('%', #{word}, '%')
     </select>
 
+    <select id="getBoardCountByMyUserId" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM board_join_me
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="getBoardCountByApply" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM board_join_me AS b
+                 JOIN join_me_apply AS j ON b.join_me_id = j.join_me_id
+        WHERE j.user_id = #{userId}
+    </select>
+
     <select id="selectOne" parameterType="int" resultType="JoinMeOneDTO">
         SELECT *
         FROM board_join_me AS b
@@ -62,6 +75,22 @@
                  JOIN user AS u ON b.user_id = u.user_id
         WHERE nickname LIKE CONCAT('%', #{word}, '%')
         ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectAllByPageByMyUserId" parameterType="PageAndUserIdDTO" resultType="JoinMeListDTO">
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN user AS u ON b.user_id = u.user_id
+        WHERE b.user_id = #{userId}
+        ORDER BY join_me_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectAllByPageByApply" parameterType="PageAndUserIdDTO" resultType="JoinMeListDTO">
+        SELECT *
+        FROM board_join_me AS b
+                 JOIN join_me_apply AS j ON b.join_me_id = j.join_me_id
+        WHERE j.user_id = #{userId}
+        ORDER BY b.join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="getAppliedUserList" parameterType="int" resultType="int">

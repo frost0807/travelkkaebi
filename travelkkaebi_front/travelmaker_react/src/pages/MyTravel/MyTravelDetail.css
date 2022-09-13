@@ -1,0 +1,15 @@
+.cell {
+  padding: 10px;
+  width: 25%;
+}
+
+.nameCell {
+  padding: 10px;
+  background-color: #dbffd5;
+  width: 25%;
+}
+
+.row {
+  display: flex;
+  border-bottom: solid 1px lightgrey;
+}
