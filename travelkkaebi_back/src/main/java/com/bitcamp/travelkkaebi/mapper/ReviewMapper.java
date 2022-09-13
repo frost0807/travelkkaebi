@@ -14,6 +14,8 @@ public interface ReviewMapper {
     List<ReviewResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
     Optional<ReviewResponseDTO> selectOne(int reviewId);
 
+    List<ReviewResponseDTO> selectAllForMain();
+
     int insert(ReviewDTO reviewDTO);
 
     int update(ReviewDTO reviewDTO);

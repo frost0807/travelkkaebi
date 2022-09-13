@@ -38,6 +38,10 @@ import EditorCreateForm from "./pages/Editor/EditorCreateForm";
 import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
 import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
 import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
+import MyTravel from "./pages/MyTravel/MyTravel";
+import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
+import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
+import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
 
 function Main() {
   return (
@@ -92,6 +96,9 @@ function Main() {
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
         <Route path="/pickmeform" element={<PickUpMeForm />} />
         <Route path="pickmeedit" element={<PickUpMeEditForm />} />
+
+        <Route path="/mytravel/:pageNo" element={<MyTravel />} />
+        <Route path="/mytraveldetail" element={<MyTravelDetail />} />
       </Routes>
 
       {/* //=================================== */}

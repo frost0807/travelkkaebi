@@ -37,10 +37,6 @@ function Header() {
     window.location.replace("http://localhost:3000/");
   };
 
-  const signup = () => {
-    <Register />;
-  };
-
   return (
     <Navbar
       bg="white"
@@ -59,7 +55,14 @@ function Header() {
     >
       <Container>
         <a href="/">
-          <Logo style={{ marginLeft: "100px" }} src={LogoSrc} />
+          <Logo
+            style={{
+              marginLeft: "100px",
+              marginTop: "10px",
+              marginBottom: "10px",
+            }}
+            src={LogoSrc}
+          />
         </a>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -79,7 +82,7 @@ function Header() {
                   데려가주세요
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/mytravel">내 여행</NavDropdown.Item>
+                <NavDropdown.Item href="/mytravel/1">내 여행</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="정보" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/editor/1">
@@ -147,7 +150,7 @@ function Header() {
               >
                 <NavDropdown.Item>마이페이지</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>내 신청서</NavDropdown.Item>
+                <NavDropdown.Item>내가 보낸 신청서</NavDropdown.Item>
                 <NavDropdown.Item>내게 온 신청서</NavDropdown.Item>
               </NavDropdown>
             )}
