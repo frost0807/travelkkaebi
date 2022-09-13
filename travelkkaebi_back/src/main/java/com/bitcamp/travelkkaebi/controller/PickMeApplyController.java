@@ -36,8 +36,8 @@ public class PickMeApplyController {
     /**
      * 나를 데려가려는 코멘트 리스트
      */
-    @GetMapping("/my/commentlist")
+    /*@GetMapping("/my/commentlist")
     public ResponseEntity<ListResponseDTO> commentList(@AuthenticationPrincipal String userId, @PageableDefault Pageable pageable) {
         return ResponseEntity.ok().body(pickMeApplyService.showCommentList(Integer.parseInt(userId), pageable));
-    }
+    }*/
 }

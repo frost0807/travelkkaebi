@@ -60,9 +60,10 @@ public class PickMeApplyService {
     /**
      * comment logic
      */
-    public ListResponseDTO showCommentList(int userId, Pageable pageable) {
+    /*public ListResponseDTO showCommentList(int userId, Pageable pageable) {
         //1.내가쓴글 다잡고 다잡은글에 신청한글 다잡기
-        pickMeDB.findByUserEntityId(userId,pageable);
-//        return ListResponseDTO.setTotalCountAndList(3, content.stream().map(PickMeApplyDTO::new).collect(Collectors.toList()));
-    }
+        Page<PickMeEntity> byUserEntityId = pickMeDB.findByUserEntityId(userId, pageable);
+
+        return ListResponseDTO.setTotalCountAndList(byUserEntityId.getContent().size(), byUserEntityId.getContent());
+    }*/
 }

@@ -12,5 +12,6 @@ public interface PickMeApplyRepository extends JpaRepository<PickMeApplyEntity, 
 
     int countByUserEntityId(int userId);
 
-    Page<PickMeApplyEntity> findByUserEntityId(int userId, Pageable pageable);
+    /*@Query("select pa from PickMeApplyEntity pa join pa.pickMeEntity pap on p = ")
+    Page<PickMeApplyEntity> rotlqkf(int userId, Pageable pageable);*/
 }
