@@ -32,11 +32,19 @@ import { useRecoilState } from "recoil";
 import { isLoginState, showJoinMeDetailState } from "./recoil/atom";
 import JoinMeEditForm from "./pages/JoinMe/JoinMeEditForm";
 import Editor from "./pages/Editor/Editor";
+import EditorDetail from "./pages/Editor/EditorDetail";
 import EditorCreateForm from "./pages/Editor/EditorCreateForm";
+
 import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
 import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
 import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
 import JoinApplyList from "./pages/MyPage/JoinApply/joinApplyList";
+
+import MyTravel from "./pages/MyTravel/MyTravel";
+import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
+import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
+import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
+
 
 function Main() {
   return (
@@ -44,7 +52,7 @@ function Main() {
       <Header />
       <Routes>
         <Route
-          // path="/"
+          path="/"
           index
           element={<Home />}
         />
@@ -64,7 +72,7 @@ function Main() {
 
         {/* Editor Page */}
         <Route path="/editor/:currentPage" element={<Editor />} />
-        {/* <Route path="/editor/detail/:id" element={<ReviewDetail />} /> */}
+        <Route path="/editor/detail/:id" element={<EditorDetail />} />
         <Route path="/editor/createform" element={<EditorCreateForm />} />
 
         {/* RegionEvent Page */}
@@ -93,6 +101,9 @@ function Main() {
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
         <Route path="/pickmeform" element={<PickUpMeForm />} />
         <Route path="pickmeedit" element={<PickUpMeEditForm />} />
+
+        <Route path="/mytravel/:pageNo" element={<MyTravel />} />
+        <Route path="/mytraveldetail" element={<MyTravelDetail />} />
       </Routes>
 
       {/* //=================================== */}

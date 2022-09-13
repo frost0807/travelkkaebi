@@ -3,8 +3,8 @@
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.ReviewReplyMapper">
 
     <insert id="insert" parameterType="ReviewReplyDTO" useGeneratedKeys="true" keyProperty="reviewReplyId">
-        INSERT INTO review_reply (category_id, board_id, user_id, comment)
-        VALUES (5, #{r.boardId}, #{r.userId}, #{r.comment})
+        INSERT INTO review_reply (board_id, user_id, comment)
+        VALUES (#{boardId}, #{userId}, #{comment})
     </insert>
 
     <update id="update" parameterType="ReviewReplyDTO" useGeneratedKeys="true" keyProperty="reviewReplyId">

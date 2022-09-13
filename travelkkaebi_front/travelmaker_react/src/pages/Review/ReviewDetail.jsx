@@ -2,7 +2,7 @@ import { ContainerWrapper, FormTitle, Title, Wrapper } from "./RegionEventCreate
 import { useEffect, useState } from "react";
 import { Button, IconButton } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL, review } from "../../config";
 
 import './ReviewDetail.css';
 import axios from 'axios';
@@ -45,36 +45,71 @@ function ReviewDetail(){
         console.log(res.data);
       })
     }
-    const onSubmit= async (replyData)=>{
-      console.log("reviewReplyInsert console.log");
-      console.log(replyData);
-      // replyData.preventDefault();
+    // const onSubmit= async (replyData)=>{
+    //   console.log("reviewReplyInsert console.log before", replyData);
+    //   // replyData.preventDefault();
 
       
-      const formData = new FormData();
-      console.log(replyData);
-      const reviewReplyDTO = JSON.stringify(replyData);
-      formData.append(
-        "reviewReplyDTO",
-        new Blob([reviewReplyDTO], { type: "application/json" })
-      );
+    //   const formData = new FormData();
+    //   const reviewReplyDTO = JSON.stringify(replyData);
+    //   formData.append(
+    //     "reviewReplyDTO",
+    //     new Blob([reviewReplyDTO], { type: "application/json" })
+    //   );
+    //   console.log("after", formData);
+    //   axios.defaults.headers = {
+    //     "Content-Type": "application/json; charset = utf-8",
+    //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+    //   };
+    //   {/*reviewReplyDTO (comment만), reviewDTO(boardid{reviewid}), userId*/}
+    //   // data.preventDefault();
+      
+    //   await axios.post(API_BASE_URL+"/review/reply/write", formData
+    //   )
+    //   .then(res=>{
+    //     console.log(res.data);
+    //     alert("댓글 작성이 완료되었습니다.");
+    //     // navi(`/review/detail/${id}`);
+    //   })
+    // }
+
+    const onSubmit = async(replyData)=>{
+
+      console.log("rep", replyData);
+      const reviewReplyDTO= {comment:replyData.content, boardId:id}
       axios.defaults.headers = {
         "Content-Type": "application/json; charset = utf-8",
         Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
       };
-      {/*reviewReplyDTO (comment만), reviewDTO(boardid{reviewid}), userId*/}
-      // data.preventDefault();
-      
-      await axios.post(API_BASE_URL+"/review/reply/write", formData
-      )
-      .then(res=>{
-        console.log(res.data);
-        alert("댓글 작성이 완료되었습니다.");
-        // navi(`/review/detail/${id}`);
+      const sendreply = axios
+      .post(review+"/reply/write", reviewReplyDTO)
+      .then((res)=>{
+        console.log(res)
+        navi(`/review/detail/${id}`);
       })
     }
 
-
+    const onDelete= async ()=>{
+      // const headerConfig = {
+      //   Headers: {
+      //     "content-type": "multipart/form-data",
+      //   },
+      // };
+      // data.preventDefault();
+      // regionEventDTO.id =1;
+  
+      axios.defaults.headers = {
+        "Content-Type": "application/json; charset = utf-8",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
+      await axios
+      .delete(API_BASE_URL + "/review/delete?reviewId="+id)
+      .then((res) => {
+        console.log("삭제 콘솔로그", res);
+        alert("👹삭-제.");
+        navi('/review/1');
+      });
+    }
 
       const getReply=()=>{
         axios
@@ -126,11 +161,11 @@ function ReviewDetail(){
         </div>
         <div className="voc-view-row">
             <label>작성일</label>
-            <label>{ data.createTime }</label>
+            <label>{ data?.createTime?.split('T')[0] }</label>
         </div>
         <div className="voc-view-row">
             <label>수정일</label>
-            <label>{ data.updateTime }</label>
+            <label>{ data?.updateTime?.split('T')[0] }</label>
         </div>
         <div className="voc-view-row">
             <label>내용</label>
@@ -155,7 +190,7 @@ function ReviewDetail(){
               <button type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
-                navi("/review/form");
+                onDelete();
               }}>삭제</button>
 
               <button type='button' className='btn btn-success'
@@ -164,7 +199,7 @@ function ReviewDetail(){
                 navi(`/review/1`);
               }}>목록</button>
 
-              <button type='button' className='btn btn-info'
+              {/* <button type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
                 axios.get(API_BASE_URL+"/review/likeup",
@@ -186,7 +221,7 @@ function ReviewDetail(){
                 .then(response=>{
                   console.log(response);
                 })
-              }}>싫어요 : {data.dislikeCount}</button>
+              }}>싫어요 : {data.dislikeCount}</button> */}
 
               
 
@@ -195,17 +230,12 @@ function ReviewDetail(){
         <Wrapper>
       <ContainerWrapper>
         <form
-          className="reg_form"
+          
           id="reg_form"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="register_form">
-            <FormTitle>
-              댓글 쓰기
-              <p className="must">필수입력사항 </p>
-            </FormTitle>
 
-            <br />
 
             <div className="reg_table" style={{ margin: 0, display: "block" }}>
               <table className="register_table">
@@ -213,50 +243,11 @@ function ReviewDetail(){
                   <col style={{ width: 130, display: "table-column" }} />
                   <col style={{ width: "*", display: "table-column" }} />
                 </colgroup>
-
                 <tbody>
                   <tr>
                     <th scope="row">
-                      <label htmlFor="title" className="req">
-                        🔸제목
-                      </label>
-                    </th>
-                    <td>
-                      <input
-                        className="reg_input"
-                        type="text"
-                        name="title"
-                        id="title"
-                        required
-                        autoComplete="off"
-                        aria-invalid={
-                          !isDirty
-                            ? undefined
-                            : errors.nickname
-                            ? "true"
-                            : " false"
-                        }
-                        {...register("title", {
-                          maxLength: {
-                            value: 30,
-                            message: "30글자까지 입력 가능합니다.",
-                          },
-                          minLength: {
-                            value: 5,
-                            message: "5글자 이상 입력 가능합니다.",
-                          },
-                        })}
-                      />
-
-                      
-                    </td>
-                  </tr>
-
-                  
-                  <tr>
-                    <th scope="row">
                       <label htmlFor="content" className="req">
-                        🔸내용
+                        🔸댓글 작성
                       </label>
                     </th>
                     <td>
@@ -275,62 +266,26 @@ function ReviewDetail(){
                             
                           })}
                         />
-                        {/* {errors.email && (
-                          <div className="reg-error3">
-                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
-                            {errors.email.message}
-                          </div>
-                        )} */}
                       </div>
                     </td>
                   </tr>
 
-                  <tr>
-                    <th scope="row">
-                      <label htmlFor="content" className="req">
-                        🔸지역
-                      </label>
-                    </th>
-                    <td>
-                      <div className="content_wrap">
-                        <input
-                          type="region"
-                          className="reg_input"
-                          name="region"
-                          required
-                          
-                          {...register("region", {
-                            maxLength: {
-                              value: 20,
-                              message: "최대 20글자까지 입력 가능합니다.",
-                            },
-                            
-                          })}
-                        />
-                        {/* {errors.email && (
-                          <div className="reg-error3">
-                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
-                            {errors.email.message}
-                          </div>
-                        )} */}
-                      </div>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
 
-            <BtnConfirm>
+            <BtnConfirm >
               <a href="/review/1" className="btn_cancel">
                 취소
               </a>
               <input
                 type="submit"
                 disabled={isSubmitting}
-                value="글 작성"
+                value="댓글 작성"
                 id="btn_submit"
                 className="btn_submit"
                 accessKey="s"
+                
               />
             </BtnConfirm>
           </div>

@@ -8,15 +8,14 @@ import { left, right } from "../../shared/svg/A-index";
 
 import { getCookie } from "../../shared/Cookie";
 import axios from "axios";
-import { editorchoice } from "../../config";
-import ThumbUpSharpIcon from "@mui/icons-material/ThumbUpSharp";
+import { editorchoice, review } from "../../config";
 
 //에러로그
 // import * as Sentry from "@sentry/react";
 
-const PopularEditorChoice = () => {
+const LatestReview = () => {
   const [loading, setLoading] = useState(false);
-  const [hotEditorArr, setHotEditorArr] = useState([]);
+  const [latestReviewArr, setlatestReviewArr] = useState([]);
   const [curruntIdx, setCurrentIdx] = useState(0);
   const [count, setCount] = useState(0);
   // const token = getCookie("token")
@@ -50,11 +49,11 @@ const PopularEditorChoice = () => {
   }, [curruntIdx]);
 
   useEffect(() => {
-    const getHotEditor = axios
-      .get(editorchoice + "/home")
+    const getLatestReview = axios
+      .get(review + "/selectallbypage?pageNo=1")
       .then((resList) => {
-        console.log("editorArr", resList.data);
-        setHotEditorArr(resList.data);
+        console.log("latestReviewArr", resList.data);
+        setlatestReviewArr(resList.data);
         setCount(resList.data.length);
       })
       .catch((error) => {
@@ -76,7 +75,7 @@ const PopularEditorChoice = () => {
       <ScWrap>
         <ScTop>
           <div style={{ fontFamily: "SUIT ExtraBold", fontSize: "1.5em" }}>
-            에디터 추천 Top 6
+            유저리뷰 New 6
           </div>
           <ScMoveButton style={{ display: "flex", marginBottom: "10px" }}>
             <div onClick={prevSlide}>
@@ -90,7 +89,7 @@ const PopularEditorChoice = () => {
 
         <Container>
           <ImageBox ref={slideRef} count={count}>
-            {hotEditorArr?.map((item, index) => (
+            {latestReviewArr?.map((item, index) => (
               <div
                 key={index}
                 style={{
@@ -104,7 +103,7 @@ const PopularEditorChoice = () => {
                   style={{ borderRadius: "5% 5% 0 0" }}
                   width="255px"
                   height="220px"
-                  src={item.editorImgUrl2}
+                  src={item.reviewImgUrl}
                 />
                 <div style={{ margin: "15px" }}>
                   <h3>
@@ -129,7 +128,7 @@ const PopularEditorChoice = () => {
                     </h3>
                     <h3
                       style={{
-                        backgroundColor: "#2F9D27",
+                        backgroundColor: "#998A00",
                         color: "white",
                         padding: "3px",
                         borderRadius: "20%",
@@ -150,11 +149,11 @@ const PopularEditorChoice = () => {
 
 const ScWrap = styled.div`
   /* border: 1px solid black; */
-  margin: 10px auto 40px;
+  margin: 100px auto 40px;
   max-width: 1300px;
   width: 85%;
   height: 450px;
-  background-color: #e0ffdb;
+  background-color: #ffffd2;
   border-radius: 20px;
   padding: 20px;
 `;
@@ -163,13 +162,12 @@ const ScTop = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px 0 10px 30px;
-  color: #005000;
+  color: #423800;
 `;
 const ScMoveButton = styled.div`
   display: flex;
   margin: 3% 5% 0 0;
   gap: 24px;
-  color: #005000;
 `;
 const Container = styled.div`
   max-width: 1150px;
@@ -192,4 +190,4 @@ const ImageList = styled.li`
   list-style: none;
 `;
 
-export default PopularEditorChoice;
+export default LatestReview;

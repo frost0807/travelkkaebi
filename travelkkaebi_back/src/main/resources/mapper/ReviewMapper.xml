@@ -7,6 +7,11 @@
         ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
+    <select id="selectAllForMain" resultType="ReviewResponseDTO">
+        SELECT * FROM board_review JOIN user on board_review.user_id = user.user_id
+        ORDER BY review_id DESC LIMIT 0, 6
+    </select>
+
     <select id="selectOne" parameterType="int" resultType="ReviewResponseDTO">
         SELECT * FROM board_review JOIN user On board_review.user_id = user.user_id
         WHERE review_id = #{reviewId}
@@ -23,8 +28,8 @@
         WHERE review_id = #{reviewId}
     </update>
 
-    <delete id="delete" parameterType="int">
-        DELETE FROM board_review WHERE review_id = #{reviewId}
+    <delete id="delete" parameterType="ReviewDTO">
+        DELETE FROM board_review WHERE review_id = #{reviewId} AND user_id=#{userId}
     </delete>
 
     <update id="viewPlus" parameterType="int">

@@ -3,6 +3,7 @@ package com.bitcamp.travelkkaebi.entity;
 import com.bitcamp.travelkkaebi.dto.PickMeApplyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Table(name = "pick_me_apply")
 public class PickMeApplyEntity {
 

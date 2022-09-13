@@ -44,14 +44,14 @@ public class ReviewService {
             if (reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
                 return true;
             } else { // insert 실패 시
-                throw new RuntimeException("게시물이 등록되지 않았습니다.");
+                throw new KkaebiException(FAILED_TO_INSERT_BOARD);
             }
         } else {
             reviewDTO.setReviewImgUrl(" ");
             if(reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
                 return true;
             } else { // insert 실패 시
-                throw new RuntimeException("게시물이 등록되지 않았습니다.");
+                throw new KkaebiException(FAILED_TO_INSERT_BOARD);
             }
         }
 
@@ -96,13 +96,12 @@ public class ReviewService {
      * @return deletedReviewId
      */
     @Transactional
-    public int delete(ReviewDTO review, int userId) throws Exception {
+    public int delete(int reviewId, int userId) throws Exception {
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
-        if (review.getUserId() == userId) {
-            return reviewMapper.delete(review.getReviewId());
-        } else {
-            throw new KkaebiException(DOES_NOT_MATCH_USER);
-        }
+            return reviewMapper.delete(ReviewDTO.builder()
+                    .reviewId(reviewId)
+                    .userId(userId)
+                    .build());
     }
 
     /**
@@ -123,6 +122,9 @@ public class ReviewService {
         }
     }
 
+    /**
+     * 메인 게시글 리스트 (추천)
+     */
     public List<ReviewResponseDTO> selectAllGood(List<Integer> boardIdList) throws Exception {
         List<ReviewResponseDTO> goodList = new ArrayList<>();
 
@@ -132,6 +134,13 @@ public class ReviewService {
         }
 
         return goodList;
+    }
+
+    /**
+     * 메인 게시글 리스트 (신규)
+     */
+    public List<ReviewResponseDTO> selectAllForMain() throws Exception {
+        return reviewMapper.selectAllForMain();
     }
 
     /**
