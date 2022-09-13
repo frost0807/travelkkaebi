@@ -44,14 +44,14 @@ public class ReviewService {
             if (reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
                 return true;
             } else { // insert 실패 시
-                throw new RuntimeException("게시물이 등록되지 않았습니다.");
+                throw new KkaebiException(FAILED_TO_INSERT_BOARD);
             }
         } else {
             reviewDTO.setReviewImgUrl(" ");
             if(reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
                 return true;
             } else { // insert 실패 시
-                throw new RuntimeException("게시물이 등록되지 않았습니다.");
+                throw new KkaebiException(FAILED_TO_INSERT_BOARD);
             }
         }
 
@@ -123,6 +123,9 @@ public class ReviewService {
         }
     }
 
+    /**
+     * 메인 게시글 리스트 (추천)
+     */
     public List<ReviewResponseDTO> selectAllGood(List<Integer> boardIdList) throws Exception {
         List<ReviewResponseDTO> goodList = new ArrayList<>();
 
@@ -132,6 +135,13 @@ public class ReviewService {
         }
 
         return goodList;
+    }
+
+    /**
+     * 메인 게시글 리스트 (신규)
+     */
+    public List<ReviewResponseDTO> selectAllForMain() throws Exception {
+        return reviewMapper.selectAllForMain();
     }
 
     /**

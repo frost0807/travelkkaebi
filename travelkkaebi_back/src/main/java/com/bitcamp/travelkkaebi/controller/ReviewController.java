@@ -90,11 +90,25 @@ public class ReviewController {
      * 게시글 리스트 (추천)
      * 메인에 쓸 것! Because 리뷰게시판엔 추천 리스트가 없어요.
      */
-    @GetMapping("selectallgood")
+    @GetMapping("/selectallgood")
     private ResponseEntity<ListResponseDTO> selectAllGood() {
         try {
             List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(5, 6);
             return new ResponseEntity(reviewService.selectAllGood(boardIdList), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    /**
+     * 게시글 리스트 (신규)
+     */
+    @GetMapping("selectallformain")
+    private ResponseEntity<List<ReviewResponseDTO>> selectAllForMain() {
+        try {
+            return new ResponseEntity(reviewService.selectAllForMain(), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
