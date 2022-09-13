@@ -89,6 +89,7 @@
         SELECT *
         FROM board_join_me AS b
                  JOIN join_me_apply AS j ON b.join_me_id = j.join_me_id
+                 JOIN user AS u ON b.user_id = u.user_id
         WHERE j.user_id = #{userId}
         ORDER BY b.join_me_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
