@@ -1,8 +1,8 @@
 import React from "react";
 import CardImg from "../../components/CardImg/CardImg";
 import CarouselHome from "../../components/Carousel/CarouselHome";
+import LatestReview from "../../components/PopularBoard/LatestReview";
 import PopularEditorChoice from "../../components/PopularBoard/PopularEditorChoice";
-import PopularReview from "../../components/PopularBoard/PopularReview";
 
 import "./Home.css";
 
@@ -21,22 +21,9 @@ function Home() {
         <CarouselHome />
       </div>
 
-      <div
-        style={{
-          marginTop: "100px",
-          marginLeft: "100px",
-          marginBottom: "20px",
-          fontSize: "25px",
-        }}
-      ></div>
-      <CardImg
-        topImage1="topImage1"
-        topImage2="topImage2"
-        topImage3="topImage3"
-        topImage4="topImage4"
-      />
       <div style={{ height: "100px" }}></div>
       <PopularEditorChoice />
+      <LatestReview />
     </>
   );
 }

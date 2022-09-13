@@ -22,7 +22,7 @@ public class MyTravelController {
             @RequestParam int pageNo,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(myTravelService.selectAll(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(myTravelService.selectAllByPage(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -32,14 +32,18 @@ public class MyTravelController {
     @GetMapping("/selectone")
     public ResponseEntity<MyTravelResponseDTO> selectOne(@RequestParam int myTravelId,
                                                          @AuthenticationPrincipal String userId) {
-        return null;
+        try{
+            return new ResponseEntity<>(myTravelService.selectOne(myTravelId, Integer.parseInt(userId)), HttpStatus.OK);
+        } catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Boolean> insert(@RequestBody MyTravelDTO myTravelDTO){
+    public ResponseEntity<Boolean> insert(@RequestParam int joinMeId){
         try{
-            System.out.println(myTravelDTO.toString());
-            return new ResponseEntity<>(myTravelService.insert(myTravelDTO), HttpStatus.OK);
+            return new ResponseEntity<>(myTravelService.insert(joinMeId), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

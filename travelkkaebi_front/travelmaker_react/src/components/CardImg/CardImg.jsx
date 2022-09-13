@@ -23,7 +23,7 @@ function CardImg() {
       .get(review + "/selectallgood")
       .then((reslist) => {
         console.log("reviewArr", reslist);
-        setHotReviewArr(reslist);
+        setHotReviewArr(reslist.data);
       })
       .catch((error) => {
         if (error.res) {
@@ -52,8 +52,8 @@ function CardImg() {
       </h2>
       <CardGroup>
         {hotReviewArr?.map((element, index) => (
-          <Card>
-            <Card.Img variant="top" src={Img1} />
+          <Card key={index}>
+            <Card.Img variant="top" src={element.reviewImgUrl} />
             <Card.Body>
               <Card.Title as="a" href="CardImg1">
                 보령 머드 축제를 다녀오고서

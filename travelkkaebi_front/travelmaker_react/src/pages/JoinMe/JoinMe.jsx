@@ -1,4 +1,4 @@
-mport React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./JoinMe.css";
 import { Button } from "@mui/material";

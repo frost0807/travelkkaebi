@@ -221,12 +221,9 @@ function JoinMeDetail(props) {
         .get(joinmeurl + "/setclosed?joinMeId=" + joinMeId, bearerToken)
         .then((res) => {
           if (res.data === true) {
-            const mytravelDTO = {
-              joinMeId: joinMeId,
-            };
             alert("마감 되었습니다!");
             axios
-              .post(mytravel + "/insert", mytravelDTO)
+              .post(mytravel + "/insert", { joinMeid: joinMeId })
               .then((res) => {
                 console.log("mytravel아이디", res.data);
                 res.data === true
@@ -318,8 +315,8 @@ function JoinMeDetail(props) {
               <div className="joinme-charge">
                 <p className="pcharge">
                   {" "}
-                  현재 선택된 인원 : {post.currentMemberCount} / {post.capacity}{" "}
-                  명
+                  현재 채택된 신청인원 : {post.currentMemberCount} /{" "}
+                  {post.capacity} 명
                 </p>
               </div>
             </JoinContainerWrapper>
