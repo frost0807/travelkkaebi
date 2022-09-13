@@ -24,7 +24,6 @@ import PickUpMe from "./pages/PickUpMe/PickUpMe";
 import RegionEventCreateForm from "./pages/RegionEvent/RegionEventCreateForm";
 import RegionEventDetail from "./pages/RegionEvent/RegionEventDetail";
 
-
 import JoinMe from "./pages/JoinMe/JoinMe";
 import JoinMeDetail from "./pages/JoinMe/JoinMeDetail";
 import JoinMeForm from "./pages/JoinMe/JoinMeForm";
@@ -80,21 +79,17 @@ function Main() {
         <Route path="/testreview" element={<TestReview />} />
         <Route path="/testdetail/:id" element={<TestReviewDetail />} />
         <Route path="/testresponse" element={<TestResponse />} />
-        {/* <Route path='/testpost' element={<TestPost />}/> */}
+        <Route path="/testpost" element={<TestPost />} />
 
-        {/* <Route path="/joinme/:pageNo" element={<JoinMe />} />
+        <Route path="/joinme/:pageNo" element={<JoinMe />} />
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="joinmeedit" element={<JoinMeEditForm />} />
-
-        <Route path="/pickupme" element={<PickUpMe />} /> */}
-
 
         <Route path="/pickme/:pageNo" element={<PickUpMe />} />
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
         <Route path="/pickmeform" element={<PickUpMeForm />} />
         <Route path="pickmeedit" element={<PickUpMeEditForm />} />
-
       </Routes>
 
       {/* //=================================== */}

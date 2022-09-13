@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.DOES_NOT_EXIST_BOARD;

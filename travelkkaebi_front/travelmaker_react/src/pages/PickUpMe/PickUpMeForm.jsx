@@ -45,36 +45,11 @@ function PickUpMeForm() {
   ]);
   const dateOnChange = (item) => setSelectDate([item.selection]);
   //////////////////////////// timestamp로 변환
-  let start_Date = Date.parse(selectDate[0].startDate) / 1000;
-  let end_Date = Date.parse(selectDate[0].endDate) / 1000;
+  let start_Date = Date.parse(selectDate[0].startDate);
+  let end_Date = Date.parse(selectDate[0].endDate);
 
-  const [capacity, setCapacity] = useState("0");
+  // 지역 설정
   const [selectRegion, setSelectRegion] = useState("");
-
-  const capacityCount = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-  ];
-  const options = capacityCount.map((selectcapacity, idx) => {
-    return (
-      <option value={selectcapacity} key={idx}>
-        {selectcapacity}
-      </option>
-    );
-  });
-  const handleCapacity = (event) => {
-    setCapacity(event.target.value);
-  };
-
   const regionKey = [
     "강원",
     "경기",
@@ -99,7 +74,6 @@ function PickUpMeForm() {
     setSelectRegion(event.target.value);
   };
 
-  console.log("부모컴포넌트의 url : ", reqImageUrl);
   // 게시글 추가하기
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -107,7 +81,6 @@ function PickUpMeForm() {
     //태그를 제외한 순수 text만을 받아온다. 검색기능을 구현하지 않을 거라면 굳이 text만 따로 저장할 필요는 없다.
     const description = quillRef.current.getEditor().getText();
     const title = e.target.title.value;
-    console.log("?? ", capacity);
 
     res({
       title: title,
@@ -121,15 +94,12 @@ function PickUpMeForm() {
   // joinme mapper에 start/end date 추가
   // http 200 성공 -> DB 생성 X title null
   const res = async (pickmeDTO) => {
-    console.log(pickmeDTO.title, pickmeDTO.content);
+    console.log("글 입력하기 전 data : ", pickmeDTO);
     if (pickmeDTO.content.trim() === "") {
       alert("내용을 입력해주세요.");
       return;
     } else {
       //새로운 게시글 생성s
-      // http://localhost:8080/travelkkaebi/pickme/write
-      // const sendDTO = new FormData();
-      // sendDTO.append("joinMeDTO", JSON.stringify(joinmeDTO));
       axios.defaults.headers = {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
@@ -138,29 +108,6 @@ function PickUpMeForm() {
         .post(pickurl + "/write", pickmeDTO) //joinmeurl + "/insert", joinmeDTO
         .then((res) => {
           console.log("작성완료 후 결과 ", res);
-
-          //   const boardId = res.data.boardId;
-          //   const imageDTO = [
-          //     {
-          //       boardId: boardId,
-          //       categoryId: 1,
-          //       imageUrl: reqImageUrl,
-          //     },
-          //     {
-          //       boardId: boardId,
-          //       categoryId: 1,
-          //       imageUrl: reqImageUrl,
-          //     },
-          //   ];
-          //   console.log("글쓰기 후 id ", boardId);
-          //   axios.defaults.headers = {
-          //     "Content-Type": "application/json",
-          //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-          //   };
-          //   axios.post(imgurl + "/insert", imageDTO).then((resImg) => {
-          //     console.log("resimg : ", resImg);
-          //   });
-
           alert("글 작성 완료");
           navigate("/pickme/0");
         })
@@ -222,17 +169,6 @@ function PickUpMeForm() {
               <span className="ccform-addon">
                 <i className="fa-solid fa-people-line fa-2x"></i>
               </span>
-              <div className="select-charge">
-                <h3>🔸 모집인원 : {capacity} 명 </h3>
-                <select
-                  className="selectbox"
-                  id="capacity"
-                  name="capacity"
-                  onChange={handleCapacity}
-                >
-                  {options}
-                </select>
-              </div>
             </div>
 
             <div className="ccfield-prepend" style={{ display: "flex" }}>

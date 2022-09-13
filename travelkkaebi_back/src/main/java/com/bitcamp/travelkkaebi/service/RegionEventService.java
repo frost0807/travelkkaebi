@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -96,17 +95,12 @@ public class RegionEventService {
      */
     public HashMap<Integer, List<RegionEventDTO>> findAll(Pageable pageable) {
         HashMap<Integer, List<RegionEventDTO>> regionList = new HashMap<>();
-        List<RegionEventDTO> regionLists = regionDB.findAllByOrderByIdDesc(pageable).getContent().stream().map(RegionEventDTO::new).collect(Collectors.toList());
-        List<RegionEventDTO> secondRegionEvent = new ArrayList<>();
-        for (int i = 3; i < 7; i++) {
-            secondRegionEvent.add(regionLists.get(i));
-        }
-        regionList.put(1, regionDB.findTop3ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
-        regionList.put(2, secondRegionEvent);
+        regionList.put(1, regionDB.findTop4ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList()));
+        regionList.put(2, regionDB.findAllByOrderByIdDesc(pageable).stream().map(RegionEventDTO::new).collect(Collectors.toList()));
         return regionList;
     }
 
     public List<RegionEventDTO> regionList() {
-        return regionDB.findTop3ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList());
+        return regionDB.findTop4ByOrderByIdDesc().stream().map(RegionEventDTO::new).collect(Collectors.toList());
     }
 }
