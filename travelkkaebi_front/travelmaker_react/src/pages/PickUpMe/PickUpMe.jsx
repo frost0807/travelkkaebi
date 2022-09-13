@@ -19,12 +19,9 @@ import { Checkbox } from "antd";
 function PickUpMe() {
   const navigate = useNavigate();
 
-  //  const query = queryString.parse(window.location.search);
-  const { pageNo } = useParams();
-
   const [posts, setPosts] = useState([]);
   const [limits] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1); //query.page ||
+  const [currentPage, setCurrentPage] = useState(0); //query.page ||
   const [totalCount, setTotalCount] = useState();
 
   // search
@@ -33,11 +30,9 @@ function PickUpMe() {
   const [buttonKeyword, setButtonKeyword] = useState("");
 
   useEffect(() => {
-    // 마운트
     const fetchPost = async () => {
-      setCurrentPage();
       const fetchAxios = await axios
-        .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
+        .get(pickurl + "/list?page=" + currentPage) //,{params:{pageNo:currentPage}}
         .then((res) => {
           console.log(res.data);
           console.log(res.data.list);
@@ -47,7 +42,7 @@ function PickUpMe() {
         });
     };
     return () => fetchPost();
-  }, [setPosts]);
+  }, [currentPage]);
 
   // 이슈 service, DTO의 변수 이름이 mapper랑 다름
   // onChange 렌더링 한글자 때문에 리스트 오는 갯수랑 totalcount 갯수가 다름
@@ -71,7 +66,7 @@ function PickUpMe() {
         const fetchPost = async () => {
           setCurrentPage();
           const fetchAxios = await axios
-            .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
+            .get(pickurl + "/list?page=" + currentPage) //,{params:{pageNo:currentPage}}
             .then((res) => {
               console.log(res.data);
               setPosts(res.data.list);
@@ -94,7 +89,7 @@ function PickUpMe() {
   const searchTitle = () => {
     axios
       .get(pickurl + "/search/title", {
-        params: { pageNo: pageNo, title: searchKeyword },
+        params: { pageNo: currentPage, title: searchKeyword },
       })
       .then((res) => {
         if (searchKeyword == null) {
@@ -110,7 +105,7 @@ function PickUpMe() {
   const searchName = () => {
     axios
       .get(pickurl + "/search/nickname", {
-        params: { pageNo: pageNo, nickname: searchKeyword },
+        params: { pageNo: currentPage, nickname: searchKeyword },
       })
       .then((res) => {
         console.log(res);
@@ -126,7 +121,11 @@ function PickUpMe() {
     typepost !== "전체"
       ? axios
           .get(
-            pickurl + "/search/keyword?page=" + pageNo + "&keyword=" + typepost
+            pickurl +
+              "/search/keyword?page=" +
+              currentPage +
+              "&keyword=" +
+              typepost
           )
           .then((res) => {
             console.log("키워드 이벤트 ", res);
@@ -134,7 +133,7 @@ function PickUpMe() {
             setPosts(res.data.list);
           })
       : axios
-          .get(pickurl + "/list?page=" + pageNo) //,{params:{pageNo:currentPage}}
+          .get(pickurl + "/list?page=" + currentPage) //,{params:{pageNo:currentPage}}
           .then((res) => {
             console.log(res.data);
             console.log(res.data.list);
@@ -151,9 +150,6 @@ function PickUpMe() {
       </button>
     );
   });
-
-  //pagenation
-  const pageNate = (pageNum) => pageNo(pageNum);
 
   // modal
   const [isLoginModalOpen, setIsLoginModalOpen] =
@@ -221,7 +217,6 @@ function PickUpMe() {
               setCurrentPage={setCurrentPage}
               limits={limits}
               totalCount={totalCount}
-              pageNate={pageNate}
             />
           </footer>
         </ContentBody>
