@@ -11,10 +11,10 @@ public class ListResponseDTO {
     private int totalBoardCount;
     private List<?> list;
 
-    public static ListResponseDTO setTotalCountAndList(int totalCount, List<PickMeDTO> picMeDtoList) {
+    public static ListResponseDTO setTotalCountAndList(int totalCount, List<?> dtoList) {
         return ListResponseDTO.builder()
                 .totalBoardCount(totalCount)
-                .list(picMeDtoList)
+                .list(dtoList)
                 .build();
     }
 }

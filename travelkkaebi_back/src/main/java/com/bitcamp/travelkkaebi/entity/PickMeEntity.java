@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -30,6 +32,8 @@ public class PickMeEntity {
     @Embedded
     private WriteInfo writeInfo;
 
+    @OneToMany(mappedBy = "pickMeEntity")
+    private List<PickMeApplyEntity> pickMeApplies = new ArrayList<>();
 
     @Column(name = "preferred_region")
     private String region;
