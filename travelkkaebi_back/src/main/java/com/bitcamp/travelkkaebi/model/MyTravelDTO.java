@@ -11,7 +11,13 @@ import java.sql.Timestamp;
 public class MyTravelDTO {
     private int myTravelId;
     private int joinMeId;
+    private String title;
+    private String content;
+    private String region;
+    private int memberCount;
 
+    private Timestamp startDate;
+    private Timestamp endDate;
     private Timestamp createTime;
     private Timestamp updateTime;
 }

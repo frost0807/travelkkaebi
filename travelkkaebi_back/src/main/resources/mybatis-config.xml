@@ -31,6 +31,7 @@
         <typeAlias type="com.bitcamp.travelkkaebi.dto.TempDTO" alias="TempDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.UpdateMemberCountDTO" alias="UpdateMemberCountDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelReplyResponseDTO" alias="MyTravelReplyResponseDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelResponseDTO" alias="MyTravelResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ListResponseDTO" alias="ListResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO" alias="PrimaryIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.MyTravelIdAndUserIdDTO" alias="MyTravelIdAndUserIdDTO"/>

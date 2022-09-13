@@ -7,8 +7,4 @@ import java.util.List;
 
 public class MyTravelResponseDTO extends MyTravelDTO {
     private String nickname;
-    private String title;
-    private String content;
-
-    private List<MyTravelReplyDTO> myTravelReplyList;
 }
