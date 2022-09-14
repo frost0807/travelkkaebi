@@ -59,11 +59,11 @@ public class PickMeApplyService {
     /**
      * 나를 데려가고싶어하는 사람들 리스트 logic
      */
-    public ListResponseDTO wantToTakeMeList(int userId) {
-        List<PickMeApplyEntity> takeMeList = pickMeApplyDB.takeMeList(userId);
+    public ListResponseDTO wantToTakeMeList(int userId, Pageable pageable) {
+        List<PickMeApplyEntity> takeMeList = pickMeApplyDB.takeMeList(userId, pageable);
         validate(takeMeList);
 
-        return ListResponseDTO.setTotalCountAndList(takeMeList.size(), takeMeList.stream().map(ResponsePickMeDTO::new).collect(Collectors.toList()));
+        return ListResponseDTO.setTotalCountAndList(pickMeApplyDB.countByApply(userId), takeMeList.stream().map(ResponsePickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -76,11 +76,11 @@ public class PickMeApplyService {
     }
 
     /**
-     * 채택 전 -> beforeSelectList
-     * 채택 후 -> afterSelectList
+     * 채택 전 false -> beforeSelectList
+     * 채택 후 true -> afterSelectList
      */
-    public ListResponseDTO pickedStatusList(int userId, boolean picked) {
-        List<PickMeApplyEntity> findList = pickMeApplyDB.takeMeList(userId);
+    public ListResponseDTO pickedStatusList(int userId, Pageable pageable, boolean picked) {
+        List<PickMeApplyEntity> findList = pickMeApplyDB.takeMeList(userId, pageable);
         validate(findList);
 
         List<PickMeApplyEntity> beforeSelectList = new ArrayList<>();
@@ -99,8 +99,8 @@ public class PickMeApplyService {
      * selected, cancel logic -> toggle 식으로
      */
     @Transactional
-    public void selected(int userId, int pickMeApplyId) {
-        List<PickMeApplyEntity> takeMeList = pickMeApplyDB.takeMeList(userId);
+    public void selected(int userId, Pageable pageable, int pickMeApplyId) {
+        List<PickMeApplyEntity> takeMeList = pickMeApplyDB.takeMeList(userId, pageable);
         validate(takeMeList);
         PickMeApplyEntity selectedApply = pickMeApplyDB.findById(pickMeApplyId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
 

@@ -37,26 +37,32 @@ public class PickMeApplyController {
      * 나를 데려가고싶어하는 사람들 리스트
      */
     @GetMapping("/my/takemelist")
-    public ResponseEntity<ListResponseDTO> wantToTakeMeList(@AuthenticationPrincipal String userId) {
-        return ResponseEntity.ok().body(pickMeApplyService.wantToTakeMeList(Integer.parseInt(userId)));
+    public ResponseEntity<ListResponseDTO> wantToTakeMeList(@AuthenticationPrincipal String userId, @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok().body(pickMeApplyService.wantToTakeMeList(Integer.parseInt(userId), pageable));
     }
 
     /**
      * 채택 상태 리스트
      * picked false -> 채택되기전
-     *        true -> 채택됨
+     * true -> 채택됨
      */
     @GetMapping("/picked/status")
-    public ResponseEntity<ListResponseDTO> pickedStatusList(@AuthenticationPrincipal String userId, @RequestParam boolean picked) {
-        return ResponseEntity.ok().body(pickMeApplyService.pickedStatusList(Integer.parseInt(userId), picked));
+    public ResponseEntity<ListResponseDTO> pickedStatusList(
+            @AuthenticationPrincipal String userId,
+            @PageableDefault(size = 100) Pageable pageable,
+            @RequestParam boolean picked) {
+        return ResponseEntity.ok().body(pickMeApplyService.pickedStatusList(Integer.parseInt(userId), pageable, picked));
     }
 
     /**
      * 채택 toggle
      */
     @PutMapping("/selected")
-    public ResponseEntity<Void> selected(@AuthenticationPrincipal String userId, @RequestParam int pickMeApplyId) {
-        pickMeApplyService.selected(Integer.parseInt(userId), pickMeApplyId);
+    public ResponseEntity<Void> selected(
+            @AuthenticationPrincipal String userId,
+            @PageableDefault Pageable pageable,
+            @RequestParam int pickMeApplyId) {
+        pickMeApplyService.selected(Integer.parseInt(userId), pageable, pickMeApplyId);
         return ResponseEntity.ok().build();
     }
 
