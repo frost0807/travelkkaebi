@@ -46,6 +46,32 @@
 }
 
 .titleCell {
-padding:10px;
-font-size: 18px;
+  padding: 10px;
+  font-size: 18px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.contentCell {
+  padding: 10px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.messageInput {
+  border: solid 1px lightgrey;
+  border-radius: 10px 0 0 10px;
+  width: 50%;
+  height: 70px;
+}
+
+.messageSubmitButton {
+  border-radius: 0 10px 10px 0;
+  background-color: #faf4c0;
+  height: 70px;
+  border: none;
+}
+
+.messageForm {
+  margin: 50px;
+  display: flex;
+  justify-content: center;
 }

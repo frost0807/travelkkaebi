@@ -2,9 +2,11 @@ package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
 import com.bitcamp.travelkkaebi.dto.MyTravelReplyResponseDTO;
+import com.bitcamp.travelkkaebi.dto.MyTravelResponseDTO;
 import com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.dto.parameter.PageAndMyTravelIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.mapper.MyTravelReplyMapper;
+import com.bitcamp.travelkkaebi.model.MyTravelReplyDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,13 @@ public class MyTravelReplyService {
             throw new RuntimeException("해당 유저의 게시물이 아닙니다.");
         }
     }
+
+    public boolean insert(MyTravelReplyDTO myTravelReplyDTO, int userId) {
+        myTravelReplyDTO.setUserId(userId);
+
+        return (myTravelReplyMapper.insert(myTravelReplyDTO) == 1);
+    }
+
 
     public PageAndMyTravelIdAndUserIdDTO setPageAndMyTravelIdAndUserId(int pageNo, int myTravelId, int userId) {
         return PageAndMyTravelIdAndUserIdDTO.builder()

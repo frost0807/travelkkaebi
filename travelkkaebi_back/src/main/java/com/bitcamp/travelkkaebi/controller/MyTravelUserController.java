@@ -26,8 +26,6 @@ public class MyTravelUserController {
             @RequestParam int myTravelId,
             @AuthenticationPrincipal String userId) {
         try {
-            System.out.println(myTravelId);
-            System.out.println(userId);
             return new ResponseEntity<>(myTravelUserService.selectAll(myTravelId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {

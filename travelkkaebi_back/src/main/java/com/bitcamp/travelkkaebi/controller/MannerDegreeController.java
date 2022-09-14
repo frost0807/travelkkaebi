@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +24,24 @@ public class MannerDegreeController {
             @RequestParam int toUserId,
             @AuthenticationPrincipal String fromUserId) {
         try {
-            return new ResponseEntity<>(mannerDegreeService.selectOne(toUserId, Integer.parseInt(fromUserId)), HttpStatus.OK);
+            return new ResponseEntity<>(mannerDegreeService.selectOne(toUserId,
+                    Integer.parseInt(fromUserId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/selectall/byuserlist")
+    public ResponseEntity<List<MannerDegreeDTO>> selectAllByUserList(
+            @RequestParam List<Integer> userList,
+            @AuthenticationPrincipal String userId) {
+        try {
+            for(int i:userList){
+                System.out.println("user : "+i);
+            }
+            return new ResponseEntity<>(mannerDegreeService.selectAllByUserList(userList,
+                    Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

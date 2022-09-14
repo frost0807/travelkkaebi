@@ -1,15 +1,54 @@
 .reply {
   display: flex;
 }
+.myReply {
+  display: flex;
+  justify-content: flex-end;
+}
 
-.profileImg {
-  width: 35px;
+.replyProfileImg {
+  margin: 20px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
 .messageBox {
-  margin: 5px;
-  border: solid 1px #8a4924;
-  border-radius: 10%;
-  width: 30%;
+  position: relative;
+  margin: 40px 0px 0px 5px;
+  padding: 10px;
+  width: 350px;
+  height: 70px;
+  background: #ffebc6;
+  border-radius: 0px 10px 10px 10px;
+}
+.messageBox:after {
+  border-top: 10px solid #ffebc6;
+  border-left: 10px solid transparent;
+  border-right: 0px solid transparent;
+  border-bottom: 0px solid transparent;
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: -10px;
+}
+
+.myMessageBox {
+  position: relative;
+  margin: 40px 5px 0px 0px;
+  padding: 10px;
+  width: 350px;
+  height: 70px;
+  background: #ffebc6;
+  border-radius: 10px 0px 10px 10px;
+}
+.myMessageBox:after {
+  border-top: 15px solid #ffebc6;
+  border-left: 0px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 0px solid transparent;
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: -15px;
 }

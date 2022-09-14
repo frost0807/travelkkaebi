@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
 import styled from "styled-components";
-import { mytravel } from "../../config";
+import { mannerdegree, mytravel } from "../../config";
 import { bearerToken } from "../../util";
 import "./MyTravelDetail.css";
 import Plus from "@mui/icons-material/Add";
@@ -16,6 +16,7 @@ import TakeOff from "@mui/icons-material/FlightTakeoff";
 import Land from "@mui/icons-material/FlightLand";
 import Person from "@mui/icons-material/Person";
 import MyTravelReply from "./MyTravelReply";
+import qs from "qs";
 
 const MyTravelDetail = () => {
   const location = useLocation();
@@ -23,6 +24,39 @@ const MyTravelDetail = () => {
   const [post, setPost] = useState();
   const [replyArr, setReplyArr] = useState([]);
   const [userArr, setUserArr] = useState([]);
+  const [mannerArr, setMannerArr] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const content = e.target.content.value;
+
+    res({
+      myTravelId: myTravelId,
+      content: content,
+    });
+  };
+
+  const plusMannerDegree = (e) => {
+    mannerArr.filter(function (n) {});
+  };
+  const minusMannerDegree = (e) => {};
+
+  const res = async (myTravelReplyDTO) => {
+    if (myTravelReplyDTO.content.trim === "") {
+      alert("메세지를 입력하세요");
+      return;
+    } else {
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+      };
+      axios.post(mytravel + "/reply/insert", myTravelReplyDTO).then((res) => {
+        console.log("res", res);
+        window.location.reload();
+      });
+    }
+  };
 
   useEffect(() => {
     const selectOne = axios
@@ -32,6 +66,7 @@ const MyTravelDetail = () => {
         setPost(res.data);
 
         const selectUserList = axios
+
           .get(
             mytravel + "/user/selectall?myTravelId=" + myTravelId,
             bearerToken
@@ -39,6 +74,27 @@ const MyTravelDetail = () => {
           .then((reslist) => {
             console.log("user", reslist.data);
             setUserArr(reslist.data);
+            const userList = [];
+            reslist.data.map((item, index) => userList.push(item.userId));
+            console.log("list", userList);
+
+            axios.defaults.headers = {
+              "Content-Type": "application/json; charset = utf-8",
+              Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+            };
+
+            const selectMannerStatus = axios
+              .get(mannerdegree + "/selectall/byuserlist", {
+                params: {
+                  userList: userList,
+                },
+                paramsSerializer: (params) => {
+                  return qs.stringify(params, { arrayFormat: "brackets" });
+                },
+              })
+              .then((reslist) => {
+                console.log("mannerlist", reslist.data);
+              });
           });
 
         const selectReply = axios
@@ -113,19 +169,41 @@ const MyTravelDetail = () => {
                 <Degree /> {item.mannerDegree}
               </div>
               <div className="mannerCell2">
-                <Plus fontSize="small" />
+                <Plus
+                  fontSize="small"
+                  onClick={plusMannerDegree(item?.userId)}
+                />
                 <br />
-                <Minus fontSize="small" />
+                <Minus
+                  fontSize="small"
+                  onClick={minusMannerDegree(item?.userId)}
+                />
               </div>
             </div>
           ))}
           <div className="titleCell">{post?.title}</div>
-          <div className="cell">{post?.content}</div>
+          <div className="contentCell">{post?.content}</div>
           <div>
             {replyArr &&
               replyArr.map((item, index) => (
                 <MyTravelReply key={index} reply={item} />
               ))}
+          </div>
+          <div>
+            <form className="messageForm" onSubmit={handleSubmit}>
+              <input
+                className="messageInput"
+                type="text"
+                name="content"
+                placeholder="메세지를 입력해주세요"
+                required
+              />
+              <input
+                className="messageSubmitButton"
+                type="submit"
+                value="작성완료"
+              />
+            </form>
           </div>
         </Content>
       </MainContent>

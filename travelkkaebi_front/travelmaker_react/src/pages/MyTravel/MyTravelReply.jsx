@@ -4,10 +4,19 @@ const MyTravelReply = (props) => {
   const reply = props.reply;
 
   return (
-    <div className="reply">
-        <img className="profileImg" src={reply.profileImageUrl} alt="" />
-        <div className="messageBox"></div>
-    </div>
+    <>
+      {reply.nickname === localStorage.getItem("nickname") ? (
+        <div className="myReply">
+          <div className="myMessageBox">{reply.content}</div>
+          <img className="replyProfileImg" src={reply.profileImageUrl} alt="" />
+        </div>
+      ) : (
+        <div className="reply">
+          <img className="replyProfileImg" src={reply.profileImageUrl} alt="" />
+          <div className="messageBox">{reply.content}</div>
+        </div>
+      )}
+    </>
   );
 };
 
