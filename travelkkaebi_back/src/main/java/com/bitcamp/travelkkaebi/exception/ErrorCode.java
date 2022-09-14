@@ -16,7 +16,6 @@ public enum ErrorCode {
     FAILED_TO_UPDATE_VIEW("조회수 갱신 실패"),
     BOARD_UPDATE_EXCEPTION("게시물 수정 갱신 실패"),
     FAILED_TO_SELECT_BOARD("게시물 조회 실패"),
-
     FAILED_TO_INSERT_BOARD("게시물 등록 실패");
 
 

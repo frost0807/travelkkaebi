@@ -15,9 +15,7 @@ public interface ReviewReplyMapper {
 
     int update(ReviewReplyDTO replyDTO);
 
-    int delete( int replyId);
-
-    int deleteByBoardId(int boardId);
+    int delete(ReviewReplyDTO reviewReplyDTO);
 
     List<ReviewReplyResponseDTO> selectAllByBoardId(int boardId);
 

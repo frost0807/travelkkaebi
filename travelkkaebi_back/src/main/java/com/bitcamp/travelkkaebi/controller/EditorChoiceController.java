@@ -2,7 +2,6 @@ package com.bitcamp.travelkkaebi.controller;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
-import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import com.bitcamp.travelkkaebi.service.EditorChoiceService;
 import com.bitcamp.travelkkaebi.service.LikeOrDislikeService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/editorchoice")
@@ -34,9 +32,8 @@ public class EditorChoiceController {
                                          @RequestPart(value = "file3", required = false) MultipartFile image3,
                                          @AuthenticationPrincipal String userId) {
 
-
-       try {
-            return new ResponseEntity(editorChoiceService.write(editorChoiceDTO,
+        try {
+            return new ResponseEntity<>(editorChoiceService.write(editorChoiceDTO,
                     image1, image2, image3, Integer.parseInt(userId)), HttpStatus.OK);
 
         } catch (Exception e) {
@@ -56,7 +53,7 @@ public class EditorChoiceController {
                                   @RequestPart(value = "file3", required = false) MultipartFile image3,
                                   @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(editorChoiceService.update(editorChoiceDTO,
+            return new ResponseEntity<>(editorChoiceService.update(editorChoiceDTO,
                     image1, image2, image3, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,9 +66,9 @@ public class EditorChoiceController {
      * 게시글 삭제
      */
     @DeleteMapping("/delete")
-    private ResponseEntity delete(@RequestBody EditorChoiceDTO editorChoiceDTO, @AuthenticationPrincipal String userId) {
+    private ResponseEntity<Integer> delete(@RequestParam int editorChoiceId, @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(editorChoiceService.delete(editorChoiceDTO,
+            return new ResponseEntity<>(editorChoiceService.delete(editorChoiceId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,10 +81,10 @@ public class EditorChoiceController {
      * 게시글 리스트
      */
     @GetMapping("/selectallbypage")
-    private ResponseEntity<ListResponseDTO> selectAllByPage(@RequestParam int pageNo) {
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllByPage(@RequestParam int pageNo) {
 
         try {
-            return new ResponseEntity(editorChoiceService.selectAllByPage(pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.selectAllByPage(pageNo), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,9 +97,9 @@ public class EditorChoiceController {
      * 게시글 리스트 (신규)
      */
     @GetMapping("/selectallnew")
-    private ResponseEntity<ListResponseDTO> selectAllNew() {
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllNew() {
         try {
-            return new ResponseEntity(editorChoiceService.selectAllNew(), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.selectAllNew(), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +115,7 @@ public class EditorChoiceController {
 
         try {
             List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 3);
-            return new ResponseEntity(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,7 +133,7 @@ public class EditorChoiceController {
         try {
             List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(3, 6);
 
-            return new ResponseEntity(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.selectAllGood(boardIdList), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,7 +149,7 @@ public class EditorChoiceController {
     private ResponseEntity<EditorChoiceResponseDTO> selectOne(@RequestParam int editorChoiceId) {
 
         try {
-            return new ResponseEntity(editorChoiceService.selectOne(editorChoiceId), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.selectOne(editorChoiceId), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,7 +164,7 @@ public class EditorChoiceController {
     private ResponseEntity count() {
 
         try {
-            return new ResponseEntity(editorChoiceService.count(), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.count(), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,8 +180,7 @@ public class EditorChoiceController {
     private ResponseEntity<ListResponseDTO> searchByTitle(@RequestParam("title") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(editorChoiceService.searchByTitle(word, pageNo), HttpStatus.OK);
-
+            return new ResponseEntity<>(editorChoiceService.searchByTitle(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -199,7 +195,7 @@ public class EditorChoiceController {
     private ResponseEntity<ListResponseDTO> searchByContent(@RequestParam("content") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(editorChoiceService.searchByContent(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.searchByContent(word, pageNo), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,7 +211,7 @@ public class EditorChoiceController {
     private ResponseEntity<ListResponseDTO> searchByWriter(@RequestParam("writer") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(editorChoiceService.searchByWriter(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.searchByWriter(word, pageNo), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,13 +224,14 @@ public class EditorChoiceController {
      * (지역) 키워드로 검색
      */
     @GetMapping("/selectallbypage/keywordbyregion")
-    private ResponseEntity<ListResponseDTO> keywordByRegion (@RequestParam("region") String word, int pageNo) {
+    private ResponseEntity<ListResponseDTO> keywordByRegion(@RequestParam("region") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(editorChoiceService.keywordByRegion(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(editorChoiceService.keywordByRegion(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }
 }
+//좀비피자 왔다감

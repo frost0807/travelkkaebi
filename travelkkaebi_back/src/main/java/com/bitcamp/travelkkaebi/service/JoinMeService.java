@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class JoinMeService {
     private final int PAGE_SIZE = 20;
+    private final int PAGE_SIZE_2 = 9;
     private final LikeOrDislikeService likeOrDislikeService;
     private final JoinMeMapper joinMeMapper;
 
@@ -56,6 +57,22 @@ public class JoinMeService {
         return setListResponse(joinMeMapper.getBoardCountByNickname(searchword), joinMeListDTOList);
     }
 
+    public ListResponseDTO selectAllByPageByMyUserId(int pageNo, int userId) throws Exception {
+        List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
+                checkClosed(
+                        joinMeMapper.selectAllByPageByMyUserId(
+                                setPageAndUserId(pageNo, userId))));
+        return setListResponse(joinMeMapper.getBoardCountByMyUserId(userId), joinMeListDTOList);
+    }
+
+    public ListResponseDTO selectAllByPageByApply(int pageNo, int userId) throws Exception
+    {
+        List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
+                checkClosed(
+                        joinMeMapper.selectAllByPageByApply(
+                                setPageAndUserId(pageNo, userId))));
+        return setListResponse(joinMeMapper.getBoardCountByApply(userId), joinMeListDTOList);
+    }
     //게시물 상세보기하면서 조회수+1
     public JoinMeOneDTO selectOne(int joinMeId) throws Exception {
         if (joinMeMapper.updateView(joinMeId) != 0) { //조회수+1 성공하면
@@ -171,6 +188,14 @@ public class JoinMeService {
                 .startNum((pageNo - 1) * PAGE_SIZE)
                 .pageSize(PAGE_SIZE)
                 .word(word)
+                .build();
+    }
+
+    public PageAndUserIdDTO setPageAndUserId(int pageNo, int userId) {
+        return PageAndUserIdDTO.builder()
+                .startNum((pageNo - 1) * PAGE_SIZE_2)
+                .pageSize(PAGE_SIZE_2)
+                .userId(userId)
                 .build();
     }
 

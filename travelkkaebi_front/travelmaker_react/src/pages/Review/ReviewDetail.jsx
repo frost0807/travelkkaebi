@@ -45,33 +45,6 @@ function ReviewDetail(){
         console.log(res.data);
       })
     }
-    // const onSubmit= async (replyData)=>{
-    //   console.log("reviewReplyInsert console.log before", replyData);
-    //   // replyData.preventDefault();
-
-      
-    //   const formData = new FormData();
-    //   const reviewReplyDTO = JSON.stringify(replyData);
-    //   formData.append(
-    //     "reviewReplyDTO",
-    //     new Blob([reviewReplyDTO], { type: "application/json" })
-    //   );
-    //   console.log("after", formData);
-    //   axios.defaults.headers = {
-    //     "Content-Type": "application/json; charset = utf-8",
-    //     Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-    //   };
-    //   {/*reviewReplyDTO (comment만), reviewDTO(boardid{reviewid}), userId*/}
-    //   // data.preventDefault();
-      
-    //   await axios.post(API_BASE_URL+"/review/reply/write", formData
-    //   )
-    //   .then(res=>{
-    //     console.log(res.data);
-    //     alert("댓글 작성이 완료되었습니다.");
-    //     // navi(`/review/detail/${id}`);
-    //   })
-    // }
 
     const onSubmit = async(replyData)=>{
 
@@ -131,57 +104,31 @@ function ReviewDetail(){
     // let [uymd, uhms] = data.updateTime.split('T');
     // console.log(cymd)
   return (
-    <div>
-
-      <h2 align="center">게시글 상세정보</h2>
+    <div style={{marginTop:"50px"}}>
       <div className="voc-view-wrapper">
-        <div className="voc-view-row">
-            <label>게시글 번호</label>
-            <label>{ data.reviewId }</label>
+        <a href="/review/1" align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"30px", color:"#548235" , marginBottom:'10px', textDecorationLine : 'none'}}>유저 리뷰 게시판</a>
+        <hr style={{backgroundColor : '#548235', height:'3px'}}/>
+        <h2 align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"20px", marginBottom:'10px'}}>{ data.title }</h2>
+      
+
+        <div style={{float:"left"}}>
+            {/* <label style={{marginRight:"10px"}}>No. { data.reviewId } </label> */}
+            
+            <label style={{marginRight:"10px"}}>{ data.nickname }</label>
+            <label style={{marginRight:"10px"}}>|</label>
+            <label style={{marginRight:"10px"}}>{ data.region }</label>
+            <label style={{marginRight:"10px"}}>|</label>
+            <label style={{marginRight:"10px"}}>{ data?.createTime?.split('T')[0] }</label>
         </div>
-        <div className="voc-view-row">
-            <label>제목</label>
-            <label>{ data.title }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>작성자</label>
-            <label>{ data.nickname }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>프로필 사진</label>
-            <label><img src={data.profileImageUrl} style={{width : "100px", height : "100px"}} /></label>
-        </div>
-        <div className="voc-view-row">
-            <label>지역</label>
-            <label>{ data.region }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>조회수</label>
-            <label>{ data.view }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>작성일</label>
-            <label>{ data?.createTime?.split('T')[0] }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>수정일</label>
-            <label>{ data?.updateTime?.split('T')[0] }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>내용</label>
-            <div>
-                {
-                data.content
-                }
-            </div>
-        </div>
-        <div className="voc-view-row">
-            <label>첨부사진</label>
-            <label><img src={data.reviewImgUrl} style={{width : "300px", height : "300px"}} /></label>
+        <div style={{float:"right"}}>
+          <label align="right" style={{marginRight:"10px"}}>조회수 : { data.view }</label>
         </div>
 
-        <div style={{margin: "10px 0", display: "flex"}}>
-              <button type='button' className='btn btn-info'
+        <br></br>
+        <hr/>
+        <div style={{float:"right"}}>
+          <div  style={{margin: "10px 0", display: "flex"}}>
+              <button  type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
                 navi("/review/form");
@@ -193,56 +140,116 @@ function ReviewDetail(){
                 onDelete();
               }}>삭제</button>
 
-              <button type='button' className='btn btn-success'
+              <button  type='button' className='btn btn-success'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
                 navi(`/review/1`);
               }}>목록</button>
-
-              {/* <button type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
-              onClick={()=>{
-                axios.get(API_BASE_URL+"/review/likeup",
-                {params : {
-                  reviewId : id }
-                })
-                .then(response=>{
-                  console.log(response);
-                })
-              }}>좋아요 : {data.likeCount}</button>
-
-              <button type='button' className='btn btn-success'
-              style={{width:'100px', marginRight:'10px'}}
-              onClick={()=>{
-                axios.get(API_BASE_URL+"/review/dislikeup",
-                {params : {
-                  reviewId : id }
-                })
-                .then(response=>{
-                  console.log(response);
-                })
-              }}>싫어요 : {data.dislikeCount}</button> */}
-
-              
-
+          </div>
         </div>
 
-        <Wrapper>
+
+        <div>
+            <label><img src={data.profileImageUrl} style={{width : "80px", height : "80px", borderRadius:"50%" }} /></label>
+        </div>
+
+        <div style={{marginTop:"50px"}}>
+            <label align="center"><img src={data.reviewImgUrl} style={{width : "100%"}} /></label>
+        </div>
+        
+        <div style={{marginTop:"50px", marginBottom:"150px"}}>
+          {
+          data.content
+          }
+        </div>
+
+
+      
+    <div>전체 댓글</div>
+    <hr style={{height:"3px"}}/>
+
+        <div  style={{marginTop:"30px"}}>
+
+            <div>
+                {
+                reply && reply.map((row, idx)=>(
+                  <div>
+                  <div>
+                    <div style={{float:"left", paddingTop:"5px", width:'20%'}} key={row.reviewReplyId}>{row.nickname}</div>
+                    <div style={{float:"right", paddingTop:"5px", width:'80%'}} key={row.reviewReplyId}>{row.comment}</div>
+                  </div>
+                    {/* <div style={{width:'100%', height:'5px', backgroundColor:"red", display:"block"}}></div> */}
+                    <hr/>
+                  </div>
+
+                ))
+                }
+            </div>
+        </div>
+      <hr/>
+      
+      <hr style={{height:"3px"}}/>
+
+        <div  style={{marginTop:"30px"}}>
+
+            <div>
+                  <div>
+                  <form
+          id="reg_form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+                  <div>
+                    <div style={{float:"left", width:'20%'}}>댓글 작성</div>
+                    <div style={{float:"right", width:'80%'}}>
+
+                    <input
+                          type="content"
+                          // className="reg_input"
+                          name="content"
+                          style={{border:0, width:'70%'}}
+                          required
+                          
+                          {...register("content", {
+                            maxLength: {
+                              value: 500,
+                              message: "최대 500글자까지 입력 가능합니다.",
+                            },
+                          })}
+                        />
+                    <input
+                      type="submit"
+                      disabled={isSubmitting}
+                      style={{width:'20%'}}
+                      value="댓글 작성"
+                      id="btn_submit"
+                      className="btn_submit"
+                      accessKey="s" 
+                    />
+
+                    </div>
+
+                  </div>
+
+                    </form>
+                  </div>
+
+                
+            </div>
+        </div>
+
+
+    {/* <Wrapper>
       <ContainerWrapper>
         <form
-          
           id="reg_form"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="register_form">
 
 
-            <div className="reg_table" style={{ margin: 0, display: "block" }}>
-              <table className="register_table">
-                <colgroup style={{ display: "table-column-group" }}>
-                  <col style={{ width: 130, display: "table-column" }} />
-                  <col style={{ width: "*", display: "table-column" }} />
-                </colgroup>
+            <div style={{ margin: 0, display: "block" }}>
+              <table >
+              
                 <tbody>
                   <tr>
                     <th scope="row">
@@ -263,17 +270,14 @@ function ReviewDetail(){
                               value: 500,
                               message: "최대 500글자까지 입력 가능합니다.",
                             },
-                            
                           })}
                         />
                       </div>
                     </td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
-
             <BtnConfirm >
               <a href="/review/1" className="btn_cancel">
                 취소
@@ -291,75 +295,14 @@ function ReviewDetail(){
           </div>
         </form>
       </ContainerWrapper>
-    </Wrapper>
-        {/* <div> */}
-      {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
-      {/* 원조 댓글 삭제 */}
-      {/* <form onSubmit={handleSubmit(reviewReplyInsert)}>
-        <table className='table table-bordered' style={{width:'400px'}}>
-          <caption><h3>댓글쓰기</h3></caption>
-          <tbody>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>댓글쓰기</th>
-              <td>{id}</td>
-            </tr>
-
-
-            <tr>
-              <td colSpan={2}>
-                <textarea className='form-control' required
-                style={{width:'400px', height:'120px'}}
-                onChange={(e)=>{
-                  setComment(e.target.value);
-                }}></textarea>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} align='center'>
-                <button type="submit" className='btn btn-info'>댓글 작성</button>
-                <button type="button" className='btn btn-success'
-                style={{marginLeft:'10px'}}
-                onClick={()=>{
-                  navi("/review/1");
-                }}>돌아가기</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-    </div> */}
-
-
-
-        <div className="voc-view-reply" style={{marginTop:"100px"}}>
-            <label style={{height:"100%", margin:"auto"}}>댓글</label>
-            <label>
-            <div>
-                {
-                reply && reply.map((row, idx)=>(
-                  <tr>
-                    <td key={row.reviewReplyId}>{row.nickname}</td>
-                  
-                  </tr>
-                ))
-                }
-            </div>
-            </label>
-            <label>
-            {
-                reply && reply.map((row, idx)=>(
-                  <tr>
-                    <td key={row.reviewReplyId}>{row.comment}</td>
-                  </tr>
-                ))
-            }
-            </label>
-
-        </div>
+    
+    </Wrapper> */}
 
 
       </div>
     </div>
+
+    
     
   )
 

@@ -46,7 +46,7 @@ const ReviewCreateForm = () => {
   let userId = localStorage.userId;
 
   const logInStatus=()=>{
-    if(userId==null){
+    if(localStorage.username==null){
       alert("먼저 로그인한 후 글을 작성해주세요");
       navi("/login");
     }
@@ -81,10 +81,9 @@ const ReviewCreateForm = () => {
     const formData = new FormData();
     console.log(formData);
     const reviewDTO = JSON.stringify(data);
-    // regionEventDTO.id =1;
     formData.append("file", profile.image_file);
     formData.append(
-      "reviewDTO",
+      "review",
       new Blob([reviewDTO], { type: "application/json" })
     );
     console.log(formData);
@@ -101,16 +100,6 @@ const ReviewCreateForm = () => {
       navi('/review/1');
     });
 
-
-  
-
-
-    
-
-    // axios.post(API_BASE_URL+"/travelkkaebi/region/event/write", {RegionEventDTO})
-    // .then(res=>{
-    //   navi("/regionevent");
-    // })
   }
 
   useEffect(()=>{
@@ -133,43 +122,14 @@ const ReviewCreateForm = () => {
               리뷰 글쓰기
               <p className="must">필수입력사항 </p>
             </FormTitle>
-            {/* <div className="profileimg">
-              <img
-                alt="basicimg"
-                src={profile.preview_URL}
-                className="user_profile"
-              />
-            </div> */}
-            {/* <div className="photo_icon">
-              <input
-                type="file"
-                accept="image/*"
-                name="profile_img_url"
-                hidden
-                style={{ display: "none" }}
-                onChange={imageUpload}
-                ref={(refParam) => (inputRef = refParam)}
-                onClick={(e) => (e.target.value = null)}
-              />
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                onClick={() => inputRef.click()}
-              >
-                <PhotoCamera />
-              </IconButton>
-            </div> */}
             <br />
-
             <div className="reg_table" style={{ margin: 0, display: "block" }}>
               <table className="register_table">
                 <colgroup style={{ display: "table-column-group" }}>
                   <col style={{ width: 130, display: "table-column" }} />
                   <col style={{ width: "*", display: "table-column" }} />
                 </colgroup>
-
                 <tbody>
-                  
                   <tr>
                     <th scope="row">
                       <label htmlFor="photo" className="req">
@@ -211,8 +171,6 @@ const ReviewCreateForm = () => {
                   </tr>
                   <tr>
                     <th scope="row">
-
-
                       <label htmlFor="title" className="req">
                         🔸제목
                       </label>
@@ -259,7 +217,7 @@ const ReviewCreateForm = () => {
                       <div className="content_wrap">
                         <input
                           type="content"
-                          className="reg_input"
+                          className="ccformfield"
                           name="content"
                           required
                           
@@ -271,16 +229,9 @@ const ReviewCreateForm = () => {
                             
                           })}
                         />
-                        {/* {errors.email && (
-                          <div className="reg-error3">
-                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
-                            {errors.email.message}
-                          </div>
-                        )} */}
                       </div>
                     </td>
                   </tr>
-
                   <tr>
                     <th scope="row">
                       <label htmlFor="content" className="req">
@@ -303,12 +254,7 @@ const ReviewCreateForm = () => {
                             
                           })}
                         />
-                        {/* {errors.email && (
-                          <div className="reg-error3">
-                            <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
-                            {errors.email.message}
-                          </div>
-                        )} */}
+
                       </div>
                     </td>
                   </tr>

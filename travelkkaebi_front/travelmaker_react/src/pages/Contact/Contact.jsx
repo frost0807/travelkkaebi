@@ -2,6 +2,7 @@ import React from "react"
 import "./ContactStyle.css";
 import TeamTogether from './/TeamTogether.png';
 import TeamLeader from './/TeamLeader.png';
+import MapImg from './/map.png';
 import { Container, Grid, Typography } from "@mui/material";
 
 // import Map from "../../components/NaverMap/MapN";
@@ -9,7 +10,7 @@ import { Container, Grid, Typography } from "@mui/material";
 function Contact (){
 
   return(
-    <Container>
+    <Container style={{marginTop:"100px"}}>
       <Grid container>
         <Grid item xs={12} md={4}>
           <img src={TeamTogether} style={{width:'100%'}}></img>
@@ -17,8 +18,9 @@ function Contact (){
         <Grid item xs={12} md={1}></Grid>
         <Grid item xs={12} md={7}>
           <div>
-            <Typography variant="h3"  style={{marginBottom:'10px'}}>우리 함께 여행 가자</Typography>
-            <Typography variant="h5">푸른 언덕에 배낭을 메고
+            <Typography variant="h4"  style={{marginBottom:'10px'}}>우리 함께 여행 가자</Typography>
+            <Typography variant="h5" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif"}}>
+              푸른 언덕에 배낭을 메고
               황금빛 태양 축제를 여는
               광야를 향해서 계곡을 향해서
               먼동이 트는 이른아침에
@@ -52,9 +54,9 @@ function Contact (){
       <Grid container>
         <Grid item xs={12} md={6}>
         <div>
-            <Typography variant="h3" style={{marginBottom:'10px'}}>회장인사말</Typography>
+            <Typography variant="h4" style={{marginBottom:'10px'}}>회장인사말</Typography>
             
-            <Typography variant="h5">존경하는 전국팔도 깨비 회원 여러분, 2022년 壬寅年 새해가 밝았습니다.
+            <Typography variant="h5" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif"}}>존경하는 전국팔도 깨비 회원 여러분, 2022년 壬寅年 새해가 밝았습니다.
               2022년 임인년은 검은 호랑이 띠라고 합니다. 용맹함을 상징하는 호랑이 띠인데, 임은 물을 뜻하고, 인은 습기를 빨아 들이는 의미가 있으니 어느 정도 코로나-19 시국이 안정되지 않을까 기대해 봅니다. 올해에도 모두 건강하고 행복하게 지내실 수 있기를 기원합니다.
               돌이켜보면 우리 사이트가 여행 분야에서 명실상부하게 최고의 사이트로 
               우뚝서게 된 것은 전임회장님들을 비롯한 모든 회원님들의 노력과 
@@ -79,10 +81,20 @@ function Contact (){
     
       </Grid>
       <Grid container>
-        <Grid item xs={12} md={6}>오시는길</Grid>
-        <Grid item xs={12} md={6}>
-          {/* <Map/> */}
+        <Grid item xs={12} md={7}>
+          <img src={MapImg} style={{width:'100%'}}></img>
+        </Grid>
+        <Grid item xs={12} md={1}></Grid>
+        <Grid item xs={12} md={4}>
+          <div>
+            <Typography variant="h4"  style={{marginBottom:'10px'}}>오시는 길</Typography>
+            <Typography variant="h6" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif"}}>
 
+            주 소 : 서울특별시 강남구 강남대로94길 20<br></br>
+            전 화 : 02-3486-9600<br></br>
+            팩 스 : 02-552-3929
+            </Typography>
+          </div>
         </Grid>
       </Grid>
     </Container>

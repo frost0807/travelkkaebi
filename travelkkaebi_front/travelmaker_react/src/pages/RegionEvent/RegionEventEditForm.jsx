@@ -12,7 +12,7 @@ import { API_BASE_URL } from '../../config';
 import { useForm } from "react-hook-form";
 import { bearerToken, headerConfig, headerImg_tk } from "../../util";
 
-const RegionEventCreateForm = () => {
+const RegionEventEditForm = () => {
   const [photo, setPhoto] = useState('');
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
@@ -72,6 +72,7 @@ const RegionEventCreateForm = () => {
   let inputRef;
 
   const onSubmit= async (data)=>{
+    console.log("check");
     const headerConfig = {
       Headers: {
         "content-type": "multipart/form-data",
@@ -81,8 +82,8 @@ const RegionEventCreateForm = () => {
     console.log(data);
     
     const formData = new FormData();
-    console.log(formData);
     const regionEventDTO = JSON.stringify(data);
+    // regionEventDTO.id =1;
     formData.append("file", profile.image_file);
     formData.append(
       "regionEventDTO",
@@ -95,10 +96,10 @@ const RegionEventCreateForm = () => {
       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     };
     await axios
-    .post(API_BASE_URL + "/region/event/write", formData, headerConfig)
+    .put(API_BASE_URL + "/region/event/edit", formData, headerConfig)
     .then((res) => {
       console.log(res.data);
-      alert("👹지역축제 작성이 완료되었습니다.");
+      alert("👹지역축제 수정이 완료되었습니다.");
       navi('/regionevent');
     });
 
@@ -121,10 +122,9 @@ const RegionEventCreateForm = () => {
         >
           <div className="register_form">
             <FormTitle>
-              지역축제 글쓰기
+              지역축제 글 수정
               <p className="must">필수입력사항 </p>
             </FormTitle>
-            <br />
             <div className="reg_table" style={{ margin: 0, display: "block" }}>
               <table className="register_table">
                 <colgroup style={{ display: "table-column-group" }}>
@@ -138,6 +138,7 @@ const RegionEventCreateForm = () => {
                         👹사진 첨부 부분
                       </label>
                     </td>
+
                     
                     <div className="profileimg">
                     
@@ -166,7 +167,6 @@ const RegionEventCreateForm = () => {
                 <PhotoCamera />
               </IconButton>
             </div>
-            <br />
 
                   </tr>
                   <tr>
@@ -243,7 +243,7 @@ const RegionEventCreateForm = () => {
               <input
                 type="submit"
                 disabled={isSubmitting}
-                value="글 작성"
+                value="글 수정"
                 id="btn_submit"
                 className="btn_submit"
                 accessKey="s"
@@ -253,61 +253,11 @@ const RegionEventCreateForm = () => {
         </form>
       </ContainerWrapper>
     </Wrapper>
-
-      {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
-      {/* <form onSubmit={onBoardInsert}>
-        <table className='table table-bordered' style={{width:'400px'}}>
-          <caption><h3>지역축제게시판 글쓰기</h3></caption>
-          <tbody>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>아이디</th>
-              <td>{id}</td>
-            </tr>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>대표 이미지</th>
-              <td>
-                <input type='file' className='form-control'll
-                style={{width:'250px'}} 
-                onChange={imageUpload} required/>
-              </td>
-            </tr>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>제목</th>
-              <td>
-                <input type={'text'} className="form-control"
-                style={{width:'300px'}} required
-                onChange={(e)=>{
-                  setSubject(e.target.value);
-                }}/>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2}>
-                <textarea name="textarea" className='form-control' required
-                style={{width:'400px', height:'120px'}}
-                onChange={(e)=>{
-                  setContent(e.target.value);
-                }}></textarea>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} align='center'>
-                <button type="submit" className='btn btn-info'>게시글 저장</button>
-                <button type="button" className='btn btn-success'
-                style={{marginLeft:'10px'}}
-                onClick={()=>{
-                  navi("/regionevent");
-                }}>게시판 메인</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form> */}
     </div>
   );
 };
 
-export default RegionEventCreateForm;
+export default RegionEventEditForm;
 
 const BtnConfirm = styled.div`
   text-align: "center";
