@@ -29,6 +29,7 @@ public class ReviewService {
 
     /**
      * 게시글 등록
+     *
      * @param reviewDTO
      * @param userId
      * @return writtenReviewId
@@ -48,7 +49,7 @@ public class ReviewService {
             }
         } else {
             reviewDTO.setReviewImgUrl(" ");
-            if(reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
+            if (reviewMapper.insert(reviewDTO) != 0) { // insert 성공 시
                 return true;
             } else { // insert 실패 시
                 throw new KkaebiException(FAILED_TO_INSERT_BOARD);
@@ -59,14 +60,13 @@ public class ReviewService {
 
     /**
      * 게시글 수정
+     *
      * @param review
      * @param userId
      * @return updatedReviewId
      */
     @Transactional
     public ReviewResponseDTO update(ReviewDTO review, MultipartFile image, int userId) throws Exception {
-        System.out.println(userId);
-        System.out.println(review.getUserId());
         // 로그인 한 유저가 글의 작성자인지 확인
         if (userId == review.getUserId()) {
             if (image != null) {
@@ -77,11 +77,11 @@ public class ReviewService {
                 }
             } else {
                 review.setReviewImgUrl(" ");
-                    if (reviewMapper.update(review) != 0) {
-                        return reviewMapper.selectOne(review.getReviewId())
-                                .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
-                    }
+                if (reviewMapper.update(review) != 0) {
+                    return reviewMapper.selectOne(review.getReviewId())
+                            .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
                 }
+            }
         } else {
             throw new KkaebiException(DOES_NOT_MATCH_USER);
         }
@@ -91,17 +91,18 @@ public class ReviewService {
 
     /**
      * 게시글 삭제
-     * @param review
+     *
+     * @param reviewId
      * @param userId
      * @return deletedReviewId
      */
     @Transactional
     public int delete(int reviewId, int userId) throws Exception {
         // 로그인 한 아이디와 게시글의 작성자 아이디를 확인!
-            return reviewMapper.delete(ReviewDTO.builder()
-                    .reviewId(reviewId)
-                    .userId(userId)
-                    .build());
+        return reviewMapper.delete(ReviewDTO.builder()
+                .reviewId(reviewId)
+                .userId(userId)
+                .build());
     }
 
     /**
@@ -128,9 +129,9 @@ public class ReviewService {
     public List<ReviewResponseDTO> selectAllGood(List<Integer> boardIdList) throws Exception {
         List<ReviewResponseDTO> goodList = new ArrayList<>();
 
-        for(int i : boardIdList) {
+        for (int i : boardIdList) {
             goodList.add(reviewMapper.selectOne(i)
-                    .orElseThrow( ()-> new KkaebiException(DOES_NOT_EXIST_BOARD)));
+                    .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD)));
         }
 
         return goodList;
@@ -145,13 +146,14 @@ public class ReviewService {
 
     /**
      * 게시글 상세보기
+     *
      * @param reviewId
      * @return review
      */
     public ReviewResponseDTO selectOne(int reviewId) throws Exception {
 
         // 조회수 +1 시켜주는 코드
-        if(reviewMapper.viewPlus(reviewId) != 0) {
+        if (reviewMapper.viewPlus(reviewId) != 0) {
             return reviewMapper.selectOne(reviewId)
                     .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         } else {
@@ -172,7 +174,7 @@ public class ReviewService {
     public int pageCount() throws Exception {
         int total = count();
 
-        if(total % PAGE_SIZE == 0) {
+        if (total % PAGE_SIZE == 0) {
             return total / PAGE_SIZE;
         } else {
             return (total / PAGE_SIZE) + 1;
@@ -181,6 +183,7 @@ public class ReviewService {
 
     /**
      * 특정 제목으로 검색
+     *
      * @param word (= title)
      * @return titleList
      * @throws Exception
@@ -192,6 +195,7 @@ public class ReviewService {
 
     /**
      * 특정 내용으로 검색
+     *
      * @param word (= content)
      * @return contentList
      * @throws Exception
@@ -203,6 +207,7 @@ public class ReviewService {
 
     /**
      * 특정 작성자로 검색
+     *
      * @param word (= writer)
      * @return writerList
      * @throws Exception
@@ -215,6 +220,7 @@ public class ReviewService {
 
     /**
      * (지역) 키워드로 검색
+     *
      * @param word (= region)
      * @return
      * @throws Exception

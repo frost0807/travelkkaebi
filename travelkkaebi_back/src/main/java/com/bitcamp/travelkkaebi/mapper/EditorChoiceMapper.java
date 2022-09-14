@@ -15,9 +15,6 @@ public interface EditorChoiceMapper {
     List<EditorChoiceResponseDTO> selectAllByPage(HashMap<String, Integer> pageMap);
 
     Optional<EditorChoiceResponseDTO> selectOne (int editorChoiceId);
-
-    String selectRole (int editorChoiceId);
-
     int insert (EditorChoiceDTO editorChoiceDTO);
 
     int update(EditorChoiceDTO editorChoiceDTO);

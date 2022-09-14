@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.DOES_NOT_EXIST_BOARD;
@@ -34,6 +33,7 @@ public class EditorChoiceService {
 
     /**
      * 게시글 작성
+     *
      * @param editorChoiceDTO
      * @param userId
      * @return writtenId
@@ -41,7 +41,7 @@ public class EditorChoiceService {
      */
 
     public boolean write(EditorChoiceDTO editorChoiceDTO, MultipartFile image1,
-                                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
+                         MultipartFile image2, MultipartFile image3, int userId) throws Exception {
 
         UserEntity findUser = userRepository.findById(userId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_USER));
 
@@ -77,6 +77,7 @@ public class EditorChoiceService {
 
     /**
      * 게시글 수정
+     *
      * @param editorChoiceDTO
      * @param userId
      * @return updatedId
@@ -115,6 +116,7 @@ public class EditorChoiceService {
 
     /**
      * 게시글 삭제
+     *
      * @param editorChoiceId
      * @param userId
      * @return deletedId
@@ -124,20 +126,21 @@ public class EditorChoiceService {
     @Transactional
     public int delete(int editorChoiceId, int userId) throws Exception {
 
-       return editorChoiceMapper.delete(EditorChoiceDTO.builder()
-               .editorChoiceId(editorChoiceId)
-               .userId(userId)
-               .build());
+        return editorChoiceMapper.delete(EditorChoiceDTO.builder()
+                .editorChoiceId(editorChoiceId)
+                .userId(userId)
+                .build());
     }
 
     /**
      * 게시글 리스트
+     *
      * @param pageNo
      * @return list
      * @throws Exception
      */
     public List<EditorChoiceResponseDTO> selectAllByPage(int pageNo) throws Exception {
-        if(pageNo <= pageCount()) {
+        if (pageNo <= pageCount()) {
             HashMap<String, Integer> pageMap = new HashMap<>();
             int startNum = (pageNo - 1) * PAGE_SIZE;
 
@@ -152,6 +155,7 @@ public class EditorChoiceService {
 
     /**
      * 게시글 리스트 (신규)
+     *
      * @return
      * @throws Exception
      */
@@ -165,9 +169,9 @@ public class EditorChoiceService {
     public List<EditorChoiceResponseDTO> selectAllGood(List<Integer> boardIdList) throws Exception {
         List<EditorChoiceResponseDTO> goodList = new ArrayList<>();
 
-        for (int i:boardIdList) {
+        for (int i : boardIdList) {
             goodList.add(editorChoiceMapper.selectOne(i)
-                    .orElseThrow(()-> new KkaebiException(DOES_NOT_EXIST_BOARD)));
+                    .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD)));
         }
         return goodList;
     }
@@ -175,6 +179,7 @@ public class EditorChoiceService {
 
     /**
      * 게시글 상세보기
+     *
      * @param editorChoiceId
      * @return editorChoiceResponseDTO
      */
@@ -182,7 +187,7 @@ public class EditorChoiceService {
         // 조회수 더해주는 코드
         if (editorChoiceMapper.viewPlus(editorChoiceId) != 0) {
             return editorChoiceMapper.selectOne(editorChoiceId)
-                    .orElseThrow(()-> new KkaebiException(DOES_NOT_EXIST_BOARD));
+                    .orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         } else {
             throw new KkaebiException(FAILED_TO_UPDATE_VIEW);
         }
@@ -210,6 +215,7 @@ public class EditorChoiceService {
 
     /**
      * 특정 제목으로 검색
+     *
      * @param word (=title)
      * @return titleList
      * @throws Exception
@@ -222,6 +228,7 @@ public class EditorChoiceService {
 
     /**
      * 특정 내용으로 검색
+     *
      * @param word (=content)
      * @return contentList
      * @throws Exception
@@ -234,6 +241,7 @@ public class EditorChoiceService {
 
     /**
      * 특정 작성자로 검색
+     *
      * @param word (= writer)
      * @return writerList
      * @throws Exception
@@ -246,6 +254,7 @@ public class EditorChoiceService {
 
     /**
      * (지역) 키워드로 검색
+     *
      * @param word (=region)
      * @return
      * @throws Exception
