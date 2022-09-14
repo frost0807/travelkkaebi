@@ -22,6 +22,7 @@ import RegionEvent from "./pages/RegionEvent/RegionEvent";
 import PickUpMe from "./pages/PickUpMe/PickUpMe";
 
 import RegionEventCreateForm from "./pages/RegionEvent/RegionEventCreateForm";
+import RegionEventEditForm from "./pages/RegionEvent/RegionEventEditForm";
 import RegionEventDetail from "./pages/RegionEvent/RegionEventDetail";
 
 import JoinMe from "./pages/JoinMe/JoinMe";
@@ -77,11 +78,10 @@ function Main() {
 
         {/* RegionEvent Page */}
         <Route path="/regionevent" element={<RegionEvent />} />
-        <Route
-          path="/regionevent/createform"
-          element={<RegionEventCreateForm />}
-        />
+        <Route path="/regionevent/createform" element={<RegionEventCreateForm />}/>
+        <Route path="/regionevent/editform" element={<RegionEventEditForm />}/>
         <Route path="/regionevent/detail/:id" element={<RegionEventDetail />} />
+
 
         {/* test용 페이지*/}
         <Route path="/testpage" element={<TestPage />} />

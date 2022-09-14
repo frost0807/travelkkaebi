@@ -27,14 +27,6 @@ function RegionEventDetail(){
     }
 
     const onDelete= async ()=>{
-      // const headerConfig = {
-      //   Headers: {
-      //     "content-type": "multipart/form-data",
-      //   },
-      // };
-      // data.preventDefault();
-      // regionEventDTO.id =1;
-  
       axios.defaults.headers = {
         "Content-Type": "application/json; charset = utf-8",
         Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
@@ -47,6 +39,8 @@ function RegionEventDetail(){
         navi('/regionevent');
       });
     }
+
+
     // const reviewReplyInsert=(e)=>{
     //   e.preventDefault();
   
@@ -67,52 +61,39 @@ function RegionEventDetail(){
     // let [uymd, uhms] = data.updateTime.split('T');
     // console.log(cymd)
   return (
-    <div>
 
-      <h2 align="center">게시글 상세정보</h2>
-      <div className="voc-view-wrapper">
-        <div className="voc-view-row">
-            <label>게시글 번호</label>
-            <label>{ data.regionId }</label>
+    
+
+    //////////
+    <div style={{marginTop:"50px"}}>
+
+<div className="voc-view-wrapper">
+        <a href="/regionevent" align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"30px", color:"#548235" , marginBottom:'10px', textDecorationLine : 'none'}}>지역별 축제 게시판</a>
+        <hr style={{backgroundColor : '#548235', height:'3px'}}/>
+        <h2 align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"20px", marginBottom:'10px'}}>{ data.title }</h2>
+      
+
+        <div style={{float:"left"}}>
+            {/* <label style={{marginRight:"10px"}}>No. { data.reviewId } </label> */}
+            
+            <label style={{marginRight:"10px"}}>{ data.nickname }</label>
+            {/* <label style={{marginRight:"10px"}}>|</label>
+            <label style={{marginRight:"10px"}}>{ data.region }</label>
+            <label style={{marginRight:"10px"}}>|</label>
+            <label style={{marginRight:"10px"}}>{ data?.createTime?.split('T')[0] }</label> */}
         </div>
-        <div className="voc-view-row">
-            <label>제목</label>
-            <label>{ data.title }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>작성자</label>
-            <label>{ data.nickname }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>프로필 사진</label>
-            <label><img src={data.profileImageUrl} style={{width : "100px", height : "100px"}} /></label>
+        <div style={{float:"right"}}>
+          <label align="right" style={{marginRight:"10px"}}>조회수 : { data.view }</label>
         </div>
 
-        <div className="voc-view-row">
-            <label>조회수</label>
-            <label>{ data.view }</label>
-        </div>
-        {/* <div className="voc-view-row">
-            <label>작성일</label>
-            <label>{ data.createTime }</label>
-        </div>
-        <div className="voc-view-row">
-            <label>수정일</label>
-            <label>{ data.updateTime }</label>
-        </div> */}
-        <div className="voc-view-row">
-            <label>내용</label>
-            <div>
-                {
-                data.content
-                }
-            </div>
-        </div>
-        <div style={{margin: "10px 0", display: "flex"}}>
-              <button type='button' className='btn btn-info'
+        <br></br>
+        <hr/>
+        <div style={{float:"right"}}>
+          <div  style={{margin: "10px 0", display: "flex"}}>
+              <button  type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
-                navi("/regionevent/form");
+                navi("/regionevent/editform");
               }}>수정</button>
 
               <button type='button' className='btn btn-info'
@@ -121,19 +102,30 @@ function RegionEventDetail(){
                 onDelete();
               }}>삭제</button>
 
-              <button type='button' className='btn btn-success'
+              <button  type='button' className='btn btn-success'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
                 navi(`/regionevent`);
               }}>목록</button>
+          </div>
         </div>
-        <div>
-      {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
 
-    </div>
+
+        {/* <div>
+            <label><img src={data.profileImageUrl} style={{width : "80px", height : "80px", borderRadius:"50%" }} /></label>
+        </div> */}
+
+        <div style={{marginTop:"50px"}}>
+            <label align="center"><img src={data.posterImageUrl} style={{width : "100%"}} /></label>
+        </div>
+        
+        <div style={{marginTop:"50px", marginBottom:"150px"}}>
+          {
+          data.content
+          }
+        </div>
       </div>
-    </div>
-    
+      </div>    
   )
 
 }
