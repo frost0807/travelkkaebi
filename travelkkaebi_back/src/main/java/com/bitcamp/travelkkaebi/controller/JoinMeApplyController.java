@@ -32,6 +32,34 @@ public class JoinMeApplyController {
         }
     }
 
+    //로그인한 유저가 신청한 신청서들 중 채택 된 신청서들
+    @GetMapping("/selectall/byuserid/alreadyselected")
+    public ResponseEntity<ListResponseDTO> selectAllByUserIdSelected(
+            @RequestParam int pageNo,
+            @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(joinMeApplyService.selectAllByUserIdSelected(pageNo,
+                    Integer.parseInt(userId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    //로그인한 유저가 신청한 신청서들 중 채택 된 신청서들
+    @GetMapping("/selectall/byuserid/notselected")
+    public ResponseEntity<ListResponseDTO> selectAllByUserIdNotSelected(
+            @RequestParam int pageNo,
+            @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(joinMeApplyService.selectAllByUserIdNotSelected(pageNo,
+                    Integer.parseInt(userId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     //내가 작성한 같이가요 글에 신청한 신청서들
     @GetMapping("/selectall/byjoinmeid")
     public ResponseEntity<ListResponseDTO> selectAllByJoinMeId(

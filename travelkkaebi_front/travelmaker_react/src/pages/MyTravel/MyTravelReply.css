@@ -1,0 +1,15 @@
+.reply {
+  display: flex;
+}
+
+.profileImg {
+  width: 35px;
+  border-radius: 50%;
+}
+
+.messageBox {
+  margin: 5px;
+  border: solid 1px #8a4924;
+  border-radius: 10%;
+  width: 30%;
+}

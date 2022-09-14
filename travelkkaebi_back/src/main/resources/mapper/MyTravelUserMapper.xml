@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.MyTravelUserMapper">
+
+    <select id="selectAll" parameterType="int" resultType="MyTravelUserResponseDTO">
+        SELECT *
+        FROM my_travel_user AS m
+                 JOIN user AS u ON m.user_id = u.user_id
+        WHERE m.my_travel_id = #{myTravelId}
+    </select>
+
     <insert id="insert" parameterType="MyTravelUserDTO">
         INSERT INTO my_travel_user (my_travel_id, user_id)
         VALUES (#{myTravelId}, #{userId})
     </insert>
+
+    <select id="checkValidUser" parameterType="MyTravelUserDTO" resultType="int">
+        SELECT COUNT(*)
+        FROM my_travel_user AS m
+                 JOIN board_my_travel AS b ON m.my_travel_id = b.my_travel_id
+        WHERE m.user_id = #{userId}
+    </select>
+
 </mapper>

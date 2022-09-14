@@ -15,8 +15,12 @@ import java.util.Optional;
 public interface JoinMeApplyMapper {
     int getBoardCountByJoinMeId(JoinMeIdAndUserIdDTO joinMeIdAndUserIdDTO);
     int getBoardCountByUserId(int userId);
+    int getBoardCountByUserIdSelected(int userId);
+    int getBoardCountByUserIdNotSelected(int userId);
     List<JoinMeApplyResponseDTO> selectAllByJoinMeId(PageAndJoinMeIdAndUserIdDTO pageAndJoinMeIdAndUserIdDTO);
     List<JoinMeApplyResponseDTO> selectAllByUserId(PageAndUserIdDTO pageAndUserIdDTO);
+    List<JoinMeApplyResponseDTO> selectAllByUserIdSelected(PageAndUserIdDTO pageAndUserIdDTO);
+    List<JoinMeApplyResponseDTO> selectAllByUserIdNotSelected(PageAndUserIdDTO pageAndUserIdDTO);
     Optional<JoinMeApplyResponseDTO> selectOne(int joinMeApplyId);
     Optional<Integer> checkValidUserAndGetJoinMeId(PrimaryIdAndUserIdDTO primaryIdAndUserIdDTO);
     int insert(JoinMeApplyDTO joinMeApplyDTO);

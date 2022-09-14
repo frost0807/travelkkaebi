@@ -6,8 +6,10 @@ import com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +45,20 @@ public class JoinMeApplyService {
                 = joinMeApplyMapper.selectAllByUserId(setPageAndUserId(pageNo, userId));
 
         return setListResponseDTO(joinMeApplyMapper.getBoardCountByUserId(userId), joinMeApplyResponseDTOList);
+    }
+
+    public ListResponseDTO selectAllByUserIdSelected(int pageNo, int userId) {
+        List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList
+                = joinMeApplyMapper.selectAllByUserIdSelected(setPageAndUserId(pageNo, userId));
+
+        return setListResponseDTO(joinMeApplyMapper.getBoardCountByUserIdSelected(userId), joinMeApplyResponseDTOList);
+    }
+
+    public ListResponseDTO selectAllByUserIdNotSelected(int pageNo, int userId) {
+        List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList
+                = joinMeApplyMapper.selectAllByUserIdNotSelected(setPageAndUserId(pageNo, userId));
+
+        return setListResponseDTO(joinMeApplyMapper.getBoardCountByUserIdNotSelected(userId), joinMeApplyResponseDTOList);
     }
 
     //특정 게시물에 달린 신청서들
@@ -96,7 +112,7 @@ public class JoinMeApplyService {
                 .build();
     }
 
-    public JoinMeIdAndUserIdDTO setJoinMeIdAndUserId(int joinMeId, int userId){
+    public JoinMeIdAndUserIdDTO setJoinMeIdAndUserId(int joinMeId, int userId) {
         return JoinMeIdAndUserIdDTO.builder()
                 .joinMeId(joinMeId)
                 .userId(userId)
@@ -121,9 +137,9 @@ public class JoinMeApplyService {
     }
 
     //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
-    public ListResponseDTO setListResponseDTO(int totalPageCount, List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList) {
+    public ListResponseDTO setListResponseDTO(int totalBoardCount, List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList) {
         return ListResponseDTO.builder()
-                .totalBoardCount(totalPageCount)
+                .totalBoardCount(totalBoardCount)
                 .list(joinMeApplyResponseDTOList)
                 .build();
     }

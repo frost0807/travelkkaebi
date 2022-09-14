@@ -16,6 +16,22 @@
         WHERE user_id = #{userId}
     </select>
 
+    <select id="getBoardCountByUserIdSelected" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM join_me_apply AS j
+                 JOIN user AS u ON j.user_id = u.user_id
+        WHERE j.user_id = #{userId}
+          AND j.selected = true
+    </select>
+
+    <select id="getBoardCountByUserIdNotSelected" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM join_me_apply AS j
+                 JOIN user AS u ON j.user_id = u.user_id
+        WHERE j.user_id = #{userId}
+          AND j.selected = false
+    </select>
+
     <select id="selectAllByJoinMeId" parameterType="PageAndJoinMeIdAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
         SELECT *
         FROM join_me_apply AS j
@@ -31,6 +47,24 @@
         FROM join_me_apply AS j
                  JOIN user AS u ON j.user_id = u.user_id
         WHERE j.user_id = #{userId}
+        ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectAllByUserIdSelected" parameterType="PageAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
+        SELECT *
+        FROM join_me_apply AS j
+                 JOIN user AS u ON j.user_id = u.user_id
+        WHERE j.user_id = #{userId}
+          AND j.selected = true
+        ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectAllByUserIdNotSelected" parameterType="PageAndUserIdDTO" resultType="JoinMeApplyResponseDTO">
+        SELECT *
+        FROM join_me_apply AS j
+                 JOIN user AS u ON j.user_id = u.user_id
+        WHERE j.user_id = #{userId}
+          AND j.selected = false
         ORDER BY join_me_apply_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
