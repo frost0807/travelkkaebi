@@ -5,14 +5,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Pagination from "../../../components/Pagenation/Pagination";
-import { joinapply, joinmeurl } from "../../../config";
+import { joinmeurl, pickmeapply } from "../../../config";
 import { bearerToken } from "../../../util";
-import JoinMeCard from "../../JoinMe/JoinMeCard";
-import "./joinapply.css";
+import "../JoinApply/joinapply.css";
+import PickApplyCard from "./PickApplyCard";
 
 /** 내가 신청한 게시글 보기 */
 
-const JoinApplyList = () => {
+const PickApplyList = () => {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
@@ -20,7 +20,7 @@ const JoinApplyList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState();
 
-  const URL = joinmeurl + "/selectallbypage/myappliedboardlist";
+  const URL = pickmeapply + "/my/applylist";
   useEffect(() => {
     const fetchPost = async () => {
       const fetchAxios = await axios
@@ -38,7 +38,7 @@ const JoinApplyList = () => {
 
   // 채택 된 게시글 보기
   const alreadyselect =
-    joinapply + "/selectall/byuserid/alreadyselected?pageNo=";
+    pickmeapply + "/selectall/byuserid/alreadyselected?pageNo=";
   const onAlreadySelected = async (e) => {
     const res = await axios
       .get(alreadyselect + currentPage, bearerToken)
@@ -55,7 +55,7 @@ const JoinApplyList = () => {
   };
 
   // 채택 대기 중 게시글 보기
-  const notselect = joinapply + "/selectall/byuserid/notselected?pageNo=";
+  const notselect = pickmeapply + "/selectall/byuserid/notselected?pageNo=";
   const onNotSelected = async () => {
     const res = await axios
       .get(notselect + currentPage, bearerToken)
@@ -85,26 +85,24 @@ const JoinApplyList = () => {
       <Content>
         <ContentBody>
           <div className="appKeyButton" style={{ margin: "2rem" }}>
-            <button
+            <input
               id="myappuser_btn-submit"
               className="myappuser_btn-submit"
-              onClick={onNotSelected}
-            >
-              채택 대기
-            </button>
-            <button
+              value="채택 대기"
+              onClick={() => onNotSelected}
+            />
+            <input
               id="myappuser_btn-submit"
               className="myappuser_btn-submit"
-              onClick={onAlreadySelected}
-            >
-              채택완료
-            </button>
+              value="채택완료"
+              onClick={() => onAlreadySelected}
+            />
           </div>
 
           <View>
             {posts &&
               posts.map((post) => (
-                <JoinMeCard key={post.joinMeId} post={post} />
+                <PickApplyCard key={post.boardId} post={post} />
               ))}
           </View>
           <footer>
@@ -121,7 +119,7 @@ const JoinApplyList = () => {
   );
 };
 
-export default JoinApplyList;
+export default PickApplyList;
 
 const MainContent = styled.main`
   min-height: 800px;

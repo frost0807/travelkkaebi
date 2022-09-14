@@ -1,0 +1,184 @@
+.appinstructor_banner {
+  display: block;
+  box-sizing: inherit;
+}
+.appheader-bncontainer {
+  position: relative;
+  margin: auto;
+  padding: 20px 1rem 20px;
+  max-width: 1280px;
+  flex-grow: 1;
+  width: auto;
+  box-sizing: inherit;
+  display: block;
+  height: 430px;
+}
+.appbannername {
+  font-family: "Poor Story", cursive;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 4;
+  color: #e39e14;
+  letter-spacing: 10px;
+  margin: 0;
+  margin-block-start: 2.5em;
+  margin-block-end: 4.8em;
+  margin-inline-start: 120px;
+  margin-inline-end: 0px;
+}
+.appins-banner-cover p {
+  font-size: 26px;
+  font-weight: 400;
+  font-family: "Poor Story", cursive;
+  line-height: 1;
+  letter-spacing: 3px;
+  color: #313030;
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: 0.2em;
+  margin-inline-start: 120px;
+  margin-inline-end: 0px;
+}
+
+.appins-banner-cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-image: url(../../../images/banner/mypage_banner.png);
+  background-position: calc(80% + 70px) 0%;
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  display: block;
+}
+
+.myapplylist-btn {
+  text-align: center;
+  margin: 5px auto 0 !important;
+  display: block;
+}
+
+.myappuser-btn {
+  text-align: center;
+  margin: 20px auto 0 !important;
+  display: block;
+}
+.myapp_btn-submit {
+  padding: 0;
+  height: 35px;
+  line-height: 32px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  display: block;
+  width: 120px;
+  background: #3d435f;
+  border: 1px solid #3d435f;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  vertical-align: middle;
+}
+.myappuser_btn-submit {
+  padding: 0;
+  height: 35px;
+  line-height: 32px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  display: block;
+  float: right;
+  margin-top: 10px;
+  width: 100px;
+  background: #3d435f;
+  border: 1px solid #3d435f;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  vertical-align: middle;
+}
+.myapp_btn_cancel:hover,
+.myapp_btn-submit:hover {
+  transform: translateY(-2px);
+}
+.myappuser_btn-submitsuc {
+  padding: 0;
+  height: 35px;
+  line-height: 32px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #3d435f;
+  display: block;
+  margin-top: 10px;
+  width: 100px;
+  background: #c7d8ea;
+  border: 1px solid #3d435f;
+  border-radius: 50px;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  vertical-align: middle;
+}
+.myapp_btn_cancel {
+  padding: 0;
+  height: 35px;
+  line-height: 32px;
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+  width: 120px;
+  background: #fff;
+  border: 1px solid #b4b5c1;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+/* user List */
+.user-list {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  margin-top: 80px;
+  width: 1200px;
+}
+.user-info {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.user-info img {
+  margin-left: 30px;
+}
+.user-info-name {
+  font-weight: bold;
+  color: #111;
+  line-height: 52px;
+}
+.comment-text {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: rgb(255, 255, 255);
+  border-radius: 16px;
+}
+.containerd {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

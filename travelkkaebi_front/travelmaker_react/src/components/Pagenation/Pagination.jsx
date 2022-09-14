@@ -7,18 +7,20 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
-  margin: 16px;
+  gap: 8px;
+  margin: 80px;
 `;
 
 const Button = styled.button`
   border: none;
-  border-radius: 8px;
-  padding: 8px;
-  margin: 0;
-  background: black;
+  border-radius: 2rem;
+  padding: 0;
+  margin: 0.2rem;
+  background: rgb(192, 233, 215);
   color: white;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  width: 2.2rem;
+  height: 2rem;
 
   &:hover {
     background: tomato;
@@ -39,17 +41,6 @@ const Button = styled.button`
     transform: revert;
   }
 `;
-//===================================
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const PageLists = styled.ul`
-  display: flex;
-`;
-const PageNumber = styled.li``;
 
 function Pagination({
   totalCount,
@@ -69,29 +60,31 @@ function Pagination({
   // 리버스를 해야 하나
   return (
     <>
-      <Nav>
-        <Button
-          onClick={() => setCurrentPage(currunPage - 1)}
-          disabled={currunPage === 1}
-        >
-          &lt;
-        </Button>
-        {pageNumbers.fill().map((number, i) => (
+      {pageNumbers.length > 0 ? (
+        <Nav>
           <Button
-            key={i + 1}
-            onClick={() => setCurrentPage(i + 1)}
-            aria-current={currunPage === i + 1 ? "page" : null}
+            onClick={() => setCurrentPage(currunPage - 1)}
+            disabled={currunPage === 1}
           >
-            {i + 1}
+            &lt;
           </Button>
-        ))}
-        <Button
-          onClick={() => setCurrentPage(currunPage + 1)}
-          disabled={currunPage === pageNumbers}
-        >
-          &gt;
-        </Button>
-      </Nav>
+          {pageNumbers.fill().map((number, i) => (
+            <Button
+              key={i + 1}
+              onClick={() => setCurrentPage(i + 1, console.log(i))}
+              aria-current={currunPage === i + 1 ? "currunPage" : null}
+            >
+              {i + 1}
+            </Button>
+          ))}
+          <Button
+            onClick={() => setCurrentPage(currunPage + 1)}
+            disabled={currunPage === pageNumbers}
+          >
+            &gt;
+          </Button>
+        </Nav>
+      ) : null}
     </>
   );
 }

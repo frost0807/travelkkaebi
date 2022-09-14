@@ -107,7 +107,7 @@ function Login() {
             <img alt="도깨비" src={Logo} style={{ width: "100px" }} />
 
             <Typography component="h1" variant="h5">
-              <p style={{ margin: "5px", color: "#ccc" }}> 로그인</p>
+              <p style={{ textAlign: "center", color: "#ccc" }}> 로그인</p>
             </Typography>
             <InputBox>
               <InputField

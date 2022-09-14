@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import HeartImg from "../../images/heart.png";
-import Logo from "../../images/basicLogo.png";
-import "./JoinMe.css";
-import { useParams } from "react-router";
-import JoinMeDetail from "./JoinMeDetail";
-import { useRecoilState } from "recoil";
-import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
-import Login from "../../components/Login/Login";
-import { Link } from "react-router-dom";
-import { display } from "@mui/system";
+import HeartImg from "../../../images/heart.png";
+import Logo from "../../../images/basicLogo.png";
+import "../../JoinMe/JoinMe.css";
+import { useNavigate, useParams } from "react-router";
+import JoinMeDetail from "../../JoinMe/JoinMeDetail";
 
-function JoinMeCard(props) {
+function JoinApplyCard(props) {
+  const navigate = useNavigate();
+
   const [post, setPosts] = useState(props.post);
   const [closed] = useState(props.post);
   const { id } = useParams();
@@ -102,10 +99,20 @@ function JoinMeCard(props) {
               />
             ) : null}
           </div>
+          <div className="myapplylist-btn">
+            <input
+              id="myapp_btn-submit"
+              className="myapp_btn-submit"
+              defaultValue="신청리스트"
+              onClick={() =>
+                navigate("/mypage/myapply/list/appliction", {state: post,})
+              }
+            />
+          </div>
         </div>
       ) : (
         <CloseCard>
-          <CardSection key={post.joinMeId}>
+          <CardSection key={post.joinMeId} style={{ background: "#eee" }}>
             <CloseTxt>마감된 게시물입니다.</CloseTxt>
             <CardTop>
               <div onClick={openModal}>
@@ -178,7 +185,7 @@ function JoinMeCard(props) {
   );
 }
 
-export default JoinMeCard;
+export default JoinApplyCard;
 
 const CardSection = styled.section`
   position: relative;
