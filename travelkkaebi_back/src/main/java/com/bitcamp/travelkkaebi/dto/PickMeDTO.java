@@ -2,12 +2,10 @@ package com.bitcamp.travelkkaebi.dto;
 
 import com.bitcamp.travelkkaebi.entity.DateInfo;
 import com.bitcamp.travelkkaebi.entity.PickMeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

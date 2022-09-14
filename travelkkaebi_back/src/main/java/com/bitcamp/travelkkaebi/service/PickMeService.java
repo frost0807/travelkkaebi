@@ -28,7 +28,8 @@ public class PickMeService {
      * entity -> dto 반환후 total 게시글 수와 page 20개씩 return logic
      */
     public ListResponseDTO findAll(Pageable pageable) {
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countAllBy(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        List<PickMeEntity> findList = pickMeDB.findByOrderByIdDesc(pageable).getContent();
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countAllBy(), findList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
