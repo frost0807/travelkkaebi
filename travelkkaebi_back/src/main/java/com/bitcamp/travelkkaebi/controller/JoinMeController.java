@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/joinme")
 @RequiredArgsConstructor
@@ -61,6 +63,34 @@ public class JoinMeController {
             @RequestParam String searchword) {
         try {
             return new ResponseEntity<>(joinMeService.selectAllByPageAndNickname(pageNo, searchword), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    //내가 쓴 게시물 리스트
+    @GetMapping("/selectallbypage/myboardlist")
+    public ResponseEntity<ListResponseDTO> selectAllByPageByMyUserId(
+            @RequestParam int pageNo,
+            @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(joinMeService.selectAllByPageByMyUserId(pageNo,
+                    Integer.parseInt(userId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    //내가 신청한 신청서의 게시물리스트
+    @GetMapping("/selectallbypage/myappliedboardlist")
+    public ResponseEntity<ListResponseDTO> selectAllByPageByApply(
+            @RequestParam int pageNo,
+            @AuthenticationPrincipal String userId) {
+        try {
+            return new ResponseEntity<>(joinMeService.selectAllByPageByApply(pageNo,
+                    Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public class JoinMeApplyResponseDTO extends JoinMeApplyDTO {
     private String nickname;
+    private String profileImageUrl;
 }

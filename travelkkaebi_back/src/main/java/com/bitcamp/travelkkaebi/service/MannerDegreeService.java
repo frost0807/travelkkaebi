@@ -6,6 +6,8 @@ import com.bitcamp.travelkkaebi.model.MannerDegreeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,11 +19,20 @@ public class MannerDegreeService {
     public MannerDegreeResponseDTO selectOne(int toUserId, int fromUserId) {
         MannerDegreeResponseDTO mannerDegreeResponseDTO
                 = mannerDegreeMapper.selectOneByDTO(setMannerDegreeDTO(toUserId, fromUserId)).get();
-        if(mannerDegreeResponseDTO==null){
+        if (mannerDegreeResponseDTO == null) {
             mannerDegreeResponseDTO = mannerDegreeMapper.selectOneById(insert(setMannerDegreeDTO(toUserId, fromUserId))).get();
         }
 
         return setMannerDegree(mannerDegreeResponseDTO);
+    }
+
+    public List<MannerDegreeDTO> selectAllByUserList(List<Integer> userList, int fromUserId) {
+        List<MannerDegreeDTO> mannerDegreeDTOList = new ArrayList<>();
+        for (int toUserId : userList) {
+            mannerDegreeDTOList.add(selectOne(toUserId, fromUserId));
+        }
+
+        return mannerDegreeDTOList;
     }
 
     //로그인유저의 해당유저에 대한 매너온도 상태가 존재하지 않을 때 삽입해주는 메소드

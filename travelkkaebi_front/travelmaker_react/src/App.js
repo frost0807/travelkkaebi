@@ -46,17 +46,12 @@ import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
 import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
 import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
 
-
 function Main() {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route
-          path="/"
-          index
-          element={<Home />}
-        />
+        <Route path="/" index element={<Home />} />
         <Route path="/login" element={<Login />} />
 
         {/*<Route path="/oauth/kakao/callback" element={<KakaoLogin />} />*/}

@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.MyTravelReplyMapper">
-    <select id="selectAllByTravelId" parameterType="int" resultType="MyTravelReplyResponseDTO">
+
+    <select id="count" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM my_travel_reply AS m
+                 JOIN board_my_travel AS b ON m.my_travel_id = b.my_travel_id
+        WHERE b.my_travel_id = #{myTravelId}
+    </select>
+
+    <select id="selectAllByTravelId" parameterType="PageAndMyTravelIdAndUserIdDTO"
+            resultType="MyTravelReplyResponseDTO">
         SELECT *
         FROM my_travel_reply AS m
+                 JOIN board_my_travel AS b ON m.my_travel_id = b.my_travel_id
                  JOIN user AS u ON m.user_id = u.user_id
-        WHERE my_travel_id = #{myTravelId}
+        WHERE b.my_travel_id = #{myTravelId}
     </select>
 
     <insert id="insert" parameterType="MyTravelReplyDTO">

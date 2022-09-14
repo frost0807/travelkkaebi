@@ -1,5 +1,4 @@
 import { Navigate, useNavigate } from "react-router";
-import MyTravelDetail from "./MyTravelDetail";
 
 const MyTravelListElement = (props) => {
   const item = props.myTravelPost;
@@ -22,12 +21,13 @@ const MyTravelListElement = (props) => {
       </div>
       <div
         style={{ width: "450px", textAlign: "center" }}
-        onClick={<MyTravelDetail />}
+        onClick={() =>
+          navigate("/mytraveldetail", {
+            state: { myTravelId: item?.myTravelId },
+          })
+        }
       >
         {item?.title}
-      </div>
-      <div style={{ width: "150px", textAlign: "center" }}>
-        {item?.nickname}
       </div>
       <div style={{ width: "70px", textAlign: "center" }}>{item?.region}</div>
       <div style={{ width: "70px", textAlign: "center" }}>
