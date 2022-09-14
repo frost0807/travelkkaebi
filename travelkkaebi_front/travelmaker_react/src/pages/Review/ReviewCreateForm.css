@@ -234,3 +234,29 @@ div.photo_icon {
   margin-right: auto;
   margin-top: -0px;
 }
+
+.ccformfield {
+  color: #000000;
+  background: #ffffff;
+  border: none;
+  padding: 15.5px;
+  width: 91.9%;
+  display: block;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+}
+
+.ccformfield {
+  font-family: "Lato", Arial, sans-serif;
+}
+.ccformfield-content {
+  color: #000000;
+  background: #ffffff;
+  border: none;
+  padding: 15.5px;
+  width: 91.9%;
+  display: block;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  height: 400px;
+}
