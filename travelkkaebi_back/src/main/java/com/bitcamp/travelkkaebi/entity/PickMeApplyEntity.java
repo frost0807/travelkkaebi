@@ -45,4 +45,8 @@ public class PickMeApplyEntity {
                 .build();
     }
 
+
+    public void selected() {
+        this.picked = true;
+    }
 }

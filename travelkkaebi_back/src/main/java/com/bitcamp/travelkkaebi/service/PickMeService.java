@@ -28,7 +28,8 @@ public class PickMeService {
      * entity -> dto 반환후 total 게시글 수와 page 20개씩 return logic
      */
     public ListResponseDTO findAll(Pageable pageable) {
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countAllBy(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        List<PickMeEntity> findList = pickMeDB.findByOrderByIdDesc(pageable).getContent();
+        return ListResponseDTO.setTotalCountAndList(findList.size(), findList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -87,7 +88,7 @@ public class PickMeService {
         if (findPickMeList.isEmpty())
             throw new KkaebiException(NO_SEARCH);
 
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByUserEntityNickname(nickname), findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        return ListResponseDTO.setTotalCountAndList(findPickMeList.size(), findPickMeList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -98,7 +99,7 @@ public class PickMeService {
         if (findByTitleList.isEmpty())
             throw new KkaebiException(NO_SEARCH);
 
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByWriteInfoTitle(title), findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        return ListResponseDTO.setTotalCountAndList(findByTitleList.size(), findByTitleList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -109,7 +110,7 @@ public class PickMeService {
         if (findByKeyword.isEmpty())
             throw new KkaebiException(NO_SEARCH);
 
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByRegion(region), findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        return ListResponseDTO.setTotalCountAndList(findByKeyword.size(), findByKeyword.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**

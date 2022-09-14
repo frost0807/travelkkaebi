@@ -34,10 +34,28 @@ public class PickMeApplyController {
     }
 
     /**
-     * 나를 데려가려는 코멘트 리스트
+     * 나를 데려가고싶어하는 사람들 리스트
      */
-    /*@GetMapping("/my/commentlist")
-    public ResponseEntity<ListResponseDTO> commentList(@AuthenticationPrincipal String userId, @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok().body(pickMeApplyService.showCommentList(Integer.parseInt(userId), pageable));
-    }*/
+    @GetMapping("/my/takemelist")
+    public ResponseEntity<ListResponseDTO> wantToTakeMeList(@AuthenticationPrincipal String userId) {
+        return ResponseEntity.ok().body(pickMeApplyService.wantToTakeMeList(Integer.parseInt(userId)));
+    }
+
+    /**
+     * 채택 상태 리스트
+     */
+    @GetMapping("/picked/status")
+    public ResponseEntity<ListResponseDTO> pickedStatusList(@AuthenticationPrincipal String userId, @RequestParam boolean picked) {
+        return ResponseEntity.ok().body(pickMeApplyService.pickedStatusList(Integer.parseInt(userId), picked));
+    }
+
+    /**
+     * 채택 toggle
+     */
+    @PutMapping("/selected")
+    public ResponseEntity<Void> selected(@AuthenticationPrincipal String userId, @RequestParam int pickMeApplyId) {
+        pickMeApplyService.selected(Integer.parseInt(userId), pickMeApplyId);
+        return ResponseEntity.ok().build();
+    }
+
 }
