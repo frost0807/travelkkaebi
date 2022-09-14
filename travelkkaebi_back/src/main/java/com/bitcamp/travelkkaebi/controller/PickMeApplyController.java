@@ -43,6 +43,8 @@ public class PickMeApplyController {
 
     /**
      * 채택 상태 리스트
+     * picked false -> 채택되기전
+     *        true -> 채택됨
      */
     @GetMapping("/picked/status")
     public ResponseEntity<ListResponseDTO> pickedStatusList(@AuthenticationPrincipal String userId, @RequestParam boolean picked) {

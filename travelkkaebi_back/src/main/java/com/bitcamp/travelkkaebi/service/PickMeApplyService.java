@@ -76,7 +76,8 @@ public class PickMeApplyService {
     }
 
     /**
-     * 채택 전 후 리스트
+     * 채택 전 -> beforeSelectList
+     * 채택 후 -> afterSelectList
      */
     public ListResponseDTO pickedStatusList(int userId, boolean picked) {
         List<PickMeApplyEntity> findList = pickMeApplyDB.takeMeList(userId);
@@ -86,24 +87,23 @@ public class PickMeApplyService {
         List<PickMeApplyEntity> afterSelectList = new ArrayList<>();
 
         for (PickMeApplyEntity pickMeApplyEntity : findList) {
-            if (!pickMeApplyEntity.isPicked())
-                beforeSelectList.add(pickMeApplyEntity);
-            else
-                afterSelectList.add(pickMeApplyEntity);
+            (!pickMeApplyEntity.isPicked() ? beforeSelectList : afterSelectList).add(pickMeApplyEntity);
         }
 
-        if (!picked)
-            return ListResponseDTO.setTotalCountAndList(beforeSelectList.size(), beforeSelectList.stream().map(ResponsePickMeDTO::new).collect(Collectors.toList()));
-        else
-            return ListResponseDTO.setTotalCountAndList(afterSelectList.size(), afterSelectList.stream().map(ResponsePickMeDTO::new).collect(Collectors.toList()));
+        return !picked ?
+                ListResponseDTO.setTotalCountAndList(beforeSelectList.size(), beforeSelectList.stream().map(ResponsePickMeDTO::new).collect(Collectors.toList())) :
+                ListResponseDTO.setTotalCountAndList(afterSelectList.size(), afterSelectList.stream().map(ResponsePickMeDTO::new).collect(Collectors.toList()));
     }
 
+    /**
+     * selected, cancel logic -> toggle 식으로
+     */
     @Transactional
     public void selected(int userId, int pickMeApplyId) {
         List<PickMeApplyEntity> takeMeList = pickMeApplyDB.takeMeList(userId);
         validate(takeMeList);
         PickMeApplyEntity selectedApply = pickMeApplyDB.findById(pickMeApplyId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
 
-        selectedApply.selected();
+        selectedApply.selected(!selectedApply.isPicked());
     }
 }
