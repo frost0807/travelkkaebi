@@ -69,9 +69,9 @@ public class EditorChoiceController {
      * 게시글 삭제
      */
     @DeleteMapping("/delete")
-    private ResponseEntity delete(@RequestBody EditorChoiceDTO editorChoiceDTO, @AuthenticationPrincipal String userId) {
+    private ResponseEntity<Integer> delete(@RequestParam int editorChoiceId, @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(editorChoiceService.delete(editorChoiceDTO,
+            return new ResponseEntity(editorChoiceService.delete(editorChoiceId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

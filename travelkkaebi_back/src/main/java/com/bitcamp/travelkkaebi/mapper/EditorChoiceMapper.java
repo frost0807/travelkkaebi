@@ -22,7 +22,7 @@ public interface EditorChoiceMapper {
 
     int update(EditorChoiceDTO editorChoiceDTO);
 
-    int delete(int editorChoiceId);
+    int delete(EditorChoiceDTO editorChoiceDTO);
 
     int viewPlus(int editorChoiceId);
 

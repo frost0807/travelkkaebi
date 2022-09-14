@@ -35,8 +35,8 @@
         WHERE editor_choice_id = #{editorChoiceId}
     </update>
 
-    <delete id="delete" parameterType="int">
-        DELETE FROM board_editor_choice WHERE editor_choice_id  = #{editorChoiceId}
+    <delete id="delete" parameterType="EditorChoiceDTO">
+        DELETE FROM board_editor_choice WHERE editor_choice_id  = #{editorChoiceId} AND user_id =#{userId}
     </delete>
 
     <update id="viewPlus" parameterType="int">

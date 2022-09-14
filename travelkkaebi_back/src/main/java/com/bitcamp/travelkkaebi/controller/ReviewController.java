@@ -58,7 +58,7 @@ public class ReviewController {
     }
 
     /**
-     * 게시글 삭제 OK
+     * 게시글 삭제
      */
     @DeleteMapping("/delete")
     private ResponseEntity<Integer> delete(@RequestParam int reviewId, @AuthenticationPrincipal String userId) {

@@ -115,20 +115,19 @@ public class EditorChoiceService {
 
     /**
      * 게시글 삭제
-     * @param editorChoiceDTO
+     * @param editorChoiceId
      * @param userId
      * @return deletedId
      * @throws Exception
      */
 
     @Transactional
-    public int delete(EditorChoiceDTO editorChoiceDTO, int userId) throws Exception {
+    public int delete(int editorChoiceId, int userId) throws Exception {
 
-        if (userId == editorChoiceDTO.getUserId()) {
-            return editorChoiceMapper.delete(editorChoiceDTO.getEditorChoiceId());
-        } else {
-            throw new KkaebiException(DOES_NOT_MATCH_USER);
-        }
+       return editorChoiceMapper.delete(EditorChoiceDTO.builder()
+               .editorChoiceId(editorChoiceId)
+               .userId(userId)
+               .build());
     }
 
     /**
