@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class JoinMeService {
     private final int PAGE_SIZE = 20;
-    private final int PAGE_SIZE_2 = 10;
+    private final int PAGE_SIZE_2 = 9;
     private final LikeOrDislikeService likeOrDislikeService;
     private final JoinMeMapper joinMeMapper;
 

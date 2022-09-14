@@ -46,7 +46,7 @@ const MyTravel = () => {
             <div style={{ width: "120px", textAlign: "center" }}>출발일</div>
             <div style={{ width: "120px", textAlign: "center" }}>도착일</div>
           </div>
-          {myTravelArr &&
+          {/* {myTravelArr &&
             myTravelArr.map((item, index) => (
               <div
                 key={index}
@@ -83,6 +83,9 @@ const MyTravel = () => {
                   {item.endDate.split("T")[0]}
                 </div>
               </div>
+            ))} */}
+            {myTravelArr&&myTravelArr.map((item, index)=>(
+              <MyTravelListElement {myTravelPost=item}/>
             ))}
         </Content>
       </MainContent>

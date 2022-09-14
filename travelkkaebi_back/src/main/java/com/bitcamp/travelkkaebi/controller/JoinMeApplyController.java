@@ -33,12 +33,13 @@ public class JoinMeApplyController {
     }
 
     //내가 작성한 같이가요 글에 신청한 신청서들
-    @GetMapping("/selectall/bywriterid")
-    public ResponseEntity<ListResponseDTO> selectAllByWriterId(
+    @GetMapping("/selectall/byjoinmeid")
+    public ResponseEntity<ListResponseDTO> selectAllByJoinMeId(
             @RequestParam int pageNo,
+            @RequestParam int joinMeId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeApplyService.selectAllByWriterId(pageNo, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeApplyService.selectAllByJoinMeId(pageNo, joinMeId, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

@@ -1,6 +1,7 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.*;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndJoinMeIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
@@ -44,11 +45,11 @@ public class JoinMeApplyService {
         return setListResponseDTO(joinMeApplyMapper.getBoardCountByUserId(userId), joinMeApplyResponseDTOList);
     }
 
-    //로그인한 유저의 같이가요 글에 신청한 신청서들
-    public ListResponseDTO selectAllByWriterId(int pageNo, int userId) throws Exception {
+    //특정 게시물에 달린 신청서들
+    public ListResponseDTO selectAllByJoinMeId(int pageNo, int joinMeId, int userId) throws Exception {
         List<JoinMeApplyResponseDTO> joinMeApplyResponseDTOList
-                = joinMeApplyMapper.selectAllByWriterId(setPageAndUserId(pageNo, userId));
-        return setListResponseDTO(joinMeApplyMapper.getBoardCountByWriterId(userId), joinMeApplyResponseDTOList);
+                = joinMeApplyMapper.selectAllByJoinMeId(setPageAndJoinMeIdAndUserId(pageNo, joinMeId, userId));
+        return setListResponseDTO(joinMeApplyMapper.getBoardCountByJoinMeId(setJoinMeIdAndUserId(joinMeId, userId)), joinMeApplyResponseDTOList);
     }
 
     public JoinMeApplyResponseDTO selectOne(int joinMeApplyId) throws Exception {
@@ -61,7 +62,7 @@ public class JoinMeApplyService {
     public boolean setSelectedTrue(int joinMeApplyId, int userId) throws Exception {
         int isMemberUpdated = 0;
         //로그인한유저의 게시물인지 판별하고 joinMeId 리턴
-        int joinMeId = joinMeApplyMapper.checkValidUserAndGetJoinMeId(setJoinMeIdAndUserIdDTO(userId, joinMeApplyId))
+        int joinMeId = joinMeApplyMapper.checkValidUserAndGetJoinMeId(setPrimaryIdAndUserId(joinMeApplyId, userId))
                 .orElseThrow(() -> new NullPointerException("신청서의 대상이 로그인한 유저가 아니거나 게시물이 존재하지 않음"));
         //해당 신청서의 게시물 가져오기
         JoinMeOneDTO joinMeOneDTO = joinMeMapper.selectOne(joinMeId)
@@ -77,6 +78,15 @@ public class JoinMeApplyService {
         return (joinMeApplyMapper.updateSelectedTrue(joinMeApplyId) * isMemberUpdated == 1);
     }
 
+    public PageAndJoinMeIdAndUserIdDTO setPageAndJoinMeIdAndUserId(int pageNo, int joinMeId, int userId) {
+        return PageAndJoinMeIdAndUserIdDTO.builder()
+                .startNum((pageNo - 1) * PAGE_SIZE)
+                .pageSize(PAGE_SIZE)
+                .joinMeId(joinMeId)
+                .userId(userId)
+                .build();
+    }
+
     //페이지와 userId를 객체에 세팅해주는 메소드
     public PageAndUserIdDTO setPageAndUserId(int pageNo, int userId) {
         return PageAndUserIdDTO.builder()
@@ -86,8 +96,15 @@ public class JoinMeApplyService {
                 .build();
     }
 
+    public JoinMeIdAndUserIdDTO setJoinMeIdAndUserId(int joinMeId, int userId){
+        return JoinMeIdAndUserIdDTO.builder()
+                .joinMeId(joinMeId)
+                .userId(userId)
+                .build();
+    }
+
     //joinMeApplyId와 userId를 객체에 세팅해주는 매소드
-    private PrimaryIdAndUserIdDTO setJoinMeIdAndUserIdDTO(int userId, int joinMeApplyId) {
+    private PrimaryIdAndUserIdDTO setPrimaryIdAndUserId(int joinMeApplyId, int userId) {
         return PrimaryIdAndUserIdDTO.builder()
                 .primaryId(joinMeApplyId)
                 .userId(userId)
@@ -110,13 +127,4 @@ public class JoinMeApplyService {
                 .list(joinMeApplyResponseDTOList)
                 .build();
     }
-
-//    //페이지수 계산해주는 메소드
-//    private int calculatePageCount(int boardCount) {
-//        if (boardCount % PAGE_SIZE != 0) {
-//            return boardCount / PAGE_SIZE + 1;
-//        } else {
-//            return boardCount / PAGE_SIZE;
-//        }
-//    }
 }

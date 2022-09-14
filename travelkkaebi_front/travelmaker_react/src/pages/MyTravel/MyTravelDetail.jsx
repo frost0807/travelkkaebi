@@ -9,7 +9,7 @@ import { bearerToken } from "../../util";
 import "./MyTravelDetail.css";
 
 const MyTravelDetail = () => {
-  const location = useLocation;
+  const location = useLocation();
   const myTravelId = location?.state?.myTravelId;
   const [post, setPost] = useState();
   console.log("location", location);
