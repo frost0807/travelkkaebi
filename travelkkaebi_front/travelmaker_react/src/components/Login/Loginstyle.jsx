@@ -23,32 +23,54 @@ export const Dimmed = styled.div`
   bottom: 0;
   position: absolute;
   background: rgba(11, 19, 30, 0.37);
+  display: block;
 `;
 
 export const ModalContainer = styled.div`
-  padding: 24px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: relative;
+bottom: 0;
+overflow: hidden;
+padding: 20px;
+min-width: 400px;
+width: 400px !important;
+height: 600px;
+max-height: 700px;
+border-radius: 8px;
+background-color: #fff;
+box-sizing: inherit;
+z-index: 10;
+animation: modal-show 0.3s;
+@media 450px {
+  width: 100%
+`;
+/**  padding: 24px;
   margin: auto;
   width: 450px !important;
   height: 550px;
   background-color: #fff;
   border-radius: 6px;
-  z-index: 10;
-`;
+  z-index: 10; */
 
 export const Closebtn = styled(CloseIcon)`
-  display: flex;
-  align-items: center;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  color: rgb(94, 94, 94);
   cursor: pointer;
-  font-weight: inherit;
-  font-style: inherit;
-  box-sizing: inherit;
 `;
 
 const FormBox = styled.div`
-  margin: auto;
-  width: 400px;
+  display: flex;
+  width: 100%;
   height: 100%;
-  padding: 5px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
 `;
 
 const InputBox = styled.div`
@@ -69,8 +91,10 @@ const InputField = styled.input`
 `;
 
 const FormFooter = styled.div`
+  display: flex;
   margin-top: 20px;
   text-align: center;
+  justify-content: center;
   margin-bottom: 30px;
 `;
 

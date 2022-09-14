@@ -1,44 +1,42 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import HeartImg from "../../images/heart.png";
-import Logo from "../../images/basicLogo.png";
-import "./JoinMe.css";
-import { useParams } from "react-router";
-import JoinMeDetail from "./JoinMeDetail";
-import { useRecoilState } from "recoil";
-import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
-import Login from "../../components/Login/Login";
-import { Link } from "react-router-dom";
-import { display } from "@mui/system";
+import HeartImg from "../../../images/heart.png";
+import Logo from "../../../images/basicLogo.png";
+import "../../JoinMe/JoinMe.css";
+import { useNavigate, useParams } from "react-router";
+import JoinMeDetail from "../../JoinMe/JoinMeDetail";
+import PickUpMeDetail from "../../PickUpMe/PickUpMeDetail";
 
-function JoinMeCard(props) {
+function PickApplyCard(props) {
+  const navigate = useNavigate();
   const [post, setPosts] = useState(props.post);
   const [closed] = useState(props.post);
   const { id } = useParams();
   let profile_img = post.profileImageUrl;
-  let sDate = new Date(post.startDate);
-  const startDate = sDate.getMonth() + 1 + "." + sDate.getDate();
-  let eDate = new Date(post.endDate);
-  const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
-  const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
+  let sDate = post.dateInfo.startDate;
+  const startDate = sDate.substr(5);
+  let eDate = post.dateInfo.endDate;
+  const endDate = eDate.substr(5);
 
-  const openModal = () => {
+  const [showPickMeDetail, setShowPickMeDetail] = useState(false);
+
+  const openPickMeDetail = () => {
     post.closed === false
-      ? setShowJoinMeDetail(true)
+      ? setShowPickMeDetail(true)
       : alert("이미 마감된 글입니다.");
   };
-  const closeModal = () => {
-    setShowJoinMeDetail(false);
+  const close = () => {
+    setShowPickMeDetail(false);
   };
 
   return (
     <>
       {!post.closed ? (
         <div>
-          <CardSection key={post.joinMeId}>
+          <CardSection key={post.boardId}>
             <CardTop>
-              <div onClick={openModal}>
+              <div onClick={openPickMeDetail}>
                 <CardTitle>
                   {post.title.length < 20
                     ? post.title
@@ -54,12 +52,6 @@ function JoinMeCard(props) {
                       <dt className="joinme-sublabel"> 날짜</dt>
                       <dt className="joinme-subdata">
                         {startDate} ~ {endDate}
-                      </dt>
-                    </div>
-                    <div className="joinme-subtitle3">
-                      <dt className="joinme-sublabel">인원</dt>
-                      <dt className="joinme-subdata">
-                        {post.currentMemberCount} / {post.capacity}
                       </dt>
                     </div>
 
@@ -85,30 +77,40 @@ function JoinMeCard(props) {
             <CardBottom>
               <div className="card_username">
                 <span>{post.nickname}</span>
-                <div className="like-btn">
-                  <Heart src={HeartImg} />
-                  <span>{post.likeCount}</span>
-                </div>
               </div>
             </CardBottom>
           </CardSection>
           <div>
-            {showJoinMeDetail ? (
-              <JoinMeDetail
-                joinMeId={post.joinMeId}
-                showJoinMeDetail={showJoinMeDetail}
-                closeModal={closeModal}
+            {showPickMeDetail ? (
+              <PickUpMeDetail
+                boardId={post.boardId}
+                showPickMeDetail={showPickMeDetail}
+                close={close}
                 profile_img={profile_img}
+                startDate={startDate}
+                endDate={endDate}
               />
             ) : null}
+          </div>
+          <div className="myapplylist-btn">
+            <input
+              id="myapp_btn-submit"
+              className="myapp_btn-submit"
+              defaultValue="신청리스트"
+              onClick={() =>
+                navigate("/mypage/pickmemyapply/list/appliction", {
+                  state: post,
+                })
+              }
+            />
           </div>
         </div>
       ) : (
         <CloseCard>
-          <CardSection key={post.joinMeId}>
+          <CardSection key={post.boardId} style={{ background: "#eee" }}>
             <CloseTxt>마감된 게시물입니다.</CloseTxt>
             <CardTop>
-              <div onClick={openModal}>
+              <div>
                 <CardTitle>
                   {post.title.length < 20
                     ? post.title
@@ -124,12 +126,6 @@ function JoinMeCard(props) {
                       <dt className="joinme-sublabel"> 날짜</dt>
                       <dt className="joinme-subdata">
                         {startDate} ~ {endDate}
-                      </dt>
-                    </div>
-                    <div className="joinme-subtitle3">
-                      <dt className="joinme-sublabel">인원</dt>
-                      <dt className="joinme-subdata">
-                        {post.currentMemberCount} / {post.capacity}
                       </dt>
                     </div>
 
@@ -155,20 +151,18 @@ function JoinMeCard(props) {
             <CardBottom>
               <div className="card_username">
                 <span>{post.nickname}</span>
-                <div className="like-btn">
-                  <Heart src={HeartImg} />
-                  <span>{post.likeCount}</span>
-                </div>
               </div>
             </CardBottom>
           </CardSection>
           <div>
-            {showJoinMeDetail ? (
-              <JoinMeDetail
-                joinMeId={post.joinMeId}
-                showJoinMeDetail={showJoinMeDetail}
-                closeModal={closeModal}
+            {showPickMeDetail ? (
+              <PickUpMeDetail
+                boardId={post.boardId}
+                showPickMeDetail={showPickMeDetail}
+                close={close}
                 profile_img={profile_img}
+                startDate={startDate}
+                endDate={endDate}
               />
             ) : null}
           </div>
@@ -178,7 +172,7 @@ function JoinMeCard(props) {
   );
 }
 
-export default JoinMeCard;
+export default PickApplyCard;
 
 const CardSection = styled.section`
   position: relative;

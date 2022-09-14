@@ -35,66 +35,130 @@ function PickUpMeCard(props) {
 
   return (
     <>
-      <div>
-        <CardSection key={post.boardId}>
-          <CardTop>
-            <div onClick={openPickMeDetail}>
-              <CardTitle>
-                {post.title.length < 20
-                  ? post.title
-                  : post.title.slice(0, 20) + "..."}
-              </CardTitle>
-              <CardsubTitle>
-                <CardsubList>
-                  <div className="joinme-subtitle">
-                    <dt className="joinme-sublabel">지역</dt>
-                    <dt className="joinme-subdata">{post.preferredRegion}</dt>
-                  </div>
-                  <div className="joinme-subtitle2">
-                    <dt className="joinme-sublabel"> 날짜</dt>
-                    <dt className="joinme-subdata">
-                      {startDate} ~ {endDate}
-                    </dt>
-                  </div>
-
-                  <br />
-                  <div className="joinme-content">
-                    <p>
-                      {post.content.length < 15
-                        ? post.content
-                        : post.content.slice(0, 14) + "..."}
-                    </p>
-                  </div>
-                </CardsubList>
-                <figure className="card_profileimg">
-                  <img
-                    src={profile_img ? profile_img : Logo}
-                    alt="유저프로필"
-                    loading="lazy"
-                  />
-                </figure>
-              </CardsubTitle>
-            </div>
-          </CardTop>
-          <CardBottom>
-            <div className="card_username">
-              <span>{post.nickname}</span>
-            </div>
-          </CardBottom>
-        </CardSection>
+      {!post.closed ? (
         <div>
-          {showPickMeDetail ? (
-            <PickUpMeDetail
-              boardId={post.boardId}
-              showPickMeDetail={showPickMeDetail}
-              close={close}
-              profile_img={profile_img}
-              startDate={startDate}
-              endDate={endDate}
-            />
-          ) : null}
+          <CardSection key={post.boardId}>
+            <CardTop>
+              <div onClick={openPickMeDetail}>
+                <CardTitle>
+                  {post.title.length < 20
+                    ? post.title
+                    : post.title.slice(0, 20) + "..."}
+                </CardTitle>
+                <CardsubTitle>
+                  <CardsubList>
+                    <div className="joinme-subtitle">
+                      <dt className="joinme-sublabel">지역</dt>
+                      <dt className="joinme-subdata">{post.preferredRegion}</dt>
+                    </div>
+                    <div className="joinme-subtitle2">
+                      <dt className="joinme-sublabel"> 날짜</dt>
+                      <dt className="joinme-subdata">
+                        {startDate} ~ {endDate}
+                      </dt>
+                    </div>
+
+                    <br />
+                    <div className="joinme-content">
+                      <p>
+                        {post.content.length < 15
+                          ? post.content
+                          : post.content.slice(0, 14) + "..."}
+                      </p>
+                    </div>
+                  </CardsubList>
+                  <figure className="card_profileimg">
+                    <img
+                      src={profile_img ? profile_img : Logo}
+                      alt="유저프로필"
+                      loading="lazy"
+                    />
+                  </figure>
+                </CardsubTitle>
+              </div>
+            </CardTop>
+            <CardBottom>
+              <div className="card_username">
+                <span>{post.nickname}</span>
+              </div>
+            </CardBottom>
+          </CardSection>
+          <div>
+            {showPickMeDetail ? (
+              <PickUpMeDetail
+                boardId={post.boardId}
+                showPickMeDetail={showPickMeDetail}
+                close={close}
+                profile_img={profile_img}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
+      ) : (
+        <CloseCard>
+          <CardSection key={post.boardId}>
+            <CloseTxt>마감된 게시물입니다</CloseTxt>
+            <CardTop>
+              <div onClick={openPickMeDetail}>
+                <CardTitle>
+                  {post.title.length < 20
+                    ? post.title
+                    : post.title.slice(0, 20) + "..."}
+                </CardTitle>
+                <CardsubTitle>
+                  <CardsubList>
+                    <div className="joinme-subtitle">
+                      <dt className="joinme-sublabel">지역</dt>
+                      <dt className="joinme-subdata">{post.preferredRegion}</dt>
+                    </div>
+                    <div className="joinme-subtitle2">
+                      <dt className="joinme-sublabel"> 날짜</dt>
+                      <dt className="joinme-subdata">
+                        {startDate} ~ {endDate}
+                      </dt>
+                    </div>
+
+                    <br />
+                    <div className="joinme-content">
+                      <p>
+                        {post.content.length < 15
+                          ? post.content
+                          : post.content.slice(0, 14) + "..."}
+                      </p>
+                    </div>
+                  </CardsubList>
+                  <figure className="card_profileimg">
+                    <img
+                      src={profile_img ? profile_img : Logo}
+                      alt="유저프로필"
+                      loading="lazy"
+                    />
+                  </figure>
+                </CardsubTitle>
+              </div>
+            </CardTop>
+            <CardBottom>
+              <div className="card_username">
+                <span>{post.nickname}</span>
+              </div>
+            </CardBottom>
+          </CardSection>
+          <div>
+            {showPickMeDetail ? (
+              <PickUpMeDetail
+                boardId={post.boardId}
+                showPickMeDetail={showPickMeDetail}
+                close={close}
+                profile_img={profile_img}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            ) : null}
+          </div>
+        </CloseCard>
+      )}
     </>
   );
 }
@@ -176,12 +240,9 @@ const CardBottom = styled.div`
   box-sizing: inherit;
   display: block;
 `;
-const Heart = styled.img`
-  margin-right: 3px;
-  font-size: 12px;
-  font-weight: inherit;
-  font-style: inherit;
-  line-height: 1;
-  width: 13px;
-  height: 13px;
+
+const CloseCard = styled.div``;
+const CloseTxt = styled.span`
+  font-size: 11px;
+  color: red;
 `;

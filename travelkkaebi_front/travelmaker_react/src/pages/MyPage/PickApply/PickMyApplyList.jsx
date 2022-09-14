@@ -5,16 +5,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Pagination from "../../../components/Pagenation/Pagination";
-import { joinmeurl } from "../../../config";
+import { joinmeurl, pickmeapply } from "../../../config";
 import { bearerToken } from "../../../util";
-import JoinMeCard from "../../JoinMe/JoinMeCard";
-import SideNavigation from "../SideNavigation";
-import "./joinapply.css";
-import JoinApplyCard from "./JoinApplyCard";
+import "../JoinApply/joinapply.css";
+import PickApplyCard from "./PickApplyCard";
+import JoinApplyCard from "./PickApplyCard";
 
 /** 나의 게시글 보기 */
 
-const JoinMyApplyList = () => {
+const PickMyApplyList = () => {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
@@ -22,11 +21,11 @@ const JoinMyApplyList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState();
 
-  const URL = joinmeurl + "/selectallbypage/myboardlist";
+  const URL = pickmeapply + "/my/takemelist";
   useEffect(() => {
     const fetchPost = async () => {
       const fetchAxios = await axios
-        .get(URL + "?pageNo=" + currentPage, bearerToken)
+        .get(URL + "?pageNo=", bearerToken)
         .then((res) => {
           console.log("게시글리스트 받기 ", res);
           setPosts(res.data.list);
@@ -47,13 +46,12 @@ const JoinMyApplyList = () => {
           </div>
         </div>
       </header>
-      <SideNavigation />
       <Content>
         <ContentBody>
           <View>
             {posts &&
               posts.map((post, idx) => (
-                <JoinApplyCard key={post.joinMeId} post={post} />
+                <PickApplyCard key={post.boardId} post={post} />
               ))}
           </View>
           <footer>
@@ -70,7 +68,7 @@ const JoinMyApplyList = () => {
   );
 };
 
-export default JoinMyApplyList;
+export default PickMyApplyList;
 
 const MainContent = styled.main`
   min-height: 800px;

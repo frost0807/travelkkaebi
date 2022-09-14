@@ -334,10 +334,13 @@ function JoinMeDetail(props) {
                 noValidate
                 autoComplete="off"
               >
+                
+                {post.nickname !== getUserNickname ? (
                 <div>
                   <TextField label="코멘트" id="comment" name="comment" />
                   <FooterButton type="submit">신청하기</FooterButton>
-                  {post.nickname === getUserNickname ? (
+                  </div>
+                  ) : (
                     <div
                       style={{
                         display: "flex",
@@ -358,14 +361,12 @@ function JoinMeDetail(props) {
                         <Button onClick={deleteHandler}>삭제하기</Button>
                       </span>
                     </div>
-                  ) : null}
-                </div>
+                   )}
               </Box>
             </JDFooter>
           </div>
         </ModalContainer>
       </Background>
-      )
     </>
   );
 }

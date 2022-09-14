@@ -199,7 +199,7 @@ const MainContent = styled.main`
 `;
 
 const Content = styled.div`
-  max-width: 1200px;
+  max-width: 1250px;
   margin: auto;
   padding: 0 1.5rem;
   flex-grow: 1;
@@ -217,6 +217,7 @@ const ContentBody = styled.div`
 const View = styled.div`
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
+  margin-top: 28px;
   gap: 18px;
   display: grid;
   box-sizing: inherit;

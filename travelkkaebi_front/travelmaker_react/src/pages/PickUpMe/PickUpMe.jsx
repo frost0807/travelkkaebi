@@ -255,6 +255,7 @@ const ContentBody = styled.div`
 const View = styled.div`
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
+  margin-top: 28px;
   gap: 18px;
   display: grid;
   box-sizing: inherit;
