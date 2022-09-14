@@ -29,11 +29,11 @@ public class ReviewController {
      * 게시글 작성 Ok
      */
     @PostMapping("/write")
-    public ResponseEntity<Boolean> write(@RequestPart(value ="review") ReviewDTO reviewDTO,
-                                         @RequestPart(value ="file", required = false) MultipartFile image,
+    public ResponseEntity<Boolean> write(@RequestPart(value = "review") ReviewDTO reviewDTO,
+                                         @RequestPart(value = "file", required = false) MultipartFile image,
                                          @AuthenticationPrincipal String userId) throws IOException {
         try {
-            return new ResponseEntity(reviewService.writeReview(reviewDTO, image,
+            return new ResponseEntity<>(reviewService.writeReview(reviewDTO, image,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,12 +45,12 @@ public class ReviewController {
      * 게시글 수정 Ok
      */
     @PutMapping("/update")
-    private ResponseEntity<Integer> update(
+    private ResponseEntity<ReviewResponseDTO> update(
             @RequestPart(value = "review") ReviewDTO reviewDTO,
             @RequestPart(value = "file", required = false) MultipartFile image,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(reviewService.update(reviewDTO, image, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.update(reviewDTO, image, Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -58,12 +58,12 @@ public class ReviewController {
     }
 
     /**
-     * 게시글 삭제 OK
+     * 게시글 삭제
      */
     @DeleteMapping("/delete")
     private ResponseEntity<Integer> delete(@RequestParam int reviewId, @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity(reviewService.delete(reviewId, Integer.parseInt(userId)), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.delete(reviewId, Integer.parseInt(userId)), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class ReviewController {
     private ResponseEntity<List<ReviewResponseDTO>> selectAll(@RequestParam int pageNo) {
 
         try {
-            return new ResponseEntity(reviewService.selectAllByPage(pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.selectAllByPage(pageNo), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,10 +91,10 @@ public class ReviewController {
      * 메인에 쓸 것! Because 리뷰게시판엔 추천 리스트가 없어요.
      */
     @GetMapping("/selectallgood")
-    private ResponseEntity<ListResponseDTO> selectAllGood() {
+    private ResponseEntity<List<ReviewResponseDTO>> selectAllGood() {
         try {
             List<Integer> boardIdList = likeOrDislikeService.getBoardIdListMostLiked(5, 6);
-            return new ResponseEntity(reviewService.selectAllGood(boardIdList), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.selectAllGood(boardIdList), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,7 +108,7 @@ public class ReviewController {
     @GetMapping("selectallformain")
     private ResponseEntity<List<ReviewResponseDTO>> selectAllForMain() {
         try {
-            return new ResponseEntity(reviewService.selectAllForMain(), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.selectAllForMain(), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class ReviewController {
     private ResponseEntity<ReviewResponseDTO> selectOne(@RequestParam int reviewId) {
 
         try {
-            return new ResponseEntity(reviewService.selectOne(reviewId), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.selectOne(reviewId), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +137,7 @@ public class ReviewController {
     @GetMapping("/count")
     private ResponseEntity<Integer> count() {
         try {
-            return new ResponseEntity(reviewService.count(), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.count(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -148,10 +148,10 @@ public class ReviewController {
      * 특정 제목으로 검색
      */
     @GetMapping("/selectallbypage/searchbytitle")
-    private ResponseEntity<ReviewResponseDTO> searchByTitle(@RequestParam("title") String word, int pageNo) {
+    private ResponseEntity<ListResponseDTO> searchByTitle(@RequestParam("title") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(reviewService.searchByTitle(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.searchByTitle(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -163,10 +163,10 @@ public class ReviewController {
      * 특정 내용으로 검색
      */
     @GetMapping("/selectallbypage/searchbycontent")
-    private ResponseEntity<ReviewResponseDTO> searchByContent(@RequestParam("content") String word, int pageNo) {
+    private ResponseEntity<ListResponseDTO> searchByContent(@RequestParam("content") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(reviewService.searchByContent(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.searchByContent(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -178,9 +178,9 @@ public class ReviewController {
      * 특정 작성자로 검색
      */
     @GetMapping("/selectallbypage/searchbywriter")
-    private ResponseEntity<ReviewResponseDTO> searchByWriter(@RequestParam("writer") String word, int pageNo) {
+    private ResponseEntity<ListResponseDTO> searchByWriter(@RequestParam("writer") String word, int pageNo) {
         try {
-            return new ResponseEntity(reviewService.searchByWriter(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.searchByWriter(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -192,10 +192,10 @@ public class ReviewController {
      * (지역) 키워드로 검색
      */
     @GetMapping("/selectallbypage/keywordbyregion")
-    private ResponseEntity<ReviewResponseDTO> keywordByRegion(@RequestParam("region") String word, int pageNo) {
+    private ResponseEntity<ListResponseDTO> keywordByRegion(@RequestParam("region") String word, int pageNo) {
 
         try {
-            return new ResponseEntity(reviewService.keywordByRegion(word, pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(reviewService.keywordByRegion(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
