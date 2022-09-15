@@ -15,7 +15,6 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
-import { DataGrid } from "@mui/x-data-grid";
 import UserList from "./UserList";
 import Pagination from "../../../components/Pagenation/Pagination";
 import SideNavigation from "../SideNavigation";
