@@ -20,7 +20,7 @@ import {
   JDFooter,
   JoinContainerWrapper,
   JoinIntroWrapper,
-} from "./joinme.style";
+} from "./Joinme.style";
 import JoinMeEditForm from "./JoinMeEditForm";
 import LikeBtn from "../../components/Like/LikeBtn";
 import Login from "../../components/Login/Login";
