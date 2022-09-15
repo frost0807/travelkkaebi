@@ -51,7 +51,7 @@ const PopularEditorChoice = () => {
 
   useEffect(() => {
     const getHotEditor = axios
-      .get(editorchoice + "/home")
+      .get(editorchoice + "/selectallnew6")
       .then((resList) => {
         console.log("editorArr", resList.data);
         setHotEditorArr(resList.data);
@@ -76,7 +76,7 @@ const PopularEditorChoice = () => {
       <ScWrap>
         <ScTop>
           <div style={{ fontFamily: "SUIT ExtraBold", fontSize: "1.5em" }}>
-            에디터 추천 Top 6
+            에디터 추천 New 6
           </div>
           <ScMoveButton style={{ display: "flex", marginBottom: "10px" }}>
             <div onClick={prevSlide}>

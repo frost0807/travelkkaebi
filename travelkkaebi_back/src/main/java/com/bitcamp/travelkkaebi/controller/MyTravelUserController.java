@@ -1,8 +1,8 @@
 package com.bitcamp.travelkkaebi.controller;
 
 
+import com.bitcamp.travelkkaebi.dto.MyTravelUserAndMannerDTO;
 import com.bitcamp.travelkkaebi.dto.MyTravelUserResponseDTO;
-import com.bitcamp.travelkkaebi.model.MyTravelUserDTO;
 import com.bitcamp.travelkkaebi.service.MyTravelUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,11 +22,11 @@ public class MyTravelUserController {
     private final MyTravelUserService myTravelUserService;
 
     @GetMapping("/selectall")
-    public ResponseEntity<List<MyTravelUserResponseDTO>> selectAll(
+    public ResponseEntity<List<MyTravelUserAndMannerDTO>> selectAllWithMannerStatus(
             @RequestParam int myTravelId,
             @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(myTravelUserService.selectAll(myTravelId,
+            return new ResponseEntity<>(myTravelUserService.selectAllWithMannerStatus(myTravelId,
                     Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

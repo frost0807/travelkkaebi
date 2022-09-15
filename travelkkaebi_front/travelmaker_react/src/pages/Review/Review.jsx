@@ -14,15 +14,119 @@ import Paging from '../../components/Pagination/Paging';
 
 function Review() {
 
-  
   const [show, setShow] = useState(1);
   const [count, setCount] = useState(0);
 
-  const [data, setData]=useState([]);
+  const [data, setData] = useState([]);
   const navi = useNavigate();
 
   // 현재 페이지 번호
-  const { currentPage }=useParams();
+  const { currentPage, setCurrentPage } =  useParams();
+
+  // search
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [selectKeyword, setSelectKeyword] = useState("");
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    setSearchKeyword(e.target.value);
+  };
+
+  const selectChange = (e) => {
+    e.preventDefault();
+    setSelectKeyword(e.target.value);
+  };
+
+  const onSearch = (e) => {
+    if (
+      searchKeyword === null ||
+      searchKeyword === "" ||
+      selectKeyword === "선택하기🎇"
+    ) {
+      return () => {
+        const fetchPost = async () => {
+          setCurrentPage();
+          const fetchAxios = await axios
+            .get(API_BASE_URL + "?pageNo=" + currentPage) //,{params:{pageNo:currentPage}}
+            .then((res) => {
+              console.log(res.data);
+              setData(res.data.list);
+              console.log("list : ", res.data.list);
+              setCount(res.data.count);
+              console.log("totalBoardCount", res.data.count);
+            });
+        };
+      };
+    } else if (selectKeyword === "제목") {
+      searchTitle();
+    } else if (selectKeyword === "닉네임") {
+      searchName();
+    } else if (selectKeyword === "내용") {
+      searchContent();
+    } else if (selectKeyword === "지역") {
+      searchRegion();
+    } else {
+      alert("무슨 오류일까요요요요요용~?");
+      return;
+    }
+  };
+
+  const searchTitle = async () => {
+    await axios
+      .get(API_BASE_URL+ "/review/selectallbypage/searchbytitle", {
+        params: { pageNo: currentPage, title: searchKeyword },
+      })
+      .then((res) => {
+        if (searchKeyword == null) {
+          return res;
+        }
+        console.log(res);
+        setData(res.data.list);
+        setCount(res.data.count);
+        console.log("totalBoardCount", res.data.count);
+      });
+  };
+
+  const searchName = async () => {
+    await axios
+      .get(API_BASE_URL+ "/review/selectallbypage/searchbywriter", {
+        params: { pageNo: currentPage, writer: searchKeyword },
+      })
+      .then((res) => {
+        console.log(res);
+        setData(res.data.list);
+        setCount(res.data.count);
+        console.log("totalBoardCount", res.data.count);
+      });
+  };
+
+  const searchContent = async () => {
+    await axios
+      .get(API_BASE_URL+ "/review/selectallbypage/searchbycontent", {
+        params: { pageNo: currentPage, content: searchKeyword },
+      })
+      .then((res) => {
+        console.log(res);
+        setData(res.data.list);
+        setCount(res.data.count);
+        console.log("totalBoardCount", res.data.count);
+      });
+  };
+  
+  const searchRegion = async () => {
+    await axios
+      .get(API_BASE_URL+ "/review/selectallbypage/keywordbyregion", {
+        params: { pageNo: currentPage, region: searchKeyword },
+      })
+      .then((res) => {
+        console.log(res);
+        setData(res.data.list);
+        setCount(res.data.count);
+        console.log("totalBoardCount", res.data.count);
+      });
+  };
+
+
 
   // url선언 (미사용)
   let pagelistUrl = process.env.REACT_APP_SPRING_URL + 'review/pagelist?currentPage=' + currentPage;
@@ -48,32 +152,6 @@ function Review() {
     })
   }
 
-  const onWriterSearch=(e)=>{
-    e.preventDefault();
-
-    axios.get(API_BASE_URL+"/review/searchbywriter", {})
-    .then(res=>{
-      navi("/review/1");
-    })
-  }
-
-  const onTitleSearch=(e)=>{
-    e.preventDefault();
-
-    axios.post(API_BASE_URL+"/review/searchbytitle", {})
-    .then(res=>{
-      navi("/review/1");
-    })
-  }
-
-  const onContentSearch=(e)=>{
-    e.preventDefault();
-
-    axios.post(API_BASE_URL+"/review/searchbycontent", {})
-    .then(res=>{
-      navi("/review/1");
-    })
-  }
 
 
         // 멀티 액시오스 시도한거
@@ -99,8 +177,6 @@ function Review() {
   return(
     
     
-
-
     <div style={{}}>
 
       <div style={{marginTop:"100px"}}>
@@ -148,23 +224,26 @@ function Review() {
 
 
 
-
           
         <div style={{ width:'700px', textAlign:'right', margin:'auto', display:'flex' }}>
           <div style={{ width:'100%', marginTop:'10px' }}>
-          <InputGroup className="mb-3" style={{}}>
-            <Form.Control aria-label="Text input with dropdown button" />
-            <SplitButton
-              variant="outline-secondary"
-              title="검색"
-              id="segmented-button-dropdown-2"
-              alignRight
-            >
-              <Dropdown.Item onSubmit={onWriterSearch} href="#">글쓴이 검색</Dropdown.Item>
-              <Dropdown.Item onSubmit={onTitleSearch} href="#">제목 검색</Dropdown.Item>
-              <Dropdown.Item onSubmit={onContentSearch} href="#">내용 검색</Dropdown.Item>
-            </SplitButton>
-          </InputGroup>
+          <div>
+            <select id="searchKey" name="searchKey" onChange={selectChange}>
+              <option value="선택하기🎇">--</option>
+              <option value="제목">제목</option>
+              <option value="닉네임">닉네임</option>
+              <option value="내용">내용</option>
+              <option value="지역">지역</option>
+            </select>
+            <input
+              type="text"
+              placeholder="Search..."
+              name="SearchKeyword"
+              value={searchKeyword || ""}
+              onChange={searchHandler}
+            />
+            <button onClick={onSearch}>검색</button>
+          </div>
           </div>
 
           <div style={{ width:'300px' }}>
