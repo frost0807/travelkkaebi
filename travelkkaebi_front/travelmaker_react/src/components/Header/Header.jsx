@@ -98,14 +98,24 @@ function Header() {
         </Navbar.Collapse>
         <div style={{ marginLeft: "200px" }}>
           {!is_logged ? (
-            <Button
-              style={{ border: "none" }}
-              variant="outline-dark"
-              title="로그인"
-              onClick={login}
-            >
-              <LoginIcon />
-            </Button>
+            <div>
+              <Button
+                style={{ border: "none" }}
+                variant="outline-dark"
+                title="로그인"
+                onClick={login}
+              >
+                <LoginIcon />
+              </Button>
+              <Button
+                style={{ border: "none", marginLeft: "10px" }}
+                variant="outline-dark"
+                title="회원가입"
+                href="/register"
+              >
+                <AssignmentIcon />
+              </Button>
+            </div>
           ) : (
             <Button
               style={{ border: "none" }}
@@ -116,14 +126,6 @@ function Header() {
               <LogoutIcon />
             </Button>
           )}
-          <Button
-            style={{ border: "none", marginLeft: "10px" }}
-            variant="outline-dark"
-            title="회원가입"
-            href="/register"
-          >
-            <AssignmentIcon />
-          </Button>
         </div>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav style={{ marginLeft: "50px" }}>

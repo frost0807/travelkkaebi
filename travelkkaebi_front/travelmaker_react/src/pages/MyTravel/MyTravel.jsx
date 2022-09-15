@@ -28,10 +28,17 @@ const MyTravel = () => {
   return (
     <>
       <MainContent>
-        <Header></Header>
+        <Header>
+          <img
+            width="100%"
+            src="https://whdcksbucket.s3.ap-northeast-2.amazonaws.com/static/MyTravel.png"
+            alt=""
+          />
+        </Header>
         <Content>
           <div
             style={{
+              marginTop: "50px",
               display: "flex",
               justifyContent: "space-around",
               padding: "10px",
