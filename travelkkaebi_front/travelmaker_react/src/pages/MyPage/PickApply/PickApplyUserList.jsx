@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-import { joinapply } from "../../../config";
+import { joinapply, pickmeapply } from "../../../config";
 import { useState } from "react";
 import { bearerToken } from "../../../util";
 import { useEffect } from "react";
@@ -13,7 +13,7 @@ import PickUserList from "./PickUserList";
  * /mypage/myapply/list/appliction
  */
 
-// 내가 쓴 글에 신청한 목록 받기 (상세보기)
+// 내가 쓴 글에 신청한 목록 받기
 
 function PickApplyUserList(props) {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function PickApplyUserList(props) {
   let boardId = state.boardId;
 
   // 신청자 목록 가져오기
-  const appURL = joinapply + "/selectall/byjoinmeid";
+  const appURL = pickmeapply + "/my/takemelist";
   useEffect(() => {
     const fetchApi = async () => {
       const resApi = await axios

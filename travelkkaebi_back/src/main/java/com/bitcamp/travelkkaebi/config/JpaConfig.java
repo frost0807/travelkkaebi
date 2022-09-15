@@ -8,7 +8,6 @@ import org.springframework.data.web.config.PageableHandlerMethodArgumentResolver
 @EnableJpaAuditing
 @Configuration
 public class JpaConfig {
-
     @Bean
     public PageableHandlerMethodArgumentResolverCustomizer customize() {
         return page -> page.setOneIndexedParameters(true);

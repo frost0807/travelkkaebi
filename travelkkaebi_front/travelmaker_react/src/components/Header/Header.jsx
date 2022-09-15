@@ -77,8 +77,10 @@ function Header() {
                 title="여행"
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="/joinme/1">같이가요</NavDropdown.Item>
-                <NavDropdown.Item href="/pickme/0">
+                <NavDropdown.Item href="/joinme/selectallbypage">
+                  같이가요
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/pickme/list">
                   데려가주세요
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

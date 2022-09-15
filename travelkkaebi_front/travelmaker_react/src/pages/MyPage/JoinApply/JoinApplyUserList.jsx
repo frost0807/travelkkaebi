@@ -23,7 +23,8 @@ import SideNavigation from "../SideNavigation";
  * /mypage/myapply/list/appliction
  */
 
-// 내가 쓴 글에 신청한 목록 받기 (상세보기)
+/** JoinMyApplyList --> JoinApplyUserList */
+// 내가 쓴 글에 신청한  user 목록 받기
 
 function JoinApplyUserList(props) {
   const navigate = useNavigate();
@@ -66,7 +67,6 @@ function JoinApplyUserList(props) {
             </div>
           </div>
         </header>
-        <SideNavigation />
         <div className="myappuser-btn">
           <a href="/mypage/myapply/list" className="myapp_btn_cancel">
             뒤로가기

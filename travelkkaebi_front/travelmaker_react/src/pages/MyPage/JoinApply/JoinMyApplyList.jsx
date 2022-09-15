@@ -47,7 +47,6 @@ const JoinMyApplyList = () => {
           </div>
         </div>
       </header>
-      <SideNavigation />
       <Content>
         <ContentBody>
           <View>
