@@ -39,18 +39,19 @@ import EditorCreateForm from "./pages/Editor/EditorCreateForm";
 import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
 import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
 import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
-// 주석 import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
 
-import MyTravel from "./pages/MyTravel/MyTravel";
-import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
-import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
-import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
+import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
 import JoinMyApplyList from "./pages/MyPage/JoinApply/JoinMyApplyList";
 import JoinApplyUserList from "./pages/MyPage/JoinApply/JoinApplyUserList";
 import PickApplyList from "./pages/MyPage/PickApply/PickApplyList";
 import PickMyApplyList from "./pages/MyPage/PickApply/PickMyApplyList";
 import PickApplyUserList from "./pages/MyPage/PickApply/PickApplyUserList";
 import { MyPage } from "./pages/MyPage/MyPage";
+
+import MyTravel from "./pages/MyTravel/MyTravel";
+import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
+import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
+import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
 
 function Main() {
   return (
@@ -88,11 +89,10 @@ function Main() {
         <Route path="/regionevent/detail/:id" element={<RegionEventDetail />} />
 
         {/* test용 페이지*/}
-        <Route path="/testpage" element={<TestPage />} />
+        {/* <Route path="/testpage" element={<TestPage />} />
         <Route path="/testreview" element={<TestReview />} />
         <Route path="/testdetail/:id" element={<TestReviewDetail />} />
-        <Route path="/testresponse" element={<TestResponse />} />
-        <Route path="/testpost" element={<TestPost />} />
+        <Route path="/testresponse" element={<TestResponse />} /> */}
 
         <Route path="/joinme/selectallbypage" element={<JoinMe />} />
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />

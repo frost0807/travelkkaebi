@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import JoinMeCard from "../JoinMe/JoinMeCard";
 import PickUpMeCard from "../PickUpMe/PickUpMeCard";
+import JoinApplyCard from "./JoinApply/JoinApplyCard";
 
 const Centers = styled.div`
   height: 100%;
@@ -108,7 +109,7 @@ export const MyPage = () => {
               <Slider {...settings}>
                 {post &&
                   post.map((post, idx) => (
-                    <JoinMeCard key={post.joinMeId} post={post} />
+                    <JoinApplyCard key={post.joinMeId} post={post} />
                   ))}
               </Slider>
             </div>

@@ -99,6 +99,7 @@ function JoinApplyCard(props) {
               />
             ) : null}
           </div>
+
           <div className="myapplylist-btn">
             <input
               id="myapp_btn-submit"
