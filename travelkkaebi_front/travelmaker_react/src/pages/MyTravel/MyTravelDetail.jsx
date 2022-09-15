@@ -38,9 +38,9 @@ const MyTravelDetail = () => {
   };
 
   const plusMannerDegree = (e) => {
-    mannerArr.filter(function (n) {});
+    mannerArr.filter(function (n) { });
   };
-  const minusMannerDegree = (e) => {};
+  const minusMannerDegree = (e) => { };
 
   const res = async (myTravelReplyDTO) => {
     if (myTravelReplyDTO.content.trim === "") {
@@ -100,9 +100,9 @@ const MyTravelDetail = () => {
         const selectReply = axios
           .get(
             mytravel +
-              "/reply/selectall?myTravelId=" +
-              myTravelId +
-              "&pageNo=1",
+            "/reply/selectall?myTravelId=" +
+            myTravelId +
+            "&pageNo=1",
             bearerToken
           )
           .then((reslist) => {
