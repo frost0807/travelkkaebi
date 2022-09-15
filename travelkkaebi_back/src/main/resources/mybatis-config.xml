@@ -44,6 +44,7 @@
         <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.PageAndMyTravelIdAndUserIdDTO" alias="PageAndMyTravelIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTO" alias="JoinMeListDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeOneDTO" alias="JoinMeOneDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTOAndLikeResponseDTO" alias="JoinMeListDTOAndLikeResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeIdAndUserIdDTO" alias="JoinMeIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeIdAndClosedDTO" alias="JoinMeIdAndClosedDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeApplyResponseDTO" alias="JoinMeApplyResponseDTO"/>
