@@ -42,7 +42,6 @@ function UserList({ data }) {
 
   return (
     <>
-      <SideNavigation />
       <form onSubmit={onSubmit} className="user-list">
         <div className="user-info containerd" key={data.joinMeApplyId}>
           <input

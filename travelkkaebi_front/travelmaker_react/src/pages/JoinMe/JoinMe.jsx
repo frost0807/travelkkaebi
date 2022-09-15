@@ -16,10 +16,14 @@ import styled from "styled-components";
 
 function JoinMe() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = window.location.pathname;
+  const initialQueryString = queryString.parse(location.search);
+  const initialPageNumber = Number(initialQueryString.page) || 1;
 
   const [posts, setPosts] = useState([]);
   const [limits] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const [totalCount, setTotalCount] = useState();
 
   // search
@@ -47,7 +51,7 @@ function JoinMe() {
         const fetchPost = async () => {
           setCurrentPage();
           const fetchAxios = await axios
-            .get(selectAllUrl + "?pageNo=" + currentPage) //,{params:{pageNo:currentPage}}
+            .get(joinmeurl + "/selectallbypage?pageNo=" + currentPage) //,{params:{pageNo:currentPage}}
             .then((res) => {
               console.log(res.data);
               setPosts(res.data.list);
@@ -97,11 +101,13 @@ function JoinMe() {
   };
 
   //    setSearchKeyword("");
-  let selectAllUrl = joinmeurl + "/selectallbypage";
+  const selectAllUrl = joinmeurl + "/selectallbypage";
   useEffect(() => {
     const fetchPost = async () => {
       const fetchAxios = await axios
-        .get(selectAllUrl + "?pageNo=" + currentPage) //,{params:{pageNo:currentPage}}
+        .get(joinmeurl + "/selectallbypage", {
+          params: { pageNo: currentPage },
+        })
         .then((res) => {
           console.log(res.data);
           setPosts(res.data.list);
@@ -110,8 +116,9 @@ function JoinMe() {
           console.log("totalBoardCount", res.data.totalBoardCount);
         });
     };
-    return () => fetchPost();
-  }, [currentPage]);
+    fetchPost();
+    navigate(`${path}?pageNo=${currentPage}`);
+  }, [currentPage, navigate, path]);
 
   // modal
   const [isLoginModalOpen, setIsLoginModalOpen] =

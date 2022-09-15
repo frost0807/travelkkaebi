@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // bootstrap css 적용
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register/Register";
 import Login from "./components/Login/Login";
 import Header from "./components/Header/Header";
@@ -79,10 +79,12 @@ function Main() {
 
         {/* RegionEvent Page */}
         <Route path="/regionevent" element={<RegionEvent />} />
-        <Route path="/regionevent/createform" element={<RegionEventCreateForm />}/>
-        <Route path="/regionevent/editform" element={<RegionEventEditForm />}/>
+        <Route
+          path="/regionevent/createform"
+          element={<RegionEventCreateForm />}
+        />
+        <Route path="/regionevent/editform" element={<RegionEventEditForm />} />
         <Route path="/regionevent/detail/:id" element={<RegionEventDetail />} />
-
 
         {/* test용 페이지*/}
         <Route path="/testpage" element={<TestPage />} />
@@ -91,19 +93,17 @@ function Main() {
         <Route path="/testresponse" element={<TestResponse />} />
         <Route path="/testpost" element={<TestPost />} />
 
-        <Route path="/joinme/:pageNo" element={<JoinMe />} />
+        <Route path="/joinme/selectallbypage" element={<JoinMe />} />
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
         <Route path="/joinmeform" element={<JoinMeForm />} />
         <Route path="joinmeedit" element={<JoinMeEditForm />} />
 
-        <Route path="/pickme/:pageNo" element={<PickUpMe />} />
+        <Route path="/pickme/list" element={<PickUpMe />} />
         <Route path="/pickme/:pageNo/item/:id" element={<PickUpMeDetail />} />
         <Route path="/pickmeform" element={<PickUpMeForm />} />
         <Route path="pickmeedit" element={<PickUpMeEditForm />} />
-      </Routes>
 
-      <Routes>
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/" element={<MyPage />} />
         {/** 내가 신청한 게시글 보기 */}
         <Route path="/mypage/apply/list" element={<JoinApplyList />} />
         {/** 나의 게시글 보기 */}
@@ -112,7 +112,6 @@ function Main() {
           path="/mypage/myapply/list/appliction"
           element={<JoinApplyUserList />}
         />
-
         <Route path="/mypage/pickmeapply/list" element={<PickApplyList />} />
         <Route
           path="/mypage/pickmemyapply/list"
@@ -122,9 +121,7 @@ function Main() {
           path="/mypage/pickmemyapply/list/appliction"
           element={<PickApplyUserList />}
         />
-      </Routes>
 
-      <Routes>
         <Route path="/mytravel/:pageNo" element={<MyTravel />} />
         <Route path="/mytraveldetail" element={<MyTravelDetail />} />
       </Routes>

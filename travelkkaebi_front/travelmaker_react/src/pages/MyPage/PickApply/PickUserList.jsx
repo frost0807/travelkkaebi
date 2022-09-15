@@ -3,9 +3,11 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { joinapply } from "../../../config";
+import { joinapply, pickmeapply } from "../../../config";
 import { bearerToken } from "../../../util";
 import "../JoinApply/joinapply.css";
+
+/** 나의 게시글 보기에서 게시글의 신청한  리스트/채택 */
 
 function PickUserList({ data }) {
   //  const [checkedList, setCheckedList] = useState([]);
@@ -14,7 +16,7 @@ function PickUserList({ data }) {
     e.preventDefault();
 
     const pickMeApplyId = e.target.pickmeapplyid.value;
-    console.log("joinMeApplyId? ? ", pickMeApplyId);
+    console.log("pickMeApplyId? ? ", pickMeApplyId);
 
     res(pickMeApplyId);
   };
@@ -26,7 +28,7 @@ function PickUserList({ data }) {
       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     });
     await axios
-      .put(joinapply + "/selected?joinMeApplyId=" + pickMeApplyId)
+      .put(pickmeapply + "/selected?pickMeApplyId=" + pickMeApplyId)
       .then((res) => {
         console.log("채택버튼 이벤트 ", res);
         if (res.data === true) {
