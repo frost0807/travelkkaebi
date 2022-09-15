@@ -10,17 +10,17 @@ import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
-import LikeBtn from "../../components/Like/LikeBtn";
-import axios from "axios";
 import { likedislike } from "../../config";
-
-const CATEGORY_ID = 1;
+import axios from "axios";
+import { bearerToken } from "../../util";
+import LikeBtn from "../../components/Like/LikeBtn";
 
 function JoinMeCard(props) {
   const [post, setPosts] = useState(props.post);
   const [closed] = useState(props.post);
+  const [likeState, setLikeState] = useState();
   const { id } = useParams();
-  let profile_img = post.profileImageUrl;
+  let profile_img = post?.profileImageUrl;
   let sDate = new Date(post.startDate);
   const startDate = sDate.getMonth() + 1 + "." + sDate.getDate();
   let eDate = new Date(post.endDate);
@@ -42,20 +42,34 @@ function JoinMeCard(props) {
     setShowJoinMeDetail(false);
   };
 
-  const likeToggleBtn = async (e) => {
-    console.log("likeordislikeid active : ", likeordislikeid);
+  const LikeCardToggleBtn = async (e) => {
+    console.log("likeordislikeid active : ", likeState?.likeOrDislikeId);
     const res = (axios.defaults.headers = {
       "Content-Type": "application/json; charset = utf-8",
       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     });
-    axios
-      .put(likedislike + "/clicklike?likeOrDislikeId=" + likeordislikeid)
+    await axios
+      .put(
+        likedislike + "/clicklike?likeOrDislikeId=" + likeState.likeOrDislikeId
+      )
       .then((res) => {
         console.log("resdata", res);
-        setLike(!like);
-        setLikeState(res.data.likeCount);
+        setPosts();
+        setLikeState(res.data);
       });
   };
+
+  useEffect(() => {
+    const getLike = axios
+      .get(
+        likedislike + "/selectone?categoryId=1&boardId=" + post.joinMeId,
+        bearerToken
+      )
+      .then((res) => {
+        console.log("like", res.data);
+        setLikeState(res.data);
+      });
+  }, [setLikeState]);
 
   return (
     <>
@@ -111,7 +125,10 @@ function JoinMeCard(props) {
               <div className="card_username">
                 <span>{post.nickname}</span>
                 <div className="like-btn">
-                  <LikeBtn like={like} onClick={likeToggleBtn} />
+                  <LikeBtn
+                    like={likeState?.liked}
+                    onClick={LikeCardToggleBtn}
+                  />
                   <span>{post.likeCount}</span>
                 </div>
               </div>
@@ -183,7 +200,10 @@ function JoinMeCard(props) {
               <div className="card_username">
                 <span>{post.nickname}</span>
                 <div className="like-btn">
-                  <LikeBtn like={props.like} onClick={props.LikeToggleBtn} />
+                  <LikeBtn
+                    like={likeState?.liked}
+                    onClick={LikeCardToggleBtn}
+                  />
                   <span>{post.likeCount}</span>
                 </div>
               </div>

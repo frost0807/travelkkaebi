@@ -3,16 +3,18 @@
 }
 
 .reg_form {
+  background-color: rgb(255, 255, 255);
   margin: 0;
   padding: 10px;
   border: 0;
   display: block;
   box-sizing: border-box;
 }
+
+
 .register_form {
-  max-width: 600px;
-  margin: 50px auto 0;
-  padding: 70px 40px;
+  width: 100%;
+
   background: #fff;
   display: block;
   box-sizing: border-box;
@@ -46,21 +48,66 @@
   display: table;
 }
 
-.register_form tbody { display: table-row-group; vertical-align: middle; border-color: inherit; }
-.register_form tr { display: table-row; vertical-align: inherit; border-color: inherit; }
-.register_form th { width: 130px; line-height: 60px; padding: 0; font-size: 14px; 
-  color: #2d2f43; font-weight: 500; background-color: #fff; border: 0; vertical-align: top;
-  text-align: left; display: table-cell; }
-  .register_form td { line-height: 60px; padding: 3px 0; font-size: 14px; color: #2d2f43; font-weight: 400; background-color: #fff;
-  border: 0; vertical-align: top; text-align: left; word-break: break-all; word-wrap: break-word; display: table-cell; }
-
-.register_form label { position: relative; font-size: 14px; color: #2d2f43; font-weight: 500;
-  height: 20px; padding-left: 13px; vertical-align: middle; cursor: default;
-  padding: 0; line-height: 60px; border: 0; vertical-align: top;
-  text-align: left; text-indent: initial; cursor: default;
+.register_form tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
 }
 
-  .register_form p::before {
+.register_form tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+.register_form th {
+  width: 130px;
+  line-height: 60px;
+  padding: 0;
+  font-size: 14px;
+  color: #2d2f43;
+  font-weight: 500;
+  background-color: #fff;
+  border: 0;
+  vertical-align: top;
+  text-align: left;
+  display: table-cell;
+}
+
+.register_form td {
+  line-height: 60px;
+  padding: 3px 0;
+  font-size: 14px;
+  color: #2d2f43;
+  font-weight: 400;
+  background-color: #fff;
+  border: 0;
+  vertical-align: top;
+  text-align: left;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: table-cell;
+}
+
+.register_form label {
+  position: relative;
+  font-size: 14px;
+  color: #2d2f43;
+  font-weight: 500;
+  height: 20px;
+  padding-left: 13px;
+  vertical-align: middle;
+  cursor: default;
+  padding: 0;
+  line-height: 60px;
+  border: 0;
+  vertical-align: top;
+  text-align: left;
+  text-indent: initial;
+  cursor: default;
+}
+
+.register_form p::before {
   content: '';
   display: block;
   position: absolute;
@@ -68,13 +115,13 @@
   left: 0;
   width: 5px;
   height: 5px;
-  margin-top:  -2.5px;
+  margin-top: -2.5px;
   background: #e5433e;
-  border-radius:  2.5px;
+  border-radius: 2.5px;
   overflow: hidden;
 }
 
-  .register_form input {
+.register_form input {
   margin: 0;
   writing-mode: horizontal-tb !important;
   text-rendering: auto;
@@ -83,7 +130,9 @@
   text-align: start;
   display: inline-block;
   cursor: text;
-} /*appearance: auto;*/
+} */
+
+/*appearance: auto;*/
 
 b {
   float: left;
@@ -107,21 +156,34 @@ b {
   border-bottom: 1px solid #d8d9df !important;
   vertical-align: top;
   box-shadow: none !important;
-  outline: none !important;  
+  outline: none !important;
+}
+
+#reg_input_content {
+  margin-top: 15%;
+  height: 200px;
+  border: 1px solid darkgreen;
 }
 
 .register_form #name {
   width: 180px;
 }
-.register_form #hp1, #hp2, #hp3 {
+
+.register_form #hp1,
+#hp2,
+#hp3 {
   float: left;
   width: 30%;
+}
+
+.req {
+  margin-top: 10%;
 }
 
 .reg_msg {
   display: block;
   position: relative;
-  margin:0;
+  margin: 0;
   margin-top: 10px;
   font-size: 0.83rem;
   color: #2d2f43;
@@ -170,7 +232,7 @@ b {
   display: block;
   width: 254px;
   background: #fff;
-  border:  1px solid #b4b5c1;
+  border: 1px solid #b4b5c1;
   border-radius: 50px;
   text-align: center;
   outline: none;
@@ -190,7 +252,7 @@ b {
   display: block;
   width: 254px;
   background: #3d435f;
-  border:  1px solid #3d435f;
+  border: 1px solid #3d435f;
   border-radius: 50px;
   cursor: pointer;
   text-align: center;
@@ -209,18 +271,23 @@ img.user_profile {
   overflow: hidden;
   background-color: #ffffff00;
 }
+
 div.photo_icon {
   margin-top: -25px;
   text-align: center;
   margin-left: 100px;
   transition: all 0.3s;
-} div.photo_icon :hover {
+}
+
+div.photo_icon :hover {
   cursor: pointer;
-} div.photo_icon :active {
+}
+
+div.photo_icon :active {
   transform: scale(0.99);
 }
 
- /* ---------에  러--------- */
+/* ---------에  러--------- */
 .reg-error1 {
   font-size: 13px;
   color: #cb2f1d9a;
@@ -234,4 +301,3 @@ div.photo_icon {
   margin-right: auto;
   margin-top: -0px;
 }
-

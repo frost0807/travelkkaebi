@@ -42,7 +42,7 @@
 
 .row {
   display: flex;
-  border-bottom: solid 1px lightgrey;
+  border-top: solid 1px lightgrey;
 }
 
 .titleCell {

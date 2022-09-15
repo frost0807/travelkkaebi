@@ -8,7 +8,7 @@ import axios from 'axios';
 import React from 'react';
 import { textAlign } from "@mui/system";
 import banner from './/banner.jpg';
-import b1b from './/1.png';
+import b1b from './/smallBanner.jpg';
 import b2b from './/2.png';
 
 import Card from 'react-bootstrap/Card';
@@ -87,7 +87,13 @@ function Editor() {
       />
 
     </div> */}
-    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>지금 가장 많이 찾는 글</div>
+    
+
+    <div style={{
+      marginTop: '100px', marginLeft:'300px', marginBottom: '50px', fontSize:'25px',
+      fontWeight:'900'
+      }}>
+      👁 지금 가장 많이 찾는 글</div>
     <div style={{ height:"30%", width:"50%", marginTop:"100px", margin:"auto" }}>
       <Carousel>
       {
@@ -108,7 +114,7 @@ function Editor() {
       </Carousel>
     </div>
 
-    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
+    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 주요 게시물</div>
 
     <div>
       
@@ -119,7 +125,7 @@ function Editor() {
       <Card >
         <Card.Img variant="top" style={{width:"100%", height:"60%"}}  src={row.editorImgUrl1} />
         <Card.Body>
-          <Card.Title as="a" onClick={()=>{
+          <Card.Title onClick={()=>{
                   navi(`/editor/detail/${row.editorChoiceId}`)
                 }} >{row.title}</Card.Title>
           <Card.Text>
