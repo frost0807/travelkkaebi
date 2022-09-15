@@ -229,12 +229,14 @@ const ReviewCreateForm = () => {
                             
                           })}
                         /> */}
+
                       <textarea
                         type="content"
                         className="reg_input"
                         id="reg_input_content"
                         name="content"
                         required
+
 
                         {...register("content", {
                           maxLength: {
@@ -295,55 +297,9 @@ const ReviewCreateForm = () => {
       </form>
 
 
-      {/* <img alt='' src={photoUrl+photo} className='imgphoto'/> */}
-      {/* <form onSubmit={onBoardInsert}>
-        <table className='table table-bordered' style={{width:'400px'}}>
-          <caption><h3>지역축제게시판 글쓰기</h3></caption>
-          <tbody>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>아이디</th>
-              <td>{id}</td>
-            </tr>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>대표 이미지</th>
-              <td>
-                <input type='file' className='form-control'll
-                style={{width:'250px'}} 
-                onChange={imageUpload} required/>
-              </td>
-            </tr>
-            <tr>
-              <th style={{backgroundColor:'#ddd'}} width='100'>제목</th>
-              <td>
-                <input type={'text'} className="form-control"
-                style={{width:'300px'}} required
-                onChange={(e)=>{
-                  setSubject(e.target.value);
-                }}/>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2}>
-                <textarea name="textarea" className='form-control' required
-                style={{width:'400px', height:'120px'}}
-                onChange={(e)=>{
-                  setContent(e.target.value);
-                }}></textarea>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} align='center'>
-                <button type="submit" className='btn btn-info'>게시글 저장</button>
-                <button type="button" className='btn btn-success'
-                style={{marginLeft:'10px'}}
-                onClick={()=>{
-                  navi("/regionevent");
-                }}>게시판 메인</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form> */}
+    
+
+
     </div>
   );
 };

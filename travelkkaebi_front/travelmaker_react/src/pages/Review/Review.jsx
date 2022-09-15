@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { API_BASE_URL } from '../../config';
+import styled from 'styled-components';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
@@ -11,6 +12,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import SplitButton from 'react-bootstrap/SplitButton';
 import usePagination from '@mui/material/usePagination';
 import Paging from '../../components/Pagination/Paging';
+
+import banner from './/banner.jpg';
+import b1b from './/smallBanner.jpg';
 
 function Review() {
 
@@ -179,7 +183,25 @@ function Review() {
     
     <div style={{}}>
 
-      <div style={{marginTop:"100px"}}>
+<ScTopCard style={{marginBottom:"50px"}}>
+            <ScLogo1 alt='' src={banner} style={{ width: "100%" }} />
+            <ScLogo2 alt='' src={b1b} style={{ width: "100%" }} />
+              <ScMainTitle>여기 정말 좋았어요!</ScMainTitle>
+              <Scwrite
+                onClick={() => {
+                  navi("/review/createform");
+                }}
+              >
+                {/* <img src={b2b} alt='' /> */}
+                <span>글 작성하기</span>
+              </Scwrite>
+        </ScTopCard>  
+
+      <div style={{marginTop:"50px"}}>
+        <div style={{width:"700px", margin:"auto"}}>
+        <a href="/review/1" align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"30px", color:"#548235" , marginBottom:'10px', textDecorationLine : 'none'}}>유저 리뷰 게시판</a>
+        <hr style={{backgroundColor : '#548235', height:'3px'}}/>
+        </div>
         <h3 className='alert alert-info' style={{ width:'700px', marginTop: 90, margin: 'auto' }}>
           총 {count} 개의 게시글이 있습니다
         </h3>
@@ -247,11 +269,11 @@ function Review() {
           </div>
 
           <div style={{ width:'300px' }}>
-          <button type='button' className='btn btn-info'
+          {/* <button type='button' className='btn btn-info'
           style={{ width:'110px', marginTop:'10px' }}
           onClick={()=>{
             navi("/review/createform");
-          }}>글쓰기</button>
+          }}>글쓰기</button> */}
 
           <div className='list-icon'>
             <span className='glyphicon glyphicon-th-list bicon' 
@@ -288,3 +310,98 @@ function Review() {
 }
 
 export default Review;
+
+const ScTopCard = styled.div`
+  width: 100%;
+  display: flex;
+  background-color:#F5EABB;
+  width: 100%;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: 30px auto;
+  }
+`;
+
+const ScLogo1 = styled.img`
+@media screen and (max-width: 768px) {
+  display: none;
+}
+`
+const ScLogo2 = styled.img`
+display: none;
+@media screen and (max-width: 768px) {
+  display: block;
+  }
+`
+
+const ScTopCard2 = styled.div`
+  width: 100%;
+  display: flex;
+  font-size: 1.5em;
+  margin-bottom: 30px;  
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: auto;
+    div{
+      display: none;
+    }
+  }
+`;
+
+const ScMainTitle = styled.div`
+  font-weight: 900;
+  font-size: 2.125em;
+  /* line-height: 43px; */
+  margin-bottom: 20px;
+  /* font-family: "SUIT ExtraBold"; */
+  position: absolute;
+  top:50%;
+  right: 20%;
+  @media screen and (max-width: 1200px) {
+  font-size: 28px;
+  right: 20%;
+   /* display: none; */
+  }
+  @media screen and (max-width: 768px) {
+  font-size: 16px;
+  right: 20%;
+  display: none;
+  }
+`;
+const Scwrite = styled.div`
+  position: absolute;
+  top:64%;
+  right: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  width: 166px;
+  height: 49px;
+  font-size: 1.25em;
+  border-radius: 10px;
+  gap:7px;
+  &:hover {
+    cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+  position: absolute;
+  font-size: 12px;
+  width: 86px;
+  height: 30px;
+  right: 10%;
+  top:30%;
+    img{
+      display: none;
+    }
+  }
+  
+`;
