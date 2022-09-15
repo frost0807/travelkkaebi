@@ -215,7 +215,7 @@ const RegionEventCreateForm = () => {
                     </th>
                     <td>
                       <div className="content_wrap">
-                        <input
+                        {/* <input
                           type="content"
                           className="reg_input"
                           name="content"
@@ -227,6 +227,20 @@ const RegionEventCreateForm = () => {
                               message: "최대 500글자까지 입력 가능합니다.",
                             },
                             
+                          })}
+                        /> */}
+                        <textarea
+                          type="content"
+                          className="reg_input"
+                          name="content"
+                          required
+
+                          {...register("content", {
+                            maxLength: {
+                              value: 500,
+                              message: "최대 500글자까지 입력 가능합니다.",
+                            },
+
                           })}
                         />
                       </div>

@@ -129,7 +129,7 @@ function Review() {
                 }} style={{ cursor:'pointer' }}>
                   {row.title}
                 </td>
-                <td>{row.userId}</td>
+                <td>{row.nickname}</td>
                 <td>{row.view}</td>
               </tr>
             ))

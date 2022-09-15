@@ -18,18 +18,43 @@ const EditorCreateForm = () => {
   const [content, setContent] = useState('');
 
 
-  const imageUpload = (e) => {
+  const imageUpload1 = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {
       // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
-      URL.revokeObjectURL(profile.preview_URL);
+      URL.revokeObjectURL(profile1.preview_URL);
       const preview_URL = URL.createObjectURL(e.target.files[0]);
-      setProfile(() => ({
+      setProfile1(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
       }));
     }
   };
+  const imageUpload2 = (e) => {
+    e.preventDefault();
+    if (e.target.files[0]) {
+      // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
+      URL.revokeObjectURL(profile2.preview_URL);
+      const preview_URL = URL.createObjectURL(e.target.files[0]);
+      setProfile2(() => ({
+        image_file: e.target.files[0],
+        preview_URL: preview_URL,
+      }));
+    }
+  };
+  const imageUpload3 = (e) => {
+    e.preventDefault();
+    if (e.target.files[0]) {
+      // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
+      URL.revokeObjectURL(profile3.preview_URL);
+      const preview_URL = URL.createObjectURL(e.target.files[0]);
+      setProfile3(() => ({
+        image_file: e.target.files[0],
+        preview_URL: preview_URL,
+      }));
+    }
+  };
+
 
   // loginStatus 추후에 맞춰서 변경
   const navi = useNavigate();
@@ -65,11 +90,23 @@ const EditorCreateForm = () => {
 
 
   // profile 이미지 상태
-  const [profile, setProfile] = useState({
+  const [profile1, setProfile1] = useState({
     image_file: "",
     preview_URL: Logo,
   });
-  let inputRef;
+  const [profile2, setProfile2] = useState({
+    image_file: "",
+    preview_URL: Logo,
+  });
+  const [profile3, setProfile3] = useState({
+    image_file: "",
+    preview_URL: Logo,
+  });
+  let inputRef1;
+  let inputRef2;
+  let inputRef3;
+
+
 
   const onSubmit= async (data)=>{
     console.log("check");
@@ -85,9 +122,11 @@ const EditorCreateForm = () => {
     console.log(formData);
     const EditorChoiceDTO = JSON.stringify(data);
     // EditorChoiceDTO.id =1;
-    formData.append("file", profile.image_file);
+    formData.append("file1", profile1.image_file);
+    formData.append("file2", profile2.image_file);
+    formData.append("file3", profile3.image_file);
     formData.append(
-      "EditorChoiceDTO",
+      "editorchoice",
       new Blob([EditorChoiceDTO], { type: "application/json" })
     );
     console.log(formData);
@@ -101,7 +140,7 @@ const EditorCreateForm = () => {
     .then((res) => {
       console.log(res.data);
       alert("👹에디터 글 작성이 완료되었습니다.");
-      navi('/editor');
+      navi('/editor/1');
     });
 
   }
@@ -144,11 +183,11 @@ title, content, region, img url 1~3
                     </td>
 
                     
-                    <div className="profileimg">
+            <div className="profileimg">
                     
               <img
                 alt="basicimg"
-                src={profile.preview_URL}
+                src={profile1.preview_URL}
                 className="user_profile"
               />
             </div>
@@ -156,17 +195,71 @@ title, content, region, img url 1~3
               <input
                 type="file"
                 accept="image/*"
-                name="profile_img_url"
+                name="profile1_img_url"
                 hidden
                 style={{ display: "none" }}
-                onChange={imageUpload}
-                ref={(refParam) => (inputRef = refParam)}
+                onChange={imageUpload1}
+                ref={(refParam) => (inputRef1 = refParam)}
                 onClick={(e) => (e.target.value = null)}
               />
               <IconButton
                 color="primary"
                 aria-label="upload picture"
-                onClick={() => inputRef.click()}
+                onClick={() => inputRef1.click()}
+              >
+                <PhotoCamera />
+              </IconButton>
+            </div>
+            <div className="profileimg">
+                    
+              <img
+                alt="basicimg"
+                src={profile2.preview_URL}
+                className="user_profile"
+              />
+            </div>
+            <div className="photo_icon">
+              <input
+                type="file"
+                accept="image/*"
+                name="profile2_img_url"
+                hidden
+                style={{ display: "none" }}
+                onChange={imageUpload2}
+                ref={(refParam) => (inputRef2 = refParam)}
+                onClick={(e) => (e.target.value = null)}
+              />
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                onClick={() => inputRef2.click()}
+              >
+                <PhotoCamera />
+              </IconButton>
+            </div>
+            <div className="profileimg">
+                    
+              <img
+                alt="basicimg"
+                src={profile3.preview_URL}
+                className="user_profile"
+              />
+            </div>
+            <div className="photo_icon">
+              <input
+                type="file"
+                accept="image/*"
+                name="profile3_img_url"
+                hidden
+                style={{ display: "none" }}
+                onChange={imageUpload3}
+                ref={(refParam) => (inputRef3 = refParam)}
+                onClick={(e) => (e.target.value = null)}
+              />
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                onClick={() => inputRef3.click()}
               >
                 <PhotoCamera />
               </IconButton>
@@ -220,7 +313,7 @@ title, content, region, img url 1~3
                     </th>
                     <td>
                       <div className="content_wrap">
-                        <input
+                        {/* <input
                           type="content"
                           className="reg_input"
                           name="content"
@@ -233,10 +326,52 @@ title, content, region, img url 1~3
                             },
                             
                           })}
+                        /> */}
+                        <textarea
+                          type="content"
+                          className="reg_input"
+                          name="content"
+                          required
+
+                          {...register("content", {
+                            maxLength: {
+                              value: 500,
+                              message: "최대 500글자까지 입력 가능합니다.",
+                            },
+
+                          })}
                         />
                       </div>
                     </td>
                   </tr>
+
+                  <tr>
+                    <th scope="row">
+                      <label htmlFor="content" className="req">
+                        🔸지역
+                      </label>
+                    </th>
+                    <td>
+                      <div className="content_wrap">
+                        <input
+                          type="region"
+                          className="reg_input"
+                          name="region"
+                          required
+                          
+                          {...register("region", {
+                            maxLength: {
+                              value: 20,
+                              message: "최대 20글자까지 입력 가능합니다.",
+                            },
+                            
+                          })}
+                        />
+
+                      </div>
+                    </td>
+                  </tr>
+
                 </tbody>
               </table>
             </div>

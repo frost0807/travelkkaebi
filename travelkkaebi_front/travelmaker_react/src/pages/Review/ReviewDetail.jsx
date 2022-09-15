@@ -131,7 +131,7 @@ function ReviewDetail(){
               <button  type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
-                navi("/review/form");
+                navi("/review/updateform");
               }}>수정</button>
 
               <button type='button' className='btn btn-info'

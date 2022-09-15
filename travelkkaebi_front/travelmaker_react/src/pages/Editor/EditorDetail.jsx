@@ -44,11 +44,11 @@ function EditorDetail(){
         Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
       };
       await axios
-      .delete(API_BASE_URL + "/review/delete?reviewId="+id)
+      .delete(API_BASE_URL + "/editorchoice/delete?editorChoiceId="+id)
       .then((res) => {
         console.log("삭제 콘솔로그", res);
         alert("👹삭-제.");
-        navi('/review/1');
+        navi('/editor/1');
       });
     }
 
