@@ -128,7 +128,9 @@ function ReviewDetail() {
         <hr/>
         <div style={{float:"right"}}>
           <div style={{margin: "10px 0", display: "flex"}}>
-              <button  type='button' className='btn btn-info'
+              {localStorage.getItem('userId')== data.userId ? 
+              <div>              
+                <button  type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'skyblue'}}
               onClick={()=>{
                 navi("/review/updateform");
@@ -139,6 +141,10 @@ function ReviewDetail() {
               onClick={()=>{
                 onDelete();
               }}>삭제</button>
+              </div> : null }
+              
+
+
 
               <button  type='button' className='btn btn-success'
               style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'darkgreen'}}
