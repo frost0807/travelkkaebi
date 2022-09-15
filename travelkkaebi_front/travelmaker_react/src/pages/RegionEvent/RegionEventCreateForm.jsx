@@ -72,7 +72,6 @@ const RegionEventCreateForm = () => {
   let inputRef;
 
   const onSubmit= async (data)=>{
-    console.log("check");
     const headerConfig = {
       Headers: {
         "content-type": "multipart/form-data",
@@ -84,7 +83,6 @@ const RegionEventCreateForm = () => {
     const formData = new FormData();
     console.log(formData);
     const regionEventDTO = JSON.stringify(data);
-    // regionEventDTO.id =1;
     formData.append("file", profile.image_file);
     formData.append(
       "regionEventDTO",
@@ -140,7 +138,6 @@ const RegionEventCreateForm = () => {
                         👹사진 첨부 부분
                       </label>
                     </td>
-
                     
                     <div className="profileimg">
                     

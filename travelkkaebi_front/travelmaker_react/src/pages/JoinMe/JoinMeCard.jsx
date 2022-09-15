@@ -34,74 +34,146 @@ function JoinMeCard(props) {
 
   return (
     <>
-      <div>
-        <CardSection key={post.joinMeId}>
-          <CardTop>
-            <div onClick={openModal}>
-              <CardTitle>
-                {post.title.length < 20
-                  ? post.title
-                  : post.title.slice(0, 20) + "..."}
-              </CardTitle>
-              <CardsubTitle>
-                <CardsubList>
-                  <div className="joinme-subtitle">
-                    <dt className="joinme-sublabel">지역</dt>
-                    <dt className="joinme-subdata">{post.region}</dt>
-                  </div>
-                  <div className="joinme-subtitle2">
-                    <dt className="joinme-sublabel"> 날짜</dt>
-                    <dt className="joinme-subdata">
-                      {startDate} ~ {endDate}
-                    </dt>
-                  </div>
-                  <div className="joinme-subtitle3">
-                    <dt className="joinme-sublabel">인원</dt>
-                    <dt className="joinme-subdata">
-                      {post.currentMemberCount} / {post.capacity}
-                    </dt>
-                  </div>
-
-                  <br />
-                  <div className="joinme-content">
-                    <p>
-                      {post.content.length < 15
-                        ? post.content
-                        : post.content.slice(0, 14) + "..."}
-                    </p>
-                  </div>
-                </CardsubList>
-                <figure className="card_profileimg">
-                  <img
-                    src={profile_img ? profile_img : Logo}
-                    alt="유저프로필"
-                    loading="lazy"
-                  ></img>
-                </figure>
-              </CardsubTitle>
-            </div>
-          </CardTop>
-          <CardBottom>
-            <div className="card_username">
-              <span>{post.nickname}</span>
-              <div className="like-btn">
-                <Heart src={HeartImg} />
-                <span>{post.likeCount}</span>
-              </div>
-            </div>
-          </CardBottom>
-        </CardSection>
+      {!post.closed ? (
         <div>
-          {showJoinMeDetail ? (
-            <JoinMeDetail
-              joinMeId={post.joinMeId}
-              showJoinMeDetail={showJoinMeDetail}
-              closeModal={closeModal}
-              profile_img={profile_img}
-            />
-          ) : null}
+          <CardSection key={post.joinMeId}>
+            <CardTop>
+              <div onClick={openModal}>
+                <CardTitle>
+                  {post.title.length < 20
+                    ? post.title
+                    : post.title.slice(0, 20) + "..."}
+                </CardTitle>
+                <CardsubTitle>
+                  <CardsubList>
+                    <div className="joinme-subtitle">
+                      <dt className="joinme-sublabel">지역</dt>
+                      <dt className="joinme-subdata">{post.region}</dt>
+                    </div>
+                    <div className="joinme-subtitle2">
+                      <dt className="joinme-sublabel"> 날짜</dt>
+                      <dt className="joinme-subdata">
+                        {startDate} ~ {endDate}
+                      </dt>
+                    </div>
+                    <div className="joinme-subtitle3">
+                      <dt className="joinme-sublabel">인원</dt>
+                      <dt className="joinme-subdata">
+                        {post.currentMemberCount} / {post.capacity}
+                      </dt>
+                    </div>
+
+                    <br />
+                    <div className="joinme-content">
+                      <p>
+                        {post.content.length < 15
+                          ? post.content
+                          : post.content.slice(0, 14) + "..."}
+                      </p>
+                    </div>
+                  </CardsubList>
+                  <figure className="card_profileimg">
+                    <img
+                      src={profile_img ? profile_img : Logo}
+                      alt="유저프로필"
+                      loading="lazy"
+                    ></img>
+                  </figure>
+                </CardsubTitle>
+              </div>
+            </CardTop>
+            <CardBottom>
+              <div className="card_username">
+                <span>{post.nickname}</span>
+                <div className="like-btn">
+                  <Heart src={HeartImg} />
+                  <span>{post.likeCount}</span>
+                </div>
+              </div>
+            </CardBottom>
+          </CardSection>
+          <div>
+            {showJoinMeDetail ? (
+              <JoinMeDetail
+                joinMeId={post.joinMeId}
+                showJoinMeDetail={showJoinMeDetail}
+                closeModal={closeModal}
+                profile_img={profile_img}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
+      ) : (
+        <CloseCard>
+          <CardSection key={post.joinMeId}>
+            <CloseTxt>마감된 게시물입니다.</CloseTxt>
+            <CardTop>
+              <div onClick={openModal}>
+                <CardTitle>
+                  {post.title.length < 20
+                    ? post.title
+                    : post.title.slice(0, 20) + "..."}
+                </CardTitle>
+                <CardsubTitle>
+                  <CardsubList>
+                    <div className="joinme-subtitle">
+                      <dt className="joinme-sublabel">지역</dt>
+                      <dt className="joinme-subdata">{post.region}</dt>
+                    </div>
+                    <div className="joinme-subtitle2">
+                      <dt className="joinme-sublabel"> 날짜</dt>
+                      <dt className="joinme-subdata">
+                        {startDate} ~ {endDate}
+                      </dt>
+                    </div>
+                    <div className="joinme-subtitle3">
+                      <dt className="joinme-sublabel">인원</dt>
+                      <dt className="joinme-subdata">
+                        {post.currentMemberCount} / {post.capacity}
+                      </dt>
+                    </div>
+
+                    <br />
+                    <div className="joinme-content">
+                      <p>
+                        {post.content.length < 15
+                          ? post.content
+                          : post.content.slice(0, 14) + "..."}
+                      </p>
+                    </div>
+                  </CardsubList>
+                  <figure className="card_profileimg">
+                    <img
+                      src={profile_img ? profile_img : Logo}
+                      alt="유저프로필"
+                      loading="lazy"
+                    ></img>
+                  </figure>
+                </CardsubTitle>
+              </div>
+            </CardTop>
+            <CardBottom>
+              <div className="card_username">
+                <span>{post.nickname}</span>
+                <div className="like-btn">
+                  <Heart src={HeartImg} />
+                  <span>{post.likeCount}</span>
+                </div>
+              </div>
+            </CardBottom>
+          </CardSection>
+          <div>
+            {showJoinMeDetail ? (
+              <JoinMeDetail
+                joinMeId={post.joinMeId}
+                showJoinMeDetail={showJoinMeDetail}
+                closeModal={closeModal}
+                profile_img={profile_img}
+              />
+            ) : null}
+          </div>
+        </CloseCard>
+      )}
     </>
   );
 }
@@ -191,4 +263,10 @@ const Heart = styled.img`
   line-height: 1;
   width: 13px;
   height: 13px;
+`;
+
+const CloseCard = styled.div``;
+const CloseTxt = styled.span`
+  font-size: 11px;
+  color: red;
 `;

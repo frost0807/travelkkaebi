@@ -1,5 +1,5 @@
 .instructor_banner {
-  background-color: hsla(245, 79%, 59%, 0.279);
+  background-color: hsla(245, 79%, 59%, 0.253);
   display: block;
   box-sizing: inherit;
 }
@@ -313,24 +313,3 @@ joinme-charge {
   font-size: 14px;
 }
 
-/* form ========================================================
-
-.select-charge {
-  display: flex;
-  font-family: sans-serif;
-  text-align: center;
-}
-.select-charge select {
-  width: 8rem;
-  height: 2rem;
-  margin: 10px;
-  padding: 0.8em 0.5em;
-  border: 1px solid#34495e;
-  font-family: inherit;
-  color: #34495e;
-  font-weight: bold;
-  border-radius: 10px;
-}
-.select-charge > h3 {
-  color: #34495e;
-} */

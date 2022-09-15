@@ -65,7 +65,7 @@ function Editor() {
     <>
 
 
-    <div style={{ height:"30%", width:"50%", margin:"auto" }}>
+    <div style={{ height:"30%", width:"50%", marginTop:"50px", margin:"auto" }}>
       <Carousel>
       {
         data && data.map((row, idx)=>(

@@ -28,7 +28,8 @@ public class PickMeService {
      * entity -> dto 반환후 total 게시글 수와 page 20개씩 return logic
      */
     public ListResponseDTO findAll(Pageable pageable) {
-        return ListResponseDTO.setTotalCountAndList(pickMeDB.countAllBy(), pickMeDB.findByOrderByIdDesc(pageable).stream().map(PickMeDTO::new).collect(Collectors.toList()));
+        List<PickMeEntity> findList = pickMeDB.findByOrderByIdDesc(pageable).getContent();
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countAllBy(), findList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 
     /**
@@ -120,5 +121,16 @@ public class PickMeService {
         PickMeEntity findPickMe = pickMeDB.findById(boardId).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         findPickMe.updateView(findPickMe.getWriteInfo().getView());
         return PickMeDTO.toDto(findPickMe);
+    }
+
+    /**
+     * 내가 쓴 데려가줘 리스트
+     */
+    public ListResponseDTO showMyList(int userId, Pageable pageable) {
+        List<PickMeEntity> myList = pickMeDB.findByUserEntityIdOrderByIdDesc(userId, pageable).getContent();
+        if(myList.isEmpty())
+            throw new KkaebiException(DOES_NOT_EXIST_BOARD);
+
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByUserEntityId(userId), myList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
     }
 }

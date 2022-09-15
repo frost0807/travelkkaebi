@@ -1,47 +1,108 @@
-import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { Button } from "antd";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import styled from "styled-components";
+import Pagination from "../../../components/Pagenation/Pagination";
+import { joinmeurl } from "../../../config";
+import { bearerToken } from "../../../util";
+import JoinMeCard from "../../JoinMe/JoinMeCard";
+import SideNavigation from "../SideNavigation";
+import "./joinapply.css";
+import JoinApplyCard from "./JoinApplyCard";
 
-const columns = [
-  { field: "region", headerName: "지역", width: 70 },
-  { field: "title", headerName: "글제목", width: 130 },
-  { field: "content", headerName: "글 내용", width: 130 },
-  {
-    field: "status",
-    headerName: "상태",
-    width: 90,
-  },
-  {
-    field: "writtenDate",
-    headerName: "작성일",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-];
+/** 나의 게시글 보기 */
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+const JoinMyApplyList = () => {
+  const navigate = useNavigate();
 
-export const JoinMyApplyList = () => {
+  const [posts, setPosts] = useState([]);
+  const [limits] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState();
+
+  const URL = joinmeurl + "/selectallbypage/myboardlist";
+  useEffect(() => {
+    const fetchPost = async () => {
+      const fetchAxios = await axios
+        .get(URL + "?pageNo=" + currentPage, bearerToken)
+        .then((res) => {
+          console.log("게시글리스트 받기 ", res);
+          setPosts(res.data.list);
+          setTotalCount(res.data.totalBoardCount);
+          console.log("totalBoardCount", res.data.totalBoardCount);
+        });
+    };
+    return () => fetchPost();
+  }, [currentPage]);
+
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
-    </div>
+    <MainContent>
+      <header className="appinstructor_banner">
+        <div className="appheader-bncontainer">
+          <div className="appins-banner-cover">
+            <h1 className="appbannername">MY PAGE</h1>
+            <p> 나의 게시글 보기 </p>
+          </div>
+        </div>
+      </header>
+      <SideNavigation />
+      <Content>
+        <ContentBody>
+          <View>
+            {posts &&
+              posts.map((post, idx) => (
+                <JoinApplyCard key={post.joinMeId} post={post} />
+              ))}
+          </View>
+          <footer>
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              limits={limits}
+              totalCount={totalCount}
+            />
+          </footer>
+        </ContentBody>
+      </Content>
+    </MainContent>
   );
 };
+
+export default JoinMyApplyList;
+
+const MainContent = styled.main`
+  min-height: 800px;
+  box-sizing: inherit;
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+`;
+
+const Content = styled.div`
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 5rem;
+  flex-grow: 1;
+  position: relative;
+  width: auto;
+  display: block;
+  box-sizing: inherit;
+  color: #000a12;
+`;
+const ContentBody = styled.div`
+  width: 100%;
+  margin-top: 3rem;
+  box-sizing: inherit;
+`;
+const View = styled.div`
+  width: 100%;
+  margin-top: 2rem;
+  padding: 2rem;
+  grid-template-columns: repeat(3, 9fr);
+  gap: 50px;
+  display: grid;
+  box-sizing: inherit;
+`;

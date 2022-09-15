@@ -27,3 +27,6 @@ export const regionevent = API_BASE_URL + "/region/event";
 export const editorchoice = API_BASE_URL + "/editorchoice";
 export const review = API_BASE_URL + "/review";
 export const joinapply = API_BASE_URL + "/joinmeapply";
+export const joinapplybyid = joinapply + "/selectall/byuserid";
+export const pickmeapply = API_BASE_URL + "/pickme";
+export const mannerdegree = API_BASE_URL + "/mannerdegree";

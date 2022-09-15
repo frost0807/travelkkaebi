@@ -148,10 +148,12 @@ function Header() {
                   />
                 }
               >
-                <NavDropdown.Item>마이페이지</NavDropdown.Item>
+                <NavDropdown.Item href="/mypage">마이페이지</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>내 신청서</NavDropdown.Item>
                 <NavDropdown.Item href="/mypage/apply/list">
+                  내 신청서
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/mypage/myapply/list">
                   내게 온 신청서
                 </NavDropdown.Item>
               </NavDropdown>

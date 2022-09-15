@@ -7,14 +7,11 @@ import { API_BASE_URL, joinmeurl, pickurl } from "../../config";
 import { useRecoilState } from "recoil";
 import { isLoginModalState, isLoginState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
-import Logo from "../../images/basicLogo.png";
 import PickUpMeCard from "./PickUpMeCard";
 import Pagination from "../../components/Pagenation/Pagination";
-import queryString from "query-string";
 import { buttons, getToken, isLoginFc, is_logged } from "../../util";
 import styled from "styled-components";
-import { CheckBox } from "@mui/icons-material";
-import { Checkbox } from "antd";
+
 
 function PickUpMe() {
   const navigate = useNavigate();
@@ -255,7 +252,9 @@ const ContentBody = styled.div`
 const View = styled.div`
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
+  margin-top: 28px;
   gap: 18px;
   display: grid;
   box-sizing: inherit;
 `;
+

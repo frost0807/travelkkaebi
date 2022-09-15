@@ -29,7 +29,6 @@ public class PickMeController {
         return ResponseEntity.ok().body(pickMeService.findAll(pageable));
     }
 
-
     /**
      * pickMe write
      */
@@ -93,4 +92,13 @@ public class PickMeController {
         return ResponseEntity.ok().body(pickMeService.findById(boardId));
     }
 
+    /**
+     * 데려가줘에 내가 쓴 글 리스트 보기
+     */
+    @GetMapping("/mylist")
+    public ResponseEntity<ListResponseDTO> showMyList(
+            @AuthenticationPrincipal String userId,
+            @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok().body(pickMeService.showMyList(Integer.parseInt(userId), pageable));
+    }
 }

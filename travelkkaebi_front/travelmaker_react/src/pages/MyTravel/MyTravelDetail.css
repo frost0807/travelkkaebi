@@ -1,0 +1,77 @@
+.cell {
+  padding: 10px;
+  width: 25%;
+}
+
+.profileImg {
+  width: 35px;
+  border-radius: 50%;
+}
+
+.nicknameCell {
+  padding: 10px;
+  width: 55%;
+}
+
+.imgCell {
+  padding: 4px 4px 4px 10px;
+  width: 5%;
+}
+
+.mannerCell {
+  padding: 10px;
+  width: 7%;
+}
+
+.mannerCell2 {
+  padding: 3px;
+  width: 5%;
+}
+
+.memberCell {
+  padding: 10px;
+  background-color: #faf4c0;
+  width: 25%;
+}
+
+.nameCell {
+  padding: 10px;
+  background-color: #dbffd5;
+  width: 25%;
+}
+
+.row {
+  display: flex;
+  border-bottom: solid 1px lightgrey;
+}
+
+.titleCell {
+  padding: 10px;
+  font-size: 18px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.contentCell {
+  padding: 10px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.messageInput {
+  border: solid 1px lightgrey;
+  border-radius: 10px 0 0 10px;
+  width: 50%;
+  height: 70px;
+}
+
+.messageSubmitButton {
+  border-radius: 0 10px 10px 0;
+  background-color: #faf4c0;
+  height: 70px;
+  border: none;
+}
+
+.messageForm {
+  margin: 50px;
+  display: flex;
+  justify-content: center;
+}

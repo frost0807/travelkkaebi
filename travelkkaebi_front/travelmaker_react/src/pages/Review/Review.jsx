@@ -179,7 +179,7 @@ function Review() {
     
     <div style={{}}>
 
-      <div style={{}}>
+      <div style={{marginTop:"100px"}}>
         <h3 className='alert alert-info' style={{ width:'700px', marginTop: 90, margin: 'auto' }}>
           총 {count} 개의 게시글이 있습니다
         </h3>

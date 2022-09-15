@@ -12,7 +12,7 @@ public class JoinMeApplyDTO {
     private int joinMeId;
     private int userId;
     private String comment;
-    private boolean picked;
+    private boolean selected;
 
     private Timestamp createTime;
     private Timestamp updateTime;
