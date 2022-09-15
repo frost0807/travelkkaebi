@@ -46,6 +46,7 @@ import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
 import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
 import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
 import JoinMyApplyList from "./pages/MyPage/JoinApply/JoinMyApplyList";
+import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
 import JoinApplyUserList from "./pages/MyPage/JoinApply/JoinApplyUserList";
 import PickApplyList from "./pages/MyPage/PickApply/PickApplyList";
 import PickMyApplyList from "./pages/MyPage/PickApply/PickMyApplyList";
@@ -106,8 +107,8 @@ function Main() {
 
         <Route path="/mypage/" element={<MyPage />} />
         {/** 내가 신청한 게시글 보기 */}
-        
-        {/* 임시 주석<Route path="/mypage/apply/list" element={<JoinApplyList />} /> */}
+
+        <Route path="/mypage/apply/list" element={<JoinApplyList />} />
         {/** 나의 게시글 보기 */}
         <Route path="/mypage/myapply/list" element={<JoinMyApplyList />} />
         <Route

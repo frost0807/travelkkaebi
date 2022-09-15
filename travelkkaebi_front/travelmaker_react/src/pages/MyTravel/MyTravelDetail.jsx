@@ -100,9 +100,9 @@ const MyTravelDetail = () => {
         const selectReply = axios
           .get(
             mytravel +
-            "/reply/selectall?myTravelId=" +
-            myTravelId +
-            "&pageNo=1",
+              "/reply/selectall?myTravelId=" +
+              myTravelId +
+              "&pageNo=1",
             bearerToken
           )
           .then((reslist) => {
@@ -175,8 +175,8 @@ const MyTravelDetail = () => {
                 <Degree /> {item.myTravelUserResponseDTO.mannerDegree}
               </div>
               {item.mannerDegreeDTO.degreeChange === 0 &&
-              (item.mannerDegreeDTO.toUserId !=
-                item.mannerDegreeDTO.fromUserId) ? (
+              item.mannerDegreeDTO.toUserId !=
+                item.mannerDegreeDTO.fromUserId ? (
                 <div className="mannerCell2">
                   <Plus
                     fontSize="small"
@@ -227,7 +227,9 @@ const MyTravelDetail = () => {
 
 export default MyTravelDetail;
 
-const MainContent = styled.main``;
+const MainContent = styled.main`
+  margin-top: 50px;
+`;
 const Header = styled.div``;
 const Content = styled.div`
   width: 50%;
