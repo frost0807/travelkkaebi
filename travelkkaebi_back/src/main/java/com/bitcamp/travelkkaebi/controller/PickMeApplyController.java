@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
@@ -37,8 +36,11 @@ public class PickMeApplyController {
      * 나를 데려가고싶어하는 사람들 리스트
      */
     @GetMapping("/my/takemelist")
-    public ResponseEntity<ListResponseDTO> wantToTakeMeList(@AuthenticationPrincipal String userId, @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok().body(pickMeApplyService.wantToTakeMeList(Integer.parseInt(userId), pageable));
+    public ResponseEntity<ListResponseDTO> wantToTakeMeList(
+            @PageableDefault Pageable pageable,
+            @AuthenticationPrincipal String userId,
+            @RequestParam int boardId) {
+        return ResponseEntity.ok().body(pickMeApplyService.wantToTakeMeList(Integer.parseInt(userId), boardId, pageable));
     }
 
     /**
@@ -48,10 +50,11 @@ public class PickMeApplyController {
      */
     @GetMapping("/picked/status")
     public ResponseEntity<ListResponseDTO> pickedStatusList(
-            @AuthenticationPrincipal String userId,
             @PageableDefault(size = 100) Pageable pageable,
+            @AuthenticationPrincipal String userId,
+            @RequestParam int boardId,
             @RequestParam boolean picked) {
-        return ResponseEntity.ok().body(pickMeApplyService.pickedStatusList(Integer.parseInt(userId), pageable, picked));
+        return ResponseEntity.ok().body(pickMeApplyService.pickedStatusList(Integer.parseInt(userId), boardId, pageable, picked));
     }
 
     /**
@@ -59,10 +62,11 @@ public class PickMeApplyController {
      */
     @PutMapping("/selected")
     public ResponseEntity<Void> selected(
-            @AuthenticationPrincipal String userId,
             @PageableDefault Pageable pageable,
+            @AuthenticationPrincipal String userId,
+            @RequestParam int boardId,
             @RequestParam int pickMeApplyId) {
-        pickMeApplyService.selected(Integer.parseInt(userId), pageable, pickMeApplyId);
+        pickMeApplyService.selected(Integer.parseInt(userId), boardId, pageable, pickMeApplyId);
         return ResponseEntity.ok().build();
     }
 
