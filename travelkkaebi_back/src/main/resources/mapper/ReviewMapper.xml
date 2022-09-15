@@ -3,17 +3,23 @@
 <mapper namespace="com.bitcamp.travelkkaebi.mapper.ReviewMapper">
 
     <select id="selectAllByPage" parameterType="hashMap" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review JOIN user on board_review.user_id = user.user_id
+        SELECT *
+        FROM board_review
+                 JOIN user on board_review.user_id = user.user_id
         ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
     </select>
 
     <select id="selectAllForMain" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review JOIN user on board_review.user_id = user.user_id
+        SELECT *
+        FROM board_review
+                 JOIN user on board_review.user_id = user.user_id
         ORDER BY review_id DESC LIMIT 0, 6
     </select>
 
     <select id="selectOne" parameterType="int" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review JOIN user On board_review.user_id = user.user_id
+        SELECT *
+        FROM board_review
+                 JOIN user On board_review.user_id = user.user_id
         WHERE review_id = #{reviewId}
     </select>
 
@@ -24,65 +30,86 @@
 
     <update id="update" parameterType="ReviewDTO" useGeneratedKeys="true" keyProperty="reviewId">
         UPDATE board_review
-        SET title = #{title}, content = #{content}, region = #{region}, review_img_url = #{reviewImgUrl}
+        SET title          = #{title},
+            content        = #{content},
+            region         = #{region},
+            review_img_url = #{reviewImgUrl}
         WHERE review_id = #{reviewId}
     </update>
 
     <delete id="delete" parameterType="ReviewDTO">
-        DELETE FROM board_review WHERE review_id = #{reviewId} AND user_id=#{userId}
+        DELETE
+        FROM board_review
+        WHERE review_id = #{reviewId}
+          AND user_id = #{userId}
     </delete>
 
     <update id="viewPlus" parameterType="int">
-        UPDATE board_review SET view = view +1 WHERE review_id = #{reviewId}
+        UPDATE board_review
+        SET view = view +1
+        WHERE review_id = #{reviewId}
     </update>
 
     <select id="reviewCount" resultType="int">
-        SELECT COUNT(*) FROM board_review
+        SELECT COUNT(*)
+        FROM board_review
     </select>
 
     <select id="searchByTitle" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review
-        JOIN user On board_review.user_id = user.user_id
+        SELECT *
+        FROM board_review
+                 JOIN user On board_review.user_id = user.user_id
         WHERE title LIKE CONCAT('%', #{word}, '%')
-        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
+        ORDER BY review_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="countByTitle" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM board_review WHERE title LIKE CONCAT('%', #{word}, '%')
+        SELECT COUNT(*)
+        FROM board_review
+        WHERE title LIKE CONCAT('%', #{word}, '%')
     </select>
 
     <select id="searchByContent" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review
-        JOIN user On board_review.user_id = user.user_id
-        WHERE content LIKE CONCAT('%',#{word},'%')
-        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
+        SELECT *
+        FROM board_review
+                 JOIN user On board_review.user_id = user.user_id
+        WHERE content LIKE CONCAT('%', #{word}, '%')
+        ORDER BY review_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="countByContent" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM board_review WHERE content LIKE  CONCAT('%',#{word},'%')
+        SELECT COUNT(*)
+        FROM board_review
+        WHERE content LIKE CONCAT('%', #{word}, '%')
     </select>
 
     <select id="searchByWriter" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review
-        JOIN user On board_review.user_id = user.user_id
-        WHERE nickname LIKE CONCAT('%',#{word},'%')
-        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
+        SELECT *
+        FROM board_review
+                 JOIN user On board_review.user_id = user.user_id
+        WHERE user.nickname LIKE CONCAT('%', #{word}, '%')
+        ORDER BY review_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="countByWriter" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM board_review
-        WHERE nickname LIKE CONCAT('%',#{word},'%')
+        SELECT COUNT(*)
+        FROM board_review
+        JOIN user On board_review.user_id = user.user_id
+        WHERE user.nickname LIKE CONCAT('%', #{word}, '%')
     </select>
 
     <select id="keywordByRegion" parameterType="PageAndWordDTO" resultType="ReviewResponseDTO">
-        SELECT * FROM board_review
-        JOIN user On board_review.user_id = user.user_id
+        SELECT *
+        FROM board_review
+                 JOIN user On board_review.user_id = user.user_id
         WHERE region = #{word}
-        ORDER BY review_id DESC LIMIT #{startNum}, #{PAGE_SIZE}
+        ORDER BY review_id DESC LIMIT #{startNum}, #{pageSize}
     </select>
 
     <select id="countByRegion" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM board_review WHERE region = #{word}
+        SELECT COUNT(*)
+        FROM board_review
+        WHERE region = #{word}
     </select>
 
 </mapper>

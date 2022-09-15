@@ -13,7 +13,7 @@ import { SettingsCellOutlined } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 
 
-function ReviewDetail(){
+function ReviewDetail() {
 
   const [data, setData] = useState([])
   const [reply, setReply] = useState([])
