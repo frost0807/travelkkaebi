@@ -90,9 +90,6 @@ function Header() {
                 <NavDropdown.Item href="/editor/1">
                   에디터 추천
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/regionevent">
-                  지역별 축제
-                </NavDropdown.Item>
                 <NavDropdown.Item href="/review/1">유저 리뷰</NavDropdown.Item>
               </NavDropdown>
             </Nav>

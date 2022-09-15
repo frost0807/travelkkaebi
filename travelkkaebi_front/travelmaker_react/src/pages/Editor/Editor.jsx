@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
 import Carousel from 'react-bootstrap/Carousel';
+import styled from 'styled-components';
 
 import axios from 'axios';
 import React from 'react';
 import { textAlign } from "@mui/system";
-import banner from './/regionevent_banner.jpg';
+import banner from './/banner.jpg';
+import b1b from './/1.png';
+import b2b from './/2.png';
 
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
@@ -40,6 +43,7 @@ function Editor() {
         console.log(res.data);
       })
     }
+
     const getNewDetail=()=>{
       axios.get(API_BASE_URL+"/editorchoice/selectallnew")
       .then(response=>{
@@ -63,9 +67,28 @@ function Editor() {
     }
   return(
     <>
+        <ScTopCard style={{marginBottom:"50px"}}>
+            <ScLogo1 alt='' src={banner} style={{ width: "100%" }} />
+            <ScLogo2 alt='' src={b1b} style={{ width: "100%" }} />
+              <ScMainTitle>전문 에디터와 떠나요!</ScMainTitle>
+              <Scwrite
+                onClick={() => {
+                  navi("/editor/createform");
+                }}
+              >
+                {/* <img src={b2b} alt='' /> */}
+                <span>글 작성하기</span>
+              </Scwrite>
+        </ScTopCard>  
+    {/* <div>
+      <img
+        style={{width:"100%", marginBottom:"50px"}}
+        src={banner}
+      />
 
-
-    <div style={{ height:"30%", width:"50%", marginTop:"50px", margin:"auto" }}>
+    </div> */}
+    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>지금 가장 많이 찾는 글</div>
+    <div style={{ height:"30%", width:"50%", marginTop:"100px", margin:"auto" }}>
       <Carousel>
       {
         data && data.map((row, idx)=>(
@@ -94,34 +117,121 @@ function Editor() {
         data2 && data2.map((row, idx)=>(
 
       <Card >
-        <Card.Img variant="top"  src={row.editorImgUrl1} />
+        <Card.Img variant="top" style={{width:"100%", height:"60%"}}  src={row.editorImgUrl1} />
         <Card.Body>
           <Card.Title as="a" onClick={()=>{
                   navi(`/editor/detail/${row.editorChoiceId}`)
                 }} >{row.title}</Card.Title>
           <Card.Text>
-            {row.nickname}
+            작성자 : {row.nickname}
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-          <small className="text-muted">{row.view}</small>
+          <small className="text-muted">조회수 : {row.view}</small>
         </Card.Footer>
       </Card>
       ))
       }
     </CardGroup>
 
-
     </div>
-
-    <button type='button' className='btn btn-info'
-          style={{ width:'110px', marginTop:'10px' }}
-          onClick={()=>{
-            navi("/regionevent/createform");
-          }}>글쓰기</button>
     </>
   )
 }
 
 export default Editor;
 
+const ScTopCard = styled.div`
+  width: 100%;
+  display: flex;
+  background-color:#F5EABB;
+  width: 100%;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: 30px auto;
+  }
+`;
+
+const ScLogo1 = styled.img`
+@media screen and (max-width: 768px) {
+  display: none;
+}
+`
+const ScLogo2 = styled.img`
+display: none;
+@media screen and (max-width: 768px) {
+  display: block;
+  }
+`
+
+const ScTopCard2 = styled.div`
+  width: 100%;
+  display: flex;
+  font-size: 1.5em;
+  margin-bottom: 30px;  
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: auto;
+    div{
+      display: none;
+    }
+  }
+`;
+
+const ScMainTitle = styled.div`
+  font-weight: 900;
+  font-size: 2.125em;
+  /* line-height: 43px; */
+  margin-bottom: 20px;
+  /* font-family: "SUIT ExtraBold"; */
+  position: absolute;
+  top:50%;
+  right: 20%;
+  @media screen and (max-width: 1200px) {
+  font-size: 28px;
+  right: 20%;
+   /* display: none; */
+  }
+  @media screen and (max-width: 768px) {
+  font-size: 16px;
+  right: 20%;
+  display: none;
+  }
+`;
+const Scwrite = styled.div`
+  position: absolute;
+  top:64%;
+  right: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  width: 166px;
+  height: 49px;
+  font-size: 1.25em;
+  border-radius: 10px;
+  gap:7px;
+  &:hover {
+    cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+  position: absolute;
+  font-size: 12px;
+  width: 86px;
+  height: 30px;
+  right: 10%;
+  top:30%;
+    img{
+      display: none;
+    }
+  }
+  
+`;

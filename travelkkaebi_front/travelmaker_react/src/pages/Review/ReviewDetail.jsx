@@ -13,7 +13,7 @@ import { SettingsCellOutlined } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
 
 
-function ReviewDetail(){
+function ReviewDetail() {
 
   const [data, setData] = useState([])
   const [reply, setReply] = useState([])
@@ -131,7 +131,7 @@ function ReviewDetail(){
               <button  type='button' className='btn btn-info'
               style={{width:'100px', marginRight:'10px'}}
               onClick={()=>{
-                navi("/review/form");
+                navi("/review/updateform");
               }}>수정</button>
 
               <button type='button' className='btn btn-info'

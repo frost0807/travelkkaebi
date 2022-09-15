@@ -42,4 +42,6 @@ public interface EditorChoiceMapper {
     int countByRegion(String word);
 
     List<EditorChoiceResponseDTO> selectAllNew();
+    List<EditorChoiceResponseDTO> selectAllNew6();
+
 }

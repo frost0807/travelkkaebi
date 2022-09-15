@@ -107,6 +107,17 @@ public class EditorChoiceController {
         }
     }
 
+    @GetMapping("/selectallnew6")
+    private ResponseEntity<List<EditorChoiceResponseDTO>> selectAllNew6() {
+        try {
+            return new ResponseEntity<>(editorChoiceService.selectAllNew6(), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     /**
      * 게시글 리스트 (추천)
      */
@@ -234,4 +245,4 @@ public class EditorChoiceController {
         }
     }
 }
-//좀비피자 왔다감
+//좀비피자 왔다감 방가방가

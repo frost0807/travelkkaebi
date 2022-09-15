@@ -7,18 +7,26 @@
 }
 
 .replyProfileImg {
-  margin: 20px;
+  margin: 20px 20px 10px 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
 
+.replyNickname {
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+
 .messageBox {
+  font-size: 15px;
+  word-wrap: break-word;
   position: relative;
   margin: 40px 0px 0px 5px;
   padding: 10px;
   width: 350px;
-  height: 70px;
+  height: 80px;
   background: #ffebc6;
   border-radius: 0px 10px 10px 10px;
 }
@@ -34,11 +42,13 @@
 }
 
 .myMessageBox {
+  font-size: 15px;
+  word-wrap: break-word;
   position: relative;
   margin: 40px 5px 0px 0px;
   padding: 10px;
   width: 350px;
-  height: 70px;
+  height: 80px;
   background: #ffebc6;
   border-radius: 10px 0px 10px 10px;
 }

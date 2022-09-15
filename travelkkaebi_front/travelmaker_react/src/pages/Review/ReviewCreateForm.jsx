@@ -138,7 +138,7 @@ const ReviewCreateForm = () => {
                     </th>
 
 
-                    <div className="profileimg">
+            <div className="profileimg">
               <img
                 alt="basicimg"
                 src={profile.preview_URL}
@@ -165,10 +165,8 @@ const ReviewCreateForm = () => {
               </IconButton>
             </div>
             <br />
-
-
-
                   </tr>
+                  
                   <tr>
                     <th scope="row">
                       <label htmlFor="title" className="req">
@@ -215,9 +213,11 @@ const ReviewCreateForm = () => {
                     </th>
                     <td>
                       <div className="content_wrap">
-                        <input
+                        {/* <input
                           type="content"
-                          className="ccformfield"
+                          // className="reg_input"
+                          
+                          rows="5"
                           name="content"
                           required
                           
@@ -227,6 +227,20 @@ const ReviewCreateForm = () => {
                               message: "최대 500글자까지 입력 가능합니다.",
                             },
                             
+                          })}
+                        /> */}
+                        <textarea
+                          type="content"
+                          className="reg_input"
+                          name="content"
+                          required
+
+                          {...register("content", {
+                            maxLength: {
+                              value: 500,
+                              message: "최대 500글자까지 입력 가능합니다.",
+                            },
+
                           })}
                         />
                       </div>

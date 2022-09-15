@@ -163,6 +163,10 @@ public class EditorChoiceService {
         return editorChoiceMapper.selectAllNew();
     }
 
+    public List<EditorChoiceResponseDTO> selectAllNew6() throws Exception {
+        return editorChoiceMapper.selectAllNew6();
+    }
+
     /**
      * 게시글 리스트 (추천)
      */

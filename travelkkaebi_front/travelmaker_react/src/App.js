@@ -39,7 +39,7 @@ import EditorCreateForm from "./pages/Editor/EditorCreateForm";
 import PickUpMeDetail from "./pages/PickUpMe/PickUpMeDetail";
 import PickUpMeForm from "./pages/PickUpMe/PickUpMeForm";
 import PickUpMeEditForm from "./pages/PickUpMe/PickUpMeEditForm";
-import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
+// 주석 import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
 
 import MyTravel from "./pages/MyTravel/MyTravel";
 import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
@@ -71,6 +71,7 @@ function Main() {
         <Route path="/review/:currentPage" element={<Review />} />
         <Route path="/review/detail/:id" element={<ReviewDetail />} />
         <Route path="/review/createform" element={<ReviewCreateForm />} />
+        <Route path="/review/updateform" element={<ReviewUpdateForm />} />
 
         {/* Editor Page */}
         <Route path="/editor/:currentPage" element={<Editor />} />
@@ -105,7 +106,8 @@ function Main() {
 
         <Route path="/mypage/" element={<MyPage />} />
         {/** 내가 신청한 게시글 보기 */}
-        <Route path="/mypage/apply/list" element={<JoinApplyList />} />
+        
+        {/* 임시 주석<Route path="/mypage/apply/list" element={<JoinApplyList />} /> */}
         {/** 나의 게시글 보기 */}
         <Route path="/mypage/myapply/list" element={<JoinMyApplyList />} />
         <Route

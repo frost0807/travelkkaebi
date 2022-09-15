@@ -8,10 +8,12 @@ import java.util.Optional;
 
 @Mapper
 public interface MannerDegreeMapper {
-    Optional<MannerDegreeResponseDTO> selectOneByDTO(MannerDegreeDTO mannerDegreeDTO);
-    Optional<MannerDegreeResponseDTO> selectOneById(int mannerDegreeId);
+    Optional<MannerDegreeDTO> selectOneByDTO(MannerDegreeDTO mannerDegreeDTO);
+    Optional<MannerDegreeDTO> selectOneById(int mannerDegreeId);
     int insert(MannerDegreeDTO mannerDegreeDTO);
     int update(MannerDegreeDTO mannerDegreeDTO);
     int getDegreePlus(int toUserId);
     int getDegreeMinus(int toUserId);
+    int plusUserMannerDegree(int toUserId);
+    int minusUserMannerDegree(int toUserId);
 }
