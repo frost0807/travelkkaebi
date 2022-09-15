@@ -10,6 +10,11 @@ import { isLoginModalState, showJoinMeDetailState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
+import LikeBtn from "../../components/Like/LikeBtn";
+import axios from "axios";
+import { likedislike } from "../../config";
+
+const CATEGORY_ID = 1;
 
 function JoinMeCard(props) {
   const [post, setPosts] = useState(props.post);
@@ -21,6 +26,11 @@ function JoinMeCard(props) {
   let eDate = new Date(post.endDate);
   const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
+  // like
+  const [likeState, setLikeState] = useState();
+  const [like, setLike] = useState(false);
+  const [likeordislikeid, setLikeordislikeid] = useState(0);
+
   const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
 
   const openModal = () => {
@@ -30,6 +40,21 @@ function JoinMeCard(props) {
   };
   const closeModal = () => {
     setShowJoinMeDetail(false);
+  };
+
+  const likeToggleBtn = async (e) => {
+    console.log("likeordislikeid active : ", likeordislikeid);
+    const res = (axios.defaults.headers = {
+      "Content-Type": "application/json; charset = utf-8",
+      Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+    });
+    axios
+      .put(likedislike + "/clicklike?likeOrDislikeId=" + likeordislikeid)
+      .then((res) => {
+        console.log("resdata", res);
+        setLike(!like);
+        setLikeState(res.data.likeCount);
+      });
   };
 
   return (
@@ -86,7 +111,7 @@ function JoinMeCard(props) {
               <div className="card_username">
                 <span>{post.nickname}</span>
                 <div className="like-btn">
-                  <Heart src={HeartImg} />
+                  <LikeBtn like={like} onClick={likeToggleBtn} />
                   <span>{post.likeCount}</span>
                 </div>
               </div>
@@ -99,6 +124,8 @@ function JoinMeCard(props) {
                 showJoinMeDetail={showJoinMeDetail}
                 closeModal={closeModal}
                 profile_img={profile_img}
+                likeordislikeid={likeordislikeid}
+                setLikeordislikeid={setLikeordislikeid}
               />
             ) : null}
           </div>
@@ -156,7 +183,7 @@ function JoinMeCard(props) {
               <div className="card_username">
                 <span>{post.nickname}</span>
                 <div className="like-btn">
-                  <Heart src={HeartImg} />
+                  <LikeBtn like={props.like} onClick={props.LikeToggleBtn} />
                   <span>{post.likeCount}</span>
                 </div>
               </div>

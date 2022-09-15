@@ -109,7 +109,7 @@ function PickUpMeForm() {
         .then((res) => {
           console.log("작성완료 후 결과 ", res);
           alert("글 작성 완료");
-          navigate("/pickme/0");
+          navigate("/pickme/list");
         })
         .catch((error) => {
           if (error.res) {

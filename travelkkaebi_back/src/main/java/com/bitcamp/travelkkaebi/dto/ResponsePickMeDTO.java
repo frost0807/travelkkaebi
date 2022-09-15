@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class ResponsePickMeDTO {
+    private int pickMeApplyId;
     private int boardId;
     private int userId;
     private String nickname;
@@ -26,6 +27,7 @@ public class ResponsePickMeDTO {
     private boolean picked;
 
     public ResponsePickMeDTO(PickMeApplyEntity pickMeApplyEntity) {
+        this.pickMeApplyId = pickMeApplyEntity.getId();
         this.boardId = pickMeApplyEntity.getPickMeEntity().getId();
         this.userId = pickMeApplyEntity.getUserEntity().getId();
         this.nickname = pickMeApplyEntity.getUserEntity().getNickname();

@@ -35,7 +35,7 @@ public class PickMeApplyService {
      */
     @Transactional
     public void pickUp(int userId, PickMeApplyDTO pickMeApplyDTO) {
-        pickMeDB.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
+//        pickMeDB.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         //joinMe 에 게시물이 등록되어있는지 check 하는 logic 게시물이 있더라도 그 게시물 유효한 게시물인지 체크
         List<JoinMeEntity> findJoinMeEntity = joinMeDB.findAllByUserEntityIdAndDateInfoStartDateLessThan(userId, Timestamp.valueOf(LocalDateTime.now()));
         validate(findJoinMeEntity);

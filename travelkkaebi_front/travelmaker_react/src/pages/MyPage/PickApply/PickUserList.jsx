@@ -9,7 +9,7 @@ import "../JoinApply/joinapply.css";
 
 /** 나의 게시글 보기에서 게시글의 신청한  리스트/채택 */
 
-function PickUserList({ data }) {
+function PickUserList({ data, currentPage }) {
   //  const [checkedList, setCheckedList] = useState([]);
 
   const onSubmit = (e) => {
@@ -28,7 +28,9 @@ function PickUserList({ data }) {
       Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
     });
     await axios
-      .put(pickmeapply + "/selected?pickMeApplyId=" + pickMeApplyId)
+      .put(pickmeapply + "/selected", {
+        params: { page: currentPage, pickMeApplyId: pickMeApplyId },
+      })
       .then((res) => {
         console.log("채택버튼 이벤트 ", res);
         if (res.data === true) {
@@ -59,7 +61,7 @@ function PickUserList({ data }) {
         className="comment-txt containerd"
         style={{ marginTop: "-20px", width: "500px" }}
       >
-        <p>{data.comment}</p>
+        <p>{data.content}</p>
         <div className="comment-time">{data.createTime}</div>
       </div>
       <div style={{ justifyContent: "flex-end" }}>

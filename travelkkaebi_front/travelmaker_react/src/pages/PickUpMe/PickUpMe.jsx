@@ -20,7 +20,7 @@ function PickUpMe() {
   const location = useLocation();
   const path = window.location.pathname;
   const initialQueryString = queryString.parse(location.search);
-  const initialPageNumber = Number(initialQueryString.page) || 0;
+  const initialPageNumber = Number(initialQueryString.page) || 1;
   const navigate = useNavigate();
 
   const { page } = useParams();
@@ -36,13 +36,15 @@ function PickUpMe() {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const fetchAxios = await axios.get(pickurl + "/list").then((res) => {
-        console.log(res.data);
-        console.log(res.data.list);
-        setPosts(res.data.list);
-        setTotalCount(res.data.totalBoardCount);
-        console.log("totalBoardCount", res.data.totalBoardCount);
-      });
+      const fetchAxios = await axios
+        .get(pickurl + "/list", { params: { page: currentPage } })
+        .then((res) => {
+          console.log(res.data);
+          console.log(res.data.list);
+          setPosts(res.data.list);
+          setTotalCount(res.data.totalBoardCount);
+          console.log("totalBoardCount", res.data.totalBoardCount);
+        });
     };
     fetchPost();
     navigate(`${path}?page=${currentPage}`);
@@ -70,13 +72,14 @@ function PickUpMe() {
         const fetchPost = async () => {
           setCurrentPage();
           const fetchAxios = await axios
-            .get(pickurl + "/list?page=" + currentPage) //,{params:{pageNo:currentPage}}
+            .get(pickurl + "/list", { params: { page: currentPage } }) //,{params:{pageNo:currentPage}}
             .then((res) => {
               console.log(res.data);
               setPosts(res.data.list);
               console.log("list : ", res.data.list);
               setTotalCount(res.data.totalBoardCount);
               console.log("totalBoardCount", res.data.totalBoardCount);
+              navigate(`${path}?page=${currentPage}`);
             });
         };
       };
@@ -104,6 +107,8 @@ function PickUpMe() {
         setTotalCount(res.data.totalBoardCount);
         console.log("totalBoardCount", res.data.totalBoardCount);
       });
+
+    navigate(`${path}?page=${currentPage}&title=${searchKeyword}`);
   };
 
   const searchName = () => {
@@ -117,6 +122,8 @@ function PickUpMe() {
         setTotalCount(res.data.totalBoardCount);
         console.log("totalBoardCount", res.data.totalBoardCount);
       });
+
+    navigate(`${path}?page=${currentPage}&nickname=${searchKeyword}`);
   };
 
   // Keyword
@@ -124,20 +131,20 @@ function PickUpMe() {
     let typepost = e.target.value;
     typepost !== "전체"
       ? axios
-          .get(
-            pickurl +
-              "/search/keyword?page=" +
-              currentPage +
-              "&keyword=" +
-              typepost
-          )
+          .get(pickurl + "/search/keyword", {
+            params: {
+              page: currentPage,
+              keyword: typepost,
+            },
+          })
           .then((res) => {
             console.log("키워드 이벤트 ", res);
             console.log("이건 뭔데 ", res.data.list);
             setPosts(res.data.list);
+            navigate(`${path}?page=${currentPage}&keyword=${typepost}`);
           })
       : axios
-          .get(pickurl + "/list?page=" + currentPage) //,{params:{pageNo:currentPage}}
+          .get(pickurl + "/list", { params: { page: currentPage } })
           .then((res) => {
             console.log(res.data);
             console.log(res.data.list);

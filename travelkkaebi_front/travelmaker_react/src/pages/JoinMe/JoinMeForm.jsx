@@ -162,7 +162,7 @@ export default function JoinMeForm() {
           });
 
           alert("글 작성 완료");
-          navigate("/joinme/1");
+          navigate("/joinme/selectallbypage");
         })
         .catch((error) => {
           if (error.res) {

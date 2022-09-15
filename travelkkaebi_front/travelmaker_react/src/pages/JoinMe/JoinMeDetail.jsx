@@ -39,10 +39,17 @@ const CATEGORY_ID = 1;
 
 function JoinMeDetail(props) {
   const [post, setPost] = useState([]);
-  const { showJoinMeDetail, closeModal, joinMeId, profile_img } = props;
+  const {
+    showJoinMeDetail,
+    closeModal,
+    joinMeId,
+    profile_img,
+    likeordislikeid,
+    setLikeordislikeid,
+  } = props;
   const [likeState, setLikeState] = useState();
   const [like, setLike] = useState(false);
-  const [likeordislikeid, setLikeordislikeid] = useState(0);
+  // const [likeordislikeid, setLikeordislikeid] = useState(0);
   const [imageArr, setImageArr] = useState([]);
   const [render, setRender] = useState(false);
 
@@ -124,7 +131,6 @@ function JoinMeDetail(props) {
   }, [setLike]);
 
   // 신청하기
-  // http 200 뜸 -> DB엔 안 들어감
   function sendServerApply(data) {
     if (post.currentMemberCount >= post.capacity) {
       alert("인원이 꽉 찼습니다.");
@@ -334,34 +340,33 @@ function JoinMeDetail(props) {
                 noValidate
                 autoComplete="off"
               >
-                
                 {post.nickname !== getUserNickname ? (
-                <div>
-                  <TextField label="코멘트" id="comment" name="comment" />
-                  <FooterButton type="submit">신청하기</FooterButton>
+                  <div>
+                    <TextField label="코멘트" id="comment" name="comment" />
+                    <FooterButton type="submit">신청하기</FooterButton>
                   </div>
-                  ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>
-                        <Button
-                          color="warning"
-                          variant="contained"
-                          onClick={closedHandler}
-                        >
-                          마감하기
-                        </Button>
-                      </span>
-                      <span>
-                        <Button onClick={upDateHandler}>수정하기</Button>
-                        <Button onClick={deleteHandler}>삭제하기</Button>
-                      </span>
-                    </div>
-                   )}
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      <Button
+                        color="warning"
+                        variant="contained"
+                        onClick={closedHandler}
+                      >
+                        마감하기
+                      </Button>
+                    </span>
+                    <span>
+                      <Button onClick={upDateHandler}>수정하기</Button>
+                      <Button onClick={deleteHandler}>삭제하기</Button>
+                    </span>
+                  </div>
+                )}
               </Box>
             </JDFooter>
           </div>

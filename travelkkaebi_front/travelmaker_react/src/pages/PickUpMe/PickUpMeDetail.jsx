@@ -50,8 +50,6 @@ function PickUpMeDetail(props) {
     return () => fetchAPI();
   }, []);
 
-  // 신청하기
-  // http 200 뜸 -> DB엔 안 들어감
   function sendServerApply(data) {
     if (data.comment === "") {
       alert("코멘트를 입력해주세요.");
@@ -78,7 +76,6 @@ function PickUpMeDetail(props) {
           } else if (error.request) {
             console.log("network error");
             console.log(error.request);
-            console.log(error.request.message);
             alert("이미 신청했거나 알 수 없음.");
           } else {
             console.log(error);
@@ -86,8 +83,6 @@ function PickUpMeDetail(props) {
         });
     }
   }
-  //    window.location.reload();
-  //    navigator('/joime/1');
 
   // textfield\ 값 상태로 저장해서 보내기
   const joinMeApply = (e) => {

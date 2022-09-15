@@ -2,11 +2,12 @@ import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
+import queryString from "query-string";
 import Pagination from "../../../components/Pagenation/Pagination";
 import { joinmeurl, pickmeapply } from "../../../config";
-import { bearerToken } from "../../../util";
+import { bearerToken, defaultHeadersToken } from "../../../util";
 import "../JoinApply/joinapply.css";
 import PickApplyCard from "./PickApplyCard";
 import JoinApplyCard from "./PickApplyCard";
@@ -15,17 +16,21 @@ import JoinApplyCard from "./PickApplyCard";
 
 const PickMyApplyList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = window.location.pathname;
+  const initialQueryString = queryString.parse(location.search);
+  const initialPageNumber = Number(initialQueryString.page) || 1;
 
   const [posts, setPosts] = useState([]);
   const [limits] = useState(9);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const [totalCount, setTotalCount] = useState();
 
-  const URL = pickmeapply + "/my/takemelist";
   useEffect(() => {
     const fetchPost = async () => {
-      const fetchAxios = await axios
-        .get(URL + "?pageNo=", bearerToken)
+      const fetchAxios = defaultHeadersToken
+      await axios
+        .get(pickmeapply + "/mylist", { params: { page: currentPage } })
         .then((res) => {
           console.log("게시글리스트 받기 ", res);
           setPosts(res.data.list);
@@ -33,8 +38,9 @@ const PickMyApplyList = () => {
           console.log("totalBoardCount", res.data.totalBoardCount);
         });
     };
-    return () => fetchPost();
-  }, [currentPage]);
+    fetchPost();
+    navigate(`${path}?page=${currentPage}`);
+  }, [currentPage, navigate, path]);
 
   return (
     <MainContent>

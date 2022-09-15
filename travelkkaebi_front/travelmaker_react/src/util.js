@@ -12,6 +12,17 @@ export const headerConfig = {
   },
 };
 
+export const defaultHeadersToken =
+axios.defaults.headers = {
+  Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+};
+
+export const defaultTokenAsJson =
+axios.defaults.headers = {
+  "Content-Type": "application/json; charset = utf-8",
+  Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+};
+
 export const headerImg_tk = {
   headers: {
     "content-type": "application/json; charset = utf-8",

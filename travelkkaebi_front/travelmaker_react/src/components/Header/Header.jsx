@@ -149,10 +149,10 @@ function Header() {
               >
                 <NavDropdown.Item href="/mypage">마이페이지</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/mypage/apply/list">
+                <NavDropdown.Item href="/joinme/selectallbypage/myappliedboardlist">
                   내 신청서
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/mypage/myapply/list">
+                <NavDropdown.Item href="/selectallbypage/myboardlist">
                   내게 온 신청서
                 </NavDropdown.Item>
               </NavDropdown>
