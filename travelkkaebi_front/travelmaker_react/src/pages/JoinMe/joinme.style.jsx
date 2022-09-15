@@ -77,4 +77,3 @@ export const FooterButton = styled.button`
   margin-top: 18px;
   border: none;
 `;
-

@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -10,7 +9,6 @@ import { joinmeurl, pickmeapply } from "../../../config";
 import { bearerToken, defaultHeadersToken } from "../../../util";
 import "../JoinApply/joinapply.css";
 import PickApplyCard from "./PickApplyCard";
-import JoinApplyCard from "./PickApplyCard";
 
 /** 나의 게시글 보기 */
 
@@ -28,9 +26,11 @@ const PickMyApplyList = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const fetchAxios = defaultHeadersToken
+      const fetchAxios = defaultHeadersToken;
       await axios
-        .get(pickmeapply + "/mylist", { params: { page: currentPage } })
+        .get(pickmeapply + "/mylist", {
+          params: { page: currentPage, boardId: posts.boardId },
+        })
         .then((res) => {
           console.log("게시글리스트 받기 ", res);
           setPosts(res.data.list);
@@ -53,6 +53,11 @@ const PickMyApplyList = () => {
         </div>
       </header>
       <Content>
+        <div className="myappuser-btn">
+          <a onClick={() => navigate(-1)} className="myapp_btn_cancel">
+            뒤로가기
+          </a>
+        </div>
         <ContentBody>
           <View>
             {posts &&

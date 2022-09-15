@@ -1,22 +1,32 @@
-import { compose } from "@mui/system";
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import Slider from "react-slick";
-import { Route, Router, Routes } from "react-router";
 import styled from "styled-components";
-import { joinmeurl } from "../../config";
+import { joinmeurl, pickmeapply } from "../../config";
 import { bearerToken } from "../../util";
-import JoinMeCard from "../JoinMe/JoinMeCard";
-import JoinApplyCard from "./JoinApply/JoinApplyCard";
 import SideNavigation from "./SideNavigation";
 import "./CarouselContent.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import JoinMeCard from "../JoinMe/JoinMeCard";
+import PickUpMeCard from "../PickUpMe/PickUpMeCard";
+import JoinApplyCard from "./JoinApply/JoinApplyCard";
 
-const Center = styled.div`
-  height: 92vh;
+const Centers = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: row;
+`;
+
+const MainRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 200px;
+  margin-top: 20px;
 `;
 
 export const MyPage = () => {
@@ -56,6 +66,7 @@ export const MyPage = () => {
   };
 
   const [post, setPosts] = useState([]);
+  const [pickPost, setPickPost] = useState([]);
 
   const URL = joinmeurl + "/selectallbypage/myboardlist";
   useEffect(() => {
@@ -71,22 +82,52 @@ export const MyPage = () => {
     fetchPost();
   }, []);
 
-  return (
-    <Center>
-      <SideNavigation />
+  const pickURL = pickmeapply + "/my/applylist";
+  useEffect(() => {
+    const fetchPost = async () => {
+      const fetchAxios = await axios
+        .get(pickURL, { params: { page: 1 } }, bearerToken)
+        .then((res) => {
+          console.log(res.data);
+          setPickPost(res.data.list);
+          console.log("list : ", res.data.list);
+        });
+    };
+    return () => fetchPost();
+  }, []);
 
-      <div className="Carousel">
-        <h4> JOIN ME</h4>
-        <p> 내가 최근에 작성한 게시글 </p>
-        <Slider {...settings}>
-          <div className="mypage-card">
-            {post &&
-              post.map((post, idx) => (
-                <JoinApplyCard key={post.joinMeId} post={post} />
-              ))}
+  return (
+    <>
+      <Centers>
+        <SideNavigation />
+
+        <MainRow>
+          <div style={{ flexDirection: "row", marginTop: "80px" }}>
+            <h4> JOIN ME</h4>
+            <p> 내가 최근에 작성한 게시글 </p>
+            <div className="mypage-Carousel">
+              <Slider {...settings}>
+                {post &&
+                  post.map((post, idx) => (
+                    <JoinApplyCard key={post.joinMeId} post={post} />
+                  ))}
+              </Slider>
+            </div>
           </div>
-        </Slider>
-      </div>
-    </Center>
+          <div style={{ flexDirection: "row", marginTop: "80px" }}>
+            <h4>PICK ME</h4>
+            <p> 내가 최근에 작성한 게시글 </p>
+            <div className="mypage-Carousel">
+              <Slider {...settings}>
+                {pickPost &&
+                  pickPost.map((post, idx) => (
+                    <PickUpMeCard key={post.joinMeId} post={post} />
+                  ))}
+              </Slider>
+            </div>
+          </div>
+        </MainRow>
+      </Centers>
+    </>
   );
 };

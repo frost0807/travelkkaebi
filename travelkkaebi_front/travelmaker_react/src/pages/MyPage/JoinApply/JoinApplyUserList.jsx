@@ -68,7 +68,7 @@ function JoinApplyUserList(props) {
           </div>
         </header>
         <div className="myappuser-btn">
-          <a href="/mypage/myapply/list" className="myapp_btn_cancel">
+          <a onClick={() => navigate(-1)} className="myapp_btn_cancel">
             뒤로가기
           </a>
         </div>

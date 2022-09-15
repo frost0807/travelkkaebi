@@ -2,6 +2,7 @@ import { Checkbox } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { joinapply, pickmeapply } from "../../../config";
 import { bearerToken } from "../../../util";
@@ -9,7 +10,7 @@ import "../JoinApply/joinapply.css";
 
 /** 나의 게시글 보기에서 게시글의 신청한  리스트/채택 */
 
-function PickUserList({ data, currentPage }) {
+function PickUserList({ data }) {
   //  const [checkedList, setCheckedList] = useState([]);
 
   const onSubmit = (e) => {
@@ -29,7 +30,7 @@ function PickUserList({ data, currentPage }) {
     });
     await axios
       .put(pickmeapply + "/selected", {
-        params: { page: currentPage, pickMeApplyId: pickMeApplyId },
+        params: { page: 1, pickMeApplyId: pickMeApplyId },
       })
       .then((res) => {
         console.log("채택버튼 이벤트 ", res);
@@ -43,45 +44,54 @@ function PickUserList({ data, currentPage }) {
       });
   };
 
-  return (
-    <form onSubmit={onSubmit} className="user-list">
-      <div className="user-info containerd" key={data.pickMeApplyId}>
-        <input
-          hidden
-          id="pickmeapplyid"
-          name="pickmeapplyid"
-          readOnly
-          value={data.pickMeApplyId}
-        />
-        <Avatar src={data.profileImageUrl} />
-        <div className="user-info-name containerd">{data.nickname}</div>
-      </div>
+  const navigate = useNavigate();
 
-      <div
-        className="comment-txt containerd"
-        style={{ marginTop: "-20px", width: "500px" }}
-      >
-        <p>{data.content}</p>
-        <div className="comment-time">{data.createTime}</div>
+  return (
+    <div>
+      <div className="myappuser-btn">
+        <a className="myapp_btn_cancel" onClick={() => navigate(-1)}>
+          뒤로가기
+        </a>
       </div>
-      <div style={{ justifyContent: "flex-end" }}>
-        {!data.selected ? (
+      <form onSubmit={onSubmit} className="user-list">
+        <div className="user-info containerd" key={data.pickMeApplyId}>
           <input
-            id="myappuser_btn-submit"
-            className="myappuser_btn-submit"
-            value="채택하기"
-            type="submit"
+            hidden
+            id="pickmeapplyid"
+            name="pickmeapplyid"
+            readOnly
+            value={data.pickMeApplyId}
           />
-        ) : (
-          <input
-            id="myappuser_btn-submitsuc"
-            className="myappuser_btn-submitsuc"
-            value="채택완료"
-            disabled
-          />
-        )}
-      </div>
-    </form>
+          <Avatar src={data.profileImageUrl} />
+          <div className="user-info-name containerd">{data.nickname}</div>
+        </div>
+
+        <div
+          className="comment-txt containerd"
+          style={{ marginTop: "-20px", width: "500px" }}
+        >
+          <p>{data.content}</p>
+          <div className="comment-time">{data.createTime}</div>
+        </div>
+        <div style={{ justifyContent: "flex-end" }}>
+          {!data.selected ? (
+            <input
+              id="myappuser_btn-submit"
+              className="myappuser_btn-submit"
+              value="채택하기"
+              type="submit"
+            />
+          ) : (
+            <input
+              id="myappuser_btn-submitsuc"
+              className="myappuser_btn-submitsuc"
+              value="채택완료"
+              disabled
+            />
+          )}
+        </div>
+      </form>
+    </div>
   );
 }
 

@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -8,7 +7,6 @@ import Pagination from "../../../components/Pagenation/Pagination";
 import { joinmeurl } from "../../../config";
 import { bearerToken } from "../../../util";
 import JoinMeCard from "../../JoinMe/JoinMeCard";
-import SideNavigation from "../SideNavigation";
 import "./joinapply.css";
 import JoinApplyCard from "./JoinApplyCard";
 import queryString from "query-string";
@@ -54,6 +52,11 @@ const JoinMyApplyList = () => {
         </div>
       </header>
       <Content>
+        <div className="myappuser-btn">
+          <a onClick={() => navigate(-1)} className="myapp_btn_cancel">
+            뒤로가기
+          </a>
+        </div>
         <ContentBody>
           <View>
             {posts &&

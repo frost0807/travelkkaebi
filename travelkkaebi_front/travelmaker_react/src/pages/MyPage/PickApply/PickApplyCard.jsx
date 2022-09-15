@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import HeartImg from "../../../images/heart.png";
 import Logo from "../../../images/basicLogo.png";
 import "../../JoinMe/JoinMe.css";
 import { useNavigate, useParams } from "react-router";
-import JoinMeDetail from "../../JoinMe/JoinMeDetail";
 import PickUpMeDetail from "../../PickUpMe/PickUpMeDetail";
 
 function PickApplyCard(props) {
@@ -98,7 +96,7 @@ function PickApplyCard(props) {
               className="myapp_btn-submit"
               defaultValue="신청리스트"
               onClick={() =>
-                navigate("/mypage/pickmemyapply/list/appliction", {
+                navigate("/pickme/my/takemelist", {
                   state: post,
                 })
               }

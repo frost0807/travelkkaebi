@@ -99,13 +99,14 @@ function JoinApplyCard(props) {
               />
             ) : null}
           </div>
+
           <div className="myapplylist-btn">
             <input
               id="myapp_btn-submit"
               className="myapp_btn-submit"
               defaultValue="신청리스트"
               onClick={() =>
-                navigate("/mypage/myapply/list/appliction", {state: post,})
+                navigate("/joinmeapply/selectall/byjoinmeid", { state: post })
               }
             />
           </div>

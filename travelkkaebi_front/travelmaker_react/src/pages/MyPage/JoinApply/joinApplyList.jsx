@@ -10,6 +10,7 @@ import { bearerToken } from "../../../util";
 import JoinMeCard from "../../JoinMe/JoinMeCard";
 import queryString from "query-string";
 import "./joinapply.css";
+import JoinApplyCard from "./JoinApplyCard";
 
 /** 내가 신청한 게시글 보기 */
 
@@ -67,7 +68,6 @@ const JoinApplyList = () => {
       .get(notselect + currentPage, bearerToken)
       .then((res) => {
         console.log("채택 대기 중 게시글 보기 ,", res);
-        setPosts(null);
         if (res.data.list.length > 0) {
           setPosts(res.data.list);
           setTotalCount(res.data.totalBoardCount);
@@ -107,11 +107,16 @@ const JoinApplyList = () => {
               채택완료
             </button>
           </div>
+          <div className="myappuser-btn">
+            <a className="myapp_btn_cancel" onClick={() => navigate(-1)}>
+              뒤로가기
+            </a>
+          </div>
 
           <View>
             {posts &&
               posts.map((post) => (
-                <JoinMeCard key={post.joinMeId} post={post} />
+                <JoinApplyCard key={post.joinMeId} post={post} />
               ))}
           </View>
           <footer>
