@@ -91,19 +91,19 @@ function EditorDetail(){
         <div style={{float:"right"}}>
           <div  style={{margin: "10px 0", display: "flex"}}>
               <button  type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'skyblue'}}
               onClick={()=>{
                 navi("/editor/form");
               }}>수정</button>
 
               <button type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'red'}}
               onClick={()=>{
                 onDelete();
               }}>삭제</button>
 
               <button  type='button' className='btn btn-success'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'darkgreen'}}
               onClick={()=>{
                 navi(`/editor/1`);
               }}>목록</button>
@@ -115,13 +115,13 @@ function EditorDetail(){
             <label><img src={data.profileImageUrl} style={{width : "80px", height : "80px", borderRadius:"50%" }} /></label>
         </div>
 
-        <div style={{marginTop:"50px"}}>
+        <div style={{marginTop:"5%", paddingLeft: "25%"}}>
             <label align="center"><img src={data.editorImgUrl1} style={{width : "100%"}} /></label>
-            <label align="center"><img src={data.editorImgUrl2} style={{width : "100%"}} /></label>
-            <label align="center"><img src={data.editorImgUrl3} style={{width : "100%"}} /></label>
+            <label align="center"><img src={data.editorImgUrl2} style={{width : "100%", marginTop: "15%"}} /></label>
+            <label align="center"><img src={data.editorImgUrl3} style={{width : "100%", marginTop: "15%"}} /></label>
         </div>
         
-        <div style={{marginTop:"50px", marginBottom:"150px"}}>
+        <div style={{marginTop:"50px", marginBottom:"150px", paddingLeft: "25%"}}>
           {
           data.content
           }
