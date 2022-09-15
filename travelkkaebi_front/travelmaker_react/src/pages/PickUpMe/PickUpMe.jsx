@@ -17,11 +17,16 @@ import { CheckBox } from "@mui/icons-material";
 import { Checkbox } from "antd";
 
 function PickUpMe() {
+  const location = useLocation();
+  const path = window.location.pathname;
+  const initialQueryString = queryString.parse(location.search);
+  const initialPageNumber = Number(initialQueryString.page) || 0;
   const navigate = useNavigate();
 
+  const { page } = useParams();
   const [posts, setPosts] = useState([]);
   const [limits] = useState(20);
-  const [currentPage, setCurrentPage] = useState(0); //query.page ||
+  const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const [totalCount, setTotalCount] = useState();
 
   // search
@@ -31,18 +36,17 @@ function PickUpMe() {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const fetchAxios = await axios
-        .get(pickurl + "/list?page=" + currentPage) //,{params:{pageNo:currentPage}}
-        .then((res) => {
-          console.log(res.data);
-          console.log(res.data.list);
-          setPosts(res.data.list);
-          setTotalCount(res.data.totalBoardCount);
-          console.log("totalBoardCount", res.data.totalBoardCount);
-        });
+      const fetchAxios = await axios.get(pickurl + "/list").then((res) => {
+        console.log(res.data);
+        console.log(res.data.list);
+        setPosts(res.data.list);
+        setTotalCount(res.data.totalBoardCount);
+        console.log("totalBoardCount", res.data.totalBoardCount);
+      });
     };
-    return () => fetchPost();
-  }, [currentPage]);
+    fetchPost();
+    navigate(`${path}?page=${currentPage}`);
+  }, [currentPage, navigate, path]);
 
   // 이슈 service, DTO의 변수 이름이 mapper랑 다름
   // onChange 렌더링 한글자 때문에 리스트 오는 갯수랑 totalcount 갯수가 다름

@@ -100,9 +100,9 @@ const MyTravelDetail = () => {
         const selectReply = axios
           .get(
             mytravel +
-              "/reply/selectall?myTravelId=" +
-              myTravelId +
-              "&pageNo=1",
+            "/reply/selectall?myTravelId=" +
+            myTravelId +
+            "&pageNo=1",
             bearerToken
           )
           .then((reslist) => {
