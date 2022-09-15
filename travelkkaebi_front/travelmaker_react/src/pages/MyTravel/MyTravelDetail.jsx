@@ -24,7 +24,6 @@ const MyTravelDetail = () => {
   const [post, setPost] = useState();
   const [replyArr, setReplyArr] = useState([]);
   const [userArr, setUserArr] = useState([]);
-  const [mannerArr, setMannerArr] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,9 +37,31 @@ const MyTravelDetail = () => {
   };
 
   const plusMannerDegree = (e) => {
-    mannerArr.filter(function (n) { });
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+    };
+
+    const clickMannerPlus = axios
+      .put(mannerdegree + "/clickplus?mannerDegreeId=" + e)
+      .then((res) => {
+        console.log("mannerchange", res);
+        alert("매너온도를 1만큼 올렸습니다.");
+      });
   };
-  const minusMannerDegree = (e) => { };
+  const minusMannerDegree = (e) => {
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+    };
+
+    const clickMannerMinus = axios
+      .put(mannerdegree + "/clickminus?mannerDegreeId=" + e)
+      .then((res) => {
+        console.log("mannerchange", res);
+        alert("매너온도를 1만큼 내렸습니다.");
+      });
+  };
 
   const res = async (myTravelReplyDTO) => {
     if (myTravelReplyDTO.content.trim === "") {
@@ -74,27 +95,6 @@ const MyTravelDetail = () => {
           .then((reslist) => {
             console.log("user", reslist.data);
             setUserArr(reslist.data);
-            const userList = [];
-            reslist.data.map((item, index) => userList.push(item.userId));
-            console.log("list", userList);
-
-            axios.defaults.headers = {
-              "Content-Type": "application/json; charset = utf-8",
-              Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-            };
-
-            const selectMannerStatus = axios
-              .get(mannerdegree + "/selectall/byuserlist", {
-                params: {
-                  userList: userList,
-                },
-                paramsSerializer: (params) => {
-                  return qs.stringify(params, { arrayFormat: "brackets" });
-                },
-              })
-              .then((reslist) => {
-                console.log("mannerlist", reslist.data);
-              });
           });
 
         const selectReply = axios
@@ -162,23 +162,37 @@ const MyTravelDetail = () => {
                 &nbsp;&nbsp;Member{index + 1}
               </div>
               <div className="imgCell">
-                <img className="profileImg" src={item.profileImageUrl} alt="" />
+                <img
+                  className="profileImg"
+                  src={item?.myTravelUserResponseDTO.profileImageUrl}
+                  alt=""
+                />
               </div>
-              <div className="nicknameCell">{item?.nickname}</div>
+              <div className="nicknameCell">
+                {item?.myTravelUserResponseDTO.nickname}
+              </div>
               <div className="mannerCell">
-                <Degree /> {item.mannerDegree}
+                <Degree /> {item.myTravelUserResponseDTO.mannerDegree}
               </div>
-              <div className="mannerCell2">
-                <Plus
-                  fontSize="small"
-                  onClick={plusMannerDegree(item?.userId)}
-                />
-                <br />
-                <Minus
-                  fontSize="small"
-                  onClick={minusMannerDegree(item?.userId)}
-                />
-              </div>
+              {item.mannerDegreeDTO.degreeChange === 0 &&
+              (item.mannerDegreeDTO.toUserId !=
+                item.mannerDegreeDTO.fromUserId) ? (
+                <div className="mannerCell2">
+                  <Plus
+                    fontSize="small"
+                    onClick={(e) =>
+                      plusMannerDegree(item?.mannerDegreeDTO.mannerDegreeId)
+                    }
+                  />
+                  <br />
+                  <Minus
+                    fontSize="small"
+                    onClick={(e) =>
+                      minusMannerDegree(item?.mannerDegreeDTO.mannerDegreeId)
+                    }
+                  />
+                </div>
+              ) : null}
             </div>
           ))}
           <div className="titleCell">{post?.title}</div>

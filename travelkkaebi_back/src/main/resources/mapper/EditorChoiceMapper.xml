@@ -12,6 +12,11 @@
         ORDER BY board_editor_choice.create_time DESC LIMIT 0, 4;
     </select>
 
+    <select id="selectAllNew6" resultType="EditorChoiceResponseDTO">
+        SELECT * FROM board_editor_choice JOIN user on board_editor_choice.user_id = user.user_id
+        ORDER BY editor_choice_id DESC LIMIT 0, 6;
+    </select>
+
     <select id="selectOne" parameterType="int" resultType="EditorChoiceResponseDTO">
         SELECT * FROM board_editor_choice JOIN user on board_editor_choice.user_id = user.user_id
         WHERE editor_choice_id = #{editorChoiceId}

@@ -16,14 +16,14 @@
           AND degree_change = -1
     </select>
 
-    <select id="selectOneByDTO" parameterType="MannerDegreeDTO" resultType="MannerDegreeResponseDTO">
+    <select id="selectOneByDTO" parameterType="MannerDegreeDTO" resultType="MannerDegreeDTO">
         SELECT *
         FROM manner_degree
         WHERE to_user_id = #{toUserId}
           AND from_user_id = #{fromUserId}
     </select>
 
-    <select id="selectOneById" parameterType="int" resultType="MannerDegreeResponseDTO">
+    <select id="selectOneById" parameterType="int" resultType="MannerDegreeDTO">
         SELECT *
         FROM manner_degree
         WHERE manner_degree_id = #{mannerDegreeId}
@@ -39,6 +39,18 @@
         SET degree_change = #{degreeChange}
         WHERE to_user_id = #{toUserId}
           AND from_user_id = #{fromUserId}
+    </update>
+
+    <update id="plusUserMannerDegree" parameterType="int">
+        UPDATE user
+        SET manner_degree=manner_degree + 1
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="minusUserMannerDegree" parameterType="int">
+        UPDATE user
+        SET manner_degree=manner_degree - 1
+        WHERE user_id = #{userId}
     </update>
 
 </mapper>

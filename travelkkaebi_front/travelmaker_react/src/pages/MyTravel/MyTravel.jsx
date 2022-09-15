@@ -20,7 +20,7 @@ const MyTravel = () => {
     const getMyTravel = axios
       .get(mytravel + "/selectallbypage?pageNo=1", bearerToken)
       .then((reslist) => {
-        console.log("mytravellist", reslist.data.list);
+        console.log("mytravellist", reslist.data);
         setMyTravelArr(reslist.data.list);
       });
   }, []);

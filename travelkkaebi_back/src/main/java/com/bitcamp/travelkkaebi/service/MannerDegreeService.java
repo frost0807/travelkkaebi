@@ -16,14 +16,14 @@ public class MannerDegreeService {
     private final int DEFAULT_MANNER_DEGREE = 37;
     private final MannerDegreeMapper mannerDegreeMapper;
 
-    public MannerDegreeResponseDTO selectOne(int toUserId, int fromUserId) {
-        MannerDegreeResponseDTO mannerDegreeResponseDTO
-                = mannerDegreeMapper.selectOneByDTO(setMannerDegreeDTO(toUserId, fromUserId)).get();
-        if (mannerDegreeResponseDTO == null) {
-            mannerDegreeResponseDTO = mannerDegreeMapper.selectOneById(insert(setMannerDegreeDTO(toUserId, fromUserId))).get();
+    public MannerDegreeDTO selectOne(int toUserId, int fromUserId) {
+        MannerDegreeDTO mannerDegreeDTO
+                = mannerDegreeMapper.selectOneByDTO(setMannerDegreeDTO(toUserId, fromUserId)).orElse(null);
+        if (mannerDegreeDTO == null) {
+            mannerDegreeDTO = mannerDegreeMapper.selectOneById(insert(setMannerDegreeDTO(toUserId, fromUserId))).get();
         }
 
-        return setMannerDegree(mannerDegreeResponseDTO);
+        return mannerDegreeDTO;
     }
 
     public List<MannerDegreeDTO> selectAllByUserList(List<Integer> userList, int fromUserId) {
@@ -42,23 +42,44 @@ public class MannerDegreeService {
         return mannerDegreeDTO.getMannerDegreeId();
     }
 
-    public MannerDegreeResponseDTO plusMannerDegree(int mannerDegreeId, int fromUserId) {
+    public MannerDegreeDTO plusMannerDegree(int mannerDegreeId, int fromUserId) {
         MannerDegreeDTO mannerDegreeDTO = mannerDegreeMapper.selectOneById(mannerDegreeId)
                 .orElseThrow(() -> new NullPointerException("해당 매너온도 상태가 존재하지 않습니다."));
         mannerDegreeDTO.setDegreeChange(1);
         mannerDegreeDTO.setFromUserId(fromUserId);
 
-        return updateDegreeStatus(mannerDegreeDTO);
+        return updatePlusDegreeStatus(mannerDegreeDTO);
     }
 
-    public MannerDegreeResponseDTO updateDegreeStatus(MannerDegreeDTO mannerDegreeDTO) {
+    public MannerDegreeDTO minusMannerDegree(int mannerDegreeId, int fromUserId) {
+        MannerDegreeDTO mannerDegreeDTO = mannerDegreeMapper.selectOneById(mannerDegreeId)
+                .orElseThrow(() -> new NullPointerException("해당 매너온도 상태가 존재하지 않습니다."));
+        mannerDegreeDTO.setDegreeChange(-1);
+        mannerDegreeDTO.setFromUserId(fromUserId);
+
+        return updateMinusDegreeStatus(mannerDegreeDTO);
+    }
+
+    public MannerDegreeDTO updatePlusDegreeStatus(MannerDegreeDTO mannerDegreeDTO) {
         //상태 업데이트하고 성공했다면
         if (mannerDegreeMapper.update(mannerDegreeDTO) != 0) {
             //update 성공했으면 리턴
-            MannerDegreeResponseDTO mannerDegreeResponseDTO =
-                    mannerDegreeMapper.selectOneById(mannerDegreeDTO.getMannerDegreeId()).get();
+            mannerDegreeDTO = mannerDegreeMapper.selectOneById(mannerDegreeDTO.getMannerDegreeId()).get();
 
-            return setMannerDegree(mannerDegreeResponseDTO);
+            return (mannerDegreeMapper.plusUserMannerDegree(
+                    mannerDegreeDTO.getToUserId()) == 1 ? mannerDegreeDTO : null);
+        } else {
+            throw new RuntimeException("매너온도 상태 업데이트 실패");
+        }
+    }
+    public MannerDegreeDTO updateMinusDegreeStatus(MannerDegreeDTO mannerDegreeDTO) {
+        //상태 업데이트하고 성공했다면
+        if (mannerDegreeMapper.update(mannerDegreeDTO) != 0) {
+            //update 성공했으면 리턴
+            mannerDegreeDTO = mannerDegreeMapper.selectOneById(mannerDegreeDTO.getMannerDegreeId()).get();
+
+            return (mannerDegreeMapper.minusUserMannerDegree(
+                    mannerDegreeDTO.getToUserId()) == 1 ? mannerDegreeDTO : null);
         } else {
             throw new RuntimeException("매너온도 상태 업데이트 실패");
         }

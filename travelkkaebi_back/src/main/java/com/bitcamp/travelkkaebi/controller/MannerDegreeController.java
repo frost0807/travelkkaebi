@@ -48,7 +48,7 @@ public class MannerDegreeController {
     }
 
     @PutMapping("/clickplus")
-    public ResponseEntity<MannerDegreeResponseDTO> clickPlus(
+    public ResponseEntity<MannerDegreeDTO> clickPlus(
             @RequestParam int mannerDegreeId,
             @AuthenticationPrincipal String fromUserId) {
         try {
@@ -59,5 +59,16 @@ public class MannerDegreeController {
             throw new RuntimeException(e.getMessage());
         }
     }
-
+    @PutMapping("/clickminus")
+    public ResponseEntity<MannerDegreeDTO> clickMinus(
+            @RequestParam int mannerDegreeId,
+            @AuthenticationPrincipal String fromUserId) {
+        try {
+            return new ResponseEntity<>(mannerDegreeService.minusMannerDegree(mannerDegreeId,
+                    Integer.parseInt(fromUserId)), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

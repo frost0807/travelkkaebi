@@ -1,29 +1,38 @@
 package com.bitcamp.travelkkaebi.service;
 
+import com.bitcamp.travelkkaebi.dto.MyTravelUserAndMannerDTO;
 import com.bitcamp.travelkkaebi.dto.MyTravelUserResponseDTO;
-import com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO;
-import com.bitcamp.travelkkaebi.dto.parameter.MyTravelIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.mapper.MyTravelUserMapper;
 import com.bitcamp.travelkkaebi.model.MyTravelUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MyTravelUserService {
+    private final MannerDegreeService mannerDegreeService;
     private final MyTravelUserMapper myTravelUserMapper;
 
-    public List<MyTravelUserResponseDTO> selectAll(int myTravelId, int userId) {
+    public List<MyTravelUserAndMannerDTO> selectAllWithMannerStatus(int myTravelId, int userId) {
+        boolean valid = false;
+        //내 여행 게시물에 속한 유저리스트 가져오기
         List<MyTravelUserResponseDTO> myTravelUserResponseDTOList
                 = myTravelUserMapper.selectAll(myTravelId);
-        for (MyTravelUserResponseDTO m : myTravelUserResponseDTOList) {
-            if (m.getUserId() == userId) {
-                return myTravelUserResponseDTOList;
+        List<MyTravelUserAndMannerDTO> myTravelUserAndMannerDTOList = new ArrayList<>();
+        for (MyTravelUserResponseDTO myTravelUserResponseDTO : myTravelUserResponseDTOList) {
+            myTravelUserAndMannerDTOList.add(
+                    MyTravelUserAndMannerDTO.builder()
+                            .myTravelUserResponseDTO(myTravelUserResponseDTO)
+                            .mannerDegreeDTO(mannerDegreeService.selectOne(myTravelUserResponseDTO.getUserId(), userId))
+                            .build());
+            if (myTravelUserResponseDTO.getUserId() == userId) {
+                valid = true;
             }
         }
-        throw new RuntimeException("해당 사용자가 속해있는 멤버그룹이 아님");
+        return (valid ? myTravelUserAndMannerDTOList : null);
     }
 
     //MyTravel게시물 생성하면서 해당게시물 접근 가능한 User테이블 생성
