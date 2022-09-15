@@ -52,7 +52,7 @@ import PickApplyList from "./pages/MyPage/PickApply/PickApplyList";
 import PickMyApplyList from "./pages/MyPage/PickApply/PickMyApplyList";
 import PickApplyUserList from "./pages/MyPage/PickApply/PickApplyUserList";
 import { MyPage } from "./pages/MyPage/MyPage";
-import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
+
 
 function Main() {
   return (
