@@ -3,7 +3,7 @@ import axios from "axios";
 import "./JoinMe.css";
 import { Button } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { API_BASE_URL, joinmeurl } from "../../config";
+import { API_BASE_URL, joinmeurl, likedislike } from "../../config";
 import { useRecoilState } from "recoil";
 import { isLoginModalState, isLoginState } from "../../recoil/atom";
 import Login from "../../components/Login/Login";
@@ -13,6 +13,8 @@ import Pagination from "../../components/Pagenation/Pagination";
 import queryString from "query-string";
 import { getToken, isLoginFc, is_logged } from "../../util";
 import styled from "styled-components";
+
+const CATEGORY_ID = 1;
 
 function JoinMe() {
   const navigate = useNavigate();

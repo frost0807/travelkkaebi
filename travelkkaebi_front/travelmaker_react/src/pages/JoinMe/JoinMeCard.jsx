@@ -26,6 +26,11 @@ function JoinMeCard(props) {
   let eDate = new Date(post.endDate);
   const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
+  // like
+  const [likeState, setLikeState] = useState();
+  const [like, setLike] = useState(false);
+  const [likeordislikeid, setLikeordislikeid] = useState(0);
+
   const [showJoinMeDetail, setShowJoinMeDetail] = useState(false);
 
   const openModal = () => {
@@ -136,6 +141,8 @@ function JoinMeCard(props) {
                 showJoinMeDetail={showJoinMeDetail}
                 closeModal={closeModal}
                 profile_img={profile_img}
+                likeordislikeid={likeordislikeid}
+                setLikeordislikeid={setLikeordislikeid}
               />
             ) : null}
           </div>

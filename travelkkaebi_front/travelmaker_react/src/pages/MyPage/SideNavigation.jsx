@@ -5,11 +5,11 @@ import SidebarItem from "./SidebarItem";
 
 const Side = styled.div`
   display: flex;
-  border-right: 1px solid #e0e0e0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 20%;
+  background: #fff;
 `;
 const Profile = styled.img`
   width: 150px;
@@ -26,21 +26,34 @@ const Menu = styled.div`
 function SideNavigation() {
   const profile_img = localStorage.getItem("profileImageUrl");
   const menus = [
-    { name: "내가 쓴 JoinMe 게시글", path: "/mypage/apply/list" },
-    { name: "나의 Join Me신청 리스트", path: "/mypage/myapply/list" },
-    { name: "내가 쓴 PickMe 게시글", path: "/mypage/pickmeapply/list" },
-    { name: "나의 Pick Me신청 리스트", path: "/mypage/pickmemyapply/list" },
+    {
+      name: "MY JOIN ME",
+      path: "/joinme/selectallbypage/myboardlist",
+    },
+    {
+      name: "JOIN ME APPLY",
+      path: "/joinme/selectallbypage/myappliedboardlist",
+    },
+    { name: "MY PICK ME", path: "/pickme/mylist" },
+    { name: "PICK ME APPLY", path: "/pickme/my/applylist" },
     { name: "설정", path: "/setting" },
   ];
+
   return (
     <Side>
-      <Profile src={profile_img}></Profile>
+      <Profile src={profile_img} style={{ marginTop: "-20px" }}></Profile>
       <Menu>
         {menus.map((menu, index) => {
           return (
             <NavLink
               exact
-              style={{ color: "gray", textDecoration: "none" }}
+              style={{
+                color: "gray",
+                textDecoration: "none",
+                padding: "24px",
+                fontSize: "1.2rem",
+                marginTop: "30px",
+              }}
               to={menu.path}
               key={index}
               activeStyle={{ color: "black" }}

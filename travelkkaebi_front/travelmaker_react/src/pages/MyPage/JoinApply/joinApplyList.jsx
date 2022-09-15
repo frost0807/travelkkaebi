@@ -2,29 +2,34 @@ import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
 import Pagination from "../../../components/Pagenation/Pagination";
 import { joinapply, joinmeurl } from "../../../config";
 import { bearerToken } from "../../../util";
 import JoinMeCard from "../../JoinMe/JoinMeCard";
+import queryString from "query-string";
 import "./joinapply.css";
 
 /** 내가 신청한 게시글 보기 */
 
 const JoinApplyList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = window.location.pathname;
+  const initialQueryString = queryString.parse(location.search);
+  const initialPageNumber = Number(initialQueryString.page) || 1;
 
   const [posts, setPosts] = useState([]);
   const [limits] = useState(9);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const [totalCount, setTotalCount] = useState();
 
   const URL = joinmeurl + "/selectallbypage/myappliedboardlist";
   useEffect(() => {
     const fetchPost = async () => {
       const fetchAxios = await axios
-        .get(URL + "?pageNo=" + currentPage, bearerToken)
+        .get(URL, { params: { pageNo: currentPage } }, bearerToken)
         .then((res) => {
           console.log(res.data);
           setPosts(res.data.list);
@@ -33,8 +38,9 @@ const JoinApplyList = () => {
           console.log("totalBoardCount", res.data.totalBoardCount);
         });
     };
-    return () => fetchPost();
-  }, [currentPage]);
+    fetchPost();
+    navigate(`${path}?pageNo=${currentPage}`);
+  }, [currentPage, navigate, path]);
 
   // 채택 된 게시글 보기
   const alreadyselect =
@@ -89,6 +95,7 @@ const JoinApplyList = () => {
               id="myappuser_btn-submit"
               className="myappuser_btn-submit"
               onClick={onNotSelected}
+              style={{ marginLeft: "30px" }}
             >
               채택 대기
             </button>

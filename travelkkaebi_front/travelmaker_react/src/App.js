@@ -52,6 +52,7 @@ import PickApplyList from "./pages/MyPage/PickApply/PickApplyList";
 import PickMyApplyList from "./pages/MyPage/PickApply/PickMyApplyList";
 import PickApplyUserList from "./pages/MyPage/PickApply/PickApplyUserList";
 import { MyPage } from "./pages/MyPage/MyPage";
+import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
 
 function Main() {
   return (
@@ -106,24 +107,28 @@ function Main() {
         <Route path="pickmeedit" element={<PickUpMeEditForm />} />
 
         <Route path="/mypage/" element={<MyPage />} />
-        {/** 내가 신청한 게시글 보기 */}
 
-        <Route path="/mypage/apply/list" element={<JoinApplyList />} />
-        {/** 나의 게시글 보기 */}
-        <Route path="/mypage/myapply/list" element={<JoinMyApplyList />} />
+        {/** 내가 신청한 게시글 보기 */}
         <Route
-          path="/mypage/myapply/list/appliction"
+          path="/joinme/selectallbypage/myappliedboardlist"
+          element={<JoinApplyList />}
+        />
+        {/** 나의 게시글 보기 */}
+        <Route
+          path="/joinme/selectallbypage/myboardlist"
+          element={<JoinMyApplyList />}
+        />
+        <Route
+          path="/joinmeapply/selectall/byjoinmeid"
           element={<JoinApplyUserList />}
         />
-        <Route path="/mypage/pickmeapply/list" element={<PickApplyList />} />
-        <Route
-          path="/mypage/pickmemyapply/list"
-          element={<PickMyApplyList />}
-        />
-        <Route
-          path="/mypage/pickmemyapply/list/appliction"
-          element={<PickApplyUserList />}
-        />
+
+        {/** 내가 신청한 게시글 보기 */}
+        <Route path="/pickme/my/applylist" element={<PickApplyList />} />
+
+        {/** 나의 게시글 보기 */}
+        <Route path="/pickme/mylist" element={<PickMyApplyList />} />
+        <Route path="/pickme/my/takemelist" element={<PickApplyUserList />} />
 
         <Route path="/mytravel/:pageNo" element={<MyTravel />} />
         <Route path="/mytraveldetail" element={<MyTravelDetail />} />

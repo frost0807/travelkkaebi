@@ -32,10 +32,7 @@ function PickApplyUserList(props) {
   useEffect(() => {
     const fetchApi = async () => {
       const resApi = await axios
-        .get(
-          appURL + "?pageNo=" + currentPage + "&joinMeId=" + boardId,
-          bearerToken
-        )
+        .get(appURL + "?pageNo=" + currentPage, bearerToken)
         .then((res) => {
           console.log("신청List get ", res);
           setAppList(res.data.list);
@@ -57,7 +54,7 @@ function PickApplyUserList(props) {
           </div>
         </header>
         <div className="myappuser-btn">
-          <a href="/mypage/pickmemyapply/list" className="myapp_btn_cancel">
+          <a className="myapp_btn_cancel" onClick={() => navigate(-1)}>
             뒤로가기
           </a>
         </div>

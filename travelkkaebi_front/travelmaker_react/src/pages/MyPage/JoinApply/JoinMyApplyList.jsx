@@ -2,7 +2,7 @@ import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
 import Pagination from "../../../components/Pagenation/Pagination";
 import { joinmeurl } from "../../../config";
@@ -11,22 +11,27 @@ import JoinMeCard from "../../JoinMe/JoinMeCard";
 import SideNavigation from "../SideNavigation";
 import "./joinapply.css";
 import JoinApplyCard from "./JoinApplyCard";
+import queryString from "query-string";
 
 /** 나의 게시글 보기 */
 
 const JoinMyApplyList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = window.location.pathname;
+  const initialQueryString = queryString.parse(location.search);
+  const initialPageNumber = Number(initialQueryString.page) || 1;
 
   const [posts, setPosts] = useState([]);
   const [limits] = useState(9);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const [totalCount, setTotalCount] = useState();
 
   const URL = joinmeurl + "/selectallbypage/myboardlist";
   useEffect(() => {
     const fetchPost = async () => {
       const fetchAxios = await axios
-        .get(URL + "?pageNo=" + currentPage, bearerToken)
+        .get(URL, { params: { pageNo: currentPage } }, bearerToken)
         .then((res) => {
           console.log("게시글리스트 받기 ", res);
           setPosts(res.data.list);
@@ -34,8 +39,9 @@ const JoinMyApplyList = () => {
           console.log("totalBoardCount", res.data.totalBoardCount);
         });
     };
-    return () => fetchPost();
-  }, [currentPage]);
+    fetchPost();
+    navigate(`${path}?pageNo=${currentPage}`);
+  }, [currentPage, navigate, path]);
 
   return (
     <MainContent>
