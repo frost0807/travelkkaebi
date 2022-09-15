@@ -178,7 +178,8 @@ public class ReviewController {
      * 특정 작성자로 검색
      */
     @GetMapping("/selectallbypage/searchbywriter")
-    private ResponseEntity<ListResponseDTO> searchByWriter(@RequestParam("writer") String word, int pageNo) {
+    private ResponseEntity<ListResponseDTO> searchByWriter(@RequestParam("writer") String word,
+                                                           @RequestParam int pageNo) {
         try {
             return new ResponseEntity<>(reviewService.searchByWriter(word, pageNo), HttpStatus.OK);
         } catch (Exception e) {
