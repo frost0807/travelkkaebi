@@ -51,7 +51,7 @@ function Contact (){
       </Grid>
       <Grid container></Grid>
 
-      <Grid container>
+      <Grid container >
         <Grid item xs={12} md={6}>
         <div>
             <Typography variant="h4" style={{marginBottom:'10px'}}>회장인사말</Typography>
