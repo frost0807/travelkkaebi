@@ -21,10 +21,12 @@ public class JoinMeController {
     //pageNo에 페이지번호를 넣어서 보내주면 해당페이지의 게시물 20개를 리턴
     @GetMapping("/selectallbypage")
     public ResponseEntity<ListResponseDTO> selectAllByPage(
-            @RequestParam int pageNo) {
+            @RequestParam int pageNo,
+            @AuthenticationPrincipal String userId) {
         try {
             //해당 pageNo의 게시물 리스트를 리턴
-            return new ResponseEntity<>(joinMeService.selectAllByPage(pageNo), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.selectAllByPage(pageNo,
+                    Integer.parseInt(userId)), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -34,9 +36,11 @@ public class JoinMeController {
     @GetMapping("/selectallbypage/keyword")
     public ResponseEntity<ListResponseDTO> selectAllByPageAndKeyword(
             @RequestParam int pageNo,
-            @RequestParam String keyword) {
+            @RequestParam String keyword,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo, keyword), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.selectAllByPageAndKeyword(pageNo,
+                    Integer.parseInt(userId), keyword),HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -47,9 +51,11 @@ public class JoinMeController {
     @GetMapping("/selectallbypage/searchbytitle")
     public ResponseEntity<ListResponseDTO> selectAllByPageAndTitle(
             @RequestParam int pageNo,
-            @RequestParam String searchword) {
+            @RequestParam String searchword,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeService.selectAllByPageAndTitle(pageNo, searchword), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.selectAllByPageAndTitle(pageNo,
+                    Integer.parseInt(userId), searchword),HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -60,9 +66,11 @@ public class JoinMeController {
     @GetMapping("/selectallbypage/searchbynickname")
     public ResponseEntity<ListResponseDTO> selectAllByPageAndNickname(
             @RequestParam int pageNo,
-            @RequestParam String searchword) {
+            @RequestParam String searchword,
+            @AuthenticationPrincipal String userId) {
         try {
-            return new ResponseEntity<>(joinMeService.selectAllByPageAndNickname(pageNo, searchword), HttpStatus.OK);
+            return new ResponseEntity<>(joinMeService.selectAllByPageAndNickname(pageNo,
+                    Integer.parseInt(userId), searchword),HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

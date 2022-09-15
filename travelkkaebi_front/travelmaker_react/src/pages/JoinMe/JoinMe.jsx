@@ -28,6 +28,8 @@ function JoinMe() {
   const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const [totalCount, setTotalCount] = useState();
 
+  const [like, setLike] = useState(false);
+
   // search
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectKeyword, setSelectKeyword] = useState("");
@@ -111,7 +113,7 @@ function JoinMe() {
           params: { pageNo: currentPage },
         })
         .then((res) => {
-          console.log(res.data);
+          console.log("res", res.data);
           setPosts(res.data.list);
           console.log("list : ", res.data.list);
           setTotalCount(res.data.totalBoardCount);
@@ -176,7 +178,7 @@ function JoinMe() {
             {posts &&
               posts.map((post) => (
                 <JoinMeCard
-                  key={post.joinMeId}
+                  key={post.joinMeListDTO.joinMeId}
                   post={post}
                   isLoginState={isLoginState}
                 />

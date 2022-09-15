@@ -47,6 +47,7 @@ const MyTravelDetail = () => {
       .then((res) => {
         console.log("mannerchange", res);
         alert("매너온도를 1만큼 올렸습니다.");
+        window.location.reload();
       });
   };
   const minusMannerDegree = (e) => {
@@ -60,6 +61,7 @@ const MyTravelDetail = () => {
       .then((res) => {
         console.log("mannerchange", res);
         alert("매너온도를 1만큼 내렸습니다.");
+        window.location.reload();
       });
   };
 
