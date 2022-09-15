@@ -122,4 +122,15 @@ public class PickMeService {
         findPickMe.updateView(findPickMe.getWriteInfo().getView());
         return PickMeDTO.toDto(findPickMe);
     }
+
+    /**
+     * 내가 쓴 데려가줘 리스트
+     */
+    public ListResponseDTO showMyList(int userId, Pageable pageable) {
+        List<PickMeEntity> myList = pickMeDB.findByUserEntityIdOrderByIdDesc(userId, pageable).getContent();
+        if(myList.isEmpty())
+            throw new KkaebiException(DOES_NOT_EXIST_BOARD);
+
+        return ListResponseDTO.setTotalCountAndList(pickMeDB.countByUserEntityId(userId), myList.stream().map(PickMeDTO::new).collect(Collectors.toList()));
+    }
 }

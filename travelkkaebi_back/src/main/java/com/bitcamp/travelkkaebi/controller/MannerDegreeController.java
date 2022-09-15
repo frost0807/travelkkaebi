@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/mannerdegree")
@@ -37,8 +36,8 @@ public class MannerDegreeController {
             @RequestParam List<Integer> userList,
             @AuthenticationPrincipal String userId) {
         try {
-            for(int i:userList){
-                System.out.println("user : "+i);
+            for (int i : userList) {
+                System.out.println("user : " + i);
             }
             return new ResponseEntity<>(mannerDegreeService.selectAllByUserList(userList,
                     Integer.parseInt(userId)), HttpStatus.OK);
@@ -60,4 +59,5 @@ public class MannerDegreeController {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 }
