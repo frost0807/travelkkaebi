@@ -11,7 +11,7 @@ public class ListResponseDTO {
     private int totalBoardCount;
     private List<?> list;
 
-    public static ListResponseDTO setTotalCountAndList(int totalCount, List<?> dtoList) {
+    public static ListResponseDTO setTotalCountAndList(int totalCount, List<Object> dtoList) {
         return ListResponseDTO.builder()
                 .totalBoardCount(totalCount)
                 .list(dtoList)
