@@ -54,7 +54,8 @@ function RegionEvent() {
               <ScMainTitle>전국팔도 방방곡곡 지역축제!</ScMainTitle>
               <Scwrite
                 onClick={() => {
-                  navi("/regionevent/createform");
+                  localStorage.getItem('role')== 'ADMIN' ? 
+                  navi("/regionevent/createform") : alert("관리자 기능입니다.")
                 }}
               >
                 {/* <img src={b2b} alt='' /> */}

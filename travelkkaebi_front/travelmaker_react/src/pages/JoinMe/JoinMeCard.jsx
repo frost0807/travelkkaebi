@@ -27,7 +27,6 @@ function JoinMeCard(props) {
   const endDate = eDate.getMonth() + 1 + "." + eDate.getDate();
 
   // like
-  const [likeState, setLikeState] = useState();
   const [like, setLike] = useState(false);
   const [likeordislikeid, setLikeordislikeid] = useState(0);
 

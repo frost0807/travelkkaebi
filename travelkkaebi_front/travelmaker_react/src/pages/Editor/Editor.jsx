@@ -73,7 +73,8 @@ function Editor() {
               <ScMainTitle>전문 에디터와 떠나요!</ScMainTitle>
               <Scwrite
                 onClick={() => {
-                  navi("/editor/createform");
+                  localStorage.getItem('role')== 'EDITOR' ? 
+                  navi("/editor/createform") : alert("에디터만 글 작성이 가능합니다.")
                 }}
               >
                 {/* <img src={b2b} alt='' /> */}
@@ -100,13 +101,18 @@ function Editor() {
         data && data.map((row, idx)=>(
         <Carousel.Item>
           <img
+          onClick={()=>{
+            navi(`/editor/detail/${row.editorChoiceId}`)
+          } } style={{cursor:"pointer"}}
             className="d-block w-100"
             src={row.editorImgUrl1}
             alt="이미지 미첨부된 게시글"
           />
           <Carousel.Caption>
-            <h3>{row.title}</h3>
-            <p>{row.nickname}</p>
+            {/* <h3>{row.title}</h3> */}
+            <p onClick={()=>{
+                  navi(`/editor/detail/${row.editorChoiceId}`)
+                } } style={{cursor:"pointer"}}>{row.title}</p>
           </Carousel.Caption>
         </Carousel.Item>
       ))
@@ -123,13 +129,18 @@ function Editor() {
         data2 && data2.map((row, idx)=>(
 
       <Card >
-        <Card.Img variant="top" style={{width:"100%", height:"60%"}}  src={row.editorImgUrl1} />
+        <Card.Img
+        onClick={()=>{
+          navi(`/editor/detail/${row.editorChoiceId}`)
+        } }
+        variant="top" style={{width:"100%", height:"60%", cursor:'pointer'}}  src={row.editorImgUrl1} />
         <Card.Body>
           <Card.Title onClick={()=>{
+                  
                   navi(`/editor/detail/${row.editorChoiceId}`)
-                }} >{row.title}</Card.Title>
+                } } style={{cursor:"pointer"}}>{row.title}</Card.Title>
           <Card.Text>
-            작성자 : {row.nickname}
+            {row.content}
           </Card.Text>
         </Card.Body>
         <Card.Footer>

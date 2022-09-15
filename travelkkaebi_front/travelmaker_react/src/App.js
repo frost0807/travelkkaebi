@@ -53,7 +53,6 @@ import PickMyApplyList from "./pages/MyPage/PickApply/PickMyApplyList";
 import PickApplyUserList from "./pages/MyPage/PickApply/PickApplyUserList";
 import { MyPage } from "./pages/MyPage/MyPage";
 
-
 function Main() {
   return (
     <BrowserRouter>
