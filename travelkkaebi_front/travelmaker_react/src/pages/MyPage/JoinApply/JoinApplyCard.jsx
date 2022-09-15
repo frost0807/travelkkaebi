@@ -105,7 +105,7 @@ function JoinApplyCard(props) {
               className="myapp_btn-submit"
               defaultValue="신청리스트"
               onClick={() =>
-                navigate("/mypage/myapply/list/appliction", {state: post,})
+                navigate("/joinmeapply/selectall/byjoinmeid", { state: post })
               }
             />
           </div>

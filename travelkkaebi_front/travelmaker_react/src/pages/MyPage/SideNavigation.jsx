@@ -17,7 +17,7 @@ const Profile = styled.img`
   border-radius: 100%;
 `;
 const Menu = styled.div`
-  margin-top: 30px;
+  margin-top: 80px;
   width: 200px;
   display: flex;
   flex-direction: column;

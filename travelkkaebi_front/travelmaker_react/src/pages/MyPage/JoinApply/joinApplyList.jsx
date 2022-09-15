@@ -107,6 +107,11 @@ const JoinApplyList = () => {
               채택완료
             </button>
           </div>
+          <div className="myappuser-btn">
+            <a className="myapp_btn_cancel" onClick={() => navigate(-1)}>
+              뒤로가기
+            </a>
+          </div>
 
           <View>
             {posts &&

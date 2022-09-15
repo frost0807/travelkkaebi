@@ -46,7 +46,6 @@ import MytravelDetail from "./pages/MyTravel/MyTravelDetail";
 import MyTravelDetail from "./pages/MyTravel/MyTravelDetail";
 import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
 import JoinMyApplyList from "./pages/MyPage/JoinApply/JoinMyApplyList";
-import JoinApplyList from "./pages/MyPage/JoinApply/JoinApplyList";
 import JoinApplyUserList from "./pages/MyPage/JoinApply/JoinApplyUserList";
 import PickApplyList from "./pages/MyPage/PickApply/PickApplyList";
 import PickMyApplyList from "./pages/MyPage/PickApply/PickMyApplyList";

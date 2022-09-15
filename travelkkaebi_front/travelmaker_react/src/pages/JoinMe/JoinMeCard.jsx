@@ -18,7 +18,6 @@ import LikeBtn from "../../components/Like/LikeBtn";
 function JoinMeCard(props) {
   const [post, setPosts] = useState(props.post);
   const [closed] = useState(props.post);
-  const [likeState, setLikeState] = useState();
   const { id } = useParams();
   let profile_img = post?.profileImageUrl;
   let sDate = new Date(post.startDate);
