@@ -11,7 +11,7 @@ margin : 0 auto;
 height : 100%;
 zoom : 1;
 display : block;
-width : 1200px;
+/* width : 1200px; */
 `
 const Title = styled.h2 ` 
   font-size : 40px;

@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from "../../config";
 import Carousel from 'react-bootstrap/Carousel';
+import styled from 'styled-components';
 
 import axios from 'axios';
 import React from 'react';
 import { textAlign } from "@mui/system";
-import banner from './/regionevent_banner.jpg';
+import banner from './/banner.jpg';
+import b1b from './/smallBanner.jpg';
 
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
@@ -46,8 +48,27 @@ function RegionEvent() {
 
   return(
     <>
+      <ScTopCard style={{marginBottom:"50px"}}>
+            <ScLogo1 alt='' src={banner} style={{ width: "100%" }} />
+            <ScLogo2 alt='' src={b1b} style={{ width: "100%" }} />
+              <ScMainTitle>전국팔도 방방곡곡 지역축제!</ScMainTitle>
+              <Scwrite
+                onClick={() => {
+                  navi("/regionevent/createform");
+                }}
+              >
+                {/* <img src={b2b} alt='' /> */}
+                <span>글 작성하기</span>
+              </Scwrite>
+        </ScTopCard>  
 
-    <div style={{ height:"30%", width:"50%", marginTop:"50px", margin:"auto" }}>
+    
+        <div style={{
+      marginTop: '100px', marginLeft:'300px', marginBottom: '50px', fontSize:'25px',
+      fontWeight:'900'
+      }}>
+      🎊 지금 핫한 축제 !</div>
+    <div style={{ height:"20%", width:"40%", marginTop:"50px", margin:"auto" }}>
       <Carousel>
       {
         data && data.map((row, idx)=>(
@@ -58,8 +79,8 @@ function RegionEvent() {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>{row.title}</h3>
-            <p>{row.nickname}</p>
+            {/* <h3>{row.title}</h3>
+            <p>{row.nickname}</p> */}
           </Carousel.Caption>
         </Carousel.Item>
       ))
@@ -67,7 +88,7 @@ function RegionEvent() {
       </Carousel>
     </div>
 
-    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🚀 Hot</div>
+    <div style={{marginTop: '100px', marginLeft:'100px', marginBottom: '20px', fontSize:'25px'}}>🌾 지난 축제</div>
 
     <div>
       
@@ -77,7 +98,7 @@ function RegionEvent() {
 
       <Card >
         <Card.Img variant="top"  src={row.posterImageUrl} />
-        <Card.Body>
+        {/* <Card.Body>
           <Card.Title as="a" onClick={()=>{
                   navi(`/regionevent/detail/${row.regionId}`)
                 }} >{row.title}</Card.Title>
@@ -87,7 +108,7 @@ function RegionEvent() {
         </Card.Body>
         <Card.Footer>
           <small className="text-muted">{row.view}</small>
-        </Card.Footer>
+        </Card.Footer> */}
       </Card>
       ))
       }
@@ -96,14 +117,104 @@ function RegionEvent() {
 
     </div>
 
-    <button type='button' className='btn btn-info'
-          style={{ width:'110px', marginTop:'10px' }}
-          onClick={()=>{
-            navi("/regionevent/createform");
-          }}>글쓰기</button>
+
     </>
   )
 }
 
 export default RegionEvent;
 
+const ScTopCard = styled.div`
+  width: 100%;
+  display: flex;
+  background-color:#F5EABB;
+  width: 100%;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: 30px auto;
+  }
+`;
+
+const ScLogo1 = styled.img`
+@media screen and (max-width: 768px) {
+  display: none;
+}
+`
+const ScLogo2 = styled.img`
+display: none;
+@media screen and (max-width: 768px) {
+  display: block;
+  }
+`
+
+const ScTopCard2 = styled.div`
+  width: 100%;
+  display: flex;
+  font-size: 1.5em;
+  margin-bottom: 30px;  
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    margin: auto;
+    div{
+      display: none;
+    }
+  }
+`;
+
+const ScMainTitle = styled.div`
+  font-weight: 900;
+  font-size: 2.125em;
+  /* line-height: 43px; */
+  margin-bottom: 20px;
+  /* font-family: "SUIT ExtraBold"; */
+  position: absolute;
+  top:50%;
+  right: 20%;
+  @media screen and (max-width: 1200px) {
+  font-size: 28px;
+  right: 20%;
+   /* display: none; */
+  }
+  @media screen and (max-width: 768px) {
+  font-size: 16px;
+  right: 20%;
+  display: none;
+  }
+`;
+const Scwrite = styled.div`
+  position: absolute;
+  top:64%;
+  right: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  width: 166px;
+  height: 49px;
+  font-size: 1.25em;
+  border-radius: 10px;
+  gap:7px;
+  &:hover {
+    cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+  position: absolute;
+  font-size: 12px;
+  width: 86px;
+  height: 30px;
+  right: 10%;
+  top:30%;
+    img{
+      display: none;
+    }
+  }
+  
+`;

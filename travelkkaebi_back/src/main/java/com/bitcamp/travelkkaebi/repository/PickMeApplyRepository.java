@@ -18,9 +18,10 @@ public interface PickMeApplyRepository extends JpaRepository<PickMeApplyEntity, 
             "join pm.pickMeEntity pmp " +
             "join pm.userEntity u " +
             "where pmp.userEntity.id = :userId " +
+            "and pmp.id = :boardId " +
             "order by pm.id " +
             "desc")
-    List<PickMeApplyEntity> takeMeList(@Param("userId") int userId, Pageable pageable);
+    List<PickMeApplyEntity> takeMeList(@Param("userId") int userId, int boardId, Pageable pageable);
 
     @Query(value = "select count(pm) from PickMeApplyEntity pm " +
             "join pm.pickMeEntity pmp " +
