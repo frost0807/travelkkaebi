@@ -81,7 +81,7 @@ function Header() {
                   같이가요
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/pickme/list">
-                  데려가주세요
+                  데려가요
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/mytravel/1">내 여행</NavDropdown.Item>

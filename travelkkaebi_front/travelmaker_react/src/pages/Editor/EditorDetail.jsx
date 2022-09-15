@@ -69,7 +69,7 @@ function EditorDetail(){
   return (
     <div style={{marginTop:"50px"}}>
       <div className="voc-view-wrapper">
-        <a href="/review/1" align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"30px", color:"#548235" , marginBottom:'10px', textDecorationLine : 'none'}}>에디터 추천 게시판</a>
+        <a href="/editor/1" align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"30px", color:"#548235" , marginBottom:'10px', textDecorationLine : 'none'}}>에디터 추천 게시판</a>
         <hr style={{backgroundColor : '#548235', height:'3px'}}/>
         <h2 align="left" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif", fontSize:"20px", marginBottom:'10px'}}>{ data.title }</h2>
       
@@ -90,17 +90,20 @@ function EditorDetail(){
         <hr/>
         <div style={{float:"right"}}>
           <div  style={{margin: "10px 0", display: "flex"}}>
-              <button  type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
+          {localStorage.getItem('userId')== data.userId ? 
+              <div>              
+                <button  type='button' className='btn btn-info'
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'skyblue'}}
               onClick={()=>{
-                navi("/editor/form");
+                navi("/review/updateform");
               }}>수정</button>
 
               <button type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'red'}}
               onClick={()=>{
                 onDelete();
               }}>삭제</button>
+              </div> : null }
 
               <button  type='button' className='btn btn-success'
               style={{width:'100px', marginRight:'10px'}}

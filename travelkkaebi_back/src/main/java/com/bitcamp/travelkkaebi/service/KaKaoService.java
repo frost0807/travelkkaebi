@@ -39,6 +39,7 @@ public class KaKaoService {
         // 인가코드를 통해 토큰발급
         String accessToken = getAccessToken(authorizeCode);
 
+        System.out.println("accessToken = " + accessToken);
         // accessToken 을 이용하여 JSON 형태의 KAKAO_USER_INFO 를 가져온다
         String kaKaoUserInfo = getUserInfoByAccessToken(accessToken);
 
@@ -47,12 +48,15 @@ public class KaKaoService {
     }
 
     @Transactional
-    private LogInDTO jsonParsingAndSave(String userInfoByAccessToken) {
+    public LogInDTO jsonParsingAndSave(String userInfoByAccessToken) {
         // kakao 유저정보 JSON -> String parsing
         JsonElement element = JsonParser.parseString(userInfoByAccessToken);
         String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
+        System.out.println("nickname = " + nickname);
         String profileImage = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
+        System.out.println("profileImage = " + profileImage);
         String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+        System.out.println("email = " + email);
 
         if (userDB.existsByEmail(email)) {
             throw new KkaebiException(ALREADY_EXIST_USERNAME);
@@ -83,16 +87,19 @@ public class KaKaoService {
     private String getAccessToken(String authorizeCode) {
         RestTemplate restTemplate = new RestTemplate();
 
+        System.out.println("1" + authorizeCode);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity request = new HttpEntity(headers);
+        System.out.println(request);
+        System.out.println("2" + authorizeCode);
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(TOKEN_URL)
                 .queryParam("grant_type", GRANT_TYPE)
                 .queryParam("client_id", CLIENT_ID)
                 .queryParam("redirect_uri", REDIRECT_URI)
                 .queryParam("code", authorizeCode);
-
+        System.out.println("3" + authorizeCode);
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 uriComponentsBuilder.toUriString(),
                 HttpMethod.POST,
@@ -104,6 +111,7 @@ public class KaKaoService {
          * HttpStatus -> 200 true
          * json 형태의 response -> parse
          */
+        System.out.println("4" + authorizeCode);
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             JsonObject parser = JsonParser.parseString(Objects.requireNonNull(responseEntity.getBody())).getAsJsonObject();
             return parser.getAsJsonObject().getAsJsonPrimitive("access_token").getAsString();

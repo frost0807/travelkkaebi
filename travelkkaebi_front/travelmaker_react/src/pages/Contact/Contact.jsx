@@ -20,23 +20,11 @@ function Contact (){
           <div>
             <Typography variant="h4"  style={{marginBottom:'10px'}}>우리 함께 여행 가자</Typography>
             <Typography variant="h5" style={{fontFamily:"'NanumBarunGothic', 'Malgun Gothic', dotum, sans-serif"}}>
-              푸른 언덕에 배낭을 메고
-              황금빛 태양 축제를 여는
-              광야를 향해서 계곡을 향해서
-              먼동이 트는 이른아침에
-              도시의 소음 수많은 사람
-              빌딩 숲속을 벗어나봐요
-              메아리 소리가 들려오는 계곡속의
-              흐르는 물찾아 그곳으로 여행을 떠나요.
-              메아리 소리가 들려오는 계곡속의
-              흐르는 물찾아 그곳으로 여행을 떠나요.
-              굽이 또 굽이 깊은 산중에
-              시원한 바람 나를 반기네
-              하늘을 보며 노래 부르세
-              메아리 소리가 들려오는 계곡속의
-              흐르는 물찾아 그곳으로 여행을 떠나요.
-              메아리 소리가 들려오는 계곡속의
-              흐르는 물찾아 그곳으로 여행을 떠나요.
+            코로나 바이러스로 인해 자주 가지 못했던 여행을 갈 수 있는 시기가 되면서
+여행에 대한 관심이 급증한 요즘,
+여행을 가고 싶은데 같이 갈 사람이 있으면 좋겠다, 여행을 좋아하는 사람들끼리 정보를 공유하거나
+의사소통을 할 수 있는 사이트가 있으면 좋겠다는
+요구에 부응해 만들게 된 여행 플랫폼!
             </Typography>
           </div>
         </Grid>
@@ -80,7 +68,7 @@ function Contact (){
         <Grid item xs={12} md={6}> </Grid>
     
       </Grid>
-      <Grid container>
+      {/* <Grid container>
         <Grid item xs={12} md={7}>
           <img src={MapImg} style={{width:'100%'}}></img>
         </Grid>
@@ -96,7 +84,7 @@ function Contact (){
             </Typography>
           </div>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Container>
 
   )

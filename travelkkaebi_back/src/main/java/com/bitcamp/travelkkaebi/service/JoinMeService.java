@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,41 +21,83 @@ public class JoinMeService {
     private final JoinMeMapper joinMeMapper;
 
     //전체보기 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
-    public ListResponseDTO selectAllByPage(int pageNo) throws Exception {
+    public ListResponseDTO selectAllByPage(int pageNo, int userId) throws Exception {
+        List<JoinMeListDTOAndLikeResponseDTO> joinMeAndLikeResponseDTOList = new ArrayList<>();
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPage(
                                 setPageAndWord(pageNo, null))));
-
-        return setListResponse(joinMeMapper.getBoardCount(), joinMeListDTOList);
+        for (JoinMeListDTO joinMeListDTO : joinMeListDTOList) {
+            joinMeAndLikeResponseDTOList.add(
+                    JoinMeListDTOAndLikeResponseDTO.builder()
+                            .joinMeListDTO(joinMeListDTO)
+                            .likeOrDislikeResponseDTO(
+                                    likeOrDislikeService.selectOne(
+                                            joinMeListDTO.getCategoryId(), joinMeListDTO.getJoinMeId(), userId))
+                            .build()
+            );
+        }
+        return setListResponse(joinMeMapper.getBoardCount(), joinMeAndLikeResponseDTOList);
     }
 
     //지역키워드 기준으로 최대 20개의 게시물과 총 게시물 수 리턴
-    public ListResponseDTO selectAllByPageAndKeyword(int pageNo, String keyword) throws Exception {
+    public ListResponseDTO selectAllByPageAndKeyword(int pageNo, int userId, String keyword) throws Exception {
+        List<JoinMeListDTOAndLikeResponseDTO> joinMeAndLikeResponseDTOList = new ArrayList<>();
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndKeyword(
                                 setPageAndWord(pageNo, keyword))));
-
-        return setListResponse(joinMeMapper.getBoardCountByKeyword(keyword), joinMeListDTOList);
+        for (JoinMeListDTO joinMeListDTO : joinMeListDTOList) {
+            joinMeAndLikeResponseDTOList.add(
+                    JoinMeListDTOAndLikeResponseDTO.builder()
+                            .joinMeListDTO(joinMeListDTO)
+                            .likeOrDislikeResponseDTO(
+                                    likeOrDislikeService.selectOne(
+                                            joinMeListDTO.getCategoryId(), joinMeListDTO.getJoinMeId(), userId))
+                            .build()
+            );
+        }
+        return setListResponse(joinMeMapper.getBoardCountByKeyword(keyword), joinMeAndLikeResponseDTOList);
     }
 
     //제목검색 후 최대 20개의 게시물과 총 게시물 수 리턴
-    public ListResponseDTO selectAllByPageAndTitle(int pageNo, String searchword) throws Exception {
+    public ListResponseDTO selectAllByPageAndTitle(int pageNo, int userId, String searchword) throws Exception {
+        List<JoinMeListDTOAndLikeResponseDTO> joinMeAndLikeResponseDTOList = new ArrayList<>();
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndTitle(
                                 setPageAndWord(pageNo, searchword))));
-        return setListResponse(joinMeMapper.getBoardCountByTitle(searchword), joinMeListDTOList);
+        for (JoinMeListDTO joinMeListDTO : joinMeListDTOList) {
+            joinMeAndLikeResponseDTOList.add(
+                    JoinMeListDTOAndLikeResponseDTO.builder()
+                            .joinMeListDTO(joinMeListDTO)
+                            .likeOrDislikeResponseDTO(
+                                    likeOrDislikeService.selectOne(
+                                            joinMeListDTO.getCategoryId(), joinMeListDTO.getJoinMeId(), userId))
+                            .build()
+            );
+        }
+        return setListResponse(joinMeMapper.getBoardCountByTitle(searchword), joinMeAndLikeResponseDTOList);
     }
 
     //닉네임검색 후 최대 20개의 게시물과 총 게시물 수 리턴
-    public ListResponseDTO selectAllByPageAndNickname(int pageNo, String searchword) throws Exception {
+    public ListResponseDTO selectAllByPageAndNickname(int pageNo, int userId, String searchword) throws Exception {
+        List<JoinMeListDTOAndLikeResponseDTO> joinMeAndLikeResponseDTOList = new ArrayList<>();
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageAndNickname(
                                 setPageAndWord(pageNo, searchword))));
-        return setListResponse(joinMeMapper.getBoardCountByNickname(searchword), joinMeListDTOList);
+        for (JoinMeListDTO joinMeListDTO : joinMeListDTOList) {
+            joinMeAndLikeResponseDTOList.add(
+                    JoinMeListDTOAndLikeResponseDTO.builder()
+                            .joinMeListDTO(joinMeListDTO)
+                            .likeOrDislikeResponseDTO(
+                                    likeOrDislikeService.selectOne(
+                                            joinMeListDTO.getCategoryId(), joinMeListDTO.getJoinMeId(), userId))
+                            .build()
+            );
+        }
+        return setListResponse(joinMeMapper.getBoardCountByNickname(searchword), joinMeAndLikeResponseDTOList);
     }
 
     public ListResponseDTO selectAllByPageByMyUserId(int pageNo, int userId) throws Exception {
@@ -65,14 +108,14 @@ public class JoinMeService {
         return setListResponse(joinMeMapper.getBoardCountByMyUserId(userId), joinMeListDTOList);
     }
 
-    public ListResponseDTO selectAllByPageByApply(int pageNo, int userId) throws Exception
-    {
+    public ListResponseDTO selectAllByPageByApply(int pageNo, int userId) throws Exception {
         List<JoinMeListDTO> joinMeListDTOList = setLikeCount(
                 checkClosed(
                         joinMeMapper.selectAllByPageByApply(
                                 setPageAndUserId(pageNo, userId))));
         return setListResponse(joinMeMapper.getBoardCountByApply(userId), joinMeListDTOList);
     }
+
     //게시물 상세보기하면서 조회수+1
     public JoinMeOneDTO selectOne(int joinMeId) throws Exception {
         if (joinMeMapper.updateView(joinMeId) != 0) { //조회수+1 성공하면
@@ -200,10 +243,10 @@ public class JoinMeService {
     }
 
     //응답객체에 게시물리스트와 총페이지수 세팅해주는 메소드
-    public ListResponseDTO setListResponse(int totalPageCount, List<JoinMeListDTO> joinMeListDTOList) {
+    public ListResponseDTO setListResponse(int totalPageCount, List<?> list) {
         return ListResponseDTO.builder()
                 .totalBoardCount(totalPageCount)
-                .list(joinMeListDTOList)
+                .list(list)
                 .build();
     }
 }
