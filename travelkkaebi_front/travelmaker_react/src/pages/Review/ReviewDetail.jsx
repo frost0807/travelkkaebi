@@ -127,21 +127,21 @@ function ReviewDetail() {
         <br></br>
         <hr/>
         <div style={{float:"right"}}>
-          <div  style={{margin: "10px 0", display: "flex"}}>
+          <div style={{margin: "10px 0", display: "flex"}}>
               <button  type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'skyblue'}}
               onClick={()=>{
                 navi("/review/updateform");
               }}>수정</button>
 
               <button type='button' className='btn btn-info'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'red'}}
               onClick={()=>{
                 onDelete();
               }}>삭제</button>
 
               <button  type='button' className='btn btn-success'
-              style={{width:'100px', marginRight:'10px'}}
+              style={{width:'100px', marginRight:'10px', border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'darkgreen'}}
               onClick={()=>{
                 navi(`/review/1`);
               }}>목록</button>
@@ -165,7 +165,7 @@ function ReviewDetail() {
 
 
       
-    <div>전체 댓글</div>
+    <div style={{fontWeight: 'bold', fontSize:'large', color:'darkgreen'}}>전체 댓글</div>
     <hr style={{height:"3px"}}/>
 
         <div  style={{marginTop:"30px"}}>
@@ -175,8 +175,8 @@ function ReviewDetail() {
                 reply && reply.map((row, idx)=>(
                   <div>
                   <div>
-                    <div style={{float:"left", paddingTop:"5px", width:'20%'}} key={row.reviewReplyId}>{row.nickname}</div>
-                    <div style={{float:"right", paddingTop:"5px", width:'80%'}} key={row.reviewReplyId}>{row.comment}</div>
+                    <div style={{float:"left", paddingTop:"3%", width:'20%', fontWeight: 'bold'}} key={row.reviewReplyId}>{row.nickname}</div>
+                    <div style={{float:"right", paddingTop:"3%", width:'80%'}} key={row.reviewReplyId}>{row.comment}</div>
                   </div>
                     {/* <div style={{width:'100%', height:'5px', backgroundColor:"red", display:"block"}}></div> */}
                     <hr/>
@@ -194,19 +194,17 @@ function ReviewDetail() {
 
             <div>
                   <div>
-                  <form
-          id="reg_form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+            
                   <div>
-                    <div style={{float:"left", width:'20%'}}>댓글 작성</div>
-                    <div style={{float:"right", width:'80%'}}>
+                    <div style={{float:"right", width:'100%'}}>
+                    <hr style={{height:"3px"}}/>
 
-                    <input
+                    <form id="reg_form" onSubmit={handleSubmit(onSubmit)}>
+                      <textarea
                           type="content"
                           // className="reg_input"
                           name="content"
-                          style={{border:0, width:'70%'}}
+                          style={{width:'70%' , height: '100px' , marginTop: '3%' , border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'darkgreen'}}
                           required
                           
                           {...register("content", {
@@ -215,22 +213,22 @@ function ReviewDetail() {
                               message: "최대 500글자까지 입력 가능합니다.",
                             },
                           })}
-                        />
-                    <input
+                      />
+                      <input
                       type="submit"
                       disabled={isSubmitting}
-                      style={{width:'20%'}}
+                      style={{width:'20%', marginTop: '5%' , border: '1px solid', backgroundColor: 'rgba(0,0,0,0)', color:'darkgreen'}}
                       value="댓글 작성"
                       id="btn_submit"
                       className="btn_submit"
                       accessKey="s" 
-                    />
+                      />
+                    </form>
+                
 
                     </div>
 
                   </div>
-
-                    </form>
                   </div>
 
                 

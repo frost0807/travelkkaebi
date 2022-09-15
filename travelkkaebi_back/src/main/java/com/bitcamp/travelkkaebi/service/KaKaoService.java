@@ -32,7 +32,7 @@ public class KaKaoService {
 
     private final String GRANT_TYPE = "authorization_code";
     private final String CLIENT_ID = "7885d8a4bb6d5b564863fbf38ee1a72b";
-    private final String REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+    private final String REDIRECT_URI = "http://localhost:3000";
     private final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 
     public LogInDTO kaKaoAuth(String authorizeCode) {
@@ -44,7 +44,6 @@ public class KaKaoService {
 
         // json 형태의 userinfo parsing
         return jsonParsingAndSave(kaKaoUserInfo);
-
     }
 
     @Transactional
