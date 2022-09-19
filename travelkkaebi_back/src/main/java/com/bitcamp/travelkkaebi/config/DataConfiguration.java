@@ -21,10 +21,10 @@ import com.zaxxer.hikari.HikariDataSource;
 //이 클래스를 설정파일로 읽어드리는 어노테이션
 @Configuration
 //설정내용을 어느 파일에서 읽어올 것인지 결정
+//aws s3 경로
+@PropertySource("classpath:/application-aws.properties")
 //classpath: src/main/resource
 @PropertySource("classpath:/application.properties")
-//aws s3 경로
-@PropertySource("classpath:/aws.yml")
 //Mapper 클래스 스캔할 경로
 @MapperScan(basePackages="com.bitcamp.travelkkaebi.mapper")
 public class DataConfiguration {
