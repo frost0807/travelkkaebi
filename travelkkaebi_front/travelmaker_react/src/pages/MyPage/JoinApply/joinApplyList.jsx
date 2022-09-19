@@ -51,13 +51,9 @@ const JoinApplyList = () => {
       .get(alreadyselect + currentPage, bearerToken)
       .then((res) => {
         console.log("채택된 게시글 눌렀을 때 , ", res);
-        if (res.data.list.length > 0) {
-          setPosts(res.data.list);
-          setTotalCount(res.data.totalBoardCount);
-        } else if (res.data.list.length === 0) {
-          alert("게시물이 존재하지 않습니다 !");
-          return;
-        }
+
+        setPosts(res.data.list);
+        setTotalCount(res.data.totalBoardCount);
       });
   };
 
@@ -68,13 +64,9 @@ const JoinApplyList = () => {
       .get(notselect + currentPage, bearerToken)
       .then((res) => {
         console.log("채택 대기 중 게시글 보기 ,", res);
-        if (res.data.list.length > 0) {
-          setPosts(res.data.list);
-          setTotalCount(res.data.totalBoardCount);
-        } else if (res.data.list.length === 0) {
-          alert("게시물이 존재하지 않습니다 !");
-          return;
-        }
+
+        setPosts(res.data.list);
+        setTotalCount(res.data.totalBoardCount);
       });
   };
 
@@ -90,7 +82,7 @@ const JoinApplyList = () => {
       </header>
       <Content>
         <ContentBody>
-          <div className="appKeyButton" style={{ margin: "2rem" }}>
+          {/* <div className="appKeyButton" style={{ margin: "2rem" }}>
             <button
               id="myappuser_btn-submit"
               className="myappuser_btn-submit"
@@ -106,7 +98,7 @@ const JoinApplyList = () => {
             >
               채택완료
             </button>
-          </div>
+          </div> */}
           <div className="myappuser-btn">
             <a className="myapp_btn_cancel" onClick={() => navigate(-1)}>
               뒤로가기

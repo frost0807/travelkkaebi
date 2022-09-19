@@ -7,5 +7,5 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface JoinMeRepository extends JpaRepository<JoinMeEntity, Integer> {
-    List<JoinMeEntity> findAllByUserEntityIdAndDateInfoStartDateLessThan(int userEntity_id, Timestamp dateInfo_startDate);
+    List<JoinMeEntity> findAllByUserEntityIdAndDateInfoStartDateGreaterThan(int userEntity_id, Timestamp dateInfo_startDate);
 }

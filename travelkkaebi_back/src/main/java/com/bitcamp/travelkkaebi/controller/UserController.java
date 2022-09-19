@@ -40,6 +40,7 @@ public class UserController {
      */
     @GetMapping("/username/check")
     public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
+        System.out.println(username);
         return ResponseEntity.ok().body(userService.usernameCheck(username));
     }
 
@@ -48,6 +49,7 @@ public class UserController {
      */
     @GetMapping("/nickname/check")
     public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
+        System.out.println(nickname);
         return ResponseEntity.ok().body(userService.nicknameCheck(nickname));
     }
 

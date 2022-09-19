@@ -4,15 +4,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import RegionStyle from "./Style";
 import {RecoilRoot} from 'recoil';
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <RegionStyle />
     <RecoilRoot>
       <App />
-    </RecoilRoot>
-  </React.StrictMode>
+    </RecoilRoot></BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
