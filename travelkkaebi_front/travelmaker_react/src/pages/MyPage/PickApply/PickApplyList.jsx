@@ -93,7 +93,7 @@ const PickApplyList = () => {
       </header>
       <Content>
         <ContentBody>
-          <div className="appKeyButton" style={{ margin: "2rem" }}>
+          {/* <div className="appKeyButton" style={{ margin: "2rem" }}>
             <button
               id="myappuser_btn-submit"
               className="myappuser_btn-submit"
@@ -111,7 +111,7 @@ const PickApplyList = () => {
             >
               채택완료
             </button>
-          </div>
+          </div> */}
 
           <div className="myappuser-btn">
             <a className="myapp_btn_cancel" onClick={() => navigate(-1)}>

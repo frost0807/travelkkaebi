@@ -40,7 +40,7 @@ public class MyTravelController {
         }
     }
 
-    @PostMapping("/insert")
+    @GetMapping("/insert")
     public ResponseEntity<Boolean> insert(@RequestParam int joinMeId){
         try{
             return new ResponseEntity<>(myTravelService.insert(joinMeId), HttpStatus.OK);

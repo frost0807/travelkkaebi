@@ -5,6 +5,7 @@ import com.bitcamp.travelkkaebi.dto.PickMeApplyDTO;
 import com.bitcamp.travelkkaebi.dto.ResponsePickMeDTO;
 import com.bitcamp.travelkkaebi.entity.JoinMeEntity;
 import com.bitcamp.travelkkaebi.entity.PickMeApplyEntity;
+import com.bitcamp.travelkkaebi.entity.PickMeEntity;
 import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.repository.JoinMeRepository;
 import com.bitcamp.travelkkaebi.repository.PickMeApplyRepository;
@@ -35,13 +36,18 @@ public class PickMeApplyService {
      */
     @Transactional
     public void pickUp(int userId, PickMeApplyDTO pickMeApplyDTO) {
-//        pickMeDB.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
+        PickMeEntity findPickMe = pickMeDB.findById(pickMeApplyDTO.getBoardId()).orElseThrow(() -> new KkaebiException(DOES_NOT_EXIST_BOARD));
         //joinMe 에 게시물이 등록되어있는지 check 하는 logic 게시물이 있더라도 그 게시물 유효한 게시물인지 체크
-        List<JoinMeEntity> findJoinMeEntity = joinMeDB.findAllByUserEntityIdAndDateInfoStartDateLessThan(userId, Timestamp.valueOf(LocalDateTime.now()));
+        List<JoinMeEntity> findJoinMeEntity = joinMeDB.findAllByUserEntityIdAndDateInfoStartDateGreaterThan(userId, Timestamp.valueOf(LocalDateTime.now()));
         validate(findJoinMeEntity);
+
         //이미 해당게시물을 pick 을 하였는지 check
         if (pickMeApplyDB.existsByUserEntityIdAndPickMeEntityId(userId, pickMeApplyDTO.getBoardId()))
             throw new KkaebiException(ALREADY_APPLIED);
+
+        //신청하려는 게시물이 출발시간이 지났는지
+
+
 
         pickMeApplyDB.save(PickMeApplyEntity.toEntity(userId, pickMeApplyDTO));
     }

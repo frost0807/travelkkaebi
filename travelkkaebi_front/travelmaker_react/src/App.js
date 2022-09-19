@@ -55,7 +55,7 @@ import MyTravelListElement from "./pages/MyTravel/MyTravelListElement";
 
 function Main() {
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <Routes>
         <Route path="/" index element={<Home />} />
@@ -89,10 +89,10 @@ function Main() {
         <Route path="/regionevent/detail/:id" element={<RegionEventDetail />} />
 
         {/* test용 페이지*/}
-        {/* <Route path="/testpage" element={<TestPage />} />
+        <Route path="/testpage" element={<TestPage />} />
         <Route path="/testreview" element={<TestReview />} />
         <Route path="/testdetail/:id" element={<TestReviewDetail />} />
-        <Route path="/testresponse" element={<TestResponse />} /> */}
+        <Route path="/testresponse" element={<TestResponse />} />
 
         <Route path="/joinme/selectallbypage" element={<JoinMe />} />
         <Route path="/joinme/:pageNo/item/:id" element={<JoinMeDetail />} />
@@ -134,7 +134,7 @@ function Main() {
 
       {/* //=================================== */}
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 

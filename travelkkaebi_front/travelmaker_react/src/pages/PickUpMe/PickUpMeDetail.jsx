@@ -40,14 +40,10 @@ function PickUpMeDetail(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      axios.get(pickurl + "/show/" + boardId).then((reslist) => {
-        console.log("resList : ", reslist);
-        setPost(reslist.data);
-      });
-    };
-
-    return () => fetchAPI();
+    axios.get(pickurl + "/show/" + boardId).then((reslist) => {
+      console.log("resList : ", reslist);
+      setPost(reslist.data);
+    });
   }, []);
 
   function sendServerApply(data) {

@@ -26,7 +26,7 @@ const JoinTitle = styled.div`
   justify-content: center;
 `;
 
-export default function JoinMeForm() {
+function JoinMeForm() {
   const navigate = useNavigate();
 
   const [htmlContent, setHtmlContent] = useState("");
@@ -99,7 +99,6 @@ export default function JoinMeForm() {
   const handleRegion = (event) => {
     setSelectRegion(event.target.value);
   };
-
   console.log("부모컴포넌트의 url : ", reqImageUrl);
   // 게시글 추가하기
   const handleSubmit = (e) => {
@@ -200,7 +199,6 @@ export default function JoinMeForm() {
               </select>
               <h3> 명 </h3>
             </div>
-
             <div className="select-region">
               <h3>🔸지역 </h3>
               <select
@@ -255,11 +253,13 @@ export default function JoinMeForm() {
                   />
                 </div>
               </div>
+              {console.log("체크")}
               <DatePicker
                 selectDate={selectDate}
                 setSelectDate={setSelectDate}
                 dateOnChange={dateOnChange}
               />
+              {console.log("체크2")}
               <div>
                 <div className="ccfield-prependbtn">
                   <input className="ccbtn" type="submit" value="작성완료" />
@@ -272,3 +272,5 @@ export default function JoinMeForm() {
     </>
   );
 }
+
+export default JoinMeForm;

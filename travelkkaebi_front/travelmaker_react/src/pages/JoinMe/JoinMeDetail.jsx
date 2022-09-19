@@ -57,77 +57,71 @@ function JoinMeDetail(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      axios
-        .get(joinmeurl + "/selectone", { params: { joinMeId: joinMeId } })
-        .then((reslist) => {
-          console.log("resList : ", reslist);
-          setPost(reslist.data);
+    axios
+      .get(joinmeurl + "/selectone", { params: { joinMeId: joinMeId } })
+      .then((reslist) => {
+        console.log("resList : ", reslist);
+        setPost(reslist.data);
 
-          console.log("Like axios req boardId : ", joinMeId);
-          console.log("Like axios req categoryId : ", CATEGORY_ID);
+        console.log("Like axios req boardId : ", joinMeId);
+        console.log("Like axios req categoryId : ", CATEGORY_ID);
 
-          //{likeOrDislikeDTO : {
-          //categoryId:CATEGORY_ID
-          //boardId:boardId
-          const reslikefc = axios
-            .get(
-              likedislike +
-                "/selectone?boardId=" +
-                joinMeId +
-                "&categoryId=" +
-                CATEGORY_ID,
-              {
-                headers: {
-                  Authorization:
-                    "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-                },
-              }
-            )
-            .then((reslike) => {
-              console.log("reslike : ", reslike);
-              setLikeordislikeid(reslike.data.likeOrDislikeId);
-              setLikeState(reslike.data.likeCount);
-              if (reslike.data.liked === true) {
-                setLike(true);
-                console.log("like? : ", like);
-              }
-            })
-            .catch((error) => {
-              if (error.res) {
-                console.log(error.res);
-                console.log("server responded");
-                alert("axios 에러");
-              } else if (error.request) {
-                console.log("network error");
-                alert("server 에러");
-              } else {
-                console.log(error);
-              }
-            });
+        //{likeOrDislikeDTO : {
+        //categoryId:CATEGORY_ID
+        //boardId:boardId
+        const reslikefc = axios
+          .get(
+            likedislike +
+              "/selectone?boardId=" +
+              joinMeId +
+              "&categoryId=" +
+              CATEGORY_ID,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+              },
+            }
+          )
+          .then((reslike) => {
+            console.log("reslike : ", reslike);
+            setLikeordislikeid(reslike.data.likeOrDislikeId);
+            setLikeState(reslike.data.likeCount);
+            if (reslike.data.liked === true) {
+              setLike(true);
+              console.log("like? : ", like);
+            }
+          })
+          .catch((error) => {
+            if (error.res) {
+              console.log(error.res);
+              console.log("server responded");
+              alert("axios 에러");
+            } else if (error.request) {
+              console.log("network error");
+              alert("server 에러");
+            } else {
+              console.log(error);
+            }
+          });
 
-          const getimage = axios
-            .get(
-              imgurl +
-                "/selectall?categoryId=" +
-                CATEGORY_ID +
-                "&boardId=" +
-                joinMeId,
-              {
-                headers: {
-                  Authorization:
-                    "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
-                },
-              }
-            )
-            .then((resImage) => {
-              console.log("resImage", resImage.data);
-              setImageArr(resImage.data);
-            });
-        });
-    };
-
-    return () => fetchAPI();
+        const getimage = axios
+          .get(
+            imgurl +
+              "/selectall?categoryId=" +
+              CATEGORY_ID +
+              "&boardId=" +
+              joinMeId,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+              },
+            }
+          )
+          .then((resImage) => {
+            console.log("resImage", resImage.data);
+            setImageArr(resImage.data);
+          });
+      });
   }, [setLike]);
 
   // 신청하기
@@ -229,7 +223,7 @@ function JoinMeDetail(props) {
           if (res.data === true) {
             alert("마감 되었습니다!");
             axios
-              .post(mytravel + "/insert", { joinMeid: joinMeId })
+              .get(mytravel + "/insert?joinMeId=" + joinMeId)
               .then((res) => {
                 console.log("mytravel아이디", res.data);
                 res.data === true
