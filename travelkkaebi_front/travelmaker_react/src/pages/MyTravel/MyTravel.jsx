@@ -31,7 +31,7 @@ const MyTravel = () => {
         <Header>
           <img
             width="100%"
-            src="https://whdcksbucket.s3.ap-northeast-2.amazonaws.com/static/MyTravel.png"
+            src="https://frost0807.s3.ap-northeast-2.amazonaws.com/static/MyTravel.png"
             alt=""
           />
         </Header>

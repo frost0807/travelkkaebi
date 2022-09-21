@@ -17,7 +17,7 @@ import "./Home.css";
 function Home() {
   return (
     <>
-      <div style={{ height: "40%", width: "35%", margin: "auto" }}>
+      <div style={{ height: "30%", width: "35%", margin: "auto" }}>
         <CarouselHome />
       </div>
 

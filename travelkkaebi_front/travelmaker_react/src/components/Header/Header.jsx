@@ -66,9 +66,9 @@ function Header() {
         </a>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <div style={{ color: "black" }}>
+          <div style={{ fontWeight: "bold", color: "black" }}>
             <Nav
-              style={{ marginLeft: "30px", fontSize: "16px" }}
+              style={{ marginLeft: "30px", fontSize: "18px" }}
               className="me-auto"
             >
               <Nav.Link href="/contact">전국팔도 깨비?</Nav.Link>
@@ -90,9 +90,11 @@ function Header() {
                 <NavDropdown.Item href="/editor/1">
                   에디터 추천
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/regionevent">지역 축제</NavDropdown.Item>
+                <NavDropdown.Item href="/regionevent">
+                  지역 축제
+                </NavDropdown.Item>
                 <NavDropdown.Item href="/review/1">유저 리뷰</NavDropdown.Item>
-                </NavDropdown>
+              </NavDropdown>
             </Nav>
           </div>
         </Navbar.Collapse>
