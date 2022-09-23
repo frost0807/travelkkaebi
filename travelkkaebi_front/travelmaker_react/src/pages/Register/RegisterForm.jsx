@@ -382,9 +382,6 @@ const RegisterForm = () => {
                           },
                         })}
                       />
-                      <button type="button" className="btn_frmline">
-                        휴대폰 본인확인
-                      </button>
                       {errors.name && (
                         <div className="reg-error1">
                           <WarningAmberIcon style={{ fontSize: "small" }} />{" "}
@@ -521,11 +518,6 @@ const RegisterForm = () => {
                   </tr>
                 </tbody>
               </table>
-            </div>
-
-            <div className="reg_table" style={{ marginTop: "50px" }}>
-              <h3>기타 개인설정</h3>
-              <table>{/*캡챠 넣을 곳*/}</table>
             </div>
 
             <BtnConfirm>
