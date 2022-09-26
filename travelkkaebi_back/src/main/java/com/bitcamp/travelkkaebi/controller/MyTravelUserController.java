@@ -1,8 +1,7 @@
 package com.bitcamp.travelkkaebi.controller;
 
 
-import com.bitcamp.travelkkaebi.dto.MyTravelUserAndMannerDTO;
-import com.bitcamp.travelkkaebi.dto.MyTravelUserResponseDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.MyTravelUserAndMannerDTO;
 import com.bitcamp.travelkkaebi.service.MyTravelUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

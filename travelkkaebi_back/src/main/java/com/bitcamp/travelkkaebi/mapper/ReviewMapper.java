@@ -1,6 +1,6 @@
 package com.bitcamp.travelkkaebi.mapper;
 
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;

@@ -1,6 +1,6 @@
 package com.bitcamp.travelkkaebi.service;
 
-import com.bitcamp.travelkkaebi.dto.MyTravelUserAndMannerDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.MyTravelUserAndMannerDTO;
 import com.bitcamp.travelkkaebi.dto.MyTravelUserResponseDTO;
 import com.bitcamp.travelkkaebi.mapper.MyTravelUserMapper;
 import com.bitcamp.travelkkaebi.model.MyTravelUserDTO;

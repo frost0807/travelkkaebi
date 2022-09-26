@@ -1,8 +1,10 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.*;
+import com.bitcamp.travelkkaebi.dto.parameter.JoinMeIdAndClosedDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
-import com.bitcamp.travelkkaebi.mapper.MyTravelMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import com.bitcamp.travelkkaebi.model.LikeOrDislikeDTO;
 import lombok.RequiredArgsConstructor;

@@ -1,18 +1,18 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.*;
+import com.bitcamp.travelkkaebi.dto.parameter.JoinMeIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.dto.parameter.PageAndJoinMeIdAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PrimaryIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.mapper.JoinMeApplyMapper;
 import com.bitcamp.travelkkaebi.mapper.JoinMeMapper;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

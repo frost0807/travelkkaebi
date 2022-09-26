@@ -1,4 +1,4 @@
-package com.bitcamp.travelkkaebi.dto;
+package com.bitcamp.travelkkaebi.dto.parameter;
 
 import lombok.Builder;
 import lombok.Getter;

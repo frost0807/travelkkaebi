@@ -33,20 +33,20 @@
         <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelReplyResponseDTO" alias="MyTravelReplyResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelResponseDTO" alias="MyTravelResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelUserResponseDTO" alias="MyTravelUserResponseDTO"/>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.MyTravelUserAndMannerDTO" alias="MyTravelUserAndMannerDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.MyTravelUserAndMannerDTO" alias="MyTravelUserAndMannerDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ListResponseDTO" alias="ListResponseDTO"/>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO" alias="PrimaryIdAndUserIdDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.PrimaryIdAndUserIdDTO" alias="PrimaryIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.MyTravelIdAndUserIdDTO" alias="MyTravelIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.CategoryIdAndBoardCountDTO" alias="CategoryIdAndBoardCountDTO"/>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndWordDTO" alias="PageAndWordDTO"/>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.PageAndUserIdDTO" alias="PageAndUserIdDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO" alias="PageAndWordDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.PageAndUserIdDTO" alias="PageAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.PageAndJoinMeIdAndUserIdDTO" alias="PageAndJoinMeIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.PageAndMyTravelIdAndUserIdDTO" alias="PageAndMyTravelIdAndUserIdDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTO" alias="JoinMeListDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeOneDTO" alias="JoinMeOneDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeListDTOAndLikeResponseDTO" alias="JoinMeListDTOAndLikeResponseDTO"/>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeIdAndUserIdDTO" alias="JoinMeIdAndUserIdDTO"/>
-        <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeIdAndClosedDTO" alias="JoinMeIdAndClosedDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.JoinMeIdAndUserIdDTO" alias="JoinMeIdAndUserIdDTO"/>
+        <typeAlias type="com.bitcamp.travelkkaebi.dto.parameter.JoinMeIdAndClosedDTO" alias="JoinMeIdAndClosedDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.JoinMeApplyResponseDTO" alias="JoinMeApplyResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.LikeOrDislikeResponseDTO" alias="LikeOrDislikeResponseDTO"/>
         <typeAlias type="com.bitcamp.travelkkaebi.dto.ReviewResponseDTO" alias="ReviewResponseDTO"/>
