@@ -1,9 +1,9 @@
 package com.bitcamp.travelkkaebi.mapper;
 
 import com.bitcamp.travelkkaebi.dto.JoinMeApplyResponseDTO;
-import com.bitcamp.travelkkaebi.dto.JoinMeIdAndUserIdDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndUserIdDTO;
-import com.bitcamp.travelkkaebi.dto.PrimaryIdAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.JoinMeIdAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PrimaryIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.dto.parameter.PageAndJoinMeIdAndUserIdDTO;
 import com.bitcamp.travelkkaebi.model.JoinMeApplyDTO;
 import org.apache.ibatis.annotations.Mapper;

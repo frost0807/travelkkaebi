@@ -1,6 +1,9 @@
 package com.bitcamp.travelkkaebi.mapper;
 
 import com.bitcamp.travelkkaebi.dto.*;
+import com.bitcamp.travelkkaebi.dto.parameter.JoinMeIdAndClosedDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndUserIdDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.model.JoinMeDTO;
 import org.apache.ibatis.annotations.*;
 

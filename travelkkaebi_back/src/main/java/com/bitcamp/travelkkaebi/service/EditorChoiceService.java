@@ -2,7 +2,7 @@ package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.entity.UserEntity;
 import com.bitcamp.travelkkaebi.entity.UserRole;
 import com.bitcamp.travelkkaebi.exception.KkaebiException;

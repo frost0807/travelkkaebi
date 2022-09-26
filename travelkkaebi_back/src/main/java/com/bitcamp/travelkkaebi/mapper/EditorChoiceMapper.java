@@ -1,7 +1,7 @@
 package com.bitcamp.travelkkaebi.mapper;
 
 import com.bitcamp.travelkkaebi.dto.EditorChoiceResponseDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.model.EditorChoiceDTO;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,9 +1,8 @@
 package com.bitcamp.travelkkaebi.service;
 
 import com.bitcamp.travelkkaebi.dto.ListResponseDTO;
-import com.bitcamp.travelkkaebi.dto.PageAndWordDTO;
+import com.bitcamp.travelkkaebi.dto.parameter.PageAndWordDTO;
 import com.bitcamp.travelkkaebi.dto.ReviewResponseDTO;
-import com.bitcamp.travelkkaebi.exception.ErrorCode;
 import com.bitcamp.travelkkaebi.exception.KkaebiException;
 import com.bitcamp.travelkkaebi.mapper.ReviewMapper;
 import com.bitcamp.travelkkaebi.model.ReviewDTO;
@@ -15,7 +14,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static com.bitcamp.travelkkaebi.exception.ErrorCode.*;
 

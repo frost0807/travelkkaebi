@@ -1,5 +1,6 @@
-package com.bitcamp.travelkkaebi.dto;
+package com.bitcamp.travelkkaebi.dto.parameter;
 
+import com.bitcamp.travelkkaebi.dto.MyTravelUserResponseDTO;
 import com.bitcamp.travelkkaebi.model.MannerDegreeDTO;
 import lombok.Builder;
 import lombok.Getter;
